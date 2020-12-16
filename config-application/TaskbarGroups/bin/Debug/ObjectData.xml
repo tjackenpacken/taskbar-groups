@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<Category xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Name>Adobe</Name>
+  <ShortcutList>
+    <ProgramShortcut>
+      <Name>new shortcut</Name>
+      <FilePath>C:\Program Files (x86)\Adobe\Acrobat DC\Acrobat\Acrobat.exe</FilePath>
+    </ProgramShortcut>
+    <ProgramShortcut>
+      <Name>new shortcut</Name>
+      <FilePath>C:\Program Files\Adobe\Adobe InDesign 2021\InDesign.exe</FilePath>
+    </ProgramShortcut>
+    <ProgramShortcut>
+      <Name>new shortcut</Name>
+      <FilePath>C:\Program Files\Adobe\Adobe Photoshop 2021\Photoshop.exe</FilePath>
+    </ProgramShortcut>
+    <ProgramShortcut>
+      <Name>new shortcut</Name>
+      <FilePath>C:\Program Files\Adobe\Adobe Dreamweaver 2021\Dreamweaver.exe</FilePath>
+    </ProgramShortcut>
+    <ProgramShortcut>
+      <Name>new shortcut</Name>
+      <FilePath>C:\Program Files\Adobe\Adobe Illustrator 2021\Support Files\Contents\Windows\Illustrator.exe</FilePath>
+    </ProgramShortcut>
+  </ShortcutList>
+  <Width>6</Width>
+</Category>
