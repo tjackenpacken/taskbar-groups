@@ -1,0 +1,15 @@
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\bin\Debug\TaskbarGroupsClient.exe.config
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\bin\Debug\TaskbarGroupsClient.exe
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\bin\Debug\TaskbarGroupsClient.pdb
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\TaskbarGroupsClient.csprojAssemblyReference.cache
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\TaskbarGroupsClient.frmClient.resources
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\TaskbarGroupsClient.Properties.Resources.resources
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\TaskbarGroupsClient.csproj.GenerateResource.cache
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\TaskbarGroupsClient.csproj.CoreCompileInputs.cache
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\TaskbarGroupsClient.exe
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\TaskbarGroupsClient.pdb
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\TaskbarGroupsClient.frmNewGroup.resources
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\Interop.IWshRuntimeLibrary.dll
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\Interop.Shell32.dll
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\TaskbarGroupsClient.csproj.ResolveComReference.cache
+C:\Users\jacks\source\repos\TaskbarGroupsClient\TaskbarGroupsClient\obj\Debug\TaskbarGroupsClient.ucCategoryPanel.resources

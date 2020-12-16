@@ -1,0 +1,16 @@
+
+TASKBAR GROUPS TO-DO
+
+Delete button only showing on hover
+
+Custom top bar
+
+Row management
+	Take input from user for either # rows or columns in group
+	
+Edit groups (in client)
+
+Edit groups (in group)
+	Make it possible to drag and drop programs to add/delete shortcuts
+	Would require a rework on closing mechanism
+	
