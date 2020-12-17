@@ -18,6 +18,18 @@ namespace TaskbarGroups
         {
             Category category = new Category(@"ObjectData.xml");
             LoadCategory(category);
+
+
+            POINT p = new POINT();
+            NativeMethods.GetCursorPos(ref p); // catch cursor location
+            int locationy;
+            if (p.y > Screen.PrimaryScreen.Bounds.Height - 35)
+                locationy = Screen.PrimaryScreen.Bounds.Height - this.Height - 45;
+            else
+                locationy = p.y - 75;
+            int locationx = p.x - (this.Width / 2);
+            this.Location = new Point
+                (locationx, locationy); // set location to cursor x and bot y
         }
 
         private void LoadCategory(Category category)
@@ -60,12 +72,6 @@ namespace TaskbarGroups
                 x += 50;
                 columns++;
             }
-
-            POINT p = new POINT();  
-            NativeMethods.GetCursorPos(ref p); // catch cursor location
-            int locationx = p.x - (this.Width / 2);
-            this.Location = new Point
-                (locationx, Screen.PrimaryScreen.Bounds.Height - this.Height - 45); // set location to cursor x and bot y
         }
 
         private void OpenFile(object sender, EventArgs e, string path)
