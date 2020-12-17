@@ -4,6 +4,8 @@ Easy access groups in windows taskbar
 <br>
 Preview of a taskbar group:
 <br>
+
+![](https://i.imgur.com/aw4aBML.png =100x20)
 ![alt text](https://i.imgur.com/aw4aBML.png =250x)
 <br>
 Preview of client:
