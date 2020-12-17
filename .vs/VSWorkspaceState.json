@@ -1,0 +1,10 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\config-application",
+    "\\config-application\\TaskbarGroups",
+    "\\config-application\\TaskbarGroups\\Forms"
+  ],
+  "SelectedNode": "\\config-application\\TaskbarGroups\\Forms\\frmMain.cs",
+  "PreviewInSolutionExplorer": false
+}

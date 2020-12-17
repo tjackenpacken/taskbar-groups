@@ -26,7 +26,7 @@ namespace TaskbarGroups
             if (p.y > Screen.PrimaryScreen.Bounds.Height - 35)
                 locationy = Screen.PrimaryScreen.Bounds.Height - this.Height - 45;
             else
-                locationy = p.y - 75;
+                locationy = p.y - this.Height - 20;
             int locationx = p.x - (this.Width / 2);
             this.Location = new Point
                 (locationx, locationy); // set location to cursor x and bot y

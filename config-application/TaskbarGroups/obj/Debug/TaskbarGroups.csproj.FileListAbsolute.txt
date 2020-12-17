@@ -8,3 +8,13 @@ C:\Users\jacks\source\repos\TaskbarGroups\TaskbarGroups\obj\Debug\TaskbarGroups.
 C:\Users\jacks\source\repos\TaskbarGroups\TaskbarGroups\obj\Debug\TaskbarGroups.pdb
 C:\Users\jacks\source\repos\TaskbarGroups\TaskbarGroups\obj\Debug\TaskbarGroups.frmMain.resources
 C:\Users\jacks\source\repos\TaskbarGroups\TaskbarGroups\obj\Debug\TaskbarGroups.csprojAssemblyReference.cache
+C:\Users\jacks\Source\Repos\tjackenpacken\taskbar-groups\config-application\TaskbarGroups\bin\Debug\TaskbarGroups.exe.config
+C:\Users\jacks\Source\Repos\tjackenpacken\taskbar-groups\config-application\TaskbarGroups\bin\Debug\TaskbarGroups.exe
+C:\Users\jacks\Source\Repos\tjackenpacken\taskbar-groups\config-application\TaskbarGroups\bin\Debug\TaskbarGroups.pdb
+C:\Users\jacks\Source\Repos\tjackenpacken\taskbar-groups\config-application\TaskbarGroups\obj\Debug\TaskbarGroups.csprojAssemblyReference.cache
+C:\Users\jacks\Source\Repos\tjackenpacken\taskbar-groups\config-application\TaskbarGroups\obj\Debug\TaskbarGroups.frmMain.resources
+C:\Users\jacks\Source\Repos\tjackenpacken\taskbar-groups\config-application\TaskbarGroups\obj\Debug\TaskbarGroups.Properties.Resources.resources
+C:\Users\jacks\Source\Repos\tjackenpacken\taskbar-groups\config-application\TaskbarGroups\obj\Debug\TaskbarGroups.csproj.GenerateResource.cache
+C:\Users\jacks\Source\Repos\tjackenpacken\taskbar-groups\config-application\TaskbarGroups\obj\Debug\TaskbarGroups.csproj.CoreCompileInputs.cache
+C:\Users\jacks\Source\Repos\tjackenpacken\taskbar-groups\config-application\TaskbarGroups\obj\Debug\TaskbarGroups.exe
+C:\Users\jacks\Source\Repos\tjackenpacken\taskbar-groups\config-application\TaskbarGroups\obj\Debug\TaskbarGroups.pdb
