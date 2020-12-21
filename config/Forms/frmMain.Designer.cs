@@ -39,6 +39,7 @@
             this.Name = "frmMain";
             this.Text = "Group";
             this.Deactivate += new System.EventHandler(this.frmMain_Deactivate);
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.ResumeLayout(false);
 
         }

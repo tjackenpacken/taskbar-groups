@@ -255,8 +255,6 @@ namespace config
             // closes program if user clicks outside form
             this.Close();
         }
-
-
         //
         // endregion
         //
