@@ -169,9 +169,9 @@
             // 
             // pnlShortcuts
             // 
-            this.pnlShortcuts.Location = new System.Drawing.Point(88, 215);
+            this.pnlShortcuts.Location = new System.Drawing.Point(70, 215);
             this.pnlShortcuts.Name = "pnlShortcuts";
-            this.pnlShortcuts.Size = new System.Drawing.Size(415, 0);
+            this.pnlShortcuts.Size = new System.Drawing.Size(450, 0);
             this.pnlShortcuts.TabIndex = 34;
             // 
             // pnlGroupIcon
