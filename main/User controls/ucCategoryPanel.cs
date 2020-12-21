@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using main.Classes;
-using main.Forms;
+using client.Classes;
+using client.Forms;
 using System.IO;
 
-namespace main.User_controls
+namespace client.User_controls
 {
     public partial class ucCategoryPanel : UserControl
     {
@@ -65,7 +65,7 @@ namespace main.User_controls
             }
             else // if file does not exist
             {
-                this.shortcutPanel.BackgroundImage = main.Properties.Resources.Error;
+                this.shortcutPanel.BackgroundImage = global::client.Properties.Resources.Error;
                 ToolTip tt = new ToolTip();
                 tt.InitialDelay = 0;
                 tt.ShowAlways = true;

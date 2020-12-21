@@ -7,11 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using main.Classes;
-using main.Forms;
+using client.Classes;
+using client.Forms;
 using System.IO;
 
-namespace main.User_controls
+namespace client.User_controls
 {
     public partial class ucProgramShortcut : UserControl
     {
@@ -34,12 +34,12 @@ namespace main.User_controls
             if (Position == 0)
             {
                 cmdNumUp.Enabled = false;
-                cmdNumUp.BackgroundImage = main.Properties.Resources.NumUpGray;
+                cmdNumUp.BackgroundImage = global::client.Properties.Resources.NumUpGray;
             }
             if (Position == MotherForm.Category.ShortcutList.Count - 1)
             {
                 cmdNumDown.Enabled = false;
-                cmdNumDown.BackgroundImage = main.Properties.Resources.NumDownGray;
+                cmdNumDown.BackgroundImage = global::client.Properties.Resources.NumDownGray;
 
             }
 

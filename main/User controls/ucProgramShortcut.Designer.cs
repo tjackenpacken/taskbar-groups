@@ -1,4 +1,4 @@
-﻿namespace main.User_controls
+﻿namespace client.User_controls
 {
     partial class ucProgramShortcut
     {
@@ -71,7 +71,7 @@
             // cmdNumUp
             // 
             this.cmdNumUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.cmdNumUp.BackgroundImage = global::main.Properties.Resources.NumUpWhite;
+            this.cmdNumUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
             this.cmdNumUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.cmdNumUp.FlatAppearance.BorderSize = 0;
             this.cmdNumUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -87,7 +87,7 @@
             // cmdNumDown
             // 
             this.cmdNumDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.cmdNumDown.BackgroundImage = global::main.Properties.Resources.NumDownWhite;
+            this.cmdNumDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
             this.cmdNumDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.cmdNumDown.FlatAppearance.BorderSize = 0;
             this.cmdNumDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -102,7 +102,7 @@
             // 
             // picShortcut
             // 
-            this.picShortcut.BackgroundImage = global::main.Properties.Resources.AddWhite;
+            this.picShortcut.BackgroundImage = global::client.Properties.Resources.AddWhite;
             this.picShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.picShortcut.Location = new System.Drawing.Point(43, 9);
             this.picShortcut.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);

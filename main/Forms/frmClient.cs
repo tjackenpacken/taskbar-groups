@@ -1,5 +1,5 @@
-﻿using main.Classes;
-using main.User_controls;
+﻿using client.Classes;
+using client.User_controls;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace main.Forms
+namespace client.Forms
 {
     public partial class frmClient : Form
     {

@@ -1,4 +1,4 @@
-﻿namespace main.User_controls
+﻿namespace client.User_controls
 {
     partial class ucCategoryPanel
     {

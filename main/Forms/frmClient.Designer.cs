@@ -1,4 +1,4 @@
-﻿namespace main.Forms
+﻿namespace client.Forms
 {
     partial class frmClient
     {
@@ -159,7 +159,7 @@
             // 
             // cmdAddGroup
             // 
-            this.cmdAddGroup.BackgroundImage = global::main.Properties.Resources.AddWhite;
+            this.cmdAddGroup.BackgroundImage = global::client.Properties.Resources.AddGray;
             this.cmdAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cmdAddGroup.Location = new System.Drawing.Point(88, 14);
             this.cmdAddGroup.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
@@ -225,7 +225,7 @@
             this.Controls.Add(this.pnlLeftColumn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmClient";
-            this.Text = "Taskbar groups";
+            this.Text = "TaskbarGroups";
             this.pnlLeftColumn.ResumeLayout(false);
             this.pnlHelp.ResumeLayout(false);
             this.pnlAddGroup.ResumeLayout(false);

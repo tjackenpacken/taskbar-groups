@@ -1,4 +1,4 @@
-﻿namespace main.Forms
+﻿namespace client.Forms
 {
     partial class frmGroup
     {
@@ -88,7 +88,7 @@
             // cmdNumDown
             // 
             this.cmdNumDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.cmdNumDown.BackgroundImage = global::main.Properties.Resources.NumDownWhite;
+            this.cmdNumDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
             this.cmdNumDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.cmdNumDown.FlatAppearance.BorderSize = 0;
             this.cmdNumDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -189,7 +189,7 @@
             // 
             // cmdAddGroupIcon
             // 
-            this.cmdAddGroupIcon.BackgroundImage = global::main.Properties.Resources.AddWhite;
+            this.cmdAddGroupIcon.BackgroundImage = global::client.Properties.Resources.AddWhite;
             this.cmdAddGroupIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cmdAddGroupIcon.Location = new System.Drawing.Point(23, 12);
             this.cmdAddGroupIcon.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
@@ -244,7 +244,7 @@
             // cmdNumUp
             // 
             this.cmdNumUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.cmdNumUp.BackgroundImage = global::main.Properties.Resources.NumUpWhite;
+            this.cmdNumUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
             this.cmdNumUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.cmdNumUp.FlatAppearance.BorderSize = 0;
             this.cmdNumUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
@@ -296,7 +296,7 @@
             // 
             // cmdAddShortcut
             // 
-            this.cmdAddShortcut.BackgroundImage = global::main.Properties.Resources.AddGray;
+            this.cmdAddShortcut.BackgroundImage = global::client.Properties.Resources.AddGray;
             this.cmdAddShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cmdAddShortcut.Location = new System.Drawing.Point(191, 13);
             this.cmdAddShortcut.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);

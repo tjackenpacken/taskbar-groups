@@ -1,11 +1,8 @@
-﻿using main.Forms;
+﻿using client.Forms;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace main
+namespace client
 {
     static class client
     {
