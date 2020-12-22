@@ -369,7 +369,10 @@
             // 
             // pnlEnd
             // 
+<<<<<<< HEAD
 
+=======
+>>>>>>> upstream/master
             this.pnlEnd.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pnlEnd.Controls.Add(this.cmdDelete);
             this.pnlEnd.Controls.Add(this.cmdSave);
