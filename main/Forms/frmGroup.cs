@@ -36,10 +36,7 @@ namespace client.Forms
             cmdExit.Left += 70;
             IsNew = false;
             ucShortcutList = new List<ucProgramShortcut>();
-<<<<<<< HEAD
 
-=======
->>>>>>> upstream/master
             this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
             txtGroupName.Text = Category.Name;
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
@@ -79,11 +76,11 @@ namespace client.Forms
                 ucPsc.BringToFront();
                 position++;
 
-<<<<<<< HEAD
+
                 if (pnlShortcuts.Height < this.Height - 470)
-=======
+
                 if (pnlShortcuts.Height < this.Height-470)
->>>>>>> upstream/master
+
                 {
                     y += 50;
                     pnlShortcuts.Height += 50;
@@ -102,10 +99,7 @@ namespace client.Forms
                 }
             }
             pnlAdd.Top = pnlShortcuts.Bottom;
-<<<<<<< HEAD
-=======
 
->>>>>>> upstream/master
         }
 
         public void Swap<T>(IList<T> list, int indexA, int indexB)
@@ -302,11 +296,11 @@ namespace client.Forms
                 CheckFileExists = true,
                 CheckPathExists = true,
                 DefaultExt = "exe",
-<<<<<<< HEAD
+
                 Filter = "Exe or Shortcut (.exe, .lnk)|*.exe;*.lnk",
-=======
+
                 //Filter = "Exe (.exe)|*.exe",
->>>>>>> upstream/master
+
                 FilterIndex = 2,
                 RestoreDirectory = true,
                 //ShowReadOnly = true,
