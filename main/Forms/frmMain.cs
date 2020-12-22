@@ -28,9 +28,17 @@ namespace client
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            cat = new Category($"config\\{passedDirec}");
-            LoadCategory(cat);
-            SetLocation();
+            if (Directory.Exists(@MainPath.path + @"\config\" + passedDirec))
+            {
+                cat = new Category($"config\\{passedDirec}");
+                LoadCategory(cat);
+                SetLocation();
+            } else
+            {
+                Application.Exit();
+            }
+
+            
         }
 
         private void SetLocation()
