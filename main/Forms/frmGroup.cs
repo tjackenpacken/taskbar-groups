@@ -258,7 +258,7 @@ namespace client.Forms
 
             OpenFileDialog openFileDialog = new OpenFileDialog // ask user to select exe file
             {
-                InitialDirectory = @"Shell:AppsFolder",
+                InitialDirectory = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
                 Title = "Create New Shortcut",
                 CheckFileExists = true,
                 CheckPathExists = true,
