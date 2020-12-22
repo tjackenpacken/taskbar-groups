@@ -138,12 +138,12 @@ namespace client.Forms
                         //
                         // delete old config
                         //
-                        string configPath = Directory.GetCurrentDirectory() + @"\config\" + Category.Name;
-                        string shortcutPath = Directory.GetCurrentDirectory() + @"\Shortcuts\" + Category.Name + @".lnk";
+                        string configPath = @MainPath.path + @"\config\" + Category.Name;
+                        //string shortcutPath = configPath + @"\Shortcuts\" + Category.Name + @".lnk";
                         var dir = new DirectoryInfo(configPath);
 
                         dir.Delete(true); // delete config directory
-                        System.IO.File.Delete(shortcutPath); // delete .lnk
+                        //System.IO.File.Delete(shortcutPath); // delete .lnk
                     }
                     //
                     // creating new config
@@ -169,7 +169,7 @@ namespace client.Forms
         {
             try
             {
-                string configPath = Directory.GetCurrentDirectory() + @"\config\" + Category.Name;
+                string configPath = @MainPath.path + @"\config\" + Category.Name;
 
                 var dir = new DirectoryInfo(configPath);
 

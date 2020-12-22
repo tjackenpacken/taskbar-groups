@@ -143,7 +143,7 @@ namespace client
             int width = category.Width;
             int columns = 1;
 
-            if (!Directory.Exists(@Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + category.Name + @"\Icons\"))
+            if (!Directory.Exists(@MainPath.path + @"\config\" + category.Name + @"\Icons\"))
             {
                 category.cacheIcons();
             }

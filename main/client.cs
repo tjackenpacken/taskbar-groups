@@ -3,6 +3,7 @@ using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using client.Classes;
 
 
 namespace client
@@ -22,6 +23,7 @@ namespace client
 
         static void Main()
         {
+            MainPath.path = new Uri(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)).AbsolutePath;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
@@ -31,7 +33,7 @@ namespace client
                 Application.Run(new frmMain(arguments[1]));
             } else
             {
-                System.IO.Directory.CreateDirectory(new Uri($"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)}\\config").AbsolutePath);
+                System.IO.Directory.CreateDirectory(new Uri($"{MainPath.path}\\config").AbsolutePath);
                 SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");
                 Application.Run(new frmClient());
             }

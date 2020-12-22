@@ -34,7 +34,7 @@ namespace client.Classes
             }
             else
             {
-                fullPath = new Uri($"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)}\\{path}\\ObjectData.xml").AbsolutePath;
+                fullPath = new Uri($"{MainPath.path}\\{path}\\ObjectData.xml").AbsolutePath;
             }
 
             System.Xml.Serialization.XmlSerializer reader =
@@ -133,7 +133,7 @@ namespace client.Classes
 
         public void cacheIcons()
         {
-            string path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name;
+            string path = @MainPath.path + @"\config\" + this.Name;
             string iconPath = path + "\\Icons\\";
 
             if (Directory.Exists(iconPath))
