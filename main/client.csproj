@@ -68,6 +68,7 @@
     <Compile Include="Classes\ImageFunctions.cs" />
     <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\ProgramShortcut.cs" />
+    <Compile Include="Classes\ShellLink.cs" />
     <Compile Include="Forms\frmClient.cs">
       <SubType>Form</SubType>
     </Compile>

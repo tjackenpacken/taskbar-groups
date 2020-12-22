@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -17,8 +19,8 @@ namespace client
 
         public frmMain(string passedDirectory)
         {
-            InitializeComponent();
             passedDirec = passedDirectory;
+            InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Opacity = .95;
         }
@@ -168,7 +170,19 @@ namespace client
             this.shortcutPanel.BackColor = System.Drawing.Color.Transparent;
             this.shortcutPanel.Location = new System.Drawing.Point(x, y);
             this.shortcutPanel.Size = new System.Drawing.Size(25, 25);
-            this.shortcutPanel.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(psc.FilePath).ToBitmap();
+
+            String imageExtension = Path.GetExtension(psc.FilePath).ToLower();
+
+            if (imageExtension == ".lnk")
+            {
+                this.shortcutPanel.BackgroundImage = Forms.frmGroup.handleLnkExt(psc.FilePath);
+            }
+            else
+            {
+                this.shortcutPanel.BackgroundImage = Icon.ExtractAssociatedIcon(psc.FilePath).ToBitmap();
+            }
+
+            //this.shortcutPanel.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(psc.FilePath).ToBitmap();
             this.shortcutPanel.BackgroundImageLayout = ImageLayout.Stretch;
             this.shortcutPanel.TabStop = false;
             this.shortcutPanel.Click += new System.EventHandler((sender, e) => OpenFile(sender, e, psc.FilePath));

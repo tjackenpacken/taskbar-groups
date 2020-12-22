@@ -83,7 +83,20 @@ namespace client.Classes
                                                             //
                                                             // Create .lnk shortcut
                                                             //
-            var wsh = new IWshShell_Class();
+
+            ShellLink.InstallShortcut(
+                Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName),
+                "tjackenpacken.taskbarGroup.menu." + this.Name,
+                 path + " shortcut",
+                 Path.GetFullPath(@path),
+                 Path.GetFullPath(path + @"\GroupIcon.ico"),
+                 path + "\\" + this.Name + ".lnk",
+                 this.Name
+            );
+
+            /*
+                var wsh = new IWshShell_Class();
+    
             IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
                 path + "\\" + this.Name + ".lnk") as IWshRuntimeLibrary.IWshShortcut;
             shortcut.Arguments = this.Name;
@@ -93,6 +106,9 @@ namespace client.Classes
             shortcut.WorkingDirectory = Path.GetFullPath(@path);
             shortcut.IconLocation = Path.GetFullPath(path + @"\GroupIcon.ico");
             shortcut.Save();
+
+            */
+
 
             System.IO.File.Move(@path + "\\" + this.Name + ".lnk",
                 Path.GetFullPath(@path + "\\Shortcuts\\" + this.Name + ".lnk")); // moving .lnk to correct directory
