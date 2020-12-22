@@ -369,12 +369,12 @@
             // 
             // pnlEnd
             // 
-            this.pnlEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+
+            this.pnlEnd.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pnlEnd.Controls.Add(this.cmdDelete);
             this.pnlEnd.Controls.Add(this.cmdSave);
             this.pnlEnd.Controls.Add(this.cmdExit);
-            this.pnlEnd.Location = new System.Drawing.Point(49, 675);
+            this.pnlEnd.Location = new System.Drawing.Point(49, 678);
             this.pnlEnd.Name = "pnlEnd";
             this.pnlEnd.Size = new System.Drawing.Size(482, 104);
             this.pnlEnd.TabIndex = 47;

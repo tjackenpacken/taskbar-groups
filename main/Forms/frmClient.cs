@@ -18,6 +18,7 @@ namespace client.Forms
         public frmClient()
         {
             InitializeComponent();
+            this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             Reload();
         }
         public void Reload()

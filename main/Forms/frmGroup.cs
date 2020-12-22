@@ -31,12 +31,17 @@ namespace client.Forms
             InitializeComponent();
             Category = category;
             Client = client;
+            cmdDelete.Visible = false;
+            cmdSave.Left += 70;
+            cmdExit.Left += 70;
             IsNew = false;
             ucShortcutList = new List<ucProgramShortcut>();
 
+            this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
             txtGroupName.Text = Category.Name;
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
             lblNum.Text = Category.Width.ToString();
+            this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
             LoadShortcuts();
         }
         public frmGroup(frmClient client)
@@ -67,7 +72,7 @@ namespace client.Forms
                 ucPsc.BringToFront();
                 position++;
 
-                if (pnlShortcuts.Height < 350)
+                if (pnlShortcuts.Height < this.Height - 470)
                 {
                     y += 50;
                     pnlShortcuts.Height += 50;
@@ -76,7 +81,7 @@ namespace client.Forms
                     pnlShortcuts.ScrollControlIntoView(ucPsc);
             }
 
-            if (pnlShortcuts.Height >= 350)
+            if (pnlShortcuts.Height >= this.Height - 470)
             {
                 if (!pnlShortcuts.AutoScroll)
                 {
@@ -87,12 +92,6 @@ namespace client.Forms
             }
 
             pnlAdd.Top = pnlShortcuts.Bottom;
-            //if (pnlAdd.Bottom > pnlEnd.Top)
-            //{
-            //    this.Height += 50;
-            //    pnlEnd.Top += 50;
-            //}
-            //this.Height = pnlAdd.Bottom + 75;
         }
 
         public void Swap<T>(IList<T> list, int indexA, int indexB)
@@ -191,7 +190,6 @@ namespace client.Forms
 
             OpenFileDialog openFileDialog = new OpenFileDialog  // ask user to select img as group icon
             {
-                //InitialDirectory = @"C:\",
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
 
                 Title = "Select Group Icon",
