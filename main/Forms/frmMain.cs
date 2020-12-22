@@ -23,7 +23,18 @@ namespace client
             passedDirec = passedDirectory;
             InitializeComponent();
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Opacity = .95;
+            this.Opacity = 0.95;
+        }
+
+        protected override CreateParams CreateParams
+
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.ExStyle |= 0x02000000;
+                return cp;
+            }
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -33,12 +44,11 @@ namespace client
                 cat = new Category($"config\\{passedDirec}");
                 LoadCategory(cat);
                 SetLocation();
-            } else
+            }
+            else
             {
                 Application.Exit();
             }
-
-            
         }
 
         private void SetLocation()

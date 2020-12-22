@@ -28,14 +28,25 @@ namespace client.Classes
 
             // Check if path is a full directory or part of a file name
             // Passed from two different applications; the main task-bar group and the main client
-            if (System.IO.Directory.Exists(path))
+
+            if (System.IO.File.Exists(@MainPath.path + @"\" + path + @"\ObjectData.xml"))
             {
-                fullPath = new Uri(path + "\\ObjectData.xml").AbsolutePath;
+                fullPath = @MainPath.path + @"\" + path + @"\ObjectData.xml";
             }
             else
             {
-                fullPath = new Uri($"{MainPath.path}\\{path}\\ObjectData.xml").AbsolutePath;
+                fullPath = new Uri(path + "\\ObjectData.xml").AbsolutePath;
             }
+
+            /*
+            if (System.IO.Directory.Exists(path) && !path.Contains(":\\"))
+            {
+                fullPath = new Uri(path + "\\ObjectData.xml").AbsolutePath;
+            } else
+            {
+                fullPath = new Uri(MainPath.path + "\\" + path + "\\ObjectData.xml").AbsolutePath;
+            }
+            */
 
             System.Xml.Serialization.XmlSerializer reader =
                 new System.Xml.Serialization.XmlSerializer(typeof(Category));
