@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -61,7 +61,19 @@ namespace client.User_controls
             bool exist = File.Exists(programShortcut.FilePath);
             if (exist)
             {
-                this.shortcutPanel.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(programShortcut.FilePath).ToBitmap();
+                String imageExtension = Path.GetExtension(programShortcut.FilePath).ToLower();
+
+                if (imageExtension == ".lnk")
+                {
+                     this.shortcutPanel.BackgroundImage = frmGroup.handleLnkExt(programShortcut.FilePath);
+                }
+                else
+                {
+                     this.shortcutPanel.BackgroundImage = Icon.ExtractAssociatedIcon(programShortcut.FilePath).ToBitmap();
+                }
+                
+
+                //this.shortcutPanel.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(programShortcut.FilePath).ToBitmap();
             }
             else // if file does not exist
             {
@@ -86,8 +98,10 @@ namespace client.User_controls
         public void OpenFolder(object sender, EventArgs e)
         {
             // opening folder when click on category panel
-            string filePath = System.IO.Path.GetFullPath(@"Shortcuts\" + Category.Name + ".lnk");
-            System.Diagnostics.Process.Start("explorer.exe", string.Format("/select,\"{0}\"", filePath)); // opening folder and highlighting file
+            //string filePath = System.IO.Path.GetFullPath(@"Shortcuts\" + Category.Name + ".lnk");
+            //System.Diagnostics.Process.Start("explorer.exe", string.Format("/select,\"{0}\"", filePath)); // opening folder and highlighting file
+            string filePath = new Uri($"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)}\\config\\{Category.Name}\\Shortcuts\\").AbsolutePath;
+            System.Diagnostics.Process.Start(@filePath); // opening folder and highlighting file
         }
 
         private void cmdDelete_Click(object sender, EventArgs e)

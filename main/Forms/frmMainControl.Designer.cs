@@ -1,6 +1,7 @@
-﻿namespace config
+﻿
+namespace client.Forms
 {
-    partial class frmMain
+    partial class frmMainControl
     {
         /// <summary>
         /// Required designer variable.
@@ -34,12 +35,12 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
-            this.ClientSize = new System.Drawing.Size(262, 41);
+            this.ClientSize = new System.Drawing.Size(120, 36);
             this.Name = "frmMain";
-            this.Text = "Group";
-            this.Deactivate += new System.EventHandler(this.frmMain_Deactivate);
-            this.Load += new System.EventHandler(this.frmMain_Load);
+            this.Opacity = 0D;
+            this.Text = "frmMain";
+            this.TopMost = true;
+            this.Shown += new System.EventHandler(this.OnShown);
             this.ResumeLayout(false);
 
         }
@@ -47,4 +48,3 @@
         #endregion
     }
 }
-

@@ -1,4 +1,5 @@
 ﻿using IWshRuntimeLibrary;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -20,8 +21,21 @@ namespace client.Classes
 
         public Category(string path)
         {
-            // read XML config for category
-            string fullPath = Path.GetFullPath(path + @"\ObjectData.xml");
+            // Use application's absolute path; (grabs the .exe)
+            // Gets the parent folder of the exe and concats the rest of the path
+            string fullPath;
+
+            // Check if path is a full directory or part of a file name
+            // Passed from two different applications; the main task-bar group and the main client
+            if (System.IO.Directory.Exists(path))
+            {
+                fullPath = new Uri(path + "\\ObjectData.xml").AbsolutePath;
+            }
+            else
+            {
+                fullPath = new Uri($"{Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().CodeBase)}\\{path}\\ObjectData.xml").AbsolutePath;
+            }
+
             System.Xml.Serialization.XmlSerializer reader =
                 new System.Xml.Serialization.XmlSerializer(typeof(Category));
             using (StreamReader file = new StreamReader(fullPath))
@@ -42,13 +56,13 @@ namespace client.Classes
         {
 
             string path = @"config\" + this.Name;
-            string filePath = path + @"\" + this.Name + "Group.exe";
+            //string filePath = path + @"\" + this.Name + "Group.exe";
             //
             // Directory and .exe
             //
-            System.IO.Directory.CreateDirectory(@"Shortcuts\");
             System.IO.Directory.CreateDirectory(@path);
-            System.IO.File.Copy(@"config\config.exe", @filePath);
+            System.IO.Directory.CreateDirectory(@path + @"\Shortcuts\");
+            //System.IO.File.Copy(@"config\config.exe", @filePath);
             //
             // XML config
             //
@@ -72,15 +86,16 @@ namespace client.Classes
             var wsh = new IWshShell_Class();
             IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
                 path + "\\" + this.Name + ".lnk") as IWshRuntimeLibrary.IWshShortcut;
-            shortcut.Arguments = "";
-            shortcut.TargetPath = Path.GetFullPath(@filePath);
+            shortcut.Arguments = this.Name;
+            shortcut.TargetPath = Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName);
             shortcut.WindowStyle = 1;
             shortcut.Description = path + " shortcut";
             shortcut.WorkingDirectory = Path.GetFullPath(@path);
             shortcut.IconLocation = Path.GetFullPath(path + @"\GroupIcon.ico");
             shortcut.Save();
+
             System.IO.File.Move(@path + "\\" + this.Name + ".lnk",
-                Path.GetFullPath(@"Shortcuts\" + this.Name + ".lnk")); // moving .lnk to correct directory
+                Path.GetFullPath(@path + "\\Shortcuts\\" + this.Name + ".lnk")); // moving .lnk to correct directory
         }
 
         public Bitmap LoadIconImage() // needed to access img without occupying read/write

@@ -29,7 +29,19 @@ namespace client.User_controls
         private void ucProgramShortcut_Load(object sender, EventArgs e)
         {
             lblName.Text = Path.GetFileNameWithoutExtension(Shortcut.FilePath);
-            picShortcut.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
+
+            String imageExtension = Path.GetExtension(Shortcut.FilePath).ToLower();
+
+            if (imageExtension == ".lnk")
+            {
+                picShortcut.BackgroundImage = frmGroup.handleLnkExt(Shortcut.FilePath);
+            }
+            else
+            {
+                picShortcut.BackgroundImage = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
+            }
+
+            //picShortcut.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
 
             if (Position == 0)
             {

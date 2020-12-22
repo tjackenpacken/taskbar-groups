@@ -1,4 +1,4 @@
-﻿using config.Classes;
+﻿using client.Classes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,20 +9,23 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace config
+namespace client
 {
     public partial class frmMain : Form
     {
-        public frmMain()
+        private string passedDirec;
+
+        public frmMain(string passedDirectory)
         {
             InitializeComponent();
+            passedDirec = passedDirectory;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Opacity = .95;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            Category category = new Category(@"ObjectData.xml");
+            Category category = new Category($"config\\{passedDirec}");
             LoadCategory(category);
             SetLocation();
         }

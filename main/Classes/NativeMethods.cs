@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using static System.Net.Mime.MediaTypeNames;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace config.Classes
+namespace client.Classes
 {
     static class NativeMethods
     {
