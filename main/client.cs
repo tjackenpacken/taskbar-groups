@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
+
 namespace client
 {
     static class client
@@ -11,7 +12,7 @@ namespace client
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
-
+        
         public static string[] arguments = Environment.GetCommandLineArgs();
 
         [DllImport("shell32.dll", SetLastError = true)]

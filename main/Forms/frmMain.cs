@@ -16,6 +16,7 @@ namespace client
     public partial class frmMain : Form
     {
         private string passedDirec;
+        private Category cat;
 
         public frmMain(string passedDirectory)
         {
@@ -27,8 +28,8 @@ namespace client
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            Category category = new Category($"config\\{passedDirec}");
-            LoadCategory(category);
+            cat = new Category($"config\\{passedDirec}");
+            LoadCategory(cat);
             SetLocation();
         }
 
@@ -142,6 +143,11 @@ namespace client
             int width = category.Width;
             int columns = 1;
 
+            if (!Directory.Exists(@Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + category.Name + @"\Icons\"))
+            {
+                category.cacheIcons();
+            }
+
             foreach (ProgramShortcut psc in category.ShortcutList)
             {
 
@@ -171,6 +177,7 @@ namespace client
             this.shortcutPanel.Location = new System.Drawing.Point(x, y);
             this.shortcutPanel.Size = new System.Drawing.Size(25, 25);
 
+            /*
             String imageExtension = Path.GetExtension(psc.FilePath).ToLower();
 
             if (imageExtension == ".lnk")
@@ -181,8 +188,11 @@ namespace client
             {
                 this.shortcutPanel.BackgroundImage = Icon.ExtractAssociatedIcon(psc.FilePath).ToBitmap();
             }
+            */
 
             //this.shortcutPanel.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(psc.FilePath).ToBitmap();
+
+            this.shortcutPanel.BackgroundImage = cat.loadImageCache(psc.FilePath);
             this.shortcutPanel.BackgroundImageLayout = ImageLayout.Stretch;
             this.shortcutPanel.TabStop = false;
             this.shortcutPanel.Click += new System.EventHandler((sender, e) => OpenFile(sender, e, psc.FilePath));

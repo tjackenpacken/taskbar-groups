@@ -150,7 +150,6 @@ namespace client.Forms
                     //
                     int width = int.Parse(lblNum.Text);
                     Category category = new Category(txtGroupName.Text, Category.ShortcutList, width); // instantiate category
-                    System.IO.Directory.CreateDirectory(@"\Shortcuts");
 
                     category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // create group config files
                     Client.LoadCategory(Path.GetFullPath(@"config\" + category.Name)); // load visuals

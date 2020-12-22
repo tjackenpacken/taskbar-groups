@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 
 namespace client.Classes
 {
@@ -62,6 +63,7 @@ namespace client.Classes
             //
             System.IO.Directory.CreateDirectory(@path);
             System.IO.Directory.CreateDirectory(@path + @"\Shortcuts\");
+
             //System.IO.File.Copy(@"config\config.exe", @filePath);
             //
             // XML config
@@ -83,6 +85,7 @@ namespace client.Classes
                                                             //
                                                             // Create .lnk shortcut
                                                             //
+            
 
             ShellLink.InstallShortcut(
                 Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName),
@@ -93,6 +96,8 @@ namespace client.Classes
                  path + "\\" + this.Name + ".lnk",
                  this.Name
             );
+
+            cacheIcons();
 
             /*
                 var wsh = new IWshShell_Class();
@@ -124,6 +129,52 @@ namespace client.Classes
                 var memoryStream = new MemoryStream(reader.ReadBytes((int)stream.Length));
                 return new Bitmap(memoryStream);
             }
+        }
+
+        public void cacheIcons()
+        {
+            string path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name;
+            string iconPath = path + "\\Icons\\";
+
+            if (Directory.Exists(iconPath))
+            {
+                Directory.Delete(iconPath, true);
+            }
+
+            Directory.CreateDirectory(iconPath);
+
+            iconPath = @path + @"\Icons\";
+
+            for (int i = 0; i < ShortcutList.Count; i++)
+            {
+                String filePath = ShortcutList[i].FilePath;
+                
+                if (Path.GetExtension(filePath).ToLower() == ".lnk")
+                {
+                    IWshShortcut lnkIcon = ((IWshShortcut)new WshShell().CreateShortcut(filePath));
+
+                    if (lnkIcon.IconLocation != null && !lnkIcon.IconLocation.Contains("http"))
+                    {
+                        Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
+                    }
+                    else
+                    {
+                        Icon.ExtractAssociatedIcon(lnkIcon.TargetPath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
+                    }
+                } else
+                {
+                    Icon.ExtractAssociatedIcon(filePath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
+                }
+            }
+        }
+
+        public Image loadImageCache(String programPath)
+        {
+
+            string path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
+            
+            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
+                 return Image.FromStream(ms);
         }
         //
         // END OF CLASS

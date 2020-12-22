@@ -30,7 +30,12 @@ namespace client.User_controls
             int y = 55;
             int columns = 1;
 
-            foreach (ProgramShortcut psc in this.Category.ShortcutList) // since this is calculating uc height it cant be placed in load
+            if (!Directory.Exists((@"config\" + category.Name) + "\\Icons\\"))
+            {
+                category.cacheIcons();
+            }
+
+                foreach (ProgramShortcut psc in this.Category.ShortcutList) // since this is calculating uc height it cant be placed in load
             {
                 if (columns == 8)
                 {
@@ -61,16 +66,7 @@ namespace client.User_controls
             bool exist = File.Exists(programShortcut.FilePath);
             if (exist)
             {
-                String imageExtension = Path.GetExtension(programShortcut.FilePath).ToLower();
-
-                if (imageExtension == ".lnk")
-                {
-                     this.shortcutPanel.BackgroundImage = frmGroup.handleLnkExt(programShortcut.FilePath);
-                }
-                else
-                {
-                     this.shortcutPanel.BackgroundImage = Icon.ExtractAssociatedIcon(programShortcut.FilePath).ToBitmap();
-                }
+                this.shortcutPanel.BackgroundImage = Category.loadImageCache(programShortcut.FilePath);
                 
 
                 //this.shortcutPanel.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(programShortcut.FilePath).ToBitmap();
