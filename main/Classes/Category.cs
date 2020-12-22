@@ -172,22 +172,40 @@ namespace client.Classes
         {
             try
             {
-                string path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
+                String path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
 
                 using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
                     return Image.FromStream(ms);
             }
             catch (Exception)
             {
-                Bitmap bitmap = new Bitmap(32, 32,System.Drawing.Imaging.PixelFormat.Format24bppRgb); 
-                using (Graphics graphics = Graphics.FromImage(bitmap))
+                if (System.IO.File.Exists(programPath))
                 {
-                    using (System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.DarkGray))
+                    string path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name;
+                    String savePath = @path + @"\Icons\" + Path.GetFileNameWithoutExtension(path) + ".jpg";
+
+                    if (Path.GetExtension(path).ToLower() == ".lnk")
                     {
-                        graphics.FillRectangle(myBrush, new Rectangle(0, 0, 32, 32)); 
+                        IWshShortcut lnkIcon = ((IWshShortcut)new WshShell().CreateShortcut(path));
+
+                        if (lnkIcon.IconLocation != null && !lnkIcon.IconLocation.Contains("http"))
+                        {
+                            Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap().Save(savePath);
+                        }
+                        else
+                        {
+                            Icon.ExtractAssociatedIcon(lnkIcon.TargetPath).ToBitmap().Save(savePath);
+                        }
+                    }
+                    else
+                    {
+                        Icon.ExtractAssociatedIcon(path).ToBitmap().Save(savePath);
                     }
 
-                    return bitmap;
+                    return loadImageCache(savePath);
+                } else
+                {
+                    return global::client.Properties.Resources.Error;
                 }
             }
         }

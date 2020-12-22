@@ -30,15 +30,22 @@ namespace client.User_controls
         {
             lblName.Text = Path.GetFileNameWithoutExtension(Shortcut.FilePath);
 
-            String imageExtension = Path.GetExtension(Shortcut.FilePath).ToLower();
+            if (File.Exists(Shortcut.FilePath))
+            {
+                String imageExtension = Path.GetExtension(Shortcut.FilePath).ToLower();
 
-            if (imageExtension == ".lnk")
+                if (imageExtension == ".lnk")
+                {
+                    picShortcut.BackgroundImage = frmGroup.handleLnkExt(Shortcut.FilePath);
+                }
+                else
+                {
+                    picShortcut.BackgroundImage = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
+                }
+
+            } else
             {
-                picShortcut.BackgroundImage = frmGroup.handleLnkExt(Shortcut.FilePath);
-            }
-            else
-            {
-                picShortcut.BackgroundImage = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
+                picShortcut.BackgroundImage = global::client.Properties.Resources.Error;
             }
 
             //picShortcut.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();

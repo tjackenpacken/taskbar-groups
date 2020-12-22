@@ -369,6 +369,8 @@
             // 
             // pnlEnd
             // 
+            this.pnlEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlEnd.Controls.Add(this.cmdDelete);
             this.pnlEnd.Controls.Add(this.cmdSave);
             this.pnlEnd.Controls.Add(this.cmdExit);
@@ -381,6 +383,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(589, 781);
             this.Controls.Add(this.pnlEnd);
