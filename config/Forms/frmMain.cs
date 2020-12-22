@@ -22,6 +22,7 @@ namespace config
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+
             Category category = new Category(@"ObjectData.xml");
             LoadCategory(category);
             SetLocation();
