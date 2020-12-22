@@ -170,11 +170,26 @@ namespace client.Classes
 
         public Image loadImageCache(String programPath)
         {
+            try
+            {
+                string path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
 
-            string path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
-            
-            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
-                 return Image.FromStream(ms);
+                using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
+                    return Image.FromStream(ms);
+            }
+            catch (Exception)
+            {
+                Bitmap bitmap = new Bitmap(32, 32,System.Drawing.Imaging.PixelFormat.Format24bppRgb); 
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    using (System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.DarkGray))
+                    {
+                        graphics.FillRectangle(myBrush, new Rectangle(0, 0, 32, 32)); 
+                    }
+
+                    return bitmap;
+                }
+            }
         }
         //
         // END OF CLASS
