@@ -17,6 +17,7 @@ namespace client.Forms
     {
         public frmClient()
         {
+            System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
             InitializeComponent();
             this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             Reload();

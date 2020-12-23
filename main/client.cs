@@ -28,10 +28,12 @@ namespace client
             int cursorX = Cursor.Position.X;
             int cursorY = Cursor.Position.Y;
 
-
             // Set the MainPath to the absolute path where the exe is located
             MainPath.path = Path.GetFullPath(new Uri(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)).LocalPath);
 
+            Directory.CreateDirectory($"{MainPath.path}\\JITComp");
+
+            System.Runtime.ProfileOptimization.SetProfileRoot(MainPath.path + "\\JITComp");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -47,6 +49,7 @@ namespace client
             {
                 // Creates directory in case it does not exist for config files
                 Directory.CreateDirectory($"{MainPath.path}\\config");
+                Directory.CreateDirectory($"{MainPath.path}\\Shortcuts");
 
                 // See comment above
                 SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");

@@ -29,6 +29,7 @@ namespace client.Forms
         private String[] newExt;
         public frmGroup(frmClient client, Category category)
         {
+            System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
             InitializeComponent();
             Category = category;
             Client = client;
@@ -43,6 +44,7 @@ namespace client.Forms
         }
         public frmGroup(frmClient client)
         {
+            System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
             InitializeComponent();
             newExt = imageExt.Concat(specialImageExt).ToArray();
             Category = new Category { ShortcutList = new List<ProgramShortcut>() };

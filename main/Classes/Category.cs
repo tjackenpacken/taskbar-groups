@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace client.Classes
@@ -63,7 +64,6 @@ namespace client.Classes
             // Directory and .exe
             //
             System.IO.Directory.CreateDirectory(@path);
-            System.IO.Directory.CreateDirectory(@path + @"\Shortcuts\");
 
             //System.IO.File.Copy(@"config\config.exe", @filePath);
             //
@@ -106,7 +106,7 @@ namespace client.Classes
             cacheIcons();
 
             System.IO.File.Move(@path + "\\" + this.Name + ".lnk",
-                Path.GetFullPath(@path + "\\Shortcuts\\" + this.Name + ".lnk")); // Move .lnk to correct directory
+                Path.GetFullPath(@"Shortcuts\" + Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
         }
 
         public Bitmap LoadIconImage() // Needed to access img without occupying read/write
