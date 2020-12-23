@@ -187,9 +187,11 @@ namespace client.Forms
             try
             {
                 string configPath = @MainPath.path + @"\config\" + Category.Name;
+                string shortcutPath = @MainPath.path + @"\Shortcuts\" + Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk";
 
                 var dir = new DirectoryInfo(configPath);
 
+                System.IO.File.Delete(shortcutPath);
                 dir.Delete(true); // delete config directory
                 this.Hide();
                 this.Dispose();
@@ -305,7 +307,8 @@ namespace client.Forms
                 Title = "Create New Shortcut",
                 CheckFileExists = true,
                 CheckPathExists = true,
-                DefaultExt = "exe",
+                Multiselect = true,
+            DefaultExt = "exe",
 
                 Filter = "Exe or Shortcut (.exe, .lnk)|*.exe;*.lnk",
 
@@ -319,8 +322,11 @@ namespace client.Forms
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                ProgramShortcut programShortcut = new ProgramShortcut(Environment.ExpandEnvironmentVariables(openFileDialog.FileName)); //create new shortcut obj
-                Category.ShortcutList.Add(programShortcut); // add to panel shortcut list
+                foreach (String file in openFileDialog.FileNames)
+                {
+                    ProgramShortcut programShortcut = new ProgramShortcut(Environment.ExpandEnvironmentVariables(file)); //create new shortcut obj
+                    Category.ShortcutList.Add(programShortcut); // add to panel shortcut list
+                }
                 pnlShortcuts.Controls.Clear();
                 LoadShortcuts();
                 pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]); // scroll to the latest created control
