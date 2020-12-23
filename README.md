@@ -4,9 +4,12 @@
 <br>
 Taskbar groups is a lightweight utility for Windows that lets the users create groups of shortcuts in the taskbar.
 <br>
+<br>
+[Download & Release notes](https://github.com/tjackenpacken/taskbar-groups/releases)
+<br>
 
 ## How to download and use Taskbar groups:
-    1. Download the .zip-file from the latest release
+    1. Download the .zip-file from the latest release (link above)
     2. Pack up the .zip-file at a desired location
     3. Run the TaskbarGroups.exe file in the extracted folder
 
@@ -19,16 +22,3 @@ Taskbar groups is a lightweight utility for Windows that lets the users create g
     8. Left click on the group
     9. In the folder that opens up, right click on the highlighted shortcut
     10. Select "Pin to taskbar"
-<br>
-<br>
-Preview of a taskbar group:
-<br>
-![Preview of taskbar group](https://i.imgur.com/PDgofAp.png)
-<br><br>
-Preview of client:
-<br>
-![Preview of client](https://i.imgur.com/WFdqcot.png)
-<br><br>
-Also works on desktop shortcuts:
-<br>
-![Also works on desktop shortcuts](https://i.imgur.com/M3KKJe0.png)
