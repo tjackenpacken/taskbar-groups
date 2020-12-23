@@ -32,9 +32,6 @@ namespace client.Forms
             InitializeComponent();
             Category = category;
             Client = client;
-            cmdDelete.Visible = false;
-            cmdSave.Left += 70;
-            cmdExit.Left += 70;
             IsNew = false;
             ucShortcutList = new List<ucProgramShortcut>();
 
@@ -42,7 +39,6 @@ namespace client.Forms
             txtGroupName.Text = Regex.Replace(Category.Name, @"(_)+", " ");
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
             lblNum.Text = Category.Width.ToString();
-            this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
             LoadShortcuts();
         }
         public frmGroup(frmClient client)
@@ -123,6 +119,11 @@ namespace client.Forms
             if (txtGroupName.Text == "Name the new group...") // Verify category name
             {
                 lblErrorTitle.Text = "Must select a name";
+                lblErrorTitle.Visible = true;
+            }
+            else if (!new Regex("^[0-9a-zA-Z \b]+$").IsMatch(txtGroupName.Text))
+            {
+                lblErrorTitle.Text = "Name must not have any special characters";
                 lblErrorTitle.Visible = true;
             }
             else if (cmdAddGroupIcon.BackgroundImage ==
@@ -389,13 +390,13 @@ namespace client.Forms
 
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
             // Checks for link iconLocations as those are used by some applications
-            if (lnkIcon.IconLocation != null && !lnkIcon.IconLocation.Contains("http"))
+            if (lnkIcon.IconLocation != ",0" && !lnkIcon.IconLocation.Contains("http"))
                 {
-                    return Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap();
+                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(new Uri(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).LocalPath)).ToBitmap();
                 }
                 else
                 {
-                    return Icon.ExtractAssociatedIcon(lnkIcon.TargetPath).ToBitmap();
+                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(new Uri(lnkIcon.TargetPath).LocalPath)).ToBitmap();
                 }
             
         }

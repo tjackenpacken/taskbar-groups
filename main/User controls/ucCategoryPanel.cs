@@ -91,7 +91,7 @@ namespace client.User_controls
         public void OpenFolder(object sender, EventArgs e)
         {
             // Open the shortcut folder for the group when click on category panel
-            string filePath = new Uri($"{MainPath.path}\\config\\{Category.Name}\\Shortcuts\\").AbsolutePath; // Build path based on the directory of the main .exe file
+            string filePath = Path.GetFullPath(new Uri($"{MainPath.path}\\config\\{Category.Name}\\Shortcuts\\").LocalPath); // Build path based on the directory of the main .exe file
             System.Diagnostics.Process.Start(@filePath); // opening folder and highlighting file
         }
 

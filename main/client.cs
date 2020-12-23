@@ -30,7 +30,7 @@ namespace client
 
 
             // Set the MainPath to the absolute path where the exe is located
-            MainPath.path = new Uri(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)).AbsolutePath;
+            MainPath.path = Path.GetFullPath(new Uri(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)).LocalPath);
 
 
             Application.EnableVisualStyles();
@@ -46,7 +46,7 @@ namespace client
             } else
             {
                 // Creates directory in case it does not exist for config files
-                Directory.CreateDirectory(new Uri($"{MainPath.path}\\config").AbsolutePath);
+                Directory.CreateDirectory($"{MainPath.path}\\config");
 
                 // See comment above
                 SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");

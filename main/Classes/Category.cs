@@ -35,7 +35,7 @@ namespace client.Classes
             }
             else
             {
-                fullPath = new Uri(path + "\\ObjectData.xml").AbsolutePath;
+                fullPath = Path.GetFullPath(path + "\\ObjectData.xml");
             }
 
             System.Xml.Serialization.XmlSerializer reader =
@@ -156,7 +156,7 @@ namespace client.Classes
 
                     // Need to either get original source icon (ico) of the extension and extract the icon from that
                     // Checks aswell if the IconLocation is a link as that can happen with some applications
-                    if (lnkIcon.IconLocation != null && !lnkIcon.IconLocation.Contains("http"))
+                    if (lnkIcon.IconLocation != null && lnkIcon.IconLocation != ",0" && !lnkIcon.IconLocation.Contains("http"))
                     {
                         Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
                     }
@@ -205,7 +205,7 @@ namespace client.Classes
                     {
                         IWshShortcut lnkIcon = ((IWshShortcut)new WshShell().CreateShortcut(path));
 
-                        if (lnkIcon.IconLocation != null && !lnkIcon.IconLocation.Contains("http"))
+                        if (lnkIcon.IconLocation != null && lnkIcon.IconLocation != ",0" && !lnkIcon.IconLocation.Contains("http"))
                         {
                             finalImage = Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap();
                         }
