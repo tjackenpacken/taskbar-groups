@@ -66,7 +66,6 @@
   <ItemGroup>
     <Compile Include="Classes\Category.cs" />
     <Compile Include="Classes\ImageFunctions.cs" />
-    <Compile Include="Classes\NativeMethods.cs" />
     <Compile Include="Classes\MainPath.cs" />
     <Compile Include="Classes\ProgramShortcut.cs" />
     <Compile Include="Classes\ShellLink.cs" />

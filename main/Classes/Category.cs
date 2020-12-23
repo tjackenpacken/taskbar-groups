@@ -27,7 +27,7 @@ namespace client.Classes
             string fullPath;
 
             // Check if path is a full directory or part of a file name
-            // Passed from two different applications; the main task-bar group and the main client
+            // Passed from the main shortcut client and the config client
 
             if (System.IO.File.Exists(@MainPath.path + @"\" + path + @"\ObjectData.xml"))
             {
@@ -37,16 +37,6 @@ namespace client.Classes
             {
                 fullPath = new Uri(path + "\\ObjectData.xml").AbsolutePath;
             }
-
-            /*
-            if (System.IO.Directory.Exists(path) && !path.Contains(":\\"))
-            {
-                fullPath = new Uri(path + "\\ObjectData.xml").AbsolutePath;
-            } else
-            {
-                fullPath = new Uri(MainPath.path + "\\" + path + "\\ObjectData.xml").AbsolutePath;
-            }
-            */
 
             System.Xml.Serialization.XmlSerializer reader =
                 new System.Xml.Serialization.XmlSerializer(typeof(Category));
@@ -98,6 +88,9 @@ namespace client.Classes
                                                             //
             
 
+            // Through shellLink.cs class, pass through into the function information on how to construct the icon
+            // Needed due to needing to set a unique AppUserModelID so the shortcut applications don't stack on the taskbar with the main application
+            // Tricks Windows to think they are from different applications even though they are from the same .exe
             ShellLink.InstallShortcut(
                 Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName),
                 "tjackenpacken.taskbarGroup.menu." + this.Name,
@@ -108,29 +101,15 @@ namespace client.Classes
                  this.Name
             );
 
+
+            // Build the icon cache
             cacheIcons();
 
-            /*
-                var wsh = new IWshShell_Class();
-    
-            IWshRuntimeLibrary.IWshShortcut shortcut = wsh.CreateShortcut(
-                path + "\\" + this.Name + ".lnk") as IWshRuntimeLibrary.IWshShortcut;
-            shortcut.Arguments = this.Name;
-            shortcut.TargetPath = Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName);
-            shortcut.WindowStyle = 1;
-            shortcut.Description = path + " shortcut";
-            shortcut.WorkingDirectory = Path.GetFullPath(@path);
-            shortcut.IconLocation = Path.GetFullPath(path + @"\GroupIcon.ico");
-            shortcut.Save();
-
-            */
-
-
             System.IO.File.Move(@path + "\\" + this.Name + ".lnk",
-                Path.GetFullPath(@path + "\\Shortcuts\\" + this.Name + ".lnk")); // moving .lnk to correct directory
+                Path.GetFullPath(@path + "\\Shortcuts\\" + this.Name + ".lnk")); // Move .lnk to correct directory
         }
 
-        public Bitmap LoadIconImage() // needed to access img without occupying read/write
+        public Bitmap LoadIconImage() // Needed to access img without occupying read/write
         {
             string path = @"config\" + Name + @"\GroupImage.png";
 
@@ -142,47 +121,68 @@ namespace client.Classes
             }
         }
 
+        // Goal is to create a folder with icons of the programs pre-cached and ready to be read
+        // Avoids having the icons need to be rebuilt everytime which takes time and resources
         public void cacheIcons()
         {
+
+            // Defines the paths for the icons folder
             string path = @MainPath.path + @"\config\" + this.Name;
             string iconPath = path + "\\Icons\\";
 
+            // Check and delete current icons folder to completely rebuild the icon cache
+            // Only done on re-edits of the group and isn't done usually
             if (Directory.Exists(iconPath))
             {
                 Directory.Delete(iconPath, true);
             }
 
+            // Creates the icons folder inside of existing config folder for the group
             Directory.CreateDirectory(iconPath);
 
             iconPath = @path + @"\Icons\";
 
+            // Loops through each shortcut added by the user and gets the icon
+            // Writes the icon to the new folder in a .jpg format
+            // Namign scheme for the files are done through Path.GetFileNameWithoutExtension()
             for (int i = 0; i < ShortcutList.Count; i++)
             {
                 String filePath = ShortcutList[i].FilePath;
                 
+                // Process .lnk (shortcut) files differently
                 if (Path.GetExtension(filePath).ToLower() == ".lnk")
                 {
-                    IWshShortcut lnkIcon = ((IWshShortcut)new WshShell().CreateShortcut(filePath));
+                    IWshShortcut lnkIcon = ((IWshShortcut)new WshShell().CreateShortcut(filePath)); // Recreate the extension locally so that the program recognizes it is a extension
 
+                    // Need to either get original source icon (ico) of the extension and extract the icon from that
+                    // Checks aswell if the IconLocation is a link as that can happen with some applications
                     if (lnkIcon.IconLocation != null && !lnkIcon.IconLocation.Contains("http"))
                     {
                         Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
                     }
                     else
                     {
+                        // Falls back to getting the icon from the target .exe
                         Icon.ExtractAssociatedIcon(lnkIcon.TargetPath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
                     }
                 } else
                 {
+                    // Extracts icon from the .exe if the provided file is not a shortcut file
                     Icon.ExtractAssociatedIcon(filePath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
                 }
             }
         }
 
+        // Try to load an iamge from the cache
+        // Takes in a programPath (shortcut) and processes it to the proper file name
         public Image loadImageCache(String programPath)
         {
             try
             {
+                // Try to construct the path like if it existed
+                // If it does, directly load it into memory and return it
+
+                // If not then it would throw an exception in which the below code would catch it
                 String path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
 
                 using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
@@ -190,10 +190,16 @@ namespace client.Classes
             }
             catch (Exception)
             {
+                // Try to recreate the cache icon image and catch and missing file/icon situations that may arise
+
+                // Checks if the original file even exists to make sure to not do any extra operations
                 if (System.IO.File.Exists(programPath))
                 {
-                    string path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name;
+                    // Same processing as above in cacheIcons()
+                    String path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name;
                     String savePath = @path + @"\Icons\" + Path.GetFileNameWithoutExtension(path) + ".jpg";
+
+                    Image finalImage;
 
                     if (Path.GetExtension(path).ToLower() == ".lnk")
                     {
@@ -201,19 +207,25 @@ namespace client.Classes
 
                         if (lnkIcon.IconLocation != null && !lnkIcon.IconLocation.Contains("http"))
                         {
-                            Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap().Save(savePath);
+                            finalImage = Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap();
                         }
                         else
                         {
-                            Icon.ExtractAssociatedIcon(lnkIcon.TargetPath).ToBitmap().Save(savePath);
+                            finalImage = Icon.ExtractAssociatedIcon(lnkIcon.TargetPath).ToBitmap();
                         }
                     }
                     else
                     {
-                        Icon.ExtractAssociatedIcon(path).ToBitmap().Save(savePath);
+                        finalImage = Icon.ExtractAssociatedIcon(path).ToBitmap();
                     }
 
-                    return loadImageCache(savePath);
+
+                    // Above all sets finalIamge to the bitmap that was generated from the icons
+                    // Save the icon after it has been fetched by previous code
+                    finalImage.Save(savePath);
+
+                    // Return the said image
+                    return finalImage;
                 } else
                 {
                     return global::client.Properties.Resources.Error;

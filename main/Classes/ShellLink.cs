@@ -1,18 +1,13 @@
 ﻿using System;
-using System.IO;
 using System.Runtime.InteropServices;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
-
-
-using ComTypes = System.Runtime.InteropServices.ComTypes;
 
 namespace client.Classes
 {
     static class ShellLink {
     public static void InstallShortcut(string exePath, string appId, string desc, string wkDirec, string iconLocation, string saveLocation, string arguments)
     {
-        // Start a new shortcut object for our new shortcut.
+        // Use passed parameters as to construct the shortcut
         IShellLinkW newShortcut = (IShellLinkW)new CShellLink();
         newShortcut.SetPath(exePath);
         newShortcut.SetDescription(desc);
@@ -21,14 +16,15 @@ namespace client.Classes
         newShortcut.SetIconLocation(iconLocation, 0);
        
 
-        // Set our classid and handler GUID for the shortcut.
+        // Set the classID of the shortcut that is created
+        // Crucial to avoid program stacking
         IPropertyStore newShortcutProperties = (IPropertyStore)newShortcut;
 
         PropVariantHelper varAppId = new PropVariantHelper();
         varAppId.SetValue(appId);
         newShortcutProperties.SetValue(PROPERTYKEY.AppUserModel_ID, varAppId.Propvariant);
 
-        // Save the shortcut.
+        // Save the shortcut as per passed save location
         IPersistFile newShortcutSave = (IPersistFile)newShortcut;
         newShortcutSave.Save(saveLocation, true);
     }

@@ -9,6 +9,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -38,7 +39,7 @@ namespace client.Forms
             ucShortcutList = new List<ucProgramShortcut>();
 
             this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
-            txtGroupName.Text = Category.Name;
+            txtGroupName.Text = Regex.Replace(Category.Name, @"(_)+", " ");
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
             lblNum.Text = Category.Width.ToString();
             this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
@@ -137,7 +138,6 @@ namespace client.Forms
             }
             else
             {
-
                 try
                 {
                     if (!IsNew)
@@ -157,6 +157,9 @@ namespace client.Forms
                     //
                     int width = int.Parse(lblNum.Text);
                     Category category = new Category(txtGroupName.Text, Category.ShortcutList, width); // instantiate category
+
+                    // Normalize string so it can be used in path; remove spaces
+                    category.Name = Regex.Replace(category.Name, @"\s+", "_");
 
                     category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // create group config files
                     Client.LoadCategory(Path.GetFullPath(@"config\" + category.Name)); // load visuals
@@ -319,23 +322,38 @@ namespace client.Forms
 
         }
 
+        
+        // Handle dropped programs into the add program/shortcut field
         private void pnlDragDropExt(object sender, DragEventArgs e)
         {
             var files = (String[])e.Data.GetData(DataFormats.FileDrop);
 
+            // Loops through each file to make sure they exist and to add them directly to the shortcut list
             foreach (var file in files)
             {
                 if (extensionExt.Contains(Path.GetExtension(file)) && System.IO.File.Exists(file))
                 {
-                    ProgramShortcut programShortcut = new ProgramShortcut(file); //create new shortcut obj
-                    Category.ShortcutList.Add(programShortcut); // add to panel shortcut list
+                    ProgramShortcut programShortcut = new ProgramShortcut(file); //Create new shortcut obj
+                    Category.ShortcutList.Add(programShortcut); // Add to panel shortcut list
+
+                    /*
                     pnlShortcuts.Controls.Clear();
                     LoadShortcuts();
                     pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]); // scroll to the latest created control
+
+                    Note: This code was moved out of the loop to improve performance as to not keep reloading the client until the extension adding is done
+                    As a result, the little slide animation as the icons are being added is now gone
+                    Code may be moved back in depending on future scenario/use cases; alternative should be found for this one for better efficiency
+                     */
                 }
             }
+
+            pnlShortcuts.Controls.Clear();
+            LoadShortcuts();
+            pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]); // scroll to the latest created control
         }
 
+        // Handle drag and dropped images
         private void pnlDragDropImg(object sender, DragEventArgs e)
         {
             var files = (String[])e.Data.GetData(DataFormats.FileDrop);
@@ -344,7 +362,7 @@ namespace client.Forms
 
             if (files.Length == 1 && newExt.Contains(imageExtension) && System.IO.File.Exists(files[0]))
             {
-
+                // Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
                 if (specialImageExt.Contains(imageExtension))
                 {
                     if (imageExtension == ".lnk")
@@ -364,11 +382,14 @@ namespace client.Forms
             }
         }
 
+        // Handle returning images of icon files (.lnk)
         public static Image handleLnkExt(String file)
         {
                 IWshShortcut lnkIcon = ((IWshShortcut)new WshShell().CreateShortcut(file));
 
-                if (lnkIcon.IconLocation != null && !lnkIcon.IconLocation.Contains("http"))
+            // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
+            // Checks for link iconLocations as those are used by some applications
+            if (lnkIcon.IconLocation != null && !lnkIcon.IconLocation.Contains("http"))
                 {
                     return Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap();
                 }
@@ -379,6 +400,9 @@ namespace client.Forms
             
         }
 
+        // Below two functions highlights the background as you would if you hovered over it with a mosue
+        // Use checkExtension to allow file dropping after a series of checks
+        // Only highlights if the files being dropped are valid in extension wise
         private void pnlDragDropEnterExt(object sender, DragEventArgs e)
         {
             if(checkExtensions(e, extensionExt))
@@ -395,16 +419,23 @@ namespace client.Forms
             }
         }
 
+        // Series of checks to make sure it can be dropped
         private Boolean checkExtensions(DragEventArgs e, String[] exts)
         {
+            // Make sure the file can be dragged dropped
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return false;
+
+            // Get the list of files of the files dropped
             String[] files = (String[])e.Data.GetData(DataFormats.FileDrop);
+
+            // Loop through each file and make sure the extension is allowed as defined by a series of arrays at the top of the script
             foreach (var file in files)
             {
                 String ext = Path.GetExtension(file);
 
                 if (exts.Contains(ext.ToLower()))
                 {
+                    // Gives the effect that it can be dropped and unlocks the ability to drop files in
                     e.Effect = DragDropEffects.Copy;
                     return true;
                 } else
@@ -415,6 +446,7 @@ namespace client.Forms
             return false;
         }
 
+        // Below two functions highlights the background as you would if you hovered over it with a mosue
         private void pnlAddShortcut_MouseEnter(object sender, EventArgs e)
         {
             pnlAddShortcut.BackColor = Color.FromArgb(23, 23, 23);

@@ -1,31 +1,18 @@
 ﻿using client.Classes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace client
 {
+
     public partial class frmMain : Form
     {
-        private string passedDirec;
-        private Category cat;
 
-        public frmMain(string passedDirectory)
-        {
-            passedDirec = passedDirectory;
-            InitializeComponent();
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Opacity = 0.95;
-        }
-
+        // Allow doubleBuffering drawing each frame to memory and then onto screen
+        // Solves flickering issues mostly as the entire rendering of the screen is done in 1 operation after being first loaded to memory
         protected override CreateParams CreateParams
 
         {
@@ -35,6 +22,19 @@ namespace client
                 cp.ExStyle |= 0x02000000;
                 return cp;
             }
+        }
+
+        private string passedDirec;
+        private Category cat;
+        public Point mouseClick;
+
+        public frmMain(string passedDirectory, int cursorPosX, int cursorPosY)
+        {
+            mouseClick = new Point(cursorPosX, cursorPosY); // Consstruct point p based on passed x y mouse values
+            passedDirec = passedDirectory;
+            InitializeComponent();
+            FormBorderStyle = FormBorderStyle.None;
+            Opacity = 0.95;
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -53,20 +53,16 @@ namespace client
 
         private void SetLocation()
         {
-            POINT p = new POINT();
-
-            NativeMethods.GetCursorPos(ref p); // catch cursor location
             List<Rectangle> taskbarList = FindDockedTaskBars();
             Rectangle taskbar = new Rectangle();
             Rectangle screen = new Rectangle();
 
-            System.Drawing.Point mouseClick = new System.Drawing.Point(p.x, p.y);
             int i = 0;
             int locationy;
             int locationx;
             if (taskbarList.Count != 0)
             {
-                foreach (var scr in Screen.AllScreens) // get what screen user clicked on
+                foreach (var scr in Screen.AllScreens) // Get what screen user clicked on
                 {
                     if (scr.Bounds.Contains(mouseClick))
                     {
@@ -79,39 +75,39 @@ namespace client
                     i++;
                 }
 
-                if (taskbar.Contains(mouseClick)) // click on taskbar
+                if (taskbar.Contains(mouseClick)) // Click on taskbar
                 {
                     if (taskbar.Top == screen.Top && taskbar.Width == screen.Width)
                     {
                         // TOP
                         locationy = screen.Y + taskbar.Height + 10;
-                        locationx = p.x - (this.Width / 2);
+                        locationx = mouseClick.X - (this.Width / 2);
                     }
                     else if (taskbar.Bottom == screen.Bottom && taskbar.Width == screen.Width)
                     {
                         // BOTTOM
                         locationy = screen.Y + screen.Height - this.Height - taskbar.Height - 10;
-                        locationx = p.x - (this.Width / 2);
+                        locationx = mouseClick.X - (this.Width / 2);
                     }
                     else if (taskbar.Left == screen.Left)
                     {
                         // LEFT
-                        locationy = p.y - (this.Height / 2);
+                        locationy = mouseClick.X - (this.Height / 2);
                         locationx = screen.X + taskbar.Width + 10;
 
                     }
                     else
                     {
                         // RIGHT
-                        locationy = p.y - (this.Height / 2);
+                        locationy = mouseClick.X - (this.Height / 2);
                         locationx = screen.X + screen.Width - this.Width - taskbar.Width - 10;
                     }
 
                 }
                 else // not click on taskbar
                 {
-                    locationy = p.y - this.Height - 20;
-                    locationx = p.x - (this.Width / 2);
+                    locationy = mouseClick.Y - this.Height - 20;
+                    locationx = mouseClick.X - (this.Width / 2);
                 }
 
                 this.Location = new Point(locationx, locationy);
@@ -136,11 +132,11 @@ namespace client
                     i++;
                 }
 
-                if (p.y > Screen.PrimaryScreen.Bounds.Height - 35)
+                if (mouseClick.Y > Screen.PrimaryScreen.Bounds.Height - 35)
                     locationy = Screen.PrimaryScreen.Bounds.Height - this.Height - 45;
                 else
-                    locationy = p.y - this.Height - 20;
-                locationx = p.x - (this.Width / 2);
+                    locationy = mouseClick.Y - this.Height - 20;
+                locationx = mouseClick.X - (this.Width / 2);
 
                 this.Location = new Point(locationx, locationy);
                 if (this.Left < screen.Left)
@@ -161,6 +157,8 @@ namespace client
             int width = category.Width;
             int columns = 1;
 
+            // Check if icon caches exist for the category being loaded
+            // If not then rebuild the icon cache
             if (!Directory.Exists(@MainPath.path + @"\config\" + category.Name + @"\Icons\"))
             {
                 category.cacheIcons();
@@ -194,23 +192,7 @@ namespace client
             this.shortcutPanel.BackColor = System.Drawing.Color.Transparent;
             this.shortcutPanel.Location = new System.Drawing.Point(x, y);
             this.shortcutPanel.Size = new System.Drawing.Size(25, 25);
-
-            /*
-            String imageExtension = Path.GetExtension(psc.FilePath).ToLower();
-
-            if (imageExtension == ".lnk")
-            {
-                this.shortcutPanel.BackgroundImage = Forms.frmGroup.handleLnkExt(psc.FilePath);
-            }
-            else
-            {
-                this.shortcutPanel.BackgroundImage = Icon.ExtractAssociatedIcon(psc.FilePath).ToBitmap();
-            }
-            */
-
-            //this.shortcutPanel.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(psc.FilePath).ToBitmap();
-
-            this.shortcutPanel.BackgroundImage = cat.loadImageCache(psc.FilePath);
+            this.shortcutPanel.BackgroundImage = cat.loadImageCache(psc.FilePath); // Use the local icon cache for the file specified as the icon image
             this.shortcutPanel.BackgroundImageLayout = ImageLayout.Stretch;
             this.shortcutPanel.TabStop = false;
             this.shortcutPanel.Click += new System.EventHandler((sender, e) => OpenFile(sender, e, psc.FilePath));
