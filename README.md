@@ -1,4 +1,4 @@
-# Taskbar groups
+# Welcome to the TaskbarGroups repository
 Lightweight application that lets user create and pin groups to the Windows taskbar och desktop
 <br>
 <br>
