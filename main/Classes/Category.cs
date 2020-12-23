@@ -152,23 +152,11 @@ namespace client.Classes
                 // Process .lnk (shortcut) files differently
                 if (Path.GetExtension(filePath).ToLower() == ".lnk")
                 {
-                    IWshShortcut lnkIcon = ((IWshShortcut)new WshShell().CreateShortcut(filePath)); // Recreate the extension locally so that the program recognizes it is a extension
-
-                    // Need to either get original source icon (ico) of the extension and extract the icon from that
-                    // Checks aswell if the IconLocation is a link as that can happen with some applications
-                    if (lnkIcon.IconLocation != null && lnkIcon.IconLocation != ",0" && !lnkIcon.IconLocation.Contains("http"))
-                    {
-                        Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
-                    }
-                    else
-                    {
-                        // Falls back to getting the icon from the target .exe
-                        Icon.ExtractAssociatedIcon(lnkIcon.TargetPath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
-                    }
+                    Forms.frmGroup.handleLnkExt(filePath).Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
                 } else
                 {
                     // Extracts icon from the .exe if the provided file is not a shortcut file
-                    Icon.ExtractAssociatedIcon(filePath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
+                    Icon.ExtractAssociatedIcon(Environment.ExpandEnvironmentVariables(filePath)).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
                 }
             }
         }
@@ -177,59 +165,50 @@ namespace client.Classes
         // Takes in a programPath (shortcut) and processes it to the proper file name
         public Image loadImageCache(String programPath)
         {
-            try
+            if (System.IO.File.Exists(programPath))
             {
-                // Try to construct the path like if it existed
-                // If it does, directly load it into memory and return it
-
-                // If not then it would throw an exception in which the below code would catch it
-                String path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
-
-                using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
-                    return Image.FromStream(ms);
-            }
-            catch (Exception)
-            {
-                // Try to recreate the cache icon image and catch and missing file/icon situations that may arise
-
-                // Checks if the original file even exists to make sure to not do any extra operations
-                if (System.IO.File.Exists(programPath))
+                try
                 {
+                    // Try to construct the path like if it existed
+                    // If it does, directly load it into memory and return it
+                    // If not then it would throw an exception in which the below code would catch it
+                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
+
+                    using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
+                        return Image.FromStream(ms);
+                }
+                catch (Exception)
+                {
+                    // Try to recreate the cache icon image and catch and missing file/icon situations that may arise
+
+                    // Checks if the original file even exists to make sure to not do any extra operations
+
                     // Same processing as above in cacheIcons()
-                    String path = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name;
-                    String savePath = @path + @"\Icons\" + Path.GetFileNameWithoutExtension(path) + ".jpg";
+                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
 
                     Image finalImage;
 
-                    if (Path.GetExtension(path).ToLower() == ".lnk")
+                    if (Path.GetExtension(programPath).ToLower() == ".lnk")
                     {
-                        IWshShortcut lnkIcon = ((IWshShortcut)new WshShell().CreateShortcut(path));
-
-                        if (lnkIcon.IconLocation != null && lnkIcon.IconLocation != ",0" && !lnkIcon.IconLocation.Contains("http"))
-                        {
-                            finalImage = Icon.ExtractAssociatedIcon(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).ToBitmap();
-                        }
-                        else
-                        {
-                            finalImage = Icon.ExtractAssociatedIcon(lnkIcon.TargetPath).ToBitmap();
-                        }
+                        finalImage = Forms.frmGroup.handleLnkExt(programPath);
                     }
                     else
                     {
-                        finalImage = Icon.ExtractAssociatedIcon(path).ToBitmap();
+                        finalImage = Icon.ExtractAssociatedIcon(programPath).ToBitmap();
                     }
 
 
                     // Above all sets finalIamge to the bitmap that was generated from the icons
                     // Save the icon after it has been fetched by previous code
-                    finalImage.Save(savePath);
+                    finalImage.Save(path);
 
                     // Return the said image
                     return finalImage;
-                } else
-                {
-                    return global::client.Properties.Resources.Error;
                 }
+            }
+            else
+            {
+                return global::client.Properties.Resources.Error;
             }
         }
         //

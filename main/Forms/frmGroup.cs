@@ -8,6 +8,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -27,6 +28,9 @@ namespace client.Forms
         private String[] specialImageExt = new String[] { ".ico", ".exe", ".lnk" };
 
         private String[] newExt;
+
+        public static Shell32.Shell shell = new Shell32.Shell();
+
         public frmGroup(frmClient client, Category category)
         {
             System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
@@ -149,16 +153,16 @@ namespace client.Forms
                         // delete old config
                         //
                         string configPath = @MainPath.path + @"\config\" + Category.Name;
-                        //string shortcutPath = configPath + @"\Shortcuts\" + Category.Name + @".lnk";
+                        string shortcutPath = @MainPath.path + @"\Shortcuts\" + Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk";
                         var dir = new DirectoryInfo(configPath);
 
                         dir.Delete(true); // delete config directory
-                        //System.IO.File.Delete(shortcutPath); // delete .lnk
+                        System.IO.File.Delete(shortcutPath); // delete .lnk
                     }
                     //
                     // creating new config
                     //
-                    int width = int.Parse(lblNum.Text);
+                    int width = int.Parse(lblNum.Text); 
                     Category category = new Category(txtGroupName.Text, Category.ShortcutList, width); // instantiate category
 
                     // Normalize string so it can be used in path; remove spaces
@@ -315,7 +319,7 @@ namespace client.Forms
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                ProgramShortcut programShortcut = new ProgramShortcut(openFileDialog.FileName); //create new shortcut obj
+                ProgramShortcut programShortcut = new ProgramShortcut(Environment.ExpandEnvironmentVariables(openFileDialog.FileName)); //create new shortcut obj
                 Category.ShortcutList.Add(programShortcut); // add to panel shortcut list
                 pnlShortcuts.Controls.Clear();
                 LoadShortcuts();
@@ -336,7 +340,7 @@ namespace client.Forms
             {
                 if (extensionExt.Contains(Path.GetExtension(file)) && System.IO.File.Exists(file))
                 {
-                    ProgramShortcut programShortcut = new ProgramShortcut(file); //Create new shortcut obj
+                    ProgramShortcut programShortcut = new ProgramShortcut(Environment.ExpandEnvironmentVariables(file)); //Create new shortcut obj
                     Category.ShortcutList.Add(programShortcut); // Add to panel shortcut list
 
                     /*
@@ -388,20 +392,33 @@ namespace client.Forms
         // Handle returning images of icon files (.lnk)
         public static Image handleLnkExt(String file)
         {
-                IWshShortcut lnkIcon = ((IWshShortcut)new WshShell().CreateShortcut(file));
+            IWshShortcut lnkIcon = (IWshShortcut)new WshShell().CreateShortcut(file);
+
+            String[] icLocation = lnkIcon.IconLocation.Split(',');
 
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
             // Checks for link iconLocations as those are used by some applications
-            if (lnkIcon.IconLocation != ",0" && !lnkIcon.IconLocation.Contains("http"))
+            if (icLocation[0] != "" && !lnkIcon.IconLocation.Contains("http"))
                 {
-                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(new Uri(lnkIcon.IconLocation.Substring(0, lnkIcon.IconLocation.Length - 2)).LocalPath)).ToBitmap();
+                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(icLocation[0]))).ToBitmap();
                 }
-                else
+                else 
                 {
-                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(new Uri(lnkIcon.TargetPath).LocalPath)).ToBitmap();
+                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(lnkIcon.TargetPath))).ToBitmap();
                 }
             
         }
+
+        public static String handleExtName(String file)
+        {
+            string fileName = Path.GetFileName(file);
+            file = Path.GetDirectoryName(Path.GetFullPath(file));
+            Shell32.Folder shellFolder = shell.NameSpace(file);
+            Shell32.FolderItem shellItem = shellFolder.Items().Item(fileName);
+
+            return shellItem.Name;
+        }
+
 
         // Below two functions highlights the background as you would if you hovered over it with a mosue
         // Use checkExtension to allow file dropping after a series of checks
