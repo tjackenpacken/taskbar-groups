@@ -1,4 +1,4 @@
-﻿using System;
+﻿    using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using client.Classes;
 using client.Forms;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace client.User_controls
 {
@@ -22,7 +23,7 @@ namespace client.User_controls
             InitializeComponent();
             Client = client;
             Category = category;
-            lblTitle.Text = category.Name;
+            lblTitle.Text = Regex.Replace(category.Name, @"(_)+", " ");
             picGroupIcon.BackgroundImage = Category.LoadIconImage();
 
             // starting values for position of shortcuts
@@ -30,7 +31,12 @@ namespace client.User_controls
             int y = 55;
             int columns = 1;
 
-            foreach (ProgramShortcut psc in this.Category.ShortcutList) // since this is calculating uc height it cant be placed in load
+            if (!Directory.Exists((@"config\" + category.Name) + "\\Icons\\"))
+            {
+                category.cacheIcons();
+            }
+
+                foreach (ProgramShortcut psc in Category.ShortcutList) // since this is calculating uc height it cant be placed in load
             {
                 if (columns == 8)
                 {
@@ -57,11 +63,10 @@ namespace client.User_controls
             this.shortcutPanel.MouseEnter += new System.EventHandler((sender, e) => Client.EnterControl(sender, e, this));
             this.shortcutPanel.MouseLeave += new System.EventHandler((sender, e) => Client.LeaveControl(sender, e, this));
 
-            // checking if file is stil existing
-            bool exist = File.Exists(programShortcut.FilePath);
-            if (exist)
+            // Check if file is stil existing and if so render it
+            if (File.Exists(programShortcut.FilePath))
             {
-                this.shortcutPanel.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(programShortcut.FilePath).ToBitmap();
+                this.shortcutPanel.BackgroundImage = Category.loadImageCache(programShortcut.FilePath);
             }
             else // if file does not exist
             {
@@ -85,9 +90,9 @@ namespace client.User_controls
 
         public void OpenFolder(object sender, EventArgs e)
         {
-            // opening folder when click on category panel
-            string filePath = System.IO.Path.GetFullPath(@"Shortcuts\" + Category.Name + ".lnk");
-            System.Diagnostics.Process.Start("explorer.exe", string.Format("/select,\"{0}\"", filePath)); // opening folder and highlighting file
+            // Open the shortcut folder for the group when click on category panel
+            string filePath = Path.GetFullPath(new Uri($"{MainPath.path}\\Shortcuts").LocalPath); // Build path based on the directory of the main .exe file
+            System.Diagnostics.Process.Start(@filePath); // opening folder and highlighting file
         }
 
         private void cmdDelete_Click(object sender, EventArgs e)
