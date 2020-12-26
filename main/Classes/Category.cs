@@ -189,7 +189,7 @@ namespace client.Classes
                     // Checks if the original file even exists to make sure to not do any extra operations
 
                     // Same processing as above in cacheIcons()
-                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
+                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.jpg" : ".jpg");
 
                     Image finalImage;
 
@@ -197,7 +197,10 @@ namespace client.Classes
                     {
                         finalImage = Forms.frmGroup.handleLnkExt(programPath);
                     }
-                    else
+                    else if (Directory.Exists(programPath))
+                    {
+                        finalImage = handleFolder.GetFolderIcon(programPath).ToBitmap();
+                    } else 
                     {
                         finalImage = Icon.ExtractAssociatedIcon(programPath).ToBitmap();
                     }
