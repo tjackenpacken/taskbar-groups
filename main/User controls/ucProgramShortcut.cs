@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using client.Classes;
 using client.Forms;
@@ -54,6 +48,16 @@ namespace client.User_controls
                     picShortcut.BackgroundImage = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
                 }
 
+            } else if (Directory.Exists(Shortcut.FilePath))
+            {
+                try
+                {
+                    picShortcut.BackgroundImage = handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message);
+                }
             } else
             {
                 picShortcut.BackgroundImage = global::client.Properties.Resources.Error;
