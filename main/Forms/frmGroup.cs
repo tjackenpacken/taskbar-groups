@@ -78,9 +78,6 @@ namespace client.Forms
                 ucPsc.BringToFront();
                 position++;
 
-
-                if (pnlShortcuts.Height < this.Height - 470)
-
                 if (pnlShortcuts.Height < this.Height-470)
 
                 {
