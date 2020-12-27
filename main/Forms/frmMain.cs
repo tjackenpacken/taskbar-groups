@@ -1,4 +1,5 @@
 ﻿using client.Classes;
+using client.User_controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -25,6 +26,8 @@ namespace client
         }
 
         public Category ThisCategory { get; set; }
+
+        public Color HoverColor { get; set; }
 
         private string passedDirec;
         //private Category cat;
@@ -53,7 +56,14 @@ namespace client
                 this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
                 ThisCategory = new Category($"config\\{passedDirec}");
                 this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
-                Opacity = 0.80;
+                Opacity = (1-(ThisCategory.Opacity/100));
+
+                if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
+                    //if backcolor is light, set hover color as darker
+                    HoverColor = Color.FromArgb(BackColor.A, (BackColor.R - 50), (BackColor.G - 50), (BackColor.B - 50));
+                else
+                    //light backcolor is light, set hover color as darker
+                    HoverColor = Color.FromArgb(BackColor.A, (BackColor.R + 50), (BackColor.G + 50), (BackColor.B + 50));
 
                 LoadCategory();
                 SetLocation();
@@ -163,10 +173,10 @@ namespace client
 
         private void LoadCategory()
         {
-            this.Width = 25;
-            this.Height = 55;
-            int x = 25;
-            int y = 15;
+            this.Width = 0;
+            this.Height = 45;
+            int x = 0;
+            int y = 0;
             int width = ThisCategory.Width;
             int columns = 1;
 
@@ -182,41 +192,50 @@ namespace client
 
                 if (columns > width)  // creating new row if there are more psc than max width
                 {
-                    x = 25;
-                    y += 35;
-                    this.Height += 35;
+                    x = 0;
+                    y += 45;
+                    this.Height += 45;
                     columns = 1;
                 }
 
-                if (this.Width < ((width * 50)))
-                    this.Width += (25 + 25);
+                if (this.Width < ((width * 55)))
+                    this.Width += (55);
 
                 BuildShortcutPanel(x, y, psc);
-                x += 50;
+                x += 55;
                 columns++;
             }
-
-
         }
 
         private void BuildShortcutPanel(int x, int y, ProgramShortcut psc)
         {
-            this.shortcutPanel = new System.Windows.Forms.PictureBox();
-            this.shortcutPanel.BackColor = System.Drawing.Color.Transparent;
-            this.shortcutPanel.Location = new System.Drawing.Point(x, y);
-            this.shortcutPanel.Size = new System.Drawing.Size(25, 25);
-            this.shortcutPanel.BackgroundImage = ThisCategory.loadImageCache(psc.FilePath); // Use the local icon cache for the file specified as the icon image
-            this.shortcutPanel.BackgroundImageLayout = ImageLayout.Stretch;
-            this.shortcutPanel.TabStop = false;
-            this.shortcutPanel.Click += new System.EventHandler((sender, e) => OpenFile(sender, e, psc.FilePath));
-            this.shortcutPanel.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.Controls.Add(this.shortcutPanel);
-            this.shortcutPanel.Show();
-            this.shortcutPanel.BringToFront();
+            ucShortcut pscPanel = new ucShortcut(psc, this, ThisCategory);
+            pscPanel.Location = new System.Drawing.Point(x, y);
+            this.Controls.Add(pscPanel);
+            pscPanel.Show();
+            pscPanel.BringToFront();
+
+            // Having some issues with the uc build, so keeping the old code below
+
+            //this.shortcutPic = new System.Windows.Forms.PictureBox();
+            //this.shortcutPic.BackColor = System.Drawing.Color.Transparent;
+            //this.shortcutPic.Location = new System.Drawing.Point(25, 15);
+            //this.shortcutPic.Size = new System.Drawing.Size(25, 25);
+            //this.shortcutPic.BackgroundImage = ThisCategory.loadImageCache(psc.FilePath); // Use the local icon cache for the file specified as the icon image
+            //this.shortcutPic.BackgroundImageLayout = ImageLayout.Stretch;
+            //this.shortcutPic.TabStop = false;
+            //this.shortcutPic.Click += new System.EventHandler((sender, e) => OpenFile(sender, e, psc.FilePath));
+            //this.shortcutPic.Cursor = System.Windows.Forms.Cursors.Hand;
+            //this.shortcutPanel.Controls.Add(this.shortcutPic);
+            //this.shortcutPic.Show();
+            //this.shortcutPic.BringToFront();
+            //this.shortcutPic.MouseEnter += new System.EventHandler((sender, e) => this.shortcutPanel.BackColor = Color.Black);
+            //this.shortcutPic.MouseLeave += new System.EventHandler((sender, e) => this.shortcutPanel.BackColor = System.Drawing.Color.Transparent);
+
         }
 
 
-        private void OpenFile(object sender, EventArgs e, string path)
+        public void OpenFile(object sender, EventArgs e, string path)
         {
             // starting program from psc panel click
             System.Diagnostics.Process proc = new System.Diagnostics.Process();
@@ -298,7 +317,9 @@ namespace client
         //
         // endregion
         //
-        public System.Windows.Forms.PictureBox shortcutPanel;
+        public System.Windows.Forms.PictureBox shortcutPic;
+        public System.Windows.Forms.Panel shortcutPanel;
+
 
         //
         // END OF CLASS

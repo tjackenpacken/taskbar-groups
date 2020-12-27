@@ -19,7 +19,7 @@ namespace client.Forms
     {
         public Category Category { get; set; }
         public List<ucProgramShortcut> ucShortcutList { get; set; }
-        public Color CategoryColor { get; set; }
+        //public Color CategoryColor { get; set; }
         public frmClient Client { get; set; }
         public bool IsNew { get; set; }
 
@@ -40,12 +40,24 @@ namespace client.Forms
             Client = client;
             IsNew = false;
             ucShortcutList = new List<ucProgramShortcut>();
-
             this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
             txtGroupName.Text = Regex.Replace(Category.Name, @"(_)+", " ");
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
             lblNum.Text = Category.Width.ToString();
-            LoadShortcuts();
+            lblOpacity.Text = Category.Opacity.ToString();
+            Color categoryColor = ImageFunctions.FromString(Category.ColorString);
+            if (categoryColor == Color.FromArgb(31, 31, 31))
+                radioDark.Checked = true;
+            else if (categoryColor == Color.FromArgb(230, 230, 230))
+                radioLight.Checked = true;
+            else
+            {
+                radioCustom.Checked = true;
+                pnlCustomColor.Visible = true;
+                pnlCustomColor.BackColor = categoryColor;
+            }
+            foreach (ProgramShortcut psc in category.ShortcutList)
+                LoadShortcut(psc);
         }
 
         // CTOR for creating a new group
@@ -61,9 +73,63 @@ namespace client.Forms
             cmdExit.Left += 70;
             IsNew = true;
             radioDark.Checked = true;
+            Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
+            Category.Opacity = 10;
             ucShortcutList = new List<ucProgramShortcut>();
             this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
-            LoadShortcuts();
+            //LoadShortcuts();
+        }
+
+        public void LoadShortcut(ProgramShortcut psc)
+        {
+            pnlShortcuts.AutoScroll = false;
+            ucProgramShortcut ucPsc = new ucProgramShortcut(this, psc, Category.ShortcutList.Count);
+            pnlShortcuts.Controls.Add(ucPsc);
+            ucPsc.Show();
+            ucPsc.BringToFront();
+
+            if (pnlShortcuts.Controls.Count < 6)
+            {
+                pnlShortcuts.Height += 50;
+                pnlAddShortcut.Top += 50;
+            }
+            ucPsc.Location = new Point(50, (pnlShortcuts.Controls.Count * 50)-50);
+            pnlShortcuts.AutoScroll = true;
+
+            pnlShortcuts.ScrollControlIntoView(ucPsc); // scroll to the latest created control
+
+        }
+        public void DeleteShortcut(ProgramShortcut psc)
+        {
+            Category.ShortcutList.Remove(psc);
+
+            bool before = true;
+            int i = 0;
+
+            foreach (ucProgramShortcut ucPsc in pnlShortcuts.Controls)
+            {
+                if (before)
+                {
+                    ucPsc.Top -= 50;
+                }
+                if (ucPsc.Shortcut == psc)
+                {
+                    //i = pnlShortcuts.Controls.IndexOf(ucPsc);
+                    pnlShortcuts.Controls.Remove(ucPsc);
+                    before = false;
+                }
+            }
+
+            if (pnlShortcuts.Controls.Count < 5)
+            {
+                pnlShortcuts.Height -= 50;
+                pnlAddShortcut.Top -= 50;
+            }
+
+            //if (pnlShortcuts.Controls.Count > 5)
+            //    pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[pnlShortcuts.Controls.Count - i]); // scroll to the latest created control
+
+
         }
 
         public void LoadShortcuts()
@@ -72,6 +138,7 @@ namespace client.Forms
             pnlShortcuts.Controls.Clear();
             int y = 0;
             int position = 0;
+            pnlShortcuts.BringToFront();
 
             foreach (ProgramShortcut psc in Category.ShortcutList)
             {
@@ -84,26 +151,37 @@ namespace client.Forms
                 position++;
                 y += 50;
 
-                if (pnlShortcuts.Height < this.Height - 470)
-
+                if (ucShortcutList.Count < 7)
                 {
-                    pnlShortcuts.Height += 50;
+                    //pnlShortcuts.Height += 50;
+                    pnlAddShortcut.Top += 50;
+                    //pnlColor.Top += 50;
                 }
                 else
-                    pnlShortcuts.ScrollControlIntoView(ucPsc);
-            }
-
-
-            if (pnlShortcuts.Height >= this.Height - 470)
-            {
-                if (!pnlShortcuts.AutoScroll)
                 {
-                    pnlShortcuts.AutoScroll = true;
-                    pnlShortcuts.Width += 40;
-
+                    pnlShortcuts.ScrollControlIntoView(ucPsc);
                 }
+
+                //        if (pnlShortcuts.Height < this.Height - 470)
+
+                //{
+                //    pnlShortcuts.Height += 50;
+                //}
+                //else
+                //    pnlShortcuts.ScrollControlIntoView(ucPsc);
             }
-            pnlMain.Top = pnlShortcuts.Bottom;
+
+
+            //if (pnlShortcuts.Height >= this.Height - 470)
+            //{
+            //    if (!pnlShortcuts.AutoScroll)
+            //    {
+            //        pnlShortcuts.AutoScroll = true;
+            //        pnlShortcuts.Width += 40;
+
+            //    }
+            //}
+            //pnlMain.Top = pnlShortcuts.Bottom;
 
         }
 
@@ -112,7 +190,13 @@ namespace client.Forms
             T tmp = list[indexA];
             list[indexA] = list[indexB];
             list[indexB] = tmp;
-            LoadShortcuts();
+
+            pnlShortcuts.Controls.Clear();
+            pnlShortcuts.Height = 0;
+            foreach (ProgramShortcut psc in Category.ShortcutList)
+                LoadShortcut(psc);
+
+            //LoadShortcuts();
         }
 
         private void cmdExit_Click(object sender, EventArgs e)
@@ -164,20 +248,17 @@ namespace client.Forms
                     //
                     // Creating new config
                     //
-                    int width = int.Parse(lblNum.Text);
+                    //int width = int.Parse(lblNum.Text);
 
-                    if (radioDark.Checked)
-                        CategoryColor = Color.FromArgb(31, 31, 31);
-                    else if (radioLight.Checked)
-                        CategoryColor = Color.FromArgb(230, 230, 230);
+                    Category.Width = int.Parse(lblNum.Text);
 
-                    Category category = new Category(txtGroupName.Text, Category.ShortcutList, width, System.Drawing.ColorTranslator.ToHtml(CategoryColor)); // Instantiate category
+                    //Category category = new Category(txtGroupName.Text, Category.ShortcutList, width, System.Drawing.ColorTranslator.ToHtml(CategoryColor), Category.Opacity); // Instantiate category
 
                     // Normalize string so it can be used in path; remove spaces
-                    category.Name = Regex.Replace(category.Name, @"\s+", "_");
+                    Category.Name = Regex.Replace(txtGroupName.Text, @"\s+", "_");
 
-                    category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // Creating group config files
-                    Client.LoadCategory(Path.GetFullPath(@"config\" + category.Name)); // Loading visuals
+                    Category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // Creating group config files
+                    Client.LoadCategory(Path.GetFullPath(@"config\" + Category.Name)); // Loading visuals
 
                     this.Dispose();
                     Client.Reload();
@@ -335,9 +416,11 @@ namespace client.Forms
                     ProgramShortcut programShortcut = new ProgramShortcut(Environment.ExpandEnvironmentVariables(file)); //create new shortcut obj
                     Category.ShortcutList.Add(programShortcut); // add to panel shortcut list
                 }
-                pnlShortcuts.Controls.Clear();
-                LoadShortcuts();
-                pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]); // scroll to the latest created control
+                //pnlShortcuts.Controls.Clear();
+                //LoadShortcuts();
+                foreach (ProgramShortcut psc in Category.ShortcutList)
+                    LoadShortcut(psc);
+                //pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[pnlShortcuts.Controls.Count]); // scroll to the latest created control
 
             }
 
@@ -356,6 +439,8 @@ namespace client.Forms
                 {
                     ProgramShortcut programShortcut = new ProgramShortcut(Environment.ExpandEnvironmentVariables(file)); //Create new shortcut obj
                     Category.ShortcutList.Add(programShortcut); // Add to panel shortcut list
+                    LoadShortcut(programShortcut);
+
 
                     /*
                     pnlShortcuts.Controls.Clear();
@@ -369,9 +454,9 @@ namespace client.Forms
                 }
             }
 
-            pnlShortcuts.Controls.Clear();
-            LoadShortcuts();
-            pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]); // scroll to the latest created control
+            //pnlShortcuts.Controls.Clear();
+            //LoadShortcuts();
+            //pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]); // scroll to the latest created control
         }
 
         // Handle drag and dropped images
@@ -509,20 +594,67 @@ namespace client.Forms
                 txtGroupName.Text = "Name the new group...";
         }
 
-        private void radioCustom_CheckedChanged(object sender, EventArgs e)
+        private void radioCustom_Click(object sender, EventArgs e)
         {
-            if (radioCustom.Checked)
+            if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                if (colorDialog.ShowDialog() == DialogResult.OK)
-                {
-                    CategoryColor = colorDialog.Color;
-                    pnlCustomColor.Visible = true;
-                    pnlCustomColor.BackColor = colorDialog.Color;
-                }
+                Category.ColorString = System.Drawing.ColorTranslator.ToHtml(colorDialog.Color);
+                //CategoryColor = colorDialog.Color;
+                pnlCustomColor.Visible = true;
+                pnlCustomColor.BackColor = colorDialog.Color;
             }
-            else
-                pnlCustomColor.Visible = false;
+        }
 
+        private void radioDark_Click(object sender, EventArgs e)
+        {
+            //CategoryColor = Color.FromArgb(31, 31, 31);
+            Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
+
+            pnlCustomColor.Visible = false;
+        }
+
+        private void radioLight_Click(object sender, EventArgs e)
+        {
+            //CategoryColor = Color.FromArgb(230,230,230);
+            Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(230, 230, 230));
+
+            pnlCustomColor.Visible = false;
+        }
+
+        private void numOpacUp_Click(object sender, EventArgs e)
+        {
+
+            double op = double.Parse(lblOpacity.Text);
+            op += 10;
+            Category.Opacity = op;
+            lblOpacity.Text = op.ToString();
+            numOpacDown.Enabled = true;
+            numOpacDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
+
+
+            if (op > 90)
+            {
+                numOpacUp.Enabled = false;
+
+                numOpacUp.BackgroundImage = global::client.Properties.Resources.NumUpGray;
+            }
+        }
+
+        private void numOpacDown_Click(object sender, EventArgs e)
+        {
+            double op = double.Parse(lblOpacity.Text);
+            op -= 10;
+            Category.Opacity = op;
+            lblOpacity.Text = op.ToString();
+            numOpacUp.Enabled = true;
+            numOpacUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
+
+
+            if (op < 10)
+            {
+                numOpacDown.Enabled = false;
+                numOpacDown.BackgroundImage = global::client.Properties.Resources.NumDownGray;
+            }
         }
     }
 }

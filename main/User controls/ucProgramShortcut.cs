@@ -108,8 +108,7 @@ namespace client.User_controls
 
         private void cmdDelete_Click(object sender, EventArgs e)
         {
-            MotherForm.Category.ShortcutList.Remove(Shortcut);
-            MotherForm.LoadShortcuts();
+            MotherForm.DeleteShortcut(Shortcut);
         }
     }
 }

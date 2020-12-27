@@ -15,13 +15,15 @@ namespace client.Classes
         public string ColorString { get; set; }
         public List<ProgramShortcut> ShortcutList { get; set; }
         public int Width { get; set; } // not used aon
+        public double Opacity { get; set; }
 
-        public Category(string name, List<ProgramShortcut> shortcutList, int rows, string color)
+        public Category(string name, List<ProgramShortcut> shortcutList, int rows, string color, double opacity)
         {
             Name = name;
             ShortcutList = shortcutList;
             Width = rows;
             ColorString = color;
+            Opacity = opacity;
         }
 
         public Category(string path)
@@ -51,6 +53,7 @@ namespace client.Classes
                 this.ShortcutList = category.ShortcutList;
                 this.Width = category.Width;
                 this.ColorString = category.ColorString;
+                this.Opacity = category.Opacity;
             }
         }
 

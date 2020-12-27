@@ -55,6 +55,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Xaml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Deployment" />
@@ -102,6 +103,12 @@
     <Compile Include="User controls\ucProgramShortcut.Designer.cs">
       <DependentUpon>ucProgramShortcut.cs</DependentUpon>
     </Compile>
+    <Compile Include="User controls\ucShortcut.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="User controls\ucShortcut.Designer.cs">
+      <DependentUpon>ucShortcut.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Forms\frmClient.resx">
       <DependentUpon>frmClient.cs</DependentUpon>
     </EmbeddedResource>
@@ -126,6 +133,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="User controls\ucProgramShortcut.resx">
       <DependentUpon>ucProgramShortcut.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="User controls\ucShortcut.resx">
+      <DependentUpon>ucShortcut.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
