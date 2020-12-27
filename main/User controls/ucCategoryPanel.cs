@@ -1,11 +1,5 @@
-﻿    using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using client.Classes;
 using client.Forms;
@@ -36,7 +30,7 @@ namespace client.User_controls
                 category.cacheIcons();
             }
 
-                foreach (ProgramShortcut psc in Category.ShortcutList) // since this is calculating uc height it cant be placed in load
+            foreach (ProgramShortcut psc in Category.ShortcutList) // since this is calculating uc height it cant be placed in load
             {
                 if (columns == 8)
                 {
@@ -54,26 +48,30 @@ namespace client.User_controls
         private void CreateShortcut(int x, int y, ProgramShortcut programShortcut)
         {
             // creating shortcut picturebox from shortcut
-            this.shortcutPanel = new System.Windows.Forms.PictureBox();
-            this.shortcutPanel.BackColor = System.Drawing.Color.Transparent;
-            this.shortcutPanel.Location = new System.Drawing.Point(x, y);
-            this.shortcutPanel.Size = new System.Drawing.Size(30, 30);
-            this.shortcutPanel.BackgroundImageLayout = ImageLayout.Stretch;
-            this.shortcutPanel.TabStop = false;
+            this.shortcutPanel = new System.Windows.Forms.PictureBox
+            {
+                BackColor = System.Drawing.Color.Transparent,
+                Location = new System.Drawing.Point(x, y),
+                Size = new System.Drawing.Size(30, 30),
+                BackgroundImageLayout = ImageLayout.Stretch,
+                TabStop = false
+            };
             this.shortcutPanel.MouseEnter += new System.EventHandler((sender, e) => Client.EnterControl(sender, e, this));
             this.shortcutPanel.MouseLeave += new System.EventHandler((sender, e) => Client.LeaveControl(sender, e, this));
 
             // Check if file is stil existing and if so render it
-            if (File.Exists(programShortcut.FilePath))
+            if (File.Exists(programShortcut.FilePath) || Directory.Exists(programShortcut.FilePath))
             {
                 this.shortcutPanel.BackgroundImage = Category.loadImageCache(programShortcut.FilePath);
             }
             else // if file does not exist
             {
                 this.shortcutPanel.BackgroundImage = global::client.Properties.Resources.Error;
-                ToolTip tt = new ToolTip();
-                tt.InitialDelay = 0;
-                tt.ShowAlways = true;
+                ToolTip tt = new ToolTip
+                {
+                    InitialDelay = 0,
+                    ShowAlways = true
+                };
                 tt.SetToolTip(this.shortcutPanel, "Program does not exist");
             }
 
