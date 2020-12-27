@@ -77,16 +77,17 @@ namespace client.Forms
                 ucPsc.Show();
                 ucPsc.BringToFront();
                 position++;
+                y += 50;
 
-                if (pnlShortcuts.Height < this.Height-470)
+                if (pnlShortcuts.Height < this.Height - 470)
 
                 {
-                    y += 50;
                     pnlShortcuts.Height += 50;
                 }
                 else
                     pnlShortcuts.ScrollControlIntoView(ucPsc);
             }
+
 
             if (pnlShortcuts.Height >= this.Height - 470)
             {
