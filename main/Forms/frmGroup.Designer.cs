@@ -50,15 +50,23 @@
             this.cmdAddShortcut = new System.Windows.Forms.PictureBox();
             this.lblErrorShortcut = new System.Windows.Forms.Label();
             this.lblAddShortcut = new System.Windows.Forms.Label();
-            this.pnlAdd = new System.Windows.Forms.Panel();
+            this.pnlMain = new System.Windows.Forms.Panel();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.pnlEnd = new System.Windows.Forms.Panel();
+            this.pnlColor = new System.Windows.Forms.Panel();
+            this.colorDialog = new System.Windows.Forms.ColorDialog();
+            this.radioLight = new System.Windows.Forms.RadioButton();
+            this.radioDark = new System.Windows.Forms.RadioButton();
+            this.radioCustom = new System.Windows.Forms.RadioButton();
+            this.pnlCustomColor = new System.Windows.Forms.Panel();
+            this.lblOpacity = new System.Windows.Forms.Label();
             this.pnlGroupIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).BeginInit();
-            this.pnlAdd.SuspendLayout();
+            this.pnlMain.SuspendLayout();
             this.pnlEnd.SuspendLayout();
+            this.pnlColor.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblWith
@@ -343,13 +351,14 @@
             this.lblAddShortcut.MouseEnter += new System.EventHandler(this.pnlAddShortcut_MouseEnter);
             this.lblAddShortcut.MouseLeave += new System.EventHandler(this.pnlAddShortcut_MouseLeave);
             // 
-            // pnlAdd
+            // pnlMain
             // 
-            this.pnlAdd.Controls.Add(this.pnlAddShortcut);
-            this.pnlAdd.Location = new System.Drawing.Point(48, 204);
-            this.pnlAdd.Name = "pnlAdd";
-            this.pnlAdd.Size = new System.Drawing.Size(497, 103);
-            this.pnlAdd.TabIndex = 46;
+            this.pnlMain.Controls.Add(this.pnlColor);
+            this.pnlMain.Controls.Add(this.pnlAddShortcut);
+            this.pnlMain.Location = new System.Drawing.Point(48, 204);
+            this.pnlMain.Name = "pnlMain";
+            this.pnlMain.Size = new System.Drawing.Size(497, 281);
+            this.pnlMain.TabIndex = 46;
             // 
             // cmdDelete
             // 
@@ -378,6 +387,76 @@
             this.pnlEnd.Size = new System.Drawing.Size(482, 104);
             this.pnlEnd.TabIndex = 47;
             // 
+            // pnlColor
+            // 
+            this.pnlColor.Controls.Add(this.lblOpacity);
+            this.pnlColor.Controls.Add(this.pnlCustomColor);
+            this.pnlColor.Controls.Add(this.radioCustom);
+            this.pnlColor.Controls.Add(this.radioDark);
+            this.pnlColor.Controls.Add(this.radioLight);
+            this.pnlColor.Location = new System.Drawing.Point(60, 113);
+            this.pnlColor.Name = "pnlColor";
+            this.pnlColor.Size = new System.Drawing.Size(368, 156);
+            this.pnlColor.TabIndex = 48;
+            // 
+            // radioLight
+            // 
+            this.radioLight.AutoSize = true;
+            this.radioLight.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioLight.ForeColor = System.Drawing.Color.White;
+            this.radioLight.Location = new System.Drawing.Point(125, 59);
+            this.radioLight.Name = "radioLight";
+            this.radioLight.Size = new System.Drawing.Size(98, 24);
+            this.radioLight.TabIndex = 0;
+            this.radioLight.TabStop = true;
+            this.radioLight.Text = "Light color";
+            this.radioLight.UseVisualStyleBackColor = true;
+            // 
+            // radioDark
+            // 
+            this.radioDark.AutoSize = true;
+            this.radioDark.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioDark.ForeColor = System.Drawing.Color.White;
+            this.radioDark.Location = new System.Drawing.Point(125, 29);
+            this.radioDark.Name = "radioDark";
+            this.radioDark.Size = new System.Drawing.Size(96, 24);
+            this.radioDark.TabIndex = 1;
+            this.radioDark.TabStop = true;
+            this.radioDark.Text = "Dark color";
+            this.radioDark.UseVisualStyleBackColor = true;
+            // 
+            // radioCustom
+            // 
+            this.radioCustom.AutoSize = true;
+            this.radioCustom.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioCustom.ForeColor = System.Drawing.Color.White;
+            this.radioCustom.Location = new System.Drawing.Point(125, 89);
+            this.radioCustom.Name = "radioCustom";
+            this.radioCustom.Size = new System.Drawing.Size(115, 24);
+            this.radioCustom.TabIndex = 2;
+            this.radioCustom.TabStop = true;
+            this.radioCustom.Text = "Custom color";
+            this.radioCustom.UseVisualStyleBackColor = true;
+            this.radioCustom.CheckedChanged += new System.EventHandler(this.radioCustom_CheckedChanged);
+            // 
+            // pnlCustomColor
+            // 
+            this.pnlCustomColor.Location = new System.Drawing.Point(246, 95);
+            this.pnlCustomColor.Name = "pnlCustomColor";
+            this.pnlCustomColor.Size = new System.Drawing.Size(15, 15);
+            this.pnlCustomColor.TabIndex = 3;
+            // 
+            // lblOpacity
+            // 
+            this.lblOpacity.AutoSize = true;
+            this.lblOpacity.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.lblOpacity.ForeColor = System.Drawing.Color.White;
+            this.lblOpacity.Location = new System.Drawing.Point(141, 119);
+            this.lblOpacity.Name = "lblOpacity";
+            this.lblOpacity.Size = new System.Drawing.Size(63, 20);
+            this.lblOpacity.TabIndex = 4;
+            this.lblOpacity.Text = "Opacity:";
+            // 
             // frmGroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -386,7 +465,7 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(589, 781);
             this.Controls.Add(this.pnlEnd);
-            this.Controls.Add(this.pnlAdd);
+            this.Controls.Add(this.pnlMain);
             this.Controls.Add(this.lblWith);
             this.Controls.Add(this.lblErrorNum);
             this.Controls.Add(this.cmdNumDown);
@@ -408,8 +487,10 @@
             this.pnlAddShortcut.ResumeLayout(false);
             this.pnlAddShortcut.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).EndInit();
-            this.pnlAdd.ResumeLayout(false);
+            this.pnlMain.ResumeLayout(false);
             this.pnlEnd.ResumeLayout(false);
+            this.pnlColor.ResumeLayout(false);
+            this.pnlColor.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -438,8 +519,15 @@
         private System.Windows.Forms.Label lblErrorShortcut;
         private System.Windows.Forms.Label lblAddShortcut;
         private System.Windows.Forms.PictureBox cmdAddShortcut;
-        private System.Windows.Forms.Panel pnlAdd;
+        private System.Windows.Forms.Panel pnlMain;
         private System.Windows.Forms.Button cmdDelete;
         private System.Windows.Forms.Panel pnlEnd;
+        private System.Windows.Forms.Panel pnlColor;
+        private System.Windows.Forms.RadioButton radioCustom;
+        private System.Windows.Forms.RadioButton radioDark;
+        private System.Windows.Forms.RadioButton radioLight;
+        private System.Windows.Forms.ColorDialog colorDialog;
+        private System.Windows.Forms.Panel pnlCustomColor;
+        private System.Windows.Forms.Label lblOpacity;
     }
 }

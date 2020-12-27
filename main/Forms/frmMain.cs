@@ -24,8 +24,10 @@ namespace client
             }
         }
 
+        public Category ThisCategory { get; set; }
+
         private string passedDirec;
-        private Category cat;
+        //private Category cat;
         public Point mouseClick;
 
         public frmMain(string passedDirectory, int cursorPosX, int cursorPosY)
@@ -35,9 +37,8 @@ namespace client
             passedDirec = passedDirectory;
             InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
-            Opacity = 0.95;
 
-            InitializeComponent();
+            //InitializeComponent();
 
             using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes("GroupIcon.ico")))
                 this.Icon = new Icon(ms);
@@ -45,10 +46,16 @@ namespace client
 
         private void frmMain_Load(object sender, EventArgs e)
         {
+            //System.Diagnostics.Debugger.Launch();
+
             if (Directory.Exists(@MainPath.path + @"\config\" + passedDirec))
             {
-                cat = new Category($"config\\{passedDirec}");
-                LoadCategory(cat);
+                this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+                ThisCategory = new Category($"config\\{passedDirec}");
+                this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
+                Opacity = 0.80;
+
+                LoadCategory();
                 SetLocation();
             }
             else
@@ -154,23 +161,23 @@ namespace client
             }
         }
 
-        private void LoadCategory(Category category)
+        private void LoadCategory()
         {
             this.Width = 25;
             this.Height = 55;
             int x = 25;
             int y = 15;
-            int width = category.Width;
+            int width = ThisCategory.Width;
             int columns = 1;
 
             // Check if icon caches exist for the category being loaded
             // If not then rebuild the icon cache
-            if (!Directory.Exists(@MainPath.path + @"\config\" + category.Name + @"\Icons\"))
+            if (!Directory.Exists(@MainPath.path + @"\config\" + ThisCategory.Name + @"\Icons\"))
             {
-                category.cacheIcons();
+                ThisCategory.cacheIcons();
             }
 
-            foreach (ProgramShortcut psc in category.ShortcutList)
+            foreach (ProgramShortcut psc in ThisCategory.ShortcutList)
             {
 
                 if (columns > width)  // creating new row if there are more psc than max width
@@ -198,7 +205,7 @@ namespace client
             this.shortcutPanel.BackColor = System.Drawing.Color.Transparent;
             this.shortcutPanel.Location = new System.Drawing.Point(x, y);
             this.shortcutPanel.Size = new System.Drawing.Size(25, 25);
-            this.shortcutPanel.BackgroundImage = cat.loadImageCache(psc.FilePath); // Use the local icon cache for the file specified as the icon image
+            this.shortcutPanel.BackgroundImage = ThisCategory.loadImageCache(psc.FilePath); // Use the local icon cache for the file specified as the icon image
             this.shortcutPanel.BackgroundImageLayout = ImageLayout.Stretch;
             this.shortcutPanel.TabStop = false;
             this.shortcutPanel.Click += new System.EventHandler((sender, e) => OpenFile(sender, e, psc.FilePath));

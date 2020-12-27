@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 
@@ -63,6 +64,23 @@ namespace client.Classes
 
             // And load it
             return new Icon(ms);
+        }
+
+        public static Color FromString(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("name");
+            }
+
+            KnownColor knownColor;
+
+            if (Enum.TryParse(name, out knownColor))
+            {
+                return Color.FromKnownColor(knownColor);
+            }
+
+            return ColorTranslator.FromHtml(name);
         }
         //
         // END OF CLASS

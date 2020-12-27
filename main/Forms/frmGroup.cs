@@ -20,6 +20,7 @@ namespace client.Forms
     {
         public Category Category { get; set; }
         public List<ucProgramShortcut> ucShortcutList { get; set; }
+        public Color CategoryColor { get; set; }
         public frmClient Client { get; set; }
         public bool IsNew { get; set; }
 
@@ -30,7 +31,8 @@ namespace client.Forms
         private String[] newExt;
 
         public static Shell32.Shell shell = new Shell32.Shell();
-
+        
+        // CTOR for editing an existing group
         public frmGroup(frmClient client, Category category)
         {
             System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
@@ -46,6 +48,8 @@ namespace client.Forms
             lblNum.Text = Category.Width.ToString();
             LoadShortcuts();
         }
+
+        // CTOR for creating a new group
         public frmGroup(frmClient client)
         {
             System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
@@ -57,6 +61,7 @@ namespace client.Forms
             cmdSave.Left += 70;
             cmdExit.Left += 70;
             IsNew = true;
+            radioDark.Checked = true;
             ucShortcutList = new List<ucProgramShortcut>();
             this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
             LoadShortcuts();
@@ -101,7 +106,7 @@ namespace client.Forms
 
                 }
             }
-            pnlAdd.Top = pnlShortcuts.Bottom;
+            pnlMain.Top = pnlShortcuts.Bottom;
 
         }
 
@@ -150,7 +155,7 @@ namespace client.Forms
                     if (!IsNew)
                     {
                         //
-                        // delete old config
+                        // Delete old config
                         //
                         string configPath = @MainPath.path + @"\config\" + Category.Name;
                         string shortcutPath = @MainPath.path + @"\Shortcuts\" + Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk";
@@ -160,16 +165,22 @@ namespace client.Forms
                         System.IO.File.Delete(shortcutPath); // delete .lnk
                     }
                     //
-                    // creating new config
+                    // Creating new config
                     //
-                    int width = int.Parse(lblNum.Text); 
-                    Category category = new Category(txtGroupName.Text, Category.ShortcutList, width); // instantiate category
+                    int width = int.Parse(lblNum.Text);
+
+                    if (radioDark.Checked)
+                        CategoryColor = Color.FromArgb(31, 31, 31);
+                    else if (radioLight.Checked)
+                        CategoryColor = Color.FromArgb(230, 230, 230);
+
+                    Category category = new Category(txtGroupName.Text, Category.ShortcutList, width, System.Drawing.ColorTranslator.ToHtml(CategoryColor)); // Instantiate category
 
                     // Normalize string so it can be used in path; remove spaces
                     category.Name = Regex.Replace(category.Name, @"\s+", "_");
 
-                    category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // create group config files
-                    Client.LoadCategory(Path.GetFullPath(@"config\" + category.Name)); // load visuals
+                    category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // Creating group config files
+                    Client.LoadCategory(Path.GetFullPath(@"config\" + category.Name)); // Loading visuals
 
                     this.Dispose();
                     Client.Reload();
@@ -464,7 +475,8 @@ namespace client.Forms
                     // Gives the effect that it can be dropped and unlocks the ability to drop files in
                     e.Effect = DragDropEffects.Copy;
                     return true;
-                } else
+                } 
+                else
                 {
                     return false;
                 }
@@ -481,9 +493,7 @@ namespace client.Forms
         private void pnlAddShortcut_MouseLeave(object sender, EventArgs e)
         {
             pnlAddShortcut.BackColor = Color.FromArgb(31, 31, 31);
-
         }
-
 
         private void txtGroupName_MouseClick(object sender, MouseEventArgs e)
         {
@@ -500,6 +510,22 @@ namespace client.Forms
         {
             if (txtGroupName.Text == "")
                 txtGroupName.Text = "Name the new group...";
+        }
+
+        private void radioCustom_CheckedChanged(object sender, EventArgs e)
+        {
+            if (radioCustom.Checked)
+            {
+                if (colorDialog.ShowDialog() == DialogResult.OK)
+                {
+                    CategoryColor = colorDialog.Color;
+                    pnlCustomColor.Visible = true;
+                    pnlCustomColor.BackColor = colorDialog.Color;
+                }
+            }
+            else
+                pnlCustomColor.Visible = false;
+
         }
     }
 }

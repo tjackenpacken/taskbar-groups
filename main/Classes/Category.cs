@@ -11,14 +11,16 @@ namespace client.Classes
     public class Category
     {
         public string Name { get; set; }
+        public string ColorString { get; set; }
         public List<ProgramShortcut> ShortcutList { get; set; }
         public int Width { get; set; } // not used aon
 
-        public Category(string name, List<ProgramShortcut> shortcutList, int rows)
+        public Category(string name, List<ProgramShortcut> shortcutList, int rows, string color)
         {
             Name = name;
             ShortcutList = shortcutList;
             Width = rows;
+            ColorString = color;
         }
 
         public Category(string path)
@@ -47,6 +49,7 @@ namespace client.Classes
                 this.Name = category.Name;
                 this.ShortcutList = category.ShortcutList;
                 this.Width = category.Width;
+                this.ColorString = category.ColorString;
             }
         }
 
