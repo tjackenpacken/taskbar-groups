@@ -4,7 +4,6 @@ using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -83,19 +82,17 @@ namespace client.Forms
                 ucPsc.Show();
                 ucPsc.BringToFront();
                 position++;
-
+                y += 50;
 
                 if (pnlShortcuts.Height < this.Height - 470)
 
-                if (pnlShortcuts.Height < this.Height-470)
-
                 {
-                    y += 50;
                     pnlShortcuts.Height += 50;
                 }
                 else
                     pnlShortcuts.ScrollControlIntoView(ucPsc);
             }
+
 
             if (pnlShortcuts.Height >= this.Height - 470)
             {
@@ -319,7 +316,7 @@ namespace client.Forms
                 CheckFileExists = true,
                 CheckPathExists = true,
                 Multiselect = true,
-            DefaultExt = "exe",
+                DefaultExt = "exe",
 
                 Filter = "Exe or Shortcut (.exe, .lnk)|*.exe;*.lnk",
 
@@ -355,7 +352,7 @@ namespace client.Forms
             // Loops through each file to make sure they exist and to add them directly to the shortcut list
             foreach (var file in files)
             {
-                if (extensionExt.Contains(Path.GetExtension(file)) && System.IO.File.Exists(file))
+                if (extensionExt.Contains(Path.GetExtension(file)) && System.IO.File.Exists(file) || Directory.Exists(file))
                 {
                     ProgramShortcut programShortcut = new ProgramShortcut(Environment.ExpandEnvironmentVariables(file)); //Create new shortcut obj
                     Category.ShortcutList.Add(programShortcut); // Add to panel shortcut list
@@ -415,14 +412,14 @@ namespace client.Forms
 
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
             // Checks for link iconLocations as those are used by some applications
-            if (icLocation[0] != "" && !lnkIcon.IconLocation.Contains("http"))
-                {
-                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(icLocation[0]))).ToBitmap();
-                }
-                else 
-                {
-                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(lnkIcon.TargetPath))).ToBitmap();
-                }
+            if (icLocation[0] != "" && !lnkIcon.IconLocation.Contains("http")) 
+            {
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(icLocation[0]))).ToBitmap();
+            }
+            else 
+            {
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(lnkIcon.TargetPath))).ToBitmap();
+            }
             
         }
 
@@ -470,7 +467,7 @@ namespace client.Forms
             {
                 String ext = Path.GetExtension(file);
 
-                if (exts.Contains(ext.ToLower()))
+                if (exts.Contains(ext.ToLower()) || Directory.Exists(file))
                 {
                     // Gives the effect that it can be dropped and unlocks the ability to drop files in
                     e.Effect = DragDropEffects.Copy;

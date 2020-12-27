@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -151,11 +152,14 @@ namespace client.Classes
             for (int i = 0; i < ShortcutList.Count; i++)
             {
                 String filePath = ShortcutList[i].FilePath;
-                
+
                 // Process .lnk (shortcut) files differently
                 if (Path.GetExtension(filePath).ToLower() == ".lnk")
                 {
                     Forms.frmGroup.handleLnkExt(filePath).Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
+                } else if (Directory.Exists(filePath))
+                {
+                    handleFolder.GetFolderIcon(filePath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.jpg");
                 } else
                 {
                     // Extracts icon from the .exe if the provided file is not a shortcut file
@@ -168,17 +172,18 @@ namespace client.Classes
         // Takes in a programPath (shortcut) and processes it to the proper file name
         public Image loadImageCache(String programPath)
         {
-            if (System.IO.File.Exists(programPath))
+            if (System.IO.File.Exists(programPath) || Directory.Exists(programPath))
             {
                 try
                 {
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
                     // If not then it would throw an exception in which the below code would catch it
-                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
+                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".jpg");
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
                         return Image.FromStream(ms);
+                    
                 }
                 catch (Exception)
                 {
@@ -187,7 +192,7 @@ namespace client.Classes
                     // Checks if the original file even exists to make sure to not do any extra operations
 
                     // Same processing as above in cacheIcons()
-                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + ".jpg";
+                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.jpg" : ".jpg");
 
                     Image finalImage;
 
@@ -195,7 +200,10 @@ namespace client.Classes
                     {
                         finalImage = Forms.frmGroup.handleLnkExt(programPath);
                     }
-                    else
+                    else if (Directory.Exists(programPath))
+                    {
+                        finalImage = handleFolder.GetFolderIcon(programPath).ToBitmap();
+                    } else 
                     {
                         finalImage = Icon.ExtractAssociatedIcon(programPath).ToBitmap();
                     }
