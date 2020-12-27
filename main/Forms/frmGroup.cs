@@ -96,7 +96,7 @@ namespace client.Forms
             ucPsc.Location = new Point(50, (pnlShortcuts.Controls.Count * 50)-50);
             pnlShortcuts.AutoScroll = true;
 
-            pnlShortcuts.ScrollControlIntoView(ucPsc); // scroll to the latest created control
+            //pnlShortcuts.ScrollControlIntoView(ucPsc); // scroll to the latest created control
 
         }
         public void DeleteShortcut(ProgramShortcut psc)
@@ -104,7 +104,7 @@ namespace client.Forms
             Category.ShortcutList.Remove(psc);
 
             bool before = true;
-            int i = 0;
+            //int i = 0;
 
             foreach (ucProgramShortcut ucPsc in pnlShortcuts.Controls)
             {

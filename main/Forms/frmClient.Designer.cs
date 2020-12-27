@@ -38,16 +38,16 @@
             this.lblHelpTitle = new System.Windows.Forms.Label();
             this.pnlAddGroup = new System.Windows.Forms.Panel();
             this.lblAddGroup = new System.Windows.Forms.Label();
-            this.cmdAddGroup = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlExistingGroups = new System.Windows.Forms.Panel();
+            this.cmdAddGroup = new System.Windows.Forms.PictureBox();
             this.pnlLeftColumn.SuspendLayout();
             this.pnlHelp.SuspendLayout();
             this.pnlAddGroup.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).BeginInit();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlLeftColumn
@@ -157,20 +157,6 @@
             this.lblAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
             this.lblAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
             // 
-            // cmdAddGroup
-            // 
-            this.cmdAddGroup.BackgroundImage = global::client.Properties.Resources.AddGray;
-            this.cmdAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cmdAddGroup.Location = new System.Drawing.Point(88, 14);
-            this.cmdAddGroup.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
-            this.cmdAddGroup.Name = "cmdAddGroup";
-            this.cmdAddGroup.Size = new System.Drawing.Size(40, 40);
-            this.cmdAddGroup.TabIndex = 7;
-            this.cmdAddGroup.TabStop = false;
-            this.cmdAddGroup.Click += new System.EventHandler(this.cmdAddGroup_Click);
-            this.cmdAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
-            this.cmdAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
-            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -212,6 +198,20 @@
             this.pnlExistingGroups.Size = new System.Drawing.Size(680, 0);
             this.pnlExistingGroups.TabIndex = 3;
             // 
+            // cmdAddGroup
+            // 
+            this.cmdAddGroup.BackgroundImage = global::client.Properties.Resources.AddGray;
+            this.cmdAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cmdAddGroup.Location = new System.Drawing.Point(88, 14);
+            this.cmdAddGroup.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
+            this.cmdAddGroup.Name = "cmdAddGroup";
+            this.cmdAddGroup.Size = new System.Drawing.Size(40, 40);
+            this.cmdAddGroup.TabIndex = 7;
+            this.cmdAddGroup.TabStop = false;
+            this.cmdAddGroup.Click += new System.EventHandler(this.cmdAddGroup_Click);
+            this.cmdAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
+            this.cmdAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
+            // 
             // frmClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -225,14 +225,15 @@
             this.Controls.Add(this.pnlLeftColumn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmClient";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TaskbarGroups";
             this.pnlLeftColumn.ResumeLayout(false);
             this.pnlHelp.ResumeLayout(false);
             this.pnlAddGroup.ResumeLayout(false);
             this.pnlAddGroup.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).EndInit();
             this.ResumeLayout(false);
 
         }
