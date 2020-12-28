@@ -38,16 +38,23 @@
             this.cmdExit = new System.Windows.Forms.Button();
             this.pnlShortcuts = new System.Windows.Forms.Panel();
             this.pnlGroupIcon = new System.Windows.Forms.Panel();
+            this.cmdAddGroupIcon = new System.Windows.Forms.PictureBox();
             this.lblAddGroupIcon = new System.Windows.Forms.Label();
             this.lblAddGroupIconDesc = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtGroupName = new System.Windows.Forms.TextBox();
             this.pnlAddShortcut = new System.Windows.Forms.Panel();
+            this.cmdAddShortcut = new System.Windows.Forms.PictureBox();
             this.lblErrorShortcut = new System.Windows.Forms.Label();
             this.lblAddShortcut = new System.Windows.Forms.Label();
             this.pnlColor = new System.Windows.Forms.Panel();
+            this.numOpacDown = new System.Windows.Forms.Button();
+            this.numOpacUp = new System.Windows.Forms.Button();
+            this.lblPercent = new System.Windows.Forms.Label();
             this.lblOpacityTooltip = new System.Windows.Forms.Label();
+            this.lblOpacity = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
             this.pnlCustomColor = new System.Windows.Forms.Panel();
             this.radioCustom = new System.Windows.Forms.RadioButton();
             this.radioDark = new System.Windows.Forms.RadioButton();
@@ -55,21 +62,14 @@
             this.cmdDelete = new System.Windows.Forms.Button();
             this.pnlEnd = new System.Windows.Forms.Panel();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
-            this.lblPercent = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblOpacity = new System.Windows.Forms.Label();
-            this.cmdAddShortcut = new System.Windows.Forms.PictureBox();
-            this.numOpacDown = new System.Windows.Forms.Button();
-            this.numOpacUp = new System.Windows.Forms.Button();
-            this.cmdNumDown = new System.Windows.Forms.Button();
-            this.cmdAddGroupIcon = new System.Windows.Forms.PictureBox();
-            this.cmdNumUp = new System.Windows.Forms.Button();
+            this.cmdWidthDown = new System.Windows.Forms.Button();
+            this.cmdWidthUp = new System.Windows.Forms.Button();
             this.pnlGroupIcon.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).BeginInit();
             this.pnlColor.SuspendLayout();
             this.pnlEnd.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // lblWith
@@ -169,9 +169,9 @@
             this.pnlShortcuts.AutoScroll = true;
             this.pnlShortcuts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.pnlShortcuts.ForeColor = System.Drawing.SystemColors.ControlText;
-            this.pnlShortcuts.Location = new System.Drawing.Point(22, 211);
+            this.pnlShortcuts.Location = new System.Drawing.Point(45, 211);
             this.pnlShortcuts.Name = "pnlShortcuts";
-            this.pnlShortcuts.Size = new System.Drawing.Size(550, 5);
+            this.pnlShortcuts.Size = new System.Drawing.Size(500, 5);
             this.pnlShortcuts.TabIndex = 34;
             // 
             // pnlGroupIcon
@@ -190,6 +190,20 @@
             this.pnlGroupIcon.DragLeave += new System.EventHandler(this.pnlGroupIcon_MouseLeave);
             this.pnlGroupIcon.MouseEnter += new System.EventHandler(this.pnlGroupIcon_MouseEnter);
             this.pnlGroupIcon.MouseLeave += new System.EventHandler(this.pnlGroupIcon_MouseLeave);
+            // 
+            // cmdAddGroupIcon
+            // 
+            this.cmdAddGroupIcon.BackgroundImage = global::client.Properties.Resources.AddWhite;
+            this.cmdAddGroupIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cmdAddGroupIcon.Location = new System.Drawing.Point(23, 12);
+            this.cmdAddGroupIcon.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
+            this.cmdAddGroupIcon.Name = "cmdAddGroupIcon";
+            this.cmdAddGroupIcon.Size = new System.Drawing.Size(60, 60);
+            this.cmdAddGroupIcon.TabIndex = 10;
+            this.cmdAddGroupIcon.TabStop = false;
+            this.cmdAddGroupIcon.Click += new System.EventHandler(this.cmdAddGroupIcon_Click);
+            this.cmdAddGroupIcon.MouseEnter += new System.EventHandler(this.pnlGroupIcon_MouseEnter);
+            this.cmdAddGroupIcon.MouseLeave += new System.EventHandler(this.pnlGroupIcon_MouseLeave);
             // 
             // lblAddGroupIcon
             // 
@@ -274,11 +288,25 @@
             this.pnlAddShortcut.MouseEnter += new System.EventHandler(this.pnlAddShortcut_MouseEnter);
             this.pnlAddShortcut.MouseLeave += new System.EventHandler(this.pnlAddShortcut_MouseLeave);
             // 
+            // cmdAddShortcut
+            // 
+            this.cmdAddShortcut.BackgroundImage = global::client.Properties.Resources.AddGray;
+            this.cmdAddShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cmdAddShortcut.Location = new System.Drawing.Point(191, 16);
+            this.cmdAddShortcut.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
+            this.cmdAddShortcut.Name = "cmdAddShortcut";
+            this.cmdAddShortcut.Size = new System.Drawing.Size(35, 35);
+            this.cmdAddShortcut.TabIndex = 15;
+            this.cmdAddShortcut.TabStop = false;
+            this.cmdAddShortcut.Click += new System.EventHandler(this.pnlAddShortcut_Click);
+            this.cmdAddShortcut.MouseEnter += new System.EventHandler(this.pnlAddShortcut_MouseEnter);
+            this.cmdAddShortcut.MouseLeave += new System.EventHandler(this.pnlAddShortcut_MouseLeave);
+            // 
             // lblErrorShortcut
             // 
             this.lblErrorShortcut.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
             this.lblErrorShortcut.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorShortcut.Location = new System.Drawing.Point(0, 51);
+            this.lblErrorShortcut.Location = new System.Drawing.Point(0, 54);
             this.lblErrorShortcut.Name = "lblErrorShortcut";
             this.lblErrorShortcut.Size = new System.Drawing.Size(414, 19);
             this.lblErrorShortcut.TabIndex = 23;
@@ -318,6 +346,45 @@
             this.pnlColor.Size = new System.Drawing.Size(368, 155);
             this.pnlColor.TabIndex = 48;
             // 
+            // numOpacDown
+            // 
+            this.numOpacDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.numOpacDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
+            this.numOpacDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.numOpacDown.FlatAppearance.BorderSize = 0;
+            this.numOpacDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.numOpacDown.Location = new System.Drawing.Point(246, 132);
+            this.numOpacDown.Name = "numOpacDown";
+            this.numOpacDown.Size = new System.Drawing.Size(16, 8);
+            this.numOpacDown.TabIndex = 49;
+            this.numOpacDown.UseVisualStyleBackColor = false;
+            this.numOpacDown.Click += new System.EventHandler(this.numOpacDown_Click);
+            // 
+            // numOpacUp
+            // 
+            this.numOpacUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.numOpacUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
+            this.numOpacUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.numOpacUp.FlatAppearance.BorderSize = 0;
+            this.numOpacUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.numOpacUp.Location = new System.Drawing.Point(246, 118);
+            this.numOpacUp.Name = "numOpacUp";
+            this.numOpacUp.Size = new System.Drawing.Size(16, 8);
+            this.numOpacUp.TabIndex = 50;
+            this.numOpacUp.UseVisualStyleBackColor = false;
+            this.numOpacUp.Click += new System.EventHandler(this.numOpacUp_Click);
+            // 
+            // lblPercent
+            // 
+            this.lblPercent.AutoSize = true;
+            this.lblPercent.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.lblPercent.ForeColor = System.Drawing.Color.White;
+            this.lblPercent.Location = new System.Drawing.Point(216, 119);
+            this.lblPercent.Name = "lblPercent";
+            this.lblPercent.Size = new System.Drawing.Size(21, 20);
+            this.lblPercent.TabIndex = 5;
+            this.lblPercent.Text = "%";
+            // 
             // lblOpacityTooltip
             // 
             this.lblOpacityTooltip.AutoSize = true;
@@ -328,6 +395,27 @@
             this.lblOpacityTooltip.Size = new System.Drawing.Size(63, 20);
             this.lblOpacityTooltip.TabIndex = 4;
             this.lblOpacityTooltip.Text = "Opacity:";
+            // 
+            // lblOpacity
+            // 
+            this.lblOpacity.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.lblOpacity.ForeColor = System.Drawing.Color.White;
+            this.lblOpacity.Location = new System.Drawing.Point(185, 119);
+            this.lblOpacity.Name = "lblOpacity";
+            this.lblOpacity.Size = new System.Drawing.Size(35, 20);
+            this.lblOpacity.TabIndex = 50;
+            this.lblOpacity.Text = "10";
+            this.lblOpacity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // label1
+            // 
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label1.Location = new System.Drawing.Point(189, 139);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 1);
+            this.label1.TabIndex = 49;
             // 
             // pnlCustomColor
             // 
@@ -404,121 +492,33 @@
             this.pnlEnd.Size = new System.Drawing.Size(482, 103);
             this.pnlEnd.TabIndex = 47;
             // 
-            // lblPercent
+            // cmdWidthDown
             // 
-            this.lblPercent.AutoSize = true;
-            this.lblPercent.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.lblPercent.ForeColor = System.Drawing.Color.White;
-            this.lblPercent.Location = new System.Drawing.Point(216, 119);
-            this.lblPercent.Name = "lblPercent";
-            this.lblPercent.Size = new System.Drawing.Size(21, 20);
-            this.lblPercent.TabIndex = 5;
-            this.lblPercent.Text = "%";
+            this.cmdWidthDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.cmdWidthDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
+            this.cmdWidthDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmdWidthDown.FlatAppearance.BorderSize = 0;
+            this.cmdWidthDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmdWidthDown.Location = new System.Drawing.Point(514, 68);
+            this.cmdWidthDown.Name = "cmdWidthDown";
+            this.cmdWidthDown.Size = new System.Drawing.Size(16, 8);
+            this.cmdWidthDown.TabIndex = 42;
+            this.cmdWidthDown.UseVisualStyleBackColor = false;
+            this.cmdWidthDown.Click += new System.EventHandler(this.cmdWidthDown_Click);
             // 
-            // label1
+            // cmdWidthUp
             // 
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label1.Location = new System.Drawing.Point(189, 139);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 1);
-            this.label1.TabIndex = 49;
-            // 
-            // lblOpacity
-            // 
-            this.lblOpacity.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.lblOpacity.ForeColor = System.Drawing.Color.White;
-            this.lblOpacity.Location = new System.Drawing.Point(185, 119);
-            this.lblOpacity.Name = "lblOpacity";
-            this.lblOpacity.Size = new System.Drawing.Size(35, 20);
-            this.lblOpacity.TabIndex = 50;
-            this.lblOpacity.Text = "10";
-            this.lblOpacity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // cmdAddShortcut
-            // 
-            this.cmdAddShortcut.BackgroundImage = global::client.Properties.Resources.AddGray;
-            this.cmdAddShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cmdAddShortcut.Location = new System.Drawing.Point(191, 13);
-            this.cmdAddShortcut.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
-            this.cmdAddShortcut.Name = "cmdAddShortcut";
-            this.cmdAddShortcut.Size = new System.Drawing.Size(35, 35);
-            this.cmdAddShortcut.TabIndex = 15;
-            this.cmdAddShortcut.TabStop = false;
-            this.cmdAddShortcut.Click += new System.EventHandler(this.pnlAddShortcut_Click);
-            this.cmdAddShortcut.MouseEnter += new System.EventHandler(this.pnlAddShortcut_MouseEnter);
-            this.cmdAddShortcut.MouseLeave += new System.EventHandler(this.pnlAddShortcut_MouseLeave);
-            // 
-            // numOpacDown
-            // 
-            this.numOpacDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.numOpacDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
-            this.numOpacDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.numOpacDown.FlatAppearance.BorderSize = 0;
-            this.numOpacDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.numOpacDown.Location = new System.Drawing.Point(246, 132);
-            this.numOpacDown.Name = "numOpacDown";
-            this.numOpacDown.Size = new System.Drawing.Size(16, 8);
-            this.numOpacDown.TabIndex = 49;
-            this.numOpacDown.UseVisualStyleBackColor = false;
-            this.numOpacDown.Click += new System.EventHandler(this.numOpacDown_Click);
-            // 
-            // numOpacUp
-            // 
-            this.numOpacUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.numOpacUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
-            this.numOpacUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.numOpacUp.FlatAppearance.BorderSize = 0;
-            this.numOpacUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.numOpacUp.Location = new System.Drawing.Point(246, 118);
-            this.numOpacUp.Name = "numOpacUp";
-            this.numOpacUp.Size = new System.Drawing.Size(16, 8);
-            this.numOpacUp.TabIndex = 50;
-            this.numOpacUp.UseVisualStyleBackColor = false;
-            this.numOpacUp.Click += new System.EventHandler(this.numOpacUp_Click);
-            // 
-            // cmdNumDown
-            // 
-            this.cmdNumDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.cmdNumDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
-            this.cmdNumDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cmdNumDown.FlatAppearance.BorderSize = 0;
-            this.cmdNumDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmdNumDown.Location = new System.Drawing.Point(514, 68);
-            this.cmdNumDown.Name = "cmdNumDown";
-            this.cmdNumDown.Size = new System.Drawing.Size(16, 8);
-            this.cmdNumDown.TabIndex = 42;
-            this.cmdNumDown.UseVisualStyleBackColor = false;
-            this.cmdNumDown.Click += new System.EventHandler(this.cmdNumDown_Click);
-            // 
-            // cmdAddGroupIcon
-            // 
-            this.cmdAddGroupIcon.BackgroundImage = global::client.Properties.Resources.AddWhite;
-            this.cmdAddGroupIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cmdAddGroupIcon.Location = new System.Drawing.Point(23, 12);
-            this.cmdAddGroupIcon.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
-            this.cmdAddGroupIcon.Name = "cmdAddGroupIcon";
-            this.cmdAddGroupIcon.Size = new System.Drawing.Size(60, 60);
-            this.cmdAddGroupIcon.TabIndex = 10;
-            this.cmdAddGroupIcon.TabStop = false;
-            this.cmdAddGroupIcon.Click += new System.EventHandler(this.cmdAddGroupIcon_Click);
-            this.cmdAddGroupIcon.MouseEnter += new System.EventHandler(this.pnlGroupIcon_MouseEnter);
-            this.cmdAddGroupIcon.MouseLeave += new System.EventHandler(this.pnlGroupIcon_MouseLeave);
-            // 
-            // cmdNumUp
-            // 
-            this.cmdNumUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.cmdNumUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
-            this.cmdNumUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.cmdNumUp.FlatAppearance.BorderSize = 0;
-            this.cmdNumUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.cmdNumUp.Location = new System.Drawing.Point(514, 30);
-            this.cmdNumUp.Name = "cmdNumUp";
-            this.cmdNumUp.Size = new System.Drawing.Size(16, 8);
-            this.cmdNumUp.TabIndex = 43;
-            this.cmdNumUp.UseVisualStyleBackColor = false;
-            this.cmdNumUp.Click += new System.EventHandler(this.cmdNumUp_Click);
+            this.cmdWidthUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.cmdWidthUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
+            this.cmdWidthUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmdWidthUp.FlatAppearance.BorderSize = 0;
+            this.cmdWidthUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmdWidthUp.Location = new System.Drawing.Point(514, 30);
+            this.cmdWidthUp.Name = "cmdWidthUp";
+            this.cmdWidthUp.Size = new System.Drawing.Size(16, 8);
+            this.cmdWidthUp.TabIndex = 43;
+            this.cmdWidthUp.UseVisualStyleBackColor = false;
+            this.cmdWidthUp.Click += new System.EventHandler(this.cmdWidthUp_Click);
             // 
             // frmGroup
             // 
@@ -532,29 +532,30 @@
             this.Controls.Add(this.pnlColor);
             this.Controls.Add(this.lblWith);
             this.Controls.Add(this.lblErrorNum);
-            this.Controls.Add(this.cmdNumDown);
+            this.Controls.Add(this.cmdWidthDown);
             this.Controls.Add(this.lblNum);
             this.Controls.Add(this.lblErrorIcon);
             this.Controls.Add(this.lblErrorTitle);
             this.Controls.Add(this.pnlShortcuts);
             this.Controls.Add(this.pnlGroupIcon);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.cmdNumUp);
+            this.Controls.Add(this.cmdWidthUp);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtGroupName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmGroup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New group";
+            this.Load += new System.EventHandler(this.frmGroup_Load);
             this.pnlGroupIcon.ResumeLayout(false);
             this.pnlGroupIcon.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).EndInit();
             this.pnlAddShortcut.ResumeLayout(false);
             this.pnlAddShortcut.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).EndInit();
             this.pnlColor.ResumeLayout(false);
             this.pnlColor.PerformLayout();
             this.pnlEnd.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -564,7 +565,7 @@
 
         private System.Windows.Forms.Label lblWith;
         private System.Windows.Forms.Label lblErrorNum;
-        private System.Windows.Forms.Button cmdNumDown;
+        private System.Windows.Forms.Button cmdWidthDown;
         private System.Windows.Forms.Label lblNum;
         private System.Windows.Forms.Label lblErrorIcon;
         private System.Windows.Forms.Label lblErrorTitle;
@@ -576,7 +577,7 @@
         private System.Windows.Forms.Label lblAddGroupIcon;
         private System.Windows.Forms.Label lblAddGroupIconDesc;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Button cmdNumUp;
+        private System.Windows.Forms.Button cmdWidthUp;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtGroupName;
         private System.Windows.Forms.Panel pnlAddShortcut;
