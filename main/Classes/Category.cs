@@ -11,11 +11,11 @@ namespace client.Classes
 {
     public class Category
     {
-        public string Name { get; set; }
-        public string ColorString { get; set; }
-        public List<ProgramShortcut> ShortcutList { get; set; }
-        public int Width { get; set; } // not used aon
-        public double Opacity { get; set; }
+        public string Name;
+        public string ColorString = "#1F1F1F";
+        public List<ProgramShortcut> ShortcutList;
+        public int Width; // not used aon
+        public double Opacity;
 
         public Category(string name, List<ProgramShortcut> shortcutList, int rows, string color, double opacity)
         {

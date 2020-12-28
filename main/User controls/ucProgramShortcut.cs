@@ -12,12 +12,9 @@ namespace client.User_controls
         public ProgramShortcut Shortcut { get; set; }
         public frmGroup MotherForm { get; set; }
         public int Position { get; set; }
-        public ucProgramShortcut(frmGroup motherForm, ProgramShortcut shortcut, int position)
+        public ucProgramShortcut()
         {
             InitializeComponent();
-            MotherForm = motherForm;
-            Shortcut = shortcut;
-            Position = position;
         }
 
         private void ucProgramShortcut_Load(object sender, EventArgs e)
@@ -81,17 +78,15 @@ namespace client.User_controls
 
         private void ucProgramShortcut_MouseEnter(object sender, EventArgs e)
         {
-            this.BackColor = Color.FromArgb(26, 26, 26);
-            cmdNumUp.BackColor = Color.FromArgb(26, 26, 26);
-            cmdNumDown.BackColor = Color.FromArgb(26, 26, 26);
-
+            ucSelected();
         }
 
         private void ucProgramShortcut_MouseLeave(object sender, EventArgs e)
         {
-            this.BackColor = Color.FromArgb(31, 31, 31);
-            cmdNumUp.BackColor = Color.FromArgb(31, 31, 31);
-            cmdNumDown.BackColor = Color.FromArgb(31, 31, 31);
+            if (MotherForm.selectedShortcut != this)
+            {
+                ucDeselected();
+            }
         }
 
         private void cmdNumUp_Click(object sender, EventArgs e)
@@ -109,6 +104,30 @@ namespace client.User_controls
         private void cmdDelete_Click(object sender, EventArgs e)
         {
             MotherForm.DeleteShortcut(Shortcut);
+        }
+
+        private void ucProgramShortcut_Click(object sender, EventArgs e)
+        {
+            if (MotherForm.selectedShortcut != null)
+            {
+                MotherForm.resetSelection(this);
+            }
+
+            MotherForm.enableSelection(this);
+        }
+
+        public void ucDeselected()
+        {
+            this.BackColor = Color.FromArgb(31, 31, 31);
+            cmdNumUp.BackColor = Color.FromArgb(31, 31, 31);
+            cmdNumDown.BackColor = Color.FromArgb(31, 31, 31);
+        }
+
+        public void ucSelected()
+        {
+            this.BackColor = Color.FromArgb(26, 26, 26);
+            cmdNumUp.BackColor = Color.FromArgb(26, 26, 26);
+            cmdNumDown.BackColor = Color.FromArgb(26, 26, 26);
         }
     }
 }

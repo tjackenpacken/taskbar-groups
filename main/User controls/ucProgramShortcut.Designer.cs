@@ -126,6 +126,7 @@
             this.Name = "ucProgramShortcut";
             this.Size = new System.Drawing.Size(450, 50);
             this.Load += new System.EventHandler(this.ucProgramShortcut_Load);
+            this.Click += new System.EventHandler(this.ucProgramShortcut_Click);
             this.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.ucProgramShortcut_MouseLeave);
             ((System.ComponentModel.ISupportInitialize)(this.picShortcut)).EndInit();

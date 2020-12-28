@@ -34,7 +34,7 @@ namespace client.User_controls
 
         public void ucShortcut_Click(object sender, EventArgs e)
         {
-            MotherForm.OpenFile(sender, e, Psc.FilePath);
+            MotherForm.OpenFile(Psc.Arguments, Psc.FilePath);
         }
 
         public void ucShortcut_MouseEnter(object sender, EventArgs e)

@@ -22,6 +22,8 @@ namespace client.Forms
         private String[] specialImageExt = new String[] { ".ico", ".exe", ".lnk" };
         private String[] newExt;
 
+        public ucProgramShortcut selectedShortcut;
+
         public static Shell32.Shell shell = new Shell32.Shell();
 
         //--------------------------------------
@@ -110,7 +112,12 @@ namespace client.Forms
         public void LoadShortcut(ProgramShortcut psc, int position)
         {
             pnlShortcuts.AutoScroll = false;
-            ucProgramShortcut ucPsc = new ucProgramShortcut(this, psc, position);
+            ucProgramShortcut ucPsc = new ucProgramShortcut()
+            {
+                MotherForm = this,
+                Shortcut = psc,
+                Position = position,
+            };
             pnlShortcuts.Controls.Add(ucPsc);
             ucPsc.Show();
             ucPsc.BringToFront();
@@ -183,7 +190,7 @@ namespace client.Forms
         public void DeleteShortcut(ProgramShortcut psc)
         {
             Category.ShortcutList.Remove(psc);
-
+            resetSelection(selectedShortcut);
             bool before = true;
             //int i = 0;
 
@@ -211,6 +218,7 @@ namespace client.Forms
         // Change positions of shortcut panels
         public void Swap<T>(IList<T> list, int indexA, int indexB)
         {
+            resetSelection(selectedShortcut);
             T tmp = list[indexA];
             list[indexA] = list[indexB];
             list[indexB] = tmp;
@@ -219,6 +227,8 @@ namespace client.Forms
             pnlShortcuts.Controls.Clear();
             pnlShortcuts.Height = 0;
             pnlAddShortcut.Top = 220;
+
+            selectedShortcut = null;
 
             int position = 0;
             foreach (ProgramShortcut psc in Category.ShortcutList)
@@ -618,5 +628,30 @@ namespace client.Forms
             lblErrorTitle.Visible = false;
         }
 
+        public void resetSelection(ucProgramShortcut passedShortcut)
+        {
+            pnlArgumentTextbox.Enabled = false;
+            if (selectedShortcut != null)
+            {
+
+                selectedShortcut.ucDeselected();
+
+                selectedShortcut = null;
+            }
+        }
+
+        public void enableSelection(ucProgramShortcut passedShortcut)
+        {
+            selectedShortcut = passedShortcut;
+            passedShortcut.ucSelected();
+
+            pnlArgumentTextbox.Text = Category.ShortcutList[selectedShortcut.Position].Arguments;
+            pnlArgumentTextbox.Enabled = true;
+        }
+
+        private void pnlArgumentTextbox_TextChanged(object sender, EventArgs e)
+        {
+            Category.ShortcutList[selectedShortcut.Position].Arguments = pnlArgumentTextbox.Text;
+        }
     }
 }

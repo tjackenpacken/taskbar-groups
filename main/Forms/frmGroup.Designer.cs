@@ -64,12 +64,16 @@
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.cmdWidthDown = new System.Windows.Forms.Button();
             this.cmdWidthUp = new System.Windows.Forms.Button();
+            this.pnlArguments = new System.Windows.Forms.Panel();
+            this.label3 = new System.Windows.Forms.Label();
+            this.pnlArgumentTextbox = new System.Windows.Forms.TextBox();
             this.pnlGroupIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).BeginInit();
             this.pnlColor.SuspendLayout();
             this.pnlEnd.SuspendLayout();
+            this.pnlArguments.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblWith
@@ -341,7 +345,7 @@
             this.pnlColor.Controls.Add(this.radioCustom);
             this.pnlColor.Controls.Add(this.radioDark);
             this.pnlColor.Controls.Add(this.radioLight);
-            this.pnlColor.Location = new System.Drawing.Point(98, 553);
+            this.pnlColor.Location = new System.Drawing.Point(108, 594);
             this.pnlColor.Name = "pnlColor";
             this.pnlColor.Size = new System.Drawing.Size(368, 155);
             this.pnlColor.TabIndex = 48;
@@ -487,9 +491,9 @@
             this.pnlEnd.Controls.Add(this.cmdDelete);
             this.pnlEnd.Controls.Add(this.cmdSave);
             this.pnlEnd.Controls.Add(this.cmdExit);
-            this.pnlEnd.Location = new System.Drawing.Point(49, 716);
+            this.pnlEnd.Location = new System.Drawing.Point(52, 749);
             this.pnlEnd.Name = "pnlEnd";
-            this.pnlEnd.Size = new System.Drawing.Size(482, 103);
+            this.pnlEnd.Size = new System.Drawing.Size(482, 70);
             this.pnlEnd.TabIndex = 47;
             // 
             // cmdWidthDown
@@ -520,6 +524,36 @@
             this.cmdWidthUp.UseVisualStyleBackColor = false;
             this.cmdWidthUp.Click += new System.EventHandler(this.cmdWidthUp_Click);
             // 
+            // pnlArguments
+            // 
+            this.pnlArguments.Controls.Add(this.label3);
+            this.pnlArguments.Controls.Add(this.pnlArgumentTextbox);
+            this.pnlArguments.Location = new System.Drawing.Point(52, 544);
+            this.pnlArguments.Name = "pnlArguments";
+            this.pnlArguments.Size = new System.Drawing.Size(482, 57);
+            this.pnlArguments.TabIndex = 48;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this.label3.ForeColor = System.Drawing.Color.White;
+            this.label3.Location = new System.Drawing.Point(23, 8);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 19);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Arguments";
+            // 
+            // pnlArgumentTextbox
+            // 
+            this.pnlArgumentTextbox.Enabled = false;
+            this.pnlArgumentTextbox.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.pnlArgumentTextbox.Location = new System.Drawing.Point(23, 27);
+            this.pnlArgumentTextbox.Name = "pnlArgumentTextbox";
+            this.pnlArgumentTextbox.Size = new System.Drawing.Size(421, 25);
+            this.pnlArgumentTextbox.TabIndex = 0;
+            this.pnlArgumentTextbox.TextChanged += new System.EventHandler(this.pnlArgumentTextbox_TextChanged);
+            // 
             // frmGroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -527,6 +561,7 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(589, 821);
+            this.Controls.Add(this.pnlArguments);
             this.Controls.Add(this.pnlEnd);
             this.Controls.Add(this.pnlAddShortcut);
             this.Controls.Add(this.pnlColor);
@@ -556,6 +591,8 @@
             this.pnlColor.ResumeLayout(false);
             this.pnlColor.PerformLayout();
             this.pnlEnd.ResumeLayout(false);
+            this.pnlArguments.ResumeLayout(false);
+            this.pnlArguments.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -598,5 +635,8 @@
         private System.Windows.Forms.Label lblOpacity;
         private System.Windows.Forms.Button numOpacDown;
         private System.Windows.Forms.Button numOpacUp;
+        private System.Windows.Forms.Panel pnlArguments;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox pnlArgumentTextbox;
     }
 }
