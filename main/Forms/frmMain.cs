@@ -27,12 +27,14 @@ namespace client
 
         public Category ThisCategory { get; set; }
         public List<ucShortcut> ControlList { get; set; }
-
         public Color HoverColor { get; set; }
 
         private string passedDirec;
         public Point mouseClick;
 
+        //------------------------------------------------------------------------------------
+        // CTOR AND LOAD
+        //
         public frmMain(string passedDirectory, int cursorPosX, int cursorPosY)
         {
             System.Runtime.ProfileOptimization.StartProfile("frmMain.Profile");
@@ -76,6 +78,7 @@ namespace client
             }
         }
 
+        // Sets location of form
         private void SetLocation()
         {
             List<Rectangle> taskbarList = FindDockedTaskBars();
@@ -172,97 +175,7 @@ namespace client
                     this.Left = screen.Right - this.Width - 10;
             }
         }
-
-        private void LoadCategory()
-        {
-            this.Width = 0;
-            this.Height = 45;
-            int x = 0;
-            int y = 0;
-            int width = ThisCategory.Width;
-            int columns = 1;
-
-            // Check if icon caches exist for the category being loaded
-            // If not then rebuild the icon cache
-            if (!Directory.Exists(@MainPath.path + @"\config\" + ThisCategory.Name + @"\Icons\"))
-            {
-                ThisCategory.cacheIcons();
-            }
-
-            foreach (ProgramShortcut psc in ThisCategory.ShortcutList)
-            {
-
-                if (columns > width)  // creating new row if there are more psc than max width
-                {
-                    x = 0;
-                    y += 45;
-                    this.Height += 45;
-                    columns = 1;
-                }
-
-                if (this.Width < ((width * 55)))
-                    this.Width += (55);
-
-                //BuildShortcutPanel(x, y, psc);
-
-                ucShortcut pscPanel = new ucShortcut(psc, this, ThisCategory);
-                pscPanel.Location = new System.Drawing.Point(x, y);
-                this.Controls.Add(pscPanel);
-                this.ControlList.Add(pscPanel);
-                pscPanel.Show();
-                pscPanel.BringToFront();
-
-                // Reset values
-                x += 55;
-                columns++;
-            }
-        }
-
-        private void BuildShortcutPanel(int x, int y, ProgramShortcut psc)
-        {
-            ucShortcut pscPanel = new ucShortcut(psc, this, ThisCategory);
-            pscPanel.Location = new System.Drawing.Point(x, y);
-            this.Controls.Add(pscPanel);
-            pscPanel.Show();
-            pscPanel.BringToFront();
-
-            // Having some issues with the uc build, so keeping the old code below
-
-            //this.shortcutPic = new System.Windows.Forms.PictureBox();
-            //this.shortcutPic.BackColor = System.Drawing.Color.Transparent;
-            //this.shortcutPic.Location = new System.Drawing.Point(25, 15);
-            //this.shortcutPic.Size = new System.Drawing.Size(25, 25);
-            //this.shortcutPic.BackgroundImage = ThisCategory.loadImageCache(psc.FilePath); // Use the local icon cache for the file specified as the icon image
-            //this.shortcutPic.BackgroundImageLayout = ImageLayout.Stretch;
-            //this.shortcutPic.TabStop = false;
-            //this.shortcutPic.Click += new System.EventHandler((sender, e) => OpenFile(sender, e, psc.FilePath));
-            //this.shortcutPic.Cursor = System.Windows.Forms.Cursors.Hand;
-            //this.shortcutPanel.Controls.Add(this.shortcutPic);
-            //this.shortcutPic.Show();
-            //this.shortcutPic.BringToFront();
-            //this.shortcutPic.MouseEnter += new System.EventHandler((sender, e) => this.shortcutPanel.BackColor = Color.Black);
-            //this.shortcutPic.MouseLeave += new System.EventHandler((sender, e) => this.shortcutPanel.BackColor = System.Drawing.Color.Transparent);
-
-        }
-
-
-        public void OpenFile(object sender, EventArgs e, string path)
-        {
-            // starting program from psc panel click
-            System.Diagnostics.Process proc = new System.Diagnostics.Process();
-            proc.EnableRaisingEvents = false;
-            proc.StartInfo.FileName = path;
-
-            try
-            {
-                proc.Start();
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show(Ex.Message);
-            }
-        }
-
+        // Search for active taskbars on screen
         public static List<Rectangle> FindDockedTaskBars()
         {
             List<Rectangle> dockedRects = new List<Rectangle>();
@@ -320,47 +233,147 @@ namespace client
 
             return dockedRects;
         }
+        //
+        //------------------------------------------------------------------------------------
+        //
+
+        // Loading category and building shortcuts
+        private void LoadCategory()
+        {
+            this.Width = 0;
+            this.Height = 45;
+            int x = 0;
+            int y = 0;
+            int width = ThisCategory.Width;
+            int columns = 1;
+
+            // Check if icon caches exist for the category being loaded
+            // If not then rebuild the icon cache
+            if (!Directory.Exists(@MainPath.path + @"\config\" + ThisCategory.Name + @"\Icons\"))
+            {
+                ThisCategory.cacheIcons();
+            }
+
+            foreach (ProgramShortcut psc in ThisCategory.ShortcutList)
+            {
+
+                if (columns > width)  // creating new row if there are more psc than max width
+                {
+                    x = 0;
+                    y += 45;
+                    this.Height += 45;
+                    columns = 1;
+                }
+
+                if (this.Width < ((width * 55)))
+                    this.Width += (55);
+
+                // OLD
+                //BuildShortcutPanel(x, y, psc);
+                
+                // Building shortcut controls
+                ucShortcut pscPanel = new ucShortcut(psc, this, ThisCategory);
+                pscPanel.Location = new System.Drawing.Point(x, y);
+                this.Controls.Add(pscPanel);
+                this.ControlList.Add(pscPanel);
+                pscPanel.Show();
+                pscPanel.BringToFront();
+
+                // Reset values
+                x += 55;
+                columns++;
+            }
+        }
+
+        // OLD (Having some issues with the uc build, so keeping the old code below)
+        private void BuildShortcutPanel(int x, int y, ProgramShortcut psc)
+        {
+            this.shortcutPic = new System.Windows.Forms.PictureBox();
+            this.shortcutPic.BackColor = System.Drawing.Color.Transparent;
+            this.shortcutPic.Location = new System.Drawing.Point(25, 15);
+            this.shortcutPic.Size = new System.Drawing.Size(25, 25);
+            this.shortcutPic.BackgroundImage = ThisCategory.loadImageCache(psc.FilePath); // Use the local icon cache for the file specified as the icon image
+            this.shortcutPic.BackgroundImageLayout = ImageLayout.Stretch;
+            this.shortcutPic.TabStop = false;
+            this.shortcutPic.Click += new System.EventHandler((sender, e) => OpenFile(sender, e, psc.FilePath));
+            this.shortcutPic.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.shortcutPanel.Controls.Add(this.shortcutPic);
+            this.shortcutPic.Show();
+            this.shortcutPic.BringToFront();
+            this.shortcutPic.MouseEnter += new System.EventHandler((sender, e) => this.shortcutPanel.BackColor = Color.Black);
+            this.shortcutPic.MouseLeave += new System.EventHandler((sender, e) => this.shortcutPanel.BackColor = System.Drawing.Color.Transparent);
+
+        }
+
+        // Click handler for shortcuts
+        public void OpenFile(object sender, EventArgs e, string path)
+        {
+            // starting program from psc panel click
+            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+            proc.EnableRaisingEvents = false;
+            proc.StartInfo.FileName = path;
+
+            try
+            {
+                proc.Start();
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show(Ex.Message);
+            }
+        }
+
+        // Closes application upon deactivation
         private void frmMain_Deactivate(object sender, EventArgs e)
         {
             // closes program if user clicks outside form
             this.Close();
         }
 
+        // Keyboard shortcut handlers
         private void frmMain_KeyDown(object sender, KeyEventArgs e)
         {
 
-            switch (e.KeyCode)
+            try
             {
-                case Keys.D1:
-                    ControlList[0].ucShortcut_MouseEnter(sender, e);
-                    break;
-                case Keys.D2:
-                    ControlList[1].ucShortcut_MouseEnter(sender, e);
-                    break;
-                case Keys.D3:
-                    ControlList[2].ucShortcut_MouseEnter(sender, e);
-                    break;
-                case Keys.D4:
-                    ControlList[3].ucShortcut_MouseEnter(sender, e);
-                    break;
-                case Keys.D5:
-                    ControlList[4].ucShortcut_MouseEnter(sender, e);
-                    break;
-                case Keys.D6:
-                    ControlList[5].ucShortcut_MouseEnter(sender, e);
-                    break;
-                case Keys.D7:
-                    ControlList[6].ucShortcut_MouseEnter(sender, e);
-                    break;
-                case Keys.D8:
-                    ControlList[7].ucShortcut_MouseEnter(sender, e);
-                    break;
-                case Keys.D9:
-                    ControlList[8].ucShortcut_MouseEnter(sender, e);
-                    break;
-                case Keys.D0:
-                    ControlList[9].ucShortcut_MouseEnter(sender, e);
-                    break;
+                switch (e.KeyCode)
+                {
+
+                    case Keys.D1:
+                        ControlList[0].ucShortcut_MouseEnter(sender, e);
+                        break;
+                    case Keys.D2:
+                        ControlList[1].ucShortcut_MouseEnter(sender, e);
+                        break;
+                    case Keys.D3:
+                        ControlList[2].ucShortcut_MouseEnter(sender, e);
+                        break;
+                    case Keys.D4:
+                        ControlList[3].ucShortcut_MouseEnter(sender, e);
+                        break;
+                    case Keys.D5:
+                        ControlList[4].ucShortcut_MouseEnter(sender, e);
+                        break;
+                    case Keys.D6:
+                        ControlList[5].ucShortcut_MouseEnter(sender, e);
+                        break;
+                    case Keys.D7:
+                        ControlList[6].ucShortcut_MouseEnter(sender, e);
+                        break;
+                    case Keys.D8:
+                        ControlList[7].ucShortcut_MouseEnter(sender, e);
+                        break;
+                    case Keys.D9:
+                        ControlList[8].ucShortcut_MouseEnter(sender, e);
+                        break;
+                    case Keys.D0:
+                        ControlList[9].ucShortcut_MouseEnter(sender, e);
+                        break;
+                }
+            }
+            catch
+            {
+
             }
         }
 
@@ -372,59 +385,65 @@ namespace client
                 foreach (ucShortcut usc in this.ControlList)
                     usc.ucShortcut_Click(sender, e);
             }
-            switch (e.KeyCode)
-            {
-                case Keys.D1:
-                    ControlList[0].ucShortcut_MouseLeave(sender, e);
-                    ControlList[0].ucShortcut_Click(sender, e);
-                    break;
-                case Keys.D2:
-                    ControlList[1].ucShortcut_MouseLeave(sender, e);
-                    ControlList[1].ucShortcut_Click(sender, e);
 
-                    break;
-                case Keys.D3:
-                    ControlList[2].ucShortcut_MouseLeave(sender, e);
-                    ControlList[2].ucShortcut_Click(sender, e);
-                    break;
-                case Keys.D4:
-                    ControlList[3].ucShortcut_MouseLeave(sender, e);
-                    ControlList[3].ucShortcut_Click(sender, e);
-                    break;
-                case Keys.D5:
-                    ControlList[4].ucShortcut_MouseLeave(sender, e);
-                    ControlList[4].ucShortcut_Click(sender, e);
-                    break;
-                case Keys.D6:
-                    ControlList[5].ucShortcut_MouseLeave(sender, e);
-                    ControlList[5].ucShortcut_Click(sender, e);
-                    break;
-                case Keys.D7:
-                    ControlList[6].ucShortcut_MouseLeave(sender, e);
-                    ControlList[6].ucShortcut_Click(sender, e);
-                    break;
-                case Keys.D8:
-                    ControlList[7].ucShortcut_MouseLeave(sender, e);
-                    ControlList[7].ucShortcut_Click(sender, e);
-                    break;
-                case Keys.D9:
-                    ControlList[8].ucShortcut_MouseLeave(sender, e);
-                    ControlList[8].ucShortcut_Click(sender, e);
-                    break;
-                case Keys.D0:
-                    ControlList[9].ucShortcut_MouseLeave(sender, e);
-                    ControlList[9].ucShortcut_Click(sender, e);
-                    break;
+            try
+            {
+                switch (e.KeyCode)
+                {
+                    case Keys.D1:
+                        ControlList[0].ucShortcut_MouseLeave(sender, e);
+                        ControlList[0].ucShortcut_Click(sender, e);
+                        break;
+                    case Keys.D2:
+                        ControlList[1].ucShortcut_MouseLeave(sender, e);
+                        ControlList[1].ucShortcut_Click(sender, e);
+
+                        break;
+                    case Keys.D3:
+                        ControlList[2].ucShortcut_MouseLeave(sender, e);
+                        ControlList[2].ucShortcut_Click(sender, e);
+                        break;
+                    case Keys.D4:
+                        ControlList[3].ucShortcut_MouseLeave(sender, e);
+                        ControlList[3].ucShortcut_Click(sender, e);
+                        break;
+                    case Keys.D5:
+                        ControlList[4].ucShortcut_MouseLeave(sender, e);
+                        ControlList[4].ucShortcut_Click(sender, e);
+                        break;
+                    case Keys.D6:
+                        ControlList[5].ucShortcut_MouseLeave(sender, e);
+                        ControlList[5].ucShortcut_Click(sender, e);
+                        break;
+                    case Keys.D7:
+                        ControlList[6].ucShortcut_MouseLeave(sender, e);
+                        ControlList[6].ucShortcut_Click(sender, e);
+                        break;
+                    case Keys.D8:
+                        ControlList[7].ucShortcut_MouseLeave(sender, e);
+                        ControlList[7].ucShortcut_Click(sender, e);
+                        break;
+                    case Keys.D9:
+                        ControlList[8].ucShortcut_MouseLeave(sender, e);
+                        ControlList[8].ucShortcut_Click(sender, e);
+                        break;
+                    case Keys.D0:
+                        ControlList[9].ucShortcut_MouseLeave(sender, e);
+                        ControlList[9].ucShortcut_Click(sender, e);
+                        break;
+                }
+            }
+            catch
+            {
+
             }
         }
+
         //
         // endregion
         //
         public System.Windows.Forms.PictureBox shortcutPic;
         public System.Windows.Forms.Panel shortcutPanel;
-
-
-
         //
         // END OF CLASS
         //
