@@ -58,6 +58,7 @@ namespace client.User_controls
             };
             this.shortcutPanel.MouseEnter += new System.EventHandler((sender, e) => Client.EnterControl(sender, e, this));
             this.shortcutPanel.MouseLeave += new System.EventHandler((sender, e) => Client.LeaveControl(sender, e, this));
+            this.shortcutPanel.Click += new System.EventHandler((sender, e) => OpenFolder(sender, e));
 
             // Check if file is stil existing and if so render it
             if (File.Exists(programShortcut.FilePath) || Directory.Exists(programShortcut.FilePath))
@@ -89,8 +90,12 @@ namespace client.User_controls
         public void OpenFolder(object sender, EventArgs e)
         {
             // Open the shortcut folder for the group when click on category panel
-            string filePath = Path.GetFullPath(new Uri($"{MainPath.path}\\Shortcuts").LocalPath); // Build path based on the directory of the main .exe file
-            System.Diagnostics.Process.Start(@filePath); // opening folder and highlighting file
+
+            // Build path based on the directory of the main .exe file
+            string filePath = Path.GetFullPath(new Uri($"{MainPath.path}\\Shortcuts").LocalPath + "\\" + Category.Name + ".lnk");
+
+            // Open directory in explorer and highlighting file
+            System.Diagnostics.Process.Start("explorer.exe", string.Format("/select,\"{0}\"", @filePath));
         }
 
         private void cmdDelete_Click(object sender, EventArgs e)

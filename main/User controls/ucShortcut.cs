@@ -32,17 +32,17 @@ namespace client.User_controls
             picIcon.BackgroundImage = ThisCategory.loadImageCache(Psc.FilePath); // Use the local icon cache for the file specified as the icon image
         }
 
-        private void ucShortcut_Click(object sender, EventArgs e)
+        public void ucShortcut_Click(object sender, EventArgs e)
         {
             MotherForm.OpenFile(sender, e, Psc.FilePath);
         }
 
-        private void ucShortcut_MouseEnter(object sender, EventArgs e)
+        public void ucShortcut_MouseEnter(object sender, EventArgs e)
         {
             this.BackColor = MotherForm.HoverColor;
         }
 
-        private void ucShortcut_MouseLeave(object sender, EventArgs e)
+        public void ucShortcut_MouseLeave(object sender, EventArgs e)
         {
             this.BackColor = Color.Transparent;
         }

@@ -37,10 +37,13 @@
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
             this.ClientSize = new System.Drawing.Size(262, 41);
             this.DoubleBuffered = true;
+            this.KeyPreview = true;
             this.Name = "frmMain";
             this.Text = "Group";
             this.Deactivate += new System.EventHandler(this.frmMain_Deactivate);
             this.Load += new System.EventHandler(this.frmMain_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyUp);
             this.ResumeLayout(false);
 
         }

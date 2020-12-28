@@ -26,11 +26,11 @@ namespace client
         }
 
         public Category ThisCategory { get; set; }
+        public List<ucShortcut> ControlList { get; set; }
 
         public Color HoverColor { get; set; }
 
         private string passedDirec;
-        //private Category cat;
         public Point mouseClick;
 
         public frmMain(string passedDirectory, int cursorPosX, int cursorPosY)
@@ -53,6 +53,8 @@ namespace client
 
             if (Directory.Exists(@MainPath.path + @"\config\" + passedDirec))
             {
+                ControlList = new List<ucShortcut>();
+
                 this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
                 ThisCategory = new Category($"config\\{passedDirec}");
                 this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
@@ -201,7 +203,16 @@ namespace client
                 if (this.Width < ((width * 55)))
                     this.Width += (55);
 
-                BuildShortcutPanel(x, y, psc);
+                //BuildShortcutPanel(x, y, psc);
+
+                ucShortcut pscPanel = new ucShortcut(psc, this, ThisCategory);
+                pscPanel.Location = new System.Drawing.Point(x, y);
+                this.Controls.Add(pscPanel);
+                this.ControlList.Add(pscPanel);
+                pscPanel.Show();
+                pscPanel.BringToFront();
+
+                // Reset values
                 x += 55;
                 columns++;
             }
@@ -314,11 +325,104 @@ namespace client
             // closes program if user clicks outside form
             this.Close();
         }
+
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+
+            switch (e.KeyCode)
+            {
+                case Keys.D1:
+                    ControlList[0].ucShortcut_MouseEnter(sender, e);
+                    break;
+                case Keys.D2:
+                    ControlList[1].ucShortcut_MouseEnter(sender, e);
+                    break;
+                case Keys.D3:
+                    ControlList[2].ucShortcut_MouseEnter(sender, e);
+                    break;
+                case Keys.D4:
+                    ControlList[3].ucShortcut_MouseEnter(sender, e);
+                    break;
+                case Keys.D5:
+                    ControlList[4].ucShortcut_MouseEnter(sender, e);
+                    break;
+                case Keys.D6:
+                    ControlList[5].ucShortcut_MouseEnter(sender, e);
+                    break;
+                case Keys.D7:
+                    ControlList[6].ucShortcut_MouseEnter(sender, e);
+                    break;
+                case Keys.D8:
+                    ControlList[7].ucShortcut_MouseEnter(sender, e);
+                    break;
+                case Keys.D9:
+                    ControlList[8].ucShortcut_MouseEnter(sender, e);
+                    break;
+                case Keys.D0:
+                    ControlList[9].ucShortcut_MouseEnter(sender, e);
+                    break;
+            }
+        }
+
+        private void frmMain_KeyUp(object sender, KeyEventArgs e)
+        {
+            //System.Diagnostics.Debugger.Launch();
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Enter)
+            {
+                foreach (ucShortcut usc in this.ControlList)
+                    usc.ucShortcut_Click(sender, e);
+            }
+            switch (e.KeyCode)
+            {
+                case Keys.D1:
+                    ControlList[0].ucShortcut_MouseLeave(sender, e);
+                    ControlList[0].ucShortcut_Click(sender, e);
+                    break;
+                case Keys.D2:
+                    ControlList[1].ucShortcut_MouseLeave(sender, e);
+                    ControlList[1].ucShortcut_Click(sender, e);
+
+                    break;
+                case Keys.D3:
+                    ControlList[2].ucShortcut_MouseLeave(sender, e);
+                    ControlList[2].ucShortcut_Click(sender, e);
+                    break;
+                case Keys.D4:
+                    ControlList[3].ucShortcut_MouseLeave(sender, e);
+                    ControlList[3].ucShortcut_Click(sender, e);
+                    break;
+                case Keys.D5:
+                    ControlList[4].ucShortcut_MouseLeave(sender, e);
+                    ControlList[4].ucShortcut_Click(sender, e);
+                    break;
+                case Keys.D6:
+                    ControlList[5].ucShortcut_MouseLeave(sender, e);
+                    ControlList[5].ucShortcut_Click(sender, e);
+                    break;
+                case Keys.D7:
+                    ControlList[6].ucShortcut_MouseLeave(sender, e);
+                    ControlList[6].ucShortcut_Click(sender, e);
+                    break;
+                case Keys.D8:
+                    ControlList[7].ucShortcut_MouseLeave(sender, e);
+                    ControlList[7].ucShortcut_Click(sender, e);
+                    break;
+                case Keys.D9:
+                    ControlList[8].ucShortcut_MouseLeave(sender, e);
+                    ControlList[8].ucShortcut_Click(sender, e);
+                    break;
+                case Keys.D0:
+                    ControlList[9].ucShortcut_MouseLeave(sender, e);
+                    ControlList[9].ucShortcut_Click(sender, e);
+                    break;
+            }
+        }
         //
         // endregion
         //
         public System.Windows.Forms.PictureBox shortcutPic;
         public System.Windows.Forms.Panel shortcutPanel;
+
 
 
         //
