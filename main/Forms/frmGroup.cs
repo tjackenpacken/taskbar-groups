@@ -44,8 +44,6 @@ namespace client.Forms
             Category = new Category { ShortcutList = new List<ProgramShortcut>() };
             Client = client;
             IsNew = true;
-            Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
-            Category.Opacity = 10;
 
             // Setting default control values
             cmdDelete.Visible = false;
@@ -69,6 +67,7 @@ namespace client.Forms
 
             // Setting control values from loaded group
             txtGroupName.Text = Regex.Replace(Category.Name, @"(_)+", " ");
+            pnlAllowOpenAll.Checked = category.allowOpenAll;
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
             lblNum.Text = Category.Width.ToString();
             lblOpacity.Text = Category.Opacity.ToString();
@@ -691,6 +690,12 @@ namespace client.Forms
                 e.Handled = true;
                 e.SuppressKeyPress = true;
             }
+        }
+
+        // Manage the checkbox allowing opening all shortcuts
+        private void pnlAllowOpenAll_CheckedChanged(object sender, EventArgs e)
+        {
+            Category.allowOpenAll = pnlAllowOpenAll.Checked;
         }
     }
 }

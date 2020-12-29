@@ -391,7 +391,7 @@ namespace client
         private void frmMain_KeyUp(object sender, KeyEventArgs e)
         {
             //System.Diagnostics.Debugger.Launch();
-            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Enter)
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Enter && ThisCategory.allowOpenAll)
             {
                 foreach (ucShortcut usc in this.ControlList)
                     usc.ucShortcut_Click(sender, e);

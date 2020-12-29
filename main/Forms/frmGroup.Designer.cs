@@ -67,6 +67,7 @@
             this.pnlArguments = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.pnlArgumentTextbox = new System.Windows.Forms.TextBox();
+            this.pnlAllowOpenAll = new System.Windows.Forms.CheckBox();
             this.pnlGroupIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
@@ -144,7 +145,7 @@
             this.cmdSave.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmdSave.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmdSave.ForeColor = System.Drawing.Color.White;
-            this.cmdSave.Location = new System.Drawing.Point(28, 19);
+            this.cmdSave.Location = new System.Drawing.Point(28, 7);
             this.cmdSave.Name = "cmdSave";
             this.cmdSave.Size = new System.Drawing.Size(129, 30);
             this.cmdSave.TabIndex = 36;
@@ -160,7 +161,7 @@
             this.cmdExit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmdExit.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmdExit.ForeColor = System.Drawing.Color.White;
-            this.cmdExit.Location = new System.Drawing.Point(171, 19);
+            this.cmdExit.Location = new System.Drawing.Point(171, 7);
             this.cmdExit.Name = "cmdExit";
             this.cmdExit.Size = new System.Drawing.Size(129, 30);
             this.cmdExit.TabIndex = 35;
@@ -345,7 +346,7 @@
             this.pnlColor.Controls.Add(this.radioCustom);
             this.pnlColor.Controls.Add(this.radioDark);
             this.pnlColor.Controls.Add(this.radioLight);
-            this.pnlColor.Location = new System.Drawing.Point(110, 599);
+            this.pnlColor.Location = new System.Drawing.Point(110, 621);
             this.pnlColor.Name = "pnlColor";
             this.pnlColor.Size = new System.Drawing.Size(368, 155);
             this.pnlColor.TabIndex = 48;
@@ -478,7 +479,7 @@
             this.cmdDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmdDelete.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmdDelete.ForeColor = System.Drawing.Color.White;
-            this.cmdDelete.Location = new System.Drawing.Point(313, 19);
+            this.cmdDelete.Location = new System.Drawing.Point(313, 7);
             this.cmdDelete.Name = "cmdDelete";
             this.cmdDelete.Size = new System.Drawing.Size(129, 30);
             this.cmdDelete.TabIndex = 46;
@@ -491,9 +492,9 @@
             this.pnlEnd.Controls.Add(this.cmdDelete);
             this.pnlEnd.Controls.Add(this.cmdSave);
             this.pnlEnd.Controls.Add(this.cmdExit);
-            this.pnlEnd.Location = new System.Drawing.Point(52, 749);
+            this.pnlEnd.Location = new System.Drawing.Point(52, 773);
             this.pnlEnd.Name = "pnlEnd";
-            this.pnlEnd.Size = new System.Drawing.Size(482, 70);
+            this.pnlEnd.Size = new System.Drawing.Size(482, 44);
             this.pnlEnd.TabIndex = 47;
             // 
             // cmdWidthDown
@@ -526,11 +527,12 @@
             // 
             // pnlArguments
             // 
+            this.pnlArguments.Controls.Add(this.pnlAllowOpenAll);
             this.pnlArguments.Controls.Add(this.label3);
             this.pnlArguments.Controls.Add(this.pnlArgumentTextbox);
-            this.pnlArguments.Location = new System.Drawing.Point(52, 546);
+            this.pnlArguments.Location = new System.Drawing.Point(52, 544);
             this.pnlArguments.Name = "pnlArguments";
-            this.pnlArguments.Size = new System.Drawing.Size(482, 57);
+            this.pnlArguments.Size = new System.Drawing.Size(482, 82);
             this.pnlArguments.TabIndex = 48;
             // 
             // label3
@@ -538,7 +540,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(23, 8);
+            this.label3.Location = new System.Drawing.Point(23, 32);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(77, 19);
             this.label3.TabIndex = 1;
@@ -548,12 +550,25 @@
             // 
             this.pnlArgumentTextbox.Enabled = false;
             this.pnlArgumentTextbox.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.pnlArgumentTextbox.Location = new System.Drawing.Point(23, 27);
+            this.pnlArgumentTextbox.Location = new System.Drawing.Point(23, 51);
             this.pnlArgumentTextbox.Name = "pnlArgumentTextbox";
             this.pnlArgumentTextbox.Size = new System.Drawing.Size(421, 25);
             this.pnlArgumentTextbox.TabIndex = 0;
             this.pnlArgumentTextbox.TextChanged += new System.EventHandler(this.pnlArgumentTextbox_TextChanged);
             this.pnlArgumentTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pnlArgumentTextbox_KeyDown);
+            // 
+            // pnlAllowOpenAll
+            // 
+            this.pnlAllowOpenAll.AutoSize = true;
+            this.pnlAllowOpenAll.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this.pnlAllowOpenAll.ForeColor = System.Drawing.Color.White;
+            this.pnlAllowOpenAll.Location = new System.Drawing.Point(122, 9);
+            this.pnlAllowOpenAll.Name = "pnlAllowOpenAll";
+            this.pnlAllowOpenAll.Size = new System.Drawing.Size(269, 23);
+            this.pnlAllowOpenAll.TabIndex = 49;
+            this.pnlAllowOpenAll.Text = "Allow open-all shortcuts (Ctrl + Enter)";
+            this.pnlAllowOpenAll.UseVisualStyleBackColor = true;
+            this.pnlAllowOpenAll.CheckedChanged += new System.EventHandler(this.pnlAllowOpenAll_CheckedChanged);
             // 
             // frmGroup
             // 
@@ -639,5 +654,6 @@
         private System.Windows.Forms.Panel pnlArguments;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox pnlArgumentTextbox;
+        private System.Windows.Forms.CheckBox pnlAllowOpenAll;
     }
 }
