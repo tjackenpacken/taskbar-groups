@@ -65,9 +65,9 @@
             this.cmdWidthDown = new System.Windows.Forms.Button();
             this.cmdWidthUp = new System.Windows.Forms.Button();
             this.pnlArguments = new System.Windows.Forms.Panel();
+            this.pnlAllowOpenAll = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pnlArgumentTextbox = new System.Windows.Forms.TextBox();
-            this.pnlAllowOpenAll = new System.Windows.Forms.CheckBox();
             this.pnlGroupIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
@@ -268,7 +268,7 @@
             this.txtGroupName.ForeColor = System.Drawing.Color.White;
             this.txtGroupName.Location = new System.Drawing.Point(48, 46);
             this.txtGroupName.Name = "txtGroupName";
-            this.txtGroupName.Size = new System.Drawing.Size(352, 32);
+            this.txtGroupName.Size = new System.Drawing.Size(395, 32);
             this.txtGroupName.TabIndex = 30;
             this.txtGroupName.TabStop = false;
             this.txtGroupName.Text = "Name the new group...";
@@ -535,6 +535,19 @@
             this.pnlArguments.Size = new System.Drawing.Size(482, 82);
             this.pnlArguments.TabIndex = 48;
             // 
+            // pnlAllowOpenAll
+            // 
+            this.pnlAllowOpenAll.AutoSize = true;
+            this.pnlAllowOpenAll.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this.pnlAllowOpenAll.ForeColor = System.Drawing.Color.White;
+            this.pnlAllowOpenAll.Location = new System.Drawing.Point(122, 9);
+            this.pnlAllowOpenAll.Name = "pnlAllowOpenAll";
+            this.pnlAllowOpenAll.Size = new System.Drawing.Size(269, 23);
+            this.pnlAllowOpenAll.TabIndex = 49;
+            this.pnlAllowOpenAll.Text = "Allow open-all shortcuts (Ctrl + Enter)";
+            this.pnlAllowOpenAll.UseVisualStyleBackColor = true;
+            this.pnlAllowOpenAll.CheckedChanged += new System.EventHandler(this.pnlAllowOpenAll_CheckedChanged);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -556,19 +569,6 @@
             this.pnlArgumentTextbox.TabIndex = 0;
             this.pnlArgumentTextbox.TextChanged += new System.EventHandler(this.pnlArgumentTextbox_TextChanged);
             this.pnlArgumentTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pnlArgumentTextbox_KeyDown);
-            // 
-            // pnlAllowOpenAll
-            // 
-            this.pnlAllowOpenAll.AutoSize = true;
-            this.pnlAllowOpenAll.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            this.pnlAllowOpenAll.ForeColor = System.Drawing.Color.White;
-            this.pnlAllowOpenAll.Location = new System.Drawing.Point(122, 9);
-            this.pnlAllowOpenAll.Name = "pnlAllowOpenAll";
-            this.pnlAllowOpenAll.Size = new System.Drawing.Size(269, 23);
-            this.pnlAllowOpenAll.TabIndex = 49;
-            this.pnlAllowOpenAll.Text = "Allow open-all shortcuts (Ctrl + Enter)";
-            this.pnlAllowOpenAll.UseVisualStyleBackColor = true;
-            this.pnlAllowOpenAll.CheckedChanged += new System.EventHandler(this.pnlAllowOpenAll_CheckedChanged);
             // 
             // frmGroup
             // 
