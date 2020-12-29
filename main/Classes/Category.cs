@@ -73,7 +73,10 @@ namespace client.Classes
                 new System.Xml.Serialization.XmlSerializer(typeof(Category));
 
             using (FileStream file = System.IO.File.Create(@path + @"\ObjectData.xml"))
+            {
                 writer.Serialize(file, this);
+                file.Close();
+            }
             //
             // Create .ico
             //
@@ -82,11 +85,15 @@ namespace client.Classes
             img.Save(path + @"\GroupImage.png");
 
             using (FileStream fs = new FileStream(path + @"\GroupIcon.ico", FileMode.Create))
-                ImageFunctions.IconFromImage(img).Save(fs); // saving as icon
+            {
+                ImageFunctions.IconFromImage(img).Save(fs);
+                fs.Close();
+            }
+                                                            // saving as icon
                                                             //
                                                             // Create .lnk shortcut
                                                             //
-            
+
 
             // Through shellLink.cs class, pass through into the function information on how to construct the icon
             // Needed due to needing to set a unique AppUserModelID so the shortcut applications don't stack on the taskbar with the main application
@@ -113,12 +120,8 @@ namespace client.Classes
         {
             string path = @"config\" + Name + @"\GroupImage.png";
 
-            using (FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read))
-            using (BinaryReader reader = new BinaryReader(stream))
-            {
-                var memoryStream = new MemoryStream(reader.ReadBytes((int)stream.Length));
-                return new Bitmap(memoryStream);
-            }
+            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
+                return new Bitmap(ms);
         }
 
         // Goal is to create a folder with icons of the programs pre-cached and ready to be read

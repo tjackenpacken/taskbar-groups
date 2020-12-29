@@ -111,6 +111,8 @@ namespace client.User_controls
             using (BinaryReader reader = new BinaryReader(stream))
             {
                 var memoryStream = new MemoryStream(reader.ReadBytes((int)stream.Length));
+                reader.Close();
+                stream.Close();
                 return new Bitmap(memoryStream);
             }
         }
