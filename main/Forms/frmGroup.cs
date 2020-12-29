@@ -1,14 +1,16 @@
-﻿using client.Classes;
+﻿using ChinhDo.Transactions;
+using client.Classes;
 using client.User_controls;
 using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Transactions;
 using System.Windows.Forms;
+
 
 namespace client.Forms
 {
@@ -457,10 +459,21 @@ namespace client.Forms
                         //
                         string configPath = @MainPath.path + @"\config\" + Category.Name;
                         string shortcutPath = @MainPath.path + @"\Shortcuts\" + Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk";
-                        var dir = new DirectoryInfo(configPath);
 
-                        dir.Delete(true); // delete config directory
-                        System.IO.File.Delete(shortcutPath); // delete .lnk
+                        try
+                        {
+                            IFileManager fm = new TxFileManager();
+                            using (TransactionScope scope1 = new TransactionScope())
+                            {
+                                fm.DeleteDirectory(configPath);
+                                fm.Delete(shortcutPath);
+                                scope1.Complete();
+                            }
+                        } catch (Exception)
+                        {
+                            MessageBox.Show("Please close all programs used within the taskbar group in order to save!");
+                            return;
+                        }
                     }
                     //
                     // Creating new config
@@ -476,7 +489,7 @@ namespace client.Forms
 
                     Category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // Creating group config files
                     Client.LoadCategory(Path.GetFullPath(@"config\" + Category.Name)); // Loading visuals
-
+                    
                     this.Dispose();
                     Client.Reload();
                 }
@@ -498,11 +511,25 @@ namespace client.Forms
 
                 var dir = new DirectoryInfo(configPath);
 
-                System.IO.File.Delete(shortcutPath);
-                dir.Delete(true); // delete config directory
-                this.Hide();
-                this.Dispose();
-                Client.Reload(); //flush and reload category panels
+                try
+                {
+                    IFileManager fm = new TxFileManager();
+                    using (TransactionScope scope1 = new TransactionScope())
+                    {
+                        fm.DeleteDirectory(configPath);
+                        fm.Delete(shortcutPath);
+                        this.Hide();
+                        this.Dispose();
+                        Client.Reload(); //flush and reload category panels
+                        scope1.Complete();
+                    }
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("Please close all programs used within the taskbar group in order to delete!");
+                    return;
+                }
+
             }
             catch (IOException ex)
             {
