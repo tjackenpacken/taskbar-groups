@@ -3,6 +3,7 @@ using client.User_controls;
 using IWshRuntimeLibrary;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace client.Forms
         public bool IsNew { get; set; }
 
         private String[] imageExt = new String[] { ".png", ".jpg", ".jpe", ".jfif", ".jpeg", };
-        private String[] extensionExt = new String[] { ".exe", ".lnk" };
+        private String[] extensionExt = new String[] { ".exe", ".lnk", ".url" };
         private String[] specialImageExt = new String[] { ".ico", ".exe", ".lnk" };
         private String[] newExt;
 
@@ -152,11 +153,12 @@ namespace client.Forms
                 CheckPathExists = true,
                 Multiselect = true,
                 DefaultExt = "exe",
-                Filter = "Exe or Shortcut (.exe, .lnk)|*.exe;*.lnk",
+                Filter = "Exe or Shortcut (.exe, .lnk)|*.exe;*.lnk;*.url",
                 FilterIndex = 2,
                 RestoreDirectory = true,
                 ReadOnlyChecked = true,
-            };
+                DereferenceLinks = false
+        };
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -319,21 +321,23 @@ namespace client.Forms
         public static Image handleLnkExt(String file)
         {
             IWshShortcut lnkIcon = (IWshShortcut)new WshShell().CreateShortcut(file);
-
             String[] icLocation = lnkIcon.IconLocation.Split(',');
-
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
             // Checks for link iconLocations as those are used by some applications
             if (icLocation[0] != "" && !lnkIcon.IconLocation.Contains("http"))
             {
                 return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(icLocation[0]))).ToBitmap();
             }
-            else
+            else if (icLocation[0] == "" && lnkIcon.TargetPath == "")
+            {
+                return handleWindowsApp.getWindowsAppIcon(file);
+            } else
             {
                 return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(lnkIcon.TargetPath))).ToBitmap();
             }
 
         }
+
 
         public static String handleExtName(String file)
         {

@@ -17,15 +17,6 @@ namespace client.Classes
         public int Width; // not used aon
         public double Opacity;
 
-        public Category(string name, List<ProgramShortcut> shortcutList, int rows, string color, double opacity)
-        {
-            Name = name;
-            ShortcutList = shortcutList;
-            Width = rows;
-            ColorString = color;
-            Opacity = opacity;
-        }
-
         public Category(string path)
         {
             // Use application's absolute path; (grabs the .exe)
