@@ -117,14 +117,22 @@ namespace client.User_controls
             MotherForm.DeleteShortcut(Shortcut);
         }
 
+        // Handle what is selected/deselected when a shortcut is clicked on
+        // If current item is already selected, then deselect everything
         private void ucProgramShortcut_Click(object sender, EventArgs e)
         {
-            if (MotherForm.selectedShortcut != null)
+            if (MotherForm.selectedShortcut == this)
             {
                 MotherForm.resetSelection(this);
-            }
+            } else
+            {
+                if (MotherForm.selectedShortcut != null)
+                {
+                    MotherForm.resetSelection(this);
+                }
 
-            MotherForm.enableSelection(this);
+                MotherForm.enableSelection(this);
+            }
         }
 
         public void ucDeselected()

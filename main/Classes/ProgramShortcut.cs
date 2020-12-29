@@ -5,13 +5,7 @@
         public string FilePath { get; set; }
         public string name { get; set; } = "";
         public string Arguments = "";
-
-        public ProgramShortcut(string filePath)
-        {
-            FilePath = filePath;
-        }
-
-       
+ 
 
         public ProgramShortcut() // needed for XML serialization
         {

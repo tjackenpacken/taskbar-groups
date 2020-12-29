@@ -16,12 +16,9 @@ namespace client.User_controls
         public ProgramShortcut Psc { get; set; }
         public frmMain MotherForm { get; set; }
         public Category ThisCategory { get; set; }
-        public ucShortcut(ProgramShortcut psc, frmMain mainForm, Category category)
+        public ucShortcut()
         {
             InitializeComponent();
-            Psc = psc;
-            MotherForm = mainForm;
-            ThisCategory = category;
         }
 
         private void ucShortcut_Load(object sender, EventArgs e)

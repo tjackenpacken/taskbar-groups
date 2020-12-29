@@ -14,9 +14,9 @@ namespace client.Forms
 {
     public partial class frmGroup : Form
     {
-        public Category Category { get; set; }
-        public frmClient Client { get; set; }
-        public bool IsNew { get; set; }
+        public Category Category;
+        public frmClient Client;
+        public bool IsNew;
 
         private String[] imageExt = new String[] { ".png", ".jpg", ".jpe", ".jfif", ".jpeg", };
         private String[] extensionExt = new String[] { ".exe", ".lnk", ".url" };
@@ -164,9 +164,7 @@ namespace client.Forms
             {
                 foreach (String file in openFileDialog.FileNames)
                 {
-                    ProgramShortcut psc = new ProgramShortcut(Environment.ExpandEnvironmentVariables(file)); //create new shortcut obj
-                    Category.ShortcutList.Add(psc); // add to panel shortcut list
-                    LoadShortcut(psc, Category.ShortcutList.Count - 1);
+                    addShortcut(file);
                 }
             }
         }
@@ -181,11 +179,19 @@ namespace client.Forms
             {
                 if (extensionExt.Contains(Path.GetExtension(file)) && System.IO.File.Exists(file) || Directory.Exists(file))
                 {
-                    ProgramShortcut psc = new ProgramShortcut(Environment.ExpandEnvironmentVariables(file)); //Create new shortcut obj
-                    Category.ShortcutList.Add(psc); // Add to panel shortcut list
-                    LoadShortcut(psc, Category.ShortcutList.Count - 1);
+                    addShortcut(file);
                 }
             }
+        }
+
+        // Handle adding the shortcut to list
+        private void addShortcut(String file)
+        {
+            ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file) }; //Create new shortcut obj
+            Category.ShortcutList.Add(psc); // Add to panel shortcut list
+            LoadShortcut(psc, Category.ShortcutList.Count - 1);
+
+            pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[pnlShortcuts.Controls.Count - 1]);
         }
 
         // Delete shortcut
@@ -205,7 +211,16 @@ namespace client.Forms
                 if (ucPsc.Shortcut == psc)
                 {
                     //i = pnlShortcuts.Controls.IndexOf(ucPsc);
+
+                    int controlIndex = pnlShortcuts.Controls.IndexOf(ucPsc);
+
                     pnlShortcuts.Controls.Remove(ucPsc);
+
+                    if (controlIndex + 1 != pnlShortcuts.Controls.Count)
+                    {
+                        pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[controlIndex]);
+                    }
+
                     before = false;
                 }
             }
@@ -632,6 +647,11 @@ namespace client.Forms
             lblErrorTitle.Visible = false;
         }
 
+        //--------------------------------------
+        // SHORTCUT/PRGORAM SELECTION
+        //--------------------------------------
+
+        // Deselect selected program/shortcut
         public void resetSelection(ucProgramShortcut passedShortcut)
         {
             pnlArgumentTextbox.Enabled = false;
@@ -644,6 +664,7 @@ namespace client.Forms
             }
         }
 
+        // Enable the argument textbox once a shortcut/program has been selected
         public void enableSelection(ucProgramShortcut passedShortcut)
         {
             selectedShortcut = passedShortcut;
@@ -653,11 +674,13 @@ namespace client.Forms
             pnlArgumentTextbox.Enabled = true;
         }
 
+        // Set the argument property to whatever the user set
         private void pnlArgumentTextbox_TextChanged(object sender, EventArgs e)
         {
             Category.ShortcutList[selectedShortcut.Position].Arguments = pnlArgumentTextbox.Text;
         }
 
+        // Clear textbox focus
         private void pnlArgumentTextbox_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)

@@ -26,9 +26,9 @@ namespace client
             }
         }
 
-        public Category ThisCategory { get; set; }
-        public List<ucShortcut> ControlList { get; set; }
-        public Color HoverColor { get; set; }
+        public Category ThisCategory;
+        public List<ucShortcut> ControlList;
+        public Color HoverColor;
 
         private string passedDirec;
         public Point mouseClick;
@@ -273,7 +273,12 @@ namespace client
                 //BuildShortcutPanel(x, y, psc);
                 
                 // Building shortcut controls
-                ucShortcut pscPanel = new ucShortcut(psc, this, ThisCategory);
+                ucShortcut pscPanel = new ucShortcut() 
+                {
+                    Psc = psc, 
+                    MotherForm = this, 
+                    ThisCategory = ThisCategory 
+                };
                 pscPanel.Location = new System.Drawing.Point(x, y);
                 this.Controls.Add(pscPanel);
                 this.ControlList.Add(pscPanel);

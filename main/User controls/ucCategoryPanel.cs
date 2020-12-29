@@ -10,8 +10,8 @@ namespace client.User_controls
 {
     public partial class ucCategoryPanel : UserControl
     {
-        public Category Category { get; set; }
-        public frmClient Client { get; set; }
+        public Category Category;
+        public frmClient Client;
         public ucCategoryPanel(frmClient client, Category category)
         {
             InitializeComponent();
