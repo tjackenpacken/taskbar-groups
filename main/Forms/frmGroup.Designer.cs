@@ -345,7 +345,7 @@
             this.pnlColor.Controls.Add(this.radioCustom);
             this.pnlColor.Controls.Add(this.radioDark);
             this.pnlColor.Controls.Add(this.radioLight);
-            this.pnlColor.Location = new System.Drawing.Point(108, 594);
+            this.pnlColor.Location = new System.Drawing.Point(110, 599);
             this.pnlColor.Name = "pnlColor";
             this.pnlColor.Size = new System.Drawing.Size(368, 155);
             this.pnlColor.TabIndex = 48;
@@ -528,7 +528,7 @@
             // 
             this.pnlArguments.Controls.Add(this.label3);
             this.pnlArguments.Controls.Add(this.pnlArgumentTextbox);
-            this.pnlArguments.Location = new System.Drawing.Point(52, 544);
+            this.pnlArguments.Location = new System.Drawing.Point(52, 546);
             this.pnlArguments.Name = "pnlArguments";
             this.pnlArguments.Size = new System.Drawing.Size(482, 57);
             this.pnlArguments.TabIndex = 48;
@@ -553,6 +553,7 @@
             this.pnlArgumentTextbox.Size = new System.Drawing.Size(421, 25);
             this.pnlArgumentTextbox.TabIndex = 0;
             this.pnlArgumentTextbox.TextChanged += new System.EventHandler(this.pnlArgumentTextbox_TextChanged);
+            this.pnlArgumentTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pnlArgumentTextbox_KeyDown);
             // 
             // frmGroup
             // 

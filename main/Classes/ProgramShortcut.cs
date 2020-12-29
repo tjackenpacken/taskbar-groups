@@ -3,6 +3,7 @@
     public class ProgramShortcut
     {
         public string FilePath { get; set; }
+        public string name { get; set; } = "";
         public string Arguments = "";
 
         public ProgramShortcut(string filePath)

@@ -28,27 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblName = new System.Windows.Forms.Label();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.cmdNumUp = new System.Windows.Forms.Button();
             this.cmdNumDown = new System.Windows.Forms.Button();
             this.picShortcut = new System.Windows.Forms.PictureBox();
+            this.lbTextbox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.picShortcut)).BeginInit();
             this.SuspendLayout();
-            // 
-            // lblName
-            // 
-            this.lblName.AutoSize = true;
-            this.lblName.BackColor = System.Drawing.Color.Transparent;
-            this.lblName.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.lblName.ForeColor = System.Drawing.Color.White;
-            this.lblName.Location = new System.Drawing.Point(114, 13);
-            this.lblName.Name = "lblName";
-            this.lblName.Size = new System.Drawing.Size(114, 21);
-            this.lblName.TabIndex = 16;
-            this.lblName.Text = "Program name";
-            this.lblName.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
-            this.lblName.MouseLeave += new System.EventHandler(this.ucProgramShortcut_MouseLeave);
             // 
             // cmdDelete
             // 
@@ -113,15 +99,32 @@
             this.picShortcut.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
             this.picShortcut.MouseLeave += new System.EventHandler(this.ucProgramShortcut_MouseLeave);
             // 
+            // lbTextbox
+            // 
+            this.lbTextbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.lbTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.lbTextbox.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.lbTextbox.ForeColor = System.Drawing.Color.White;
+            this.lbTextbox.Location = new System.Drawing.Point(112, 13);
+            this.lbTextbox.MaxLength = 27;
+            this.lbTextbox.Name = "lbTextbox";
+            this.lbTextbox.Size = new System.Drawing.Size(214, 22);
+            this.lbTextbox.TabIndex = 31;
+            this.lbTextbox.Text = "Program Name";
+            this.lbTextbox.TextChanged += new System.EventHandler(this.lbTextbox_TextChanged);
+            this.lbTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ucProgramShortcut_KeyDown);
+            this.lbTextbox.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
+            this.lbTextbox.MouseLeave += new System.EventHandler(this.ucProgramShortcut_MouseLeave);
+            // 
             // ucProgramShortcut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.Controls.Add(this.lbTextbox);
             this.Controls.Add(this.cmdNumUp);
             this.Controls.Add(this.cmdNumDown);
             this.Controls.Add(this.cmdDelete);
-            this.Controls.Add(this.lblName);
             this.Controls.Add(this.picShortcut);
             this.Name = "ucProgramShortcut";
             this.Size = new System.Drawing.Size(450, 50);
@@ -136,11 +139,10 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Label lblName;
         private System.Windows.Forms.PictureBox picShortcut;
         private System.Windows.Forms.Button cmdDelete;
         private System.Windows.Forms.Button cmdNumUp;
         private System.Windows.Forms.Button cmdNumDown;
+        private System.Windows.Forms.TextBox lbTextbox;
     }
 }
