@@ -219,7 +219,16 @@ namespace client.Forms
 
                     if (controlIndex + 1 != pnlShortcuts.Controls.Count)
                     {
-                        pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[controlIndex]);
+                        try
+                        {
+                            pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[controlIndex]);
+                        } catch
+                        {
+                            if (pnlShortcuts.Controls.Count != 0)
+                            {
+                                pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[controlIndex - 1]);
+                            }
+                        }
                     }
 
                     before = false;

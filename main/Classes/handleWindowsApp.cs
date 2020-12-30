@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml;
 
 namespace client.Classes
 {
@@ -12,21 +10,60 @@ namespace client.Classes
     {
         public static Image getWindowsAppIcon(String file)
         {
+            // Get the app's ID from its shortcut target file (Ex. 4DF9E0F8.Netflix_mcm4njqhnhss8!Netflix.app)
             String microsoftAppName = GetLnkTarget(file);
+
+            // Split the string to get the app name from the beginning (Ex. 4DF9E0F8.Netflix)
             String subAppName = microsoftAppName.Split('_')[0];
+
+            // Find the directories in the WindowsApps folder containg that direcotry
             string[] appDirecList = Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramFiles%") + $@"\WindowsApps\");
-            List<string> appPath = new List<string>();
+
+            // Loop through each of the folders with the app name to find the one with the manifest + logos
+            String appPath = "";
             foreach (var appDirec in appDirecList)
             {
-                if (appDirec.Contains(subAppName))
+                if (appDirec.Contains(subAppName) && File.Exists(appDirec + "\\AppxManifest.xml"))
                 {
-                    appPath.Add(appDirec);
+                    appPath = appDirec;
+
+                    // Break out early as to not loop through everything once a result is found
+                    break;
                 }
             }
-            if (File.Exists(Path.GetFullPath(appPath[0] + "\\Assets\\Square150x150Logo.scale-100.png")))
+
+            // Load and read manifest to get the logo path
+            XmlDocument appManifest = new XmlDocument();
+            appManifest.Load(appPath + "\\AppxManifest.xml");
+
+            XmlNamespaceManager appManifestNamespace = new XmlNamespaceManager(new NameTable());
+            appManifestNamespace.AddNamespace("sm", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+
+            String logoLocation = (appManifest.SelectSingleNode("/sm:Package/sm:Properties/sm:Logo", appManifestNamespace).InnerText).Replace("\\", @"\");
+
+            if (logoLocation != null)
             {
-                using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(Path.GetFullPath(appPath[0] + "\\Assets\\Square150x150Logo.scale-100.png"))))
-                    return ImageFunctions.ResizeImage(Bitmap.FromStream(ms), 32, 32);
+                // Get the last instance or usage of \ to cut out the path of the logo just to have the path leading to the general logo folder
+                logoLocation = logoLocation.Substring(0, logoLocation.LastIndexOf(@"\"));
+                String logoLocationFullPath = Path.GetFullPath(appPath + "\\" + logoLocation);
+
+                String logoPath = "";
+
+                // Search for all files with 150x150 in its name and use the first result
+                string fileGoal = "StoreLogo";
+                DirectoryInfo logoDirectory = new DirectoryInfo(logoLocationFullPath);
+                FileInfo[] filesInDir = logoDirectory.GetFiles("*" + fileGoal + "*.*");
+
+                logoPath = filesInDir.Last().FullName;
+
+                if (File.Exists(logoPath))
+                {
+                    using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(logoPath)))
+                        return ImageFunctions.ResizeImage(Bitmap.FromStream(ms), 64, 64);
+                } else
+                {
+                    return Icon.ExtractAssociatedIcon(file).ToBitmap();
+                }
             } else
             {
                 return Icon.ExtractAssociatedIcon(file).ToBitmap();
