@@ -1,4 +1,5 @@
 
+
 <p align="center">
   <img src="https://raw.githubusercontent.com/tjackenpacken/taskbar-groups/master/main/Icon.ico" alt="Logo" width="150" height="150" />
 </p>
@@ -7,6 +8,8 @@
 <a href="https://github.com/tjackenpacken/taskbar-groups/issues"><img alt="Issues open" src="https://img.shields.io/github/issues-raw/tjackenpacken/taskbar-groups?style=for-the-badge" height="20"/></a>
 <a href="https://github.com/tjackenpacken/taskbar-groups/"><img alt="Last commit" src="https://img.shields.io/github/last-commit/tjackenpacken/taskbar-groups?style=for-the-badge" height="20"/></a>
 <a href="https://github.com/tjackenpacken/taskbar-groups/releases"><img alt="Latest version" src="https://img.shields.io/github/v/tag/tjackenpacken/taskbar-groups?label=Latest%20Version&style=for-the-badge" height="20"/></a>
+<a href="https://github.com/tjackenpacken/taskbar-groups/blob/master/LICENSE"><img alt="Latest version" src="https://img.shields.io/github/license/tjackenpacken/taskbar-groups?style=for-the-badge" height="20"/></a>
+	
 </p>
 <p align="center">
   <b>Taskbar groups is a lightweight utility for Windows that lets the users create groups of shortcuts in the taskbar.</b>
@@ -29,6 +32,7 @@
 * [➤ Image/Icon  Caching](#-imageicon-caching)
 * [➤ Program Shortcuts](#%EF%B8%8F-program-shortcuts)
 * [➤ File/Folder Structure](#-folder-structure-documentation)
+* [➤ License](#-License)
 
  [![-----------------------------------------------------](https://user-images.githubusercontent.com/56088716/103312593-8a37ff80-49eb-11eb-91d3-75488e21a0a9.png)](#how-to-download-taskbar-groups)
 
@@ -112,4 +116,8 @@ Crucial information about the shortcuts and the group itself stored inside of he
 In here stores the individual profiles for each form. Essentially these profiles are per-compiled code that the application can read from to improve loading times and responsiveness in the system.
 #### /Shortcuts
 Here is where all of your shortcuts to activate your group will go. All groups created will have their shortcut created here and after creation, you can feel free to move the shortcut or pin it to any desired locations.
+![-----------------------------------------------------](https://user-images.githubusercontent.com/56088716/103312593-8a37ff80-49eb-11eb-91d3-75488e21a0a9.png)
+## 📜 License
+This project is licensed under the [MIT License](https://github.com/tjackenpacken/taskbar-groups/blob/master/LICENSE).
+
 ![-----------------------------------------------------](https://user-images.githubusercontent.com/56088716/103312593-8a37ff80-49eb-11eb-91d3-75488e21a0a9.png)
