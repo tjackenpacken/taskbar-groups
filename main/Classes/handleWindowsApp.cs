@@ -17,7 +17,7 @@ namespace client.Classes
             String subAppName = microsoftAppName.Split('_')[0];
 
             // Find the directories in the WindowsApps folder containg that direcotry
-            string[] appDirecList = Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramFiles%") + $@"\WindowsApps\");
+            string[] appDirecList = Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\");
 
             // Loop through each of the folders with the app name to find the one with the manifest + logos
             String appPath = "";
