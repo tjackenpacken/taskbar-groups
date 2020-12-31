@@ -46,7 +46,7 @@ namespace client
 
             //InitializeComponent();
 
-            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes("GroupIcon.ico")))
+            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(MainPath.path + "\\config\\" + passedDirec + "\\GroupIcon.ico")))
                 this.Icon = new Icon(ms);
         }
 

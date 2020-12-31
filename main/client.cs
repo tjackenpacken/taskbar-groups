@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using client.Classes;
+using System.Diagnostics;
 
 namespace client
 {
@@ -31,12 +32,38 @@ namespace client
             // Set the MainPath to the absolute path where the exe is located
             MainPath.path = Path.GetFullPath(new Uri(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)).LocalPath);
 
+            // Creats folder for JIT compilation 
             Directory.CreateDirectory($"{MainPath.path}\\JITComp");
+
+            // Creates directory in case it does not exist for config files
+            Directory.CreateDirectory($"{MainPath.path}\\config");
+            Directory.CreateDirectory($"{MainPath.path}\\Shortcuts");
 
             System.Runtime.ProfileOptimization.SetProfileRoot(MainPath.path + "\\JITComp");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            try
+            {
+                System.IO.File.Create(MainPath.path + "\\directoryTestingDocument.txt").Close();
+                System.IO.File.Delete(MainPath.path + "\\directoryTestingDocument.txt");
+            }
+            catch
+            {
+                using (Process configTool = new Process())
+                {
+                    configTool.StartInfo.FileName = System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase;
+                    configTool.StartInfo.Verb = "runas";
+                    try
+                    {
+                        configTool.Start();
+                    } catch
+                    {
+                        Process.GetCurrentProcess().Kill();
+                    }
+                }
+            }
 
             if (arguments.Length > 1) // Checks for additional arguments; opens either main application or taskbar drawer application
             {
@@ -47,10 +74,6 @@ namespace client
                 Application.Run(new frmMain(arguments[1], cursorX, cursorY));
             } else
             {
-                // Creates directory in case it does not exist for config files
-                Directory.CreateDirectory($"{MainPath.path}\\config");
-                Directory.CreateDirectory($"{MainPath.path}\\Shortcuts");
-
                 // See comment above
                 SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");
                 Application.Run(new frmClient());
