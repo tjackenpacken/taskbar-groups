@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmClient));
             this.pnlLeftColumn = new System.Windows.Forms.Panel();
+            this.cmdClose = new System.Windows.Forms.Button();
+            this.btnClose = new System.Windows.Forms.Button();
             this.pnlHelp = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.lblHelp1 = new System.Windows.Forms.Label();
@@ -38,21 +41,28 @@
             this.lblHelpTitle = new System.Windows.Forms.Label();
             this.pnlAddGroup = new System.Windows.Forms.Panel();
             this.lblAddGroup = new System.Windows.Forms.Label();
+            this.cmdAddGroup = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlExistingGroups = new System.Windows.Forms.Panel();
-            this.cmdAddGroup = new System.Windows.Forms.PictureBox();
+            this.trayIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.contextMenuStripTray = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItemSettings = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.pnlLeftColumn.SuspendLayout();
             this.pnlHelp.SuspendLayout();
             this.pnlAddGroup.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.contextMenuStripTray.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlLeftColumn
             // 
             this.pnlLeftColumn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.pnlLeftColumn.Controls.Add(this.cmdClose);
+            this.pnlLeftColumn.Controls.Add(this.btnClose);
             this.pnlLeftColumn.Controls.Add(this.pnlHelp);
             this.pnlLeftColumn.Controls.Add(this.lblHelpTitle);
             this.pnlLeftColumn.ImeMode = System.Windows.Forms.ImeMode.On;
@@ -60,6 +70,32 @@
             this.pnlLeftColumn.Name = "pnlLeftColumn";
             this.pnlLeftColumn.Size = new System.Drawing.Size(320, 820);
             this.pnlLeftColumn.TabIndex = 0;
+            // 
+            // cmdClose
+            // 
+            this.cmdClose.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.cmdClose.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(148)))), ((int)(((byte)(148)))));
+            this.cmdClose.FlatAppearance.BorderSize = 0;
+            this.cmdClose.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmdClose.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmdClose.ForeColor = System.Drawing.Color.White;
+            this.cmdClose.Location = new System.Drawing.Point(72, 335);
+            this.cmdClose.Name = "cmdClose";
+            this.cmdClose.Size = new System.Drawing.Size(182, 50);
+            this.cmdClose.TabIndex = 21;
+            this.cmdClose.TabStop = false;
+            this.cmdClose.Text = "Close";
+            this.cmdClose.UseVisualStyleBackColor = false;
+            this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
+            // 
+            // btnClose
+            // 
+            this.btnClose.Location = new System.Drawing.Point(0, 0);
+            this.btnClose.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.btnClose.Name = "btnClose";
+            this.btnClose.Size = new System.Drawing.Size(56, 19);
+            this.btnClose.TabIndex = 22;
+            this.btnClose.Visible = false;
             // 
             // pnlHelp
             // 
@@ -157,6 +193,20 @@
             this.lblAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
             this.lblAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
             // 
+            // cmdAddGroup
+            // 
+            this.cmdAddGroup.BackgroundImage = global::client.Properties.Resources.AddGray;
+            this.cmdAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cmdAddGroup.Location = new System.Drawing.Point(88, 14);
+            this.cmdAddGroup.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
+            this.cmdAddGroup.Name = "cmdAddGroup";
+            this.cmdAddGroup.Size = new System.Drawing.Size(40, 40);
+            this.cmdAddGroup.TabIndex = 7;
+            this.cmdAddGroup.TabStop = false;
+            this.cmdAddGroup.Click += new System.EventHandler(this.cmdAddGroup_Click);
+            this.cmdAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
+            this.cmdAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -198,19 +248,35 @@
             this.pnlExistingGroups.Size = new System.Drawing.Size(680, 0);
             this.pnlExistingGroups.TabIndex = 3;
             // 
-            // cmdAddGroup
+            // trayIcon
             // 
-            this.cmdAddGroup.BackgroundImage = global::client.Properties.Resources.AddGray;
-            this.cmdAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cmdAddGroup.Location = new System.Drawing.Point(88, 14);
-            this.cmdAddGroup.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
-            this.cmdAddGroup.Name = "cmdAddGroup";
-            this.cmdAddGroup.Size = new System.Drawing.Size(40, 40);
-            this.cmdAddGroup.TabIndex = 7;
-            this.cmdAddGroup.TabStop = false;
-            this.cmdAddGroup.Click += new System.EventHandler(this.cmdAddGroup_Click);
-            this.cmdAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
-            this.cmdAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
+            this.trayIcon.ContextMenuStrip = this.contextMenuStripTray;
+            this.trayIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("trayIcon.Icon")));
+            this.trayIcon.Text = "Taskbar Group";
+            this.trayIcon.Visible = true;
+            // 
+            // contextMenuStripTray
+            // 
+            this.contextMenuStripTray.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.contextMenuStripTray.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItemSettings,
+            this.toolStripMenuItemExit});
+            this.contextMenuStripTray.Name = "contextMenuStripTray";
+            this.contextMenuStripTray.Size = new System.Drawing.Size(154, 48);
+            // 
+            // toolStripMenuItemSettings
+            // 
+            this.toolStripMenuItemSettings.Name = "toolStripMenuItemSettings";
+            this.toolStripMenuItemSettings.Size = new System.Drawing.Size(153, 22);
+            this.toolStripMenuItemSettings.Text = "Taskbar groups";
+            this.toolStripMenuItemSettings.Click += new System.EventHandler(this.toolStripMenuItemSettings_Click);
+            // 
+            // toolStripMenuItemExit
+            // 
+            this.toolStripMenuItemExit.Name = "toolStripMenuItemExit";
+            this.toolStripMenuItemExit.Size = new System.Drawing.Size(153, 22);
+            this.toolStripMenuItemExit.Text = "Exit";
+            this.toolStripMenuItemExit.Click += new System.EventHandler(this.toolStripMenuItemExit_Click);
             // 
             // frmClient
             // 
@@ -231,9 +297,10 @@
             this.pnlHelp.ResumeLayout(false);
             this.pnlAddGroup.ResumeLayout(false);
             this.pnlAddGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).EndInit();
+            this.contextMenuStripTray.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -254,5 +321,11 @@
         private System.Windows.Forms.Label lblHelp3;
         private System.Windows.Forms.Label lblHelp2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NotifyIcon trayIcon;
+        private System.Windows.Forms.Button btnClose;
+        private System.Windows.Forms.ContextMenuStrip contextMenuStripTray;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemSettings;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItemExit;
+        private System.Windows.Forms.Button cmdClose;
     }
 }

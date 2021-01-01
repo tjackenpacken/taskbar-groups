@@ -14,6 +14,17 @@ namespace client.Forms
 {
     public partial class frmClient : Form
     {
+        private const int WS_SYSMENU = 0x80000;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams cp = base.CreateParams;
+                cp.Style &= ~WS_SYSMENU;
+                return cp;
+            }
+        }
+
         public frmClient()
         {
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
@@ -96,5 +107,20 @@ namespace client.Forms
             control.BackColor = Color.FromArgb(3, 3, 3);
         }
 
+        private void toolStripMenuItemSettings_Click(object sender, EventArgs e)
+        {
+            Show();
+            trayIcon.Visible = false;
+        }
+        private void toolStripMenuItemExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void cmdClose_Click(object sender, EventArgs e)
+        {
+            Hide();
+            trayIcon.Visible = true;
+        }
     }
 }
