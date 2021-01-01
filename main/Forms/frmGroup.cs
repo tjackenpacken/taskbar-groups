@@ -287,29 +287,15 @@ namespace client.Forms
                 FilterIndex = 2,
                 RestoreDirectory = true,
                 ReadOnlyChecked = true,
-            };
+                DereferenceLinks = false,
+        };
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
 
                 String imageExtension = Path.GetExtension(openFileDialog.FileName).ToLower();
 
-                if (specialImageExt.Contains(imageExtension))
-                {
-                    if (imageExtension == ".lnk")
-                    {
-                        cmdAddGroupIcon.BackgroundImage = handleLnkExt(openFileDialog.FileName);
-                    }
-                    else
-                    {
-                        cmdAddGroupIcon.BackgroundImage = Icon.ExtractAssociatedIcon(openFileDialog.FileName).ToBitmap();
-                    }
-                }
-                else
-                {
-                   cmdAddGroupIcon.BackgroundImage = Image.FromFile(openFileDialog.FileName);
-                }
-                lblAddGroupIcon.Text = "Change group icon";
+                handleIcon(openFileDialog.FileName, imageExtension);
             }
         }
 
@@ -323,23 +309,29 @@ namespace client.Forms
             if (files.Length == 1 && newExt.Contains(imageExtension) && System.IO.File.Exists(files[0]))
             {
                 // Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
-                if (specialImageExt.Contains(imageExtension))
+                handleIcon(files[0], imageExtension);
+            }
+        }
+
+        private void handleIcon(String file, String imageExtension)
+        {
+            // Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
+            if (specialImageExt.Contains(imageExtension))
+            {
+                if (imageExtension == ".lnk")
                 {
-                    if (imageExtension == ".lnk")
-                    {
-                        cmdAddGroupIcon.BackgroundImage = handleLnkExt(files[0]);
-                    }
-                    else
-                    {
-                        cmdAddGroupIcon.BackgroundImage = Icon.ExtractAssociatedIcon(files[0]).ToBitmap();
-                    }
+                    cmdAddGroupIcon.BackgroundImage = handleLnkExt(file);
                 }
                 else
                 {
-                    cmdAddGroupIcon.BackgroundImage = Image.FromFile(files[0]);
+                    cmdAddGroupIcon.BackgroundImage = Icon.ExtractAssociatedIcon(file).ToBitmap();
                 }
-                lblAddGroupIcon.Text = "Change group icon";
             }
+            else
+            {
+                cmdAddGroupIcon.BackgroundImage = Image.FromFile(file);
+            }
+            lblAddGroupIcon.Text = "Change group icon";
         }
 
         // Handle returning images of icon files (.lnk)
