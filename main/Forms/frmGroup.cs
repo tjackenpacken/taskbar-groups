@@ -11,6 +11,8 @@ using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Shell;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Threading.Tasks;
 
 namespace client.Forms
 {
@@ -28,6 +30,8 @@ namespace client.Forms
         public ucProgramShortcut selectedShortcut;
 
         public static Shell32.Shell shell = new Shell32.Shell();
+
+        private List<ProgramShortcut> shortcutChanged = new List<ProgramShortcut>();
 
 
         //--------------------------------------
@@ -198,7 +202,9 @@ namespace client.Forms
         // Handle adding the shortcut to list
         private void addShortcut(String file, bool isExtension = false)
         {
-            ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file), isWindowsApp = isExtension }; //Create new shortcut obj
+            String workingDirec = getProperDirectory(file);
+
+            ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file), isWindowsApp = isExtension, WorkingDirectory = workingDirec }; //Create new shortcut obj
             Category.ShortcutList.Add(psc); // Add to panel shortcut list
             LoadShortcut(psc, Category.ShortcutList.Count - 1);
 
@@ -209,7 +215,7 @@ namespace client.Forms
         public void DeleteShortcut(ProgramShortcut psc)
         {
             Category.ShortcutList.Remove(psc);
-            resetSelection(selectedShortcut);
+            resetSelection();
             bool before = true;
             //int i = 0;
 
@@ -255,7 +261,7 @@ namespace client.Forms
         // Change positions of shortcut panels
         public void Swap<T>(IList<T> list, int indexA, int indexB)
         {
-            resetSelection(selectedShortcut);
+            resetSelection();
             T tmp = list[indexA];
             list[indexA] = list[indexB];
             list[indexB] = tmp;
@@ -473,6 +479,16 @@ namespace client.Forms
             {
                 try
                 {
+
+                    foreach(ProgramShortcut shortcutModifiedItem in shortcutChanged)
+                    {
+                        if (!Directory.Exists(shortcutModifiedItem.WorkingDirectory))
+                        {
+                            shortcutModifiedItem.WorkingDirectory = getProperDirectory(shortcutModifiedItem.FilePath);
+                        }
+                    }
+
+
                     if (!IsNew)
                     {
                         //
@@ -699,9 +715,10 @@ namespace client.Forms
         //--------------------------------------
 
         // Deselect selected program/shortcut
-        public void resetSelection(ucProgramShortcut passedShortcut)
+        public void resetSelection()
         {
             pnlArgumentTextbox.Enabled = false;
+            cmdSelectDirectory.Enabled = false;
             if (selectedShortcut != null)
             {
 
@@ -719,6 +736,10 @@ namespace client.Forms
 
             pnlArgumentTextbox.Text = Category.ShortcutList[selectedShortcut.Position].Arguments;
             pnlArgumentTextbox.Enabled = true;
+
+            pnlWorkingDirectory.Text = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory;
+            pnlWorkingDirectory.Enabled = true;
+            cmdSelectDirectory.Enabled = true;
         }
 
         // Set the argument property to whatever the user set
@@ -746,6 +767,49 @@ namespace client.Forms
             Category.allowOpenAll = pnlAllowOpenAll.Checked;
         }
 
+        private void cmdSelectDirectory_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog()
+            {
+                EnsurePathExists = true,
+                IsFolderPicker = true,
+                InitialDirectory = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory
+            };
 
+            if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                this.Focus();
+                Category.ShortcutList[selectedShortcut.Position].WorkingDirectory = openFileDialog.FileName;
+            }
+        }
+
+        private void pnlWorkingDirectory_TextChanged(object sender, EventArgs e)
+        {
+            Category.ShortcutList[selectedShortcut.Position].WorkingDirectory = pnlWorkingDirectory.Text;
+
+            if (!shortcutChanged.Contains(Category.ShortcutList[selectedShortcut.Position]))
+            {
+                shortcutChanged.Add(Category.ShortcutList[selectedShortcut.Position]);
+            }
+        }
+
+        private String getProperDirectory(String file)
+        {
+            try {
+                if (Path.GetExtension(file).ToLower() == ".lnk")
+                {
+                    IWshShortcut extension = (IWshShortcut)new WshShell().CreateShortcut(file);
+
+                    return Path.GetDirectoryName(extension.TargetPath);
+                }
+                else
+                {
+                    return Path.GetDirectoryName(file);
+                }
+            } catch (Exception)
+            {
+                return MainPath.exeString;
+            }
+        }
     }
 }

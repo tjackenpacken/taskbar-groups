@@ -56,10 +56,10 @@
 ## 🖥️ Screen/Window Documentation
  Below will be some documentation for each of the screens with explaining the functionality of each of the components.
 #### Main screen [](#main-screen)
-![enter image description here](https://user-images.githubusercontent.com/56088716/103317856-81025f00-49fa-11eb-907b-99623babf315.PNG)Here is the main group configuration screen. You get here by executing the TaskbarGroups.exe file. Here you can add groups and see what groups you have created.
+![Group overview screen](https://user-images.githubusercontent.com/56088716/103317856-81025f00-49fa-11eb-907b-99623babf315.PNG)Here is the main group configuration screen. You get here by executing the TaskbarGroups.exe file. Here you can add groups and see what groups you have created.
 
 #### Group Creation Screen [](#group-creation)
-![enter image description here](https://user-images.githubusercontent.com/56088716/103318007-fff79780-49fa-11eb-8dd5-e69d982c3e83.PNG)  
+![Group creation screen](https://user-images.githubusercontent.com/56088716/103452967-36efd680-4ca3-11eb-8244-2aed6fc5af97.PNG)  
 Here is the group creation screen. Here you can start customizing and configuring your group. Here is the quick rundown of the features of this window.
 
 **Name the new group** - You can insert any group name (no special characters) that you would like with a maximum character limit of 49 characters in total.
@@ -72,7 +72,11 @@ Here is the group creation screen. Here you can start customizing and configurin
 
 **Allow open-all shortcuts** - When you launch the group to try to launch an app, you have the option to launch all the executables inside the group. To enable this feature, this checkbox has to be checked and the group has to be saved. All shortcuts can be launched through the usage of the Ctrl + Enter keybinds.
 
-**Arguments** - Once you have added shortcuts/applications, you can click on the **sides of the individual entries** of those shortcuts/applications or anywhere that a text or image aren't blocking the background area. Clicking on them will "select" them and they would have a permanent background that is darker than the rest of the entries. This will be the same color as when you hover over applications. Once that is done, this textbox is enabled and you can type any launch arguments that you would like to include with the application on launch.
+**Shortcut Item Selection** - Once you have added shortcuts/applications, you can click on the **sides of the individual entries** of those shortcuts/applications or anywhere that a text or image aren't blocking the background area. Clicking on them will "select" them and they would have a permanent background that is darker than the rest of the entries. This will be the same color as when you hover over applications/shortcuts. This will be needed to set **Working Directories** and **Arguments**.
+
+**Working Directory** - Once you have selected an item, this textbox and the choose folder beside it will be enabled. Here you can change what working directory the application starts with. This may be required for some applications. By default for older groups, the working directory is the directory of the taskbar groups application. For new added shortcuts/applications, the working directory will be set as the location of the application or the directory of the target file for shortcuts. You can also manually set a loation through the **Select Directory** button. Any directory that is changed manually will be checked to be valid and if the working directory is invalid, the target path will be set with the same process as if you added a new application/shortcut.
+
+**Arguments** - Once you have selected an item, this textbox is enabled and you can type any launch arguments that you would like to include with the application on launch.
 
 **Dark color/Light color/Custom color** - Here you can select what color you want the background of your group to be.
 

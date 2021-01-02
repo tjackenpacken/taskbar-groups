@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace client
@@ -301,7 +302,7 @@ namespace client
             this.shortcutPic.BackgroundImage = ThisCategory.loadImageCache(psc); // Use the local icon cache for the file specified as the icon image
             this.shortcutPic.BackgroundImageLayout = ImageLayout.Stretch;
             this.shortcutPic.TabStop = false;
-            this.shortcutPic.Click += new System.EventHandler((sender, e) => OpenFile(psc.Arguments, psc.FilePath));
+            this.shortcutPic.Click += new System.EventHandler((sender, e) => OpenFile(psc.Arguments, psc.FilePath, psc.WorkingDirectory));
             this.shortcutPic.Cursor = System.Windows.Forms.Cursors.Hand;
             this.shortcutPanel.Controls.Add(this.shortcutPic);
             this.shortcutPic.Show();
@@ -312,13 +313,14 @@ namespace client
         }
 
         // Click handler for shortcuts
-        public void OpenFile(string arguments, string path)
+        public void OpenFile(string arguments, string path, string workingDirec)
         {
             // starting program from psc panel click
             ProcessStartInfo proc = new ProcessStartInfo();
             proc.Arguments = arguments;
             proc.FileName = path;
-            
+            proc.WorkingDirectory = workingDirec;
+
             /*
             proc.EnableRaisingEvents = false;
             proc.StartInfo.FileName = path;

@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using client.Classes;
 using System.Diagnostics;
+using System.IO;
+using IWshRuntimeLibrary;
 
 namespace client.User_controls
 {
@@ -38,7 +40,13 @@ namespace client.User_controls
                 p.Start();
             } else
             {
-                MotherForm.OpenFile(Psc.Arguments, Psc.FilePath);
+                if(Path.GetExtension(Psc.FilePath).ToLower() == ".lnk" && Psc.FilePath == MainPath.exeString)
+                {
+                    MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, MainPath.path);
+                } else
+                {
+                    MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, Psc.WorkingDirectory);
+                }
             }
         }
 

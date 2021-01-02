@@ -131,12 +131,12 @@ namespace client.User_controls
         {
             if (MotherForm.selectedShortcut == this)
             {
-                MotherForm.resetSelection(this);
+                MotherForm.resetSelection();
             } else
             {
                 if (MotherForm.selectedShortcut != null)
                 {
-                    MotherForm.resetSelection(this);
+                    MotherForm.resetSelection();
                 }
 
                 MotherForm.enableSelection(this);

@@ -7,5 +7,6 @@ namespace client.Classes
     static class MainPath
     {
         public static String path;
+        public static String exeString;
     }
 }
