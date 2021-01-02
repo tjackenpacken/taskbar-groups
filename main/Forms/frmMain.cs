@@ -290,6 +290,8 @@ namespace client
                 x += 55;
                 columns++;
             }
+
+            this.Width -= 2; // For some reason the width is 2 pixels larger than the shortcuts. Temporary fix
         }
 
         // OLD (Having some issues with the uc build, so keeping the old code below)
@@ -309,7 +311,6 @@ namespace client
             this.shortcutPic.BringToFront();
             this.shortcutPic.MouseEnter += new System.EventHandler((sender, e) => this.shortcutPanel.BackColor = Color.Black);
             this.shortcutPic.MouseLeave += new System.EventHandler((sender, e) => this.shortcutPanel.BackColor = System.Drawing.Color.Transparent);
-
         }
 
         // Click handler for shortcuts

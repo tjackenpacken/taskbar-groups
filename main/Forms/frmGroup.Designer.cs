@@ -52,6 +52,7 @@
             this.numOpacDown = new System.Windows.Forms.Button();
             this.numOpacUp = new System.Windows.Forms.Button();
             this.lblPercent = new System.Windows.Forms.Label();
+            this.pnlAllowOpenAll = new System.Windows.Forms.CheckBox();
             this.lblOpacityTooltip = new System.Windows.Forms.Label();
             this.lblOpacity = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -68,9 +69,10 @@
             this.cmdSelectDirectory = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.pnlWorkingDirectory = new System.Windows.Forms.TextBox();
-            this.pnlAllowOpenAll = new System.Windows.Forms.CheckBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pnlArgumentTextbox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.pnlGroupIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
@@ -342,6 +344,7 @@
             this.pnlColor.Controls.Add(this.numOpacDown);
             this.pnlColor.Controls.Add(this.numOpacUp);
             this.pnlColor.Controls.Add(this.lblPercent);
+            this.pnlColor.Controls.Add(this.pnlAllowOpenAll);
             this.pnlColor.Controls.Add(this.lblOpacityTooltip);
             this.pnlColor.Controls.Add(this.lblOpacity);
             this.pnlColor.Controls.Add(this.label1);
@@ -349,9 +352,9 @@
             this.pnlColor.Controls.Add(this.radioCustom);
             this.pnlColor.Controls.Add(this.radioDark);
             this.pnlColor.Controls.Add(this.radioLight);
-            this.pnlColor.Location = new System.Drawing.Point(110, 651);
+            this.pnlColor.Location = new System.Drawing.Point(110, 544);
             this.pnlColor.Name = "pnlColor";
-            this.pnlColor.Size = new System.Drawing.Size(368, 120);
+            this.pnlColor.Size = new System.Drawing.Size(368, 164);
             this.pnlColor.TabIndex = 48;
             // 
             // numOpacDown
@@ -361,7 +364,7 @@
             this.numOpacDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.numOpacDown.FlatAppearance.BorderSize = 0;
             this.numOpacDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.numOpacDown.Location = new System.Drawing.Point(250, 109);
+            this.numOpacDown.Location = new System.Drawing.Point(250, 115);
             this.numOpacDown.Name = "numOpacDown";
             this.numOpacDown.Size = new System.Drawing.Size(16, 8);
             this.numOpacDown.TabIndex = 49;
@@ -375,7 +378,7 @@
             this.numOpacUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.numOpacUp.FlatAppearance.BorderSize = 0;
             this.numOpacUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.numOpacUp.Location = new System.Drawing.Point(250, 95);
+            this.numOpacUp.Location = new System.Drawing.Point(250, 101);
             this.numOpacUp.Name = "numOpacUp";
             this.numOpacUp.Size = new System.Drawing.Size(16, 8);
             this.numOpacUp.TabIndex = 50;
@@ -387,18 +390,31 @@
             this.lblPercent.AutoSize = true;
             this.lblPercent.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.lblPercent.ForeColor = System.Drawing.Color.White;
-            this.lblPercent.Location = new System.Drawing.Point(220, 96);
+            this.lblPercent.Location = new System.Drawing.Point(216, 102);
             this.lblPercent.Name = "lblPercent";
             this.lblPercent.Size = new System.Drawing.Size(21, 20);
             this.lblPercent.TabIndex = 5;
             this.lblPercent.Text = "%";
+            // 
+            // pnlAllowOpenAll
+            // 
+            this.pnlAllowOpenAll.AutoSize = true;
+            this.pnlAllowOpenAll.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.pnlAllowOpenAll.ForeColor = System.Drawing.Color.White;
+            this.pnlAllowOpenAll.Location = new System.Drawing.Point(64, 131);
+            this.pnlAllowOpenAll.Name = "pnlAllowOpenAll";
+            this.pnlAllowOpenAll.Size = new System.Drawing.Size(278, 24);
+            this.pnlAllowOpenAll.TabIndex = 49;
+            this.pnlAllowOpenAll.Text = "Allow open-all shortcuts (Ctrl + Enter)";
+            this.pnlAllowOpenAll.UseVisualStyleBackColor = true;
+            this.pnlAllowOpenAll.CheckedChanged += new System.EventHandler(this.pnlAllowOpenAll_CheckedChanged);
             // 
             // lblOpacityTooltip
             // 
             this.lblOpacityTooltip.AutoSize = true;
             this.lblOpacityTooltip.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.lblOpacityTooltip.ForeColor = System.Drawing.Color.White;
-            this.lblOpacityTooltip.Location = new System.Drawing.Point(131, 95);
+            this.lblOpacityTooltip.Location = new System.Drawing.Point(127, 101);
             this.lblOpacityTooltip.Name = "lblOpacityTooltip";
             this.lblOpacityTooltip.Size = new System.Drawing.Size(63, 20);
             this.lblOpacityTooltip.TabIndex = 4;
@@ -408,7 +424,7 @@
             // 
             this.lblOpacity.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.lblOpacity.ForeColor = System.Drawing.Color.White;
-            this.lblOpacity.Location = new System.Drawing.Point(189, 96);
+            this.lblOpacity.Location = new System.Drawing.Point(185, 102);
             this.lblOpacity.Name = "lblOpacity";
             this.lblOpacity.Size = new System.Drawing.Size(35, 20);
             this.lblOpacity.TabIndex = 50;
@@ -420,14 +436,14 @@
             this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
             this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label1.Location = new System.Drawing.Point(189, 121);
+            this.label1.Location = new System.Drawing.Point(189, 122);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(45, 1);
             this.label1.TabIndex = 49;
             // 
             // pnlCustomColor
             // 
-            this.pnlCustomColor.Location = new System.Drawing.Point(256, 71);
+            this.pnlCustomColor.Location = new System.Drawing.Point(256, 75);
             this.pnlCustomColor.Name = "pnlCustomColor";
             this.pnlCustomColor.Size = new System.Drawing.Size(15, 15);
             this.pnlCustomColor.TabIndex = 3;
@@ -437,7 +453,7 @@
             this.radioCustom.AutoSize = true;
             this.radioCustom.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioCustom.ForeColor = System.Drawing.Color.White;
-            this.radioCustom.Location = new System.Drawing.Point(135, 65);
+            this.radioCustom.Location = new System.Drawing.Point(135, 69);
             this.radioCustom.Name = "radioCustom";
             this.radioCustom.Size = new System.Drawing.Size(115, 24);
             this.radioCustom.TabIndex = 2;
@@ -451,7 +467,7 @@
             this.radioDark.AutoSize = true;
             this.radioDark.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioDark.ForeColor = System.Drawing.Color.White;
-            this.radioDark.Location = new System.Drawing.Point(135, 5);
+            this.radioDark.Location = new System.Drawing.Point(135, 9);
             this.radioDark.Name = "radioDark";
             this.radioDark.Size = new System.Drawing.Size(96, 24);
             this.radioDark.TabIndex = 1;
@@ -465,7 +481,7 @@
             this.radioLight.AutoSize = true;
             this.radioLight.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioLight.ForeColor = System.Drawing.Color.White;
-            this.radioLight.Location = new System.Drawing.Point(135, 35);
+            this.radioLight.Location = new System.Drawing.Point(135, 39);
             this.radioLight.Name = "radioLight";
             this.radioLight.Size = new System.Drawing.Size(98, 24);
             this.radioLight.TabIndex = 0;
@@ -495,7 +511,7 @@
             this.pnlEnd.Controls.Add(this.cmdDelete);
             this.pnlEnd.Controls.Add(this.cmdSave);
             this.pnlEnd.Controls.Add(this.cmdExit);
-            this.pnlEnd.Location = new System.Drawing.Point(52, 776);
+            this.pnlEnd.Location = new System.Drawing.Point(52, 722);
             this.pnlEnd.Name = "pnlEnd";
             this.pnlEnd.Size = new System.Drawing.Size(482, 44);
             this.pnlEnd.TabIndex = 47;
@@ -530,16 +546,18 @@
             // 
             // pnlArguments
             // 
+            this.pnlArguments.Controls.Add(this.label7);
+            this.pnlArguments.Controls.Add(this.label6);
             this.pnlArguments.Controls.Add(this.cmdSelectDirectory);
             this.pnlArguments.Controls.Add(this.label5);
             this.pnlArguments.Controls.Add(this.pnlWorkingDirectory);
-            this.pnlArguments.Controls.Add(this.pnlAllowOpenAll);
             this.pnlArguments.Controls.Add(this.label3);
             this.pnlArguments.Controls.Add(this.pnlArgumentTextbox);
-            this.pnlArguments.Location = new System.Drawing.Point(52, 530);
+            this.pnlArguments.Location = new System.Drawing.Point(45, 547);
             this.pnlArguments.Name = "pnlArguments";
-            this.pnlArguments.Size = new System.Drawing.Size(482, 117);
+            this.pnlArguments.Size = new System.Drawing.Size(482, 131);
             this.pnlArguments.TabIndex = 48;
+            this.pnlArguments.Visible = false;
             // 
             // cmdSelectDirectory
             // 
@@ -547,7 +565,7 @@
             this.cmdSelectDirectory.FlatAppearance.BorderSize = 0;
             this.cmdSelectDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmdSelectDirectory.ForeColor = System.Drawing.Color.White;
-            this.cmdSelectDirectory.Location = new System.Drawing.Point(369, 89);
+            this.cmdSelectDirectory.Location = new System.Drawing.Point(369, 82);
             this.cmdSelectDirectory.Name = "cmdSelectDirectory";
             this.cmdSelectDirectory.Size = new System.Drawing.Size(90, 25);
             this.cmdSelectDirectory.TabIndex = 52;
@@ -558,58 +576,71 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(23, 69);
+            this.label5.Location = new System.Drawing.Point(23, 63);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(126, 19);
+            this.label5.Size = new System.Drawing.Size(132, 20);
             this.label5.TabIndex = 51;
-            this.label5.Text = "Working Directory";
+            this.label5.Text = "Working Directory:";
             // 
             // pnlWorkingDirectory
             // 
+            this.pnlWorkingDirectory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.pnlWorkingDirectory.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.pnlWorkingDirectory.Enabled = false;
-            this.pnlWorkingDirectory.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.pnlWorkingDirectory.Location = new System.Drawing.Point(23, 89);
+            this.pnlWorkingDirectory.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.pnlWorkingDirectory.ForeColor = System.Drawing.Color.White;
+            this.pnlWorkingDirectory.Location = new System.Drawing.Point(27, 85);
             this.pnlWorkingDirectory.Name = "pnlWorkingDirectory";
-            this.pnlWorkingDirectory.Size = new System.Drawing.Size(343, 25);
+            this.pnlWorkingDirectory.Size = new System.Drawing.Size(330, 16);
             this.pnlWorkingDirectory.TabIndex = 50;
             this.pnlWorkingDirectory.TextChanged += new System.EventHandler(this.pnlWorkingDirectory_TextChanged);
-            // 
-            // pnlAllowOpenAll
-            // 
-            this.pnlAllowOpenAll.AutoSize = true;
-            this.pnlAllowOpenAll.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
-            this.pnlAllowOpenAll.ForeColor = System.Drawing.Color.White;
-            this.pnlAllowOpenAll.Location = new System.Drawing.Point(122, 5);
-            this.pnlAllowOpenAll.Name = "pnlAllowOpenAll";
-            this.pnlAllowOpenAll.Size = new System.Drawing.Size(269, 23);
-            this.pnlAllowOpenAll.TabIndex = 49;
-            this.pnlAllowOpenAll.Text = "Allow open-all shortcuts (Ctrl + Enter)";
-            this.pnlAllowOpenAll.UseVisualStyleBackColor = true;
-            this.pnlAllowOpenAll.CheckedChanged += new System.EventHandler(this.pnlAllowOpenAll_CheckedChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(23, 23);
+            this.label3.Location = new System.Drawing.Point(23, 11);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 19);
+            this.label3.Size = new System.Drawing.Size(84, 20);
             this.label3.TabIndex = 1;
-            this.label3.Text = "Arguments";
+            this.label3.Text = "Arguments:";
             // 
             // pnlArgumentTextbox
             // 
+            this.pnlArgumentTextbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.pnlArgumentTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.pnlArgumentTextbox.Enabled = false;
-            this.pnlArgumentTextbox.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.pnlArgumentTextbox.Location = new System.Drawing.Point(23, 42);
+            this.pnlArgumentTextbox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.pnlArgumentTextbox.ForeColor = System.Drawing.Color.White;
+            this.pnlArgumentTextbox.Location = new System.Drawing.Point(26, 33);
             this.pnlArgumentTextbox.Name = "pnlArgumentTextbox";
-            this.pnlArgumentTextbox.Size = new System.Drawing.Size(436, 25);
+            this.pnlArgumentTextbox.Size = new System.Drawing.Size(425, 16);
             this.pnlArgumentTextbox.TabIndex = 0;
             this.pnlArgumentTextbox.TextChanged += new System.EventHandler(this.pnlArgumentTextbox_TextChanged);
             this.pnlArgumentTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pnlArgumentTextbox_KeyDown);
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label6.Location = new System.Drawing.Point(26, 103);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(335, 1);
+            this.label6.TabIndex = 50;
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label7.Location = new System.Drawing.Point(26, 51);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(425, 1);
+            this.label7.TabIndex = 53;
             // 
             // frmGroup
             // 
@@ -639,6 +670,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New group";
             this.Load += new System.EventHandler(this.frmGroup_Load);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.frmGroup_MouseClick);
             this.pnlGroupIcon.ResumeLayout(false);
             this.pnlGroupIcon.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).EndInit();
@@ -699,5 +731,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox pnlWorkingDirectory;
         private System.Windows.Forms.Button cmdSelectDirectory;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }
