@@ -21,7 +21,6 @@ namespace client.Forms
         public Category Category;
         public frmClient Client;
         public bool IsNew;
-
         private String[] imageExt = new String[] { ".png", ".jpg", ".jpe", ".jfif", ".jpeg", };
         private String[] extensionExt = new String[] { ".exe", ".lnk", ".url" };
         private String[] specialImageExt = new String[] { ".ico", ".exe", ".lnk" };
@@ -142,6 +141,8 @@ namespace client.Forms
         // Adding shortcut by button
         private void pnlAddShortcut_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             lblErrorShortcut.Visible = false; // resetting error msg
 
             if (Category.ShortcutList.Count >= 20)
@@ -178,6 +179,8 @@ namespace client.Forms
         // Handle dropped programs into the add program/shortcut field
         private void pnlDragDropExt(object sender, DragEventArgs e)
         {
+            resetSelection();
+
             if (e.Data.GetFormats()[0] == "Shell IDList Array")
             {
                 ShellObjectCollection ShellObj = ShellObjectCollection.FromDataObject((System.Runtime.InteropServices.ComTypes.IDataObject)e.Data);
@@ -202,6 +205,8 @@ namespace client.Forms
         // Handle adding the shortcut to list
         private void addShortcut(String file, bool isExtension = false)
         {
+            resetSelection();
+
             String workingDirec = getProperDirectory(file);
 
             ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file), isWindowsApp = isExtension, WorkingDirectory = workingDirec }; //Create new shortcut obj
@@ -214,6 +219,8 @@ namespace client.Forms
         // Delete shortcut
         public void DeleteShortcut(ProgramShortcut psc)
         {
+            resetSelection();
+
             Category.ShortcutList.Remove(psc);
             resetSelection();
             bool before = true;
@@ -224,6 +231,7 @@ namespace client.Forms
                 if (before)
                 {
                     ucPsc.Top -= 50;
+                    ucPsc.Position -= 1;
                 }
                 if (ucPsc.Shortcut == psc)
                 {
@@ -290,6 +298,8 @@ namespace client.Forms
         // Adding icon by button
         private void cmdAddGroupIcon_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             lblErrorIcon.Visible = false;  //resetting error msg
 
             OpenFileDialog openFileDialog = new OpenFileDialog  // ask user to select img as group icon
@@ -318,6 +328,8 @@ namespace client.Forms
         // Handle drag and dropped images
         private void pnlDragDropImg(object sender, DragEventArgs e)
         {
+            resetSelection();
+
             var files = (String[])e.Data.GetData(DataFormats.FileDrop);
 
             String imageExtension = Path.GetExtension(files[0]).ToLower();
@@ -387,6 +399,8 @@ namespace client.Forms
         // Only highlights if the files being dropped are valid in extension wise
         private void pnlDragDropEnterExt(object sender, DragEventArgs e)
         {
+            resetSelection();
+
             if (checkExtensions(e, extensionExt))
             {
                 pnlAddShortcut.BackColor = Color.FromArgb(23, 23, 23);
@@ -395,6 +409,8 @@ namespace client.Forms
 
         private void pnlDragDropEnterImg(object sender, DragEventArgs e)
         {
+            resetSelection();
+
             if (checkExtensions(e, imageExt.Concat(specialImageExt).ToArray()))
             {
                 pnlGroupIcon.BackColor = Color.FromArgb(23, 23, 23);
@@ -404,8 +420,6 @@ namespace client.Forms
         // Series of checks to make sure it can be dropped
         private Boolean checkExtensions(DragEventArgs e, String[] exts)
         {
-
-
 
             // Make sure the file can be dragged dropped
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return false;
@@ -454,6 +468,8 @@ namespace client.Forms
         // Save group
         private void cmdSave_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             if (txtGroupName.Text == "Name the new group...") // Verify category name
             {
                 lblErrorTitle.Text = "Must select a name";
@@ -541,6 +557,8 @@ namespace client.Forms
         // Delete group
         private void cmdDelete_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             try
             {
                 string configPath = @MainPath.path + @"\config\" + Category.Name;
@@ -582,6 +600,8 @@ namespace client.Forms
         // Change category width
         private void cmdWidthUp_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             int num = int.Parse(lblNum.Text);
             if (num > 19)
             {
@@ -597,6 +617,8 @@ namespace client.Forms
         }
         private void cmdWidthDown_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             int num = int.Parse(lblNum.Text);
             if (num == 1)
             {
@@ -694,6 +716,7 @@ namespace client.Forms
         // Handles placeholder text for group name
         private void txtGroupName_MouseClick(object sender, MouseEventArgs e)
         {
+            resetSelection();
             if (txtGroupName.Text == "Name the new group...")
                 txtGroupName.Text = "";
         }
@@ -721,11 +744,13 @@ namespace client.Forms
             cmdSelectDirectory.Enabled = false;
             if (selectedShortcut != null)
             {
-
+                pnlColor.Visible = true;
+                pnlArguments.Visible = false;
                 selectedShortcut.ucDeselected();
-
+                selectedShortcut.IsSelected = false;
                 selectedShortcut = null;
             }
+
         }
 
         // Enable the argument textbox once a shortcut/program has been selected
@@ -733,6 +758,7 @@ namespace client.Forms
         {
             selectedShortcut = passedShortcut;
             passedShortcut.ucSelected();
+            passedShortcut.IsSelected = true;
 
             pnlArgumentTextbox.Text = Category.ShortcutList[selectedShortcut.Position].Arguments;
             pnlArgumentTextbox.Enabled = true;
@@ -740,6 +766,9 @@ namespace client.Forms
             pnlWorkingDirectory.Text = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory;
             pnlWorkingDirectory.Enabled = true;
             cmdSelectDirectory.Enabled = true;
+
+            pnlColor.Visible = false;
+            pnlArguments.Visible = true;
         }
 
         // Set the argument property to whatever the user set
@@ -810,6 +839,11 @@ namespace client.Forms
             {
                 return MainPath.exeString;
             }
+        }
+
+        private void frmGroup_MouseClick(object sender, MouseEventArgs e)
+        {
+            resetSelection();
         }
     }
 }
