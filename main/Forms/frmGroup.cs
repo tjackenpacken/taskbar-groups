@@ -11,8 +11,7 @@ using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Shell;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using System.Threading.Tasks;
+using Microsoft.WindowsAPICodePack.Dialogs; 
 
 namespace client.Forms
 {
@@ -173,21 +172,28 @@ namespace client.Forms
                     addShortcut(file);
                 }
             }
+
+            if (pnlShortcuts.Controls.Count != 0)
+            {
+                pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]);
+            }
         }
 
         // Handle dropped programs into the add program/shortcut field
         private void pnlDragDropExt(object sender, DragEventArgs e)
         {
-            if (e.Data.GetFormats()[0] == "Shell IDList Array")
+            var files = (String[])e.Data.GetData(DataFormats.FileDrop);
+
+            if (files == null)
             {
                 ShellObjectCollection ShellObj = ShellObjectCollection.FromDataObject((System.Runtime.InteropServices.ComTypes.IDataObject)e.Data);
-                foreach (ShellNonFileSystemItem item in ShellObj) {
+
+                foreach (ShellNonFileSystemItem item in ShellObj)
+                {
                     addShortcut(item.ParsingName, true);
                 }
             } else
             {
-                var files = (String[])e.Data.GetData(DataFormats.FileDrop);
-
                 // Loops through each file to make sure they exist and to add them directly to the shortcut list
                 foreach (var file in files)
                 {
@@ -196,6 +202,11 @@ namespace client.Forms
                         addShortcut(file);
                     }
                 }
+            }
+
+            if (pnlShortcuts.Controls.Count != 0)
+            {
+                pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]);
             }
         }
 
@@ -207,8 +218,6 @@ namespace client.Forms
             ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file), isWindowsApp = isExtension, WorkingDirectory = workingDirec }; //Create new shortcut obj
             Category.ShortcutList.Add(psc); // Add to panel shortcut list
             LoadShortcut(psc, Category.ShortcutList.Count - 1);
-
-            pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[pnlShortcuts.Controls.Count - 1]);
         }
 
         // Delete shortcut

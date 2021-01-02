@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Collections.Generic;
+using System.Management.Automation;
+using System.Collections.ObjectModel;
 
 namespace client.Classes
 {
@@ -72,19 +74,34 @@ namespace client.Classes
 
         public static string findWindowsAppsFolder(string subAppName)
         {
+
             if (!fileDirectoryCache.ContainsKey(subAppName))
             {
-                // Find the directories in the WindowsApps folder containg that direcotry
-                string[] appDirecList = Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\");
-
-                foreach (var appDirec in appDirecList)
+                try
                 {
-                    if (appDirec.Contains(subAppName) && File.Exists(appDirec + "\\AppxManifest.xml"))
+
+                    using (PowerShell powerShell = PowerShell.Create())
                     {
-                        fileDirectoryCache[subAppName] = appDirec;
-                        return appDirec;
+                        powerShell.AddScript($"Get-AppxPackage -name {subAppName}");
+
+                        Collection<PSObject> PSOutput = powerShell.Invoke();
+
+
+                        if (PSOutput[0] != null)
+                        {
+                            String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + PSOutput[0] + @"\";
+                            fileDirectoryCache[subAppName] = finalPath;
+                            return finalPath;
+                        }
                     }
+
+                    /*
+                    foreach (string folder in Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\"))
+                    {
+                        appDirecList.Add(folder);
+                    }*/
                 }
+                catch (UnauthorizedAccessException) { };
                 return "";
             }
             else
@@ -96,11 +113,12 @@ namespace client.Classes
         public static string findWindowsAppsName(string AppName)
         {
             String subAppName = AppName.Split('_')[0];
-
             String appPath = findWindowsAppsFolder(subAppName);
 
-            // Load and read manifest to get the logo path
-            XmlDocument appManifest = new XmlDocument();
+            
+
+                // Load and read manifest to get the logo path
+                XmlDocument appManifest = new XmlDocument();
             appManifest.Load(appPath + "\\AppxManifest.xml");
 
             XmlNamespaceManager appManifestNamespace = new XmlNamespaceManager(new NameTable());
