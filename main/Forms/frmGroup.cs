@@ -179,7 +179,7 @@ namespace client.Forms
         // Handle dropped programs into the add program/shortcut field
         private void pnlDragDropExt(object sender, DragEventArgs e)
         {
-            resetSelection();
+
 
             if (e.Data.GetFormats()[0] == "Shell IDList Array")
             {
@@ -200,6 +200,8 @@ namespace client.Forms
                     }
                 }
             }
+
+            resetSelection();
         }
 
         // Handle adding the shortcut to list

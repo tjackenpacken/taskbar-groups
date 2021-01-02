@@ -71,6 +71,8 @@
             this.pnlWorkingDirectory = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pnlArgumentTextbox = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.pnlGroupIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
@@ -399,7 +401,7 @@
             this.pnlAllowOpenAll.AutoSize = true;
             this.pnlAllowOpenAll.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.pnlAllowOpenAll.ForeColor = System.Drawing.Color.White;
-            this.pnlAllowOpenAll.Location = new System.Drawing.Point(64, 128);
+            this.pnlAllowOpenAll.Location = new System.Drawing.Point(64, 131);
             this.pnlAllowOpenAll.Name = "pnlAllowOpenAll";
             this.pnlAllowOpenAll.Size = new System.Drawing.Size(278, 24);
             this.pnlAllowOpenAll.TabIndex = 49;
@@ -544,12 +546,14 @@
             // 
             // pnlArguments
             // 
+            this.pnlArguments.Controls.Add(this.label7);
+            this.pnlArguments.Controls.Add(this.label6);
             this.pnlArguments.Controls.Add(this.cmdSelectDirectory);
             this.pnlArguments.Controls.Add(this.label5);
             this.pnlArguments.Controls.Add(this.pnlWorkingDirectory);
             this.pnlArguments.Controls.Add(this.label3);
             this.pnlArguments.Controls.Add(this.pnlArgumentTextbox);
-            this.pnlArguments.Location = new System.Drawing.Point(48, 545);
+            this.pnlArguments.Location = new System.Drawing.Point(45, 547);
             this.pnlArguments.Name = "pnlArguments";
             this.pnlArguments.Size = new System.Drawing.Size(482, 131);
             this.pnlArguments.TabIndex = 48;
@@ -572,45 +576,71 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(23, 62);
+            this.label5.Location = new System.Drawing.Point(23, 63);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(126, 19);
+            this.label5.Size = new System.Drawing.Size(132, 20);
             this.label5.TabIndex = 51;
-            this.label5.Text = "Working Directory";
+            this.label5.Text = "Working Directory:";
             // 
             // pnlWorkingDirectory
             // 
+            this.pnlWorkingDirectory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.pnlWorkingDirectory.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.pnlWorkingDirectory.Enabled = false;
-            this.pnlWorkingDirectory.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.pnlWorkingDirectory.Location = new System.Drawing.Point(23, 82);
+            this.pnlWorkingDirectory.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.pnlWorkingDirectory.ForeColor = System.Drawing.Color.White;
+            this.pnlWorkingDirectory.Location = new System.Drawing.Point(27, 85);
             this.pnlWorkingDirectory.Name = "pnlWorkingDirectory";
-            this.pnlWorkingDirectory.Size = new System.Drawing.Size(343, 25);
+            this.pnlWorkingDirectory.Size = new System.Drawing.Size(330, 16);
             this.pnlWorkingDirectory.TabIndex = 50;
             this.pnlWorkingDirectory.TextChanged += new System.EventHandler(this.pnlWorkingDirectory_TextChanged);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(23, 16);
+            this.label3.Location = new System.Drawing.Point(23, 11);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(77, 19);
+            this.label3.Size = new System.Drawing.Size(84, 20);
             this.label3.TabIndex = 1;
-            this.label3.Text = "Arguments";
+            this.label3.Text = "Arguments:";
             // 
             // pnlArgumentTextbox
             // 
+            this.pnlArgumentTextbox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.pnlArgumentTextbox.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.pnlArgumentTextbox.Enabled = false;
-            this.pnlArgumentTextbox.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.pnlArgumentTextbox.Location = new System.Drawing.Point(23, 35);
+            this.pnlArgumentTextbox.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.pnlArgumentTextbox.ForeColor = System.Drawing.Color.White;
+            this.pnlArgumentTextbox.Location = new System.Drawing.Point(26, 33);
             this.pnlArgumentTextbox.Name = "pnlArgumentTextbox";
-            this.pnlArgumentTextbox.Size = new System.Drawing.Size(436, 25);
+            this.pnlArgumentTextbox.Size = new System.Drawing.Size(425, 16);
             this.pnlArgumentTextbox.TabIndex = 0;
             this.pnlArgumentTextbox.TextChanged += new System.EventHandler(this.pnlArgumentTextbox_TextChanged);
             this.pnlArgumentTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pnlArgumentTextbox_KeyDown);
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label6.Location = new System.Drawing.Point(26, 103);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(335, 1);
+            this.label6.TabIndex = 50;
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label7.Location = new System.Drawing.Point(26, 51);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(425, 1);
+            this.label7.TabIndex = 53;
             // 
             // frmGroup
             // 
@@ -701,5 +731,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox pnlWorkingDirectory;
         private System.Windows.Forms.Button cmdSelectDirectory;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
     }
 }
