@@ -2,8 +2,10 @@
 using client.User_controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace client
@@ -25,9 +27,9 @@ namespace client
             }
         }
 
-        public Category ThisCategory { get; set; }
-        public List<ucShortcut> ControlList { get; set; }
-        public Color HoverColor { get; set; }
+        public Category ThisCategory;
+        public List<ucShortcut> ControlList;
+        public Color HoverColor;
 
         private string passedDirec;
         public Point mouseClick;
@@ -45,7 +47,7 @@ namespace client
 
             //InitializeComponent();
 
-            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes("GroupIcon.ico")))
+            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(MainPath.path + "\\config\\" + passedDirec + "\\GroupIcon.ico")))
                 this.Icon = new Icon(ms);
         }
 
@@ -272,7 +274,12 @@ namespace client
                 //BuildShortcutPanel(x, y, psc);
                 
                 // Building shortcut controls
-                ucShortcut pscPanel = new ucShortcut(psc, this, ThisCategory);
+                ucShortcut pscPanel = new ucShortcut() 
+                {
+                    Psc = psc, 
+                    MotherForm = this, 
+                    ThisCategory = ThisCategory 
+                };
                 pscPanel.Location = new System.Drawing.Point(x, y);
                 this.Controls.Add(pscPanel);
                 this.ControlList.Add(pscPanel);
@@ -292,10 +299,10 @@ namespace client
             this.shortcutPic.BackColor = System.Drawing.Color.Transparent;
             this.shortcutPic.Location = new System.Drawing.Point(25, 15);
             this.shortcutPic.Size = new System.Drawing.Size(25, 25);
-            this.shortcutPic.BackgroundImage = ThisCategory.loadImageCache(psc.FilePath); // Use the local icon cache for the file specified as the icon image
+            this.shortcutPic.BackgroundImage = ThisCategory.loadImageCache(psc); // Use the local icon cache for the file specified as the icon image
             this.shortcutPic.BackgroundImageLayout = ImageLayout.Stretch;
             this.shortcutPic.TabStop = false;
-            this.shortcutPic.Click += new System.EventHandler((sender, e) => OpenFile(sender, e, psc.FilePath));
+            this.shortcutPic.Click += new System.EventHandler((sender, e) => OpenFile(psc.Arguments, psc.FilePath, psc.WorkingDirectory));
             this.shortcutPic.Cursor = System.Windows.Forms.Cursors.Hand;
             this.shortcutPanel.Controls.Add(this.shortcutPic);
             this.shortcutPic.Show();
@@ -306,16 +313,22 @@ namespace client
         }
 
         // Click handler for shortcuts
-        public void OpenFile(object sender, EventArgs e, string path)
+        public void OpenFile(string arguments, string path, string workingDirec)
         {
             // starting program from psc panel click
-            System.Diagnostics.Process proc = new System.Diagnostics.Process();
+            ProcessStartInfo proc = new ProcessStartInfo();
+            proc.Arguments = arguments;
+            proc.FileName = path;
+            proc.WorkingDirectory = workingDirec;
+
+            /*
             proc.EnableRaisingEvents = false;
             proc.StartInfo.FileName = path;
+            */
 
             try
             {
-                proc.Start();
+                Process.Start(proc);
             }
             catch (Exception Ex)
             {
@@ -380,7 +393,7 @@ namespace client
         private void frmMain_KeyUp(object sender, KeyEventArgs e)
         {
             //System.Diagnostics.Debugger.Launch();
-            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Enter)
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Enter && ThisCategory.allowOpenAll)
             {
                 foreach (ucShortcut usc in this.ControlList)
                     usc.ucShortcut_Click(sender, e);
