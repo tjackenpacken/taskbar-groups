@@ -17,6 +17,7 @@ namespace client.Classes
         public List<ProgramShortcut> ShortcutList;
         public int Width; // not used aon
         public double Opacity = 10;
+        Regex specialCharRegex = new Regex("[*'\",_&#^@]");
 
         public Category(string path)
         {
@@ -153,7 +154,11 @@ namespace client.Classes
                 String filePath = ShortcutList[i].FilePath;
 
                 // Process .lnk (shortcut) files differently
-                if (Path.GetExtension(filePath).ToLower() == ".lnk")
+                if (ShortcutList[i].isWindowsApp)
+                {
+                    handleWindowsApp.getWindowsAppIcon(filePath, true).Save(iconPath + "\\" + specialCharRegex.Replace(filePath, string.Empty) + ".jpg");
+                }
+                else if (Path.GetExtension(filePath).ToLower() == ".lnk")
                 {
                     Forms.frmGroup.handleLnkExt(filePath).Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
                 } else if (Directory.Exists(filePath))
@@ -169,16 +174,19 @@ namespace client.Classes
 
         // Try to load an iamge from the cache
         // Takes in a programPath (shortcut) and processes it to the proper file name
-        public Image loadImageCache(String programPath)
+        public Image loadImageCache(ProgramShortcut shortcutObject)
         {
-            if (System.IO.File.Exists(programPath) || Directory.Exists(programPath))
+
+            String programPath = shortcutObject.FilePath;
+
+            if (System.IO.File.Exists(programPath) || Directory.Exists(programPath) || shortcutObject.isWindowsApp)
             {
                 try
                 {
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
                     // If not then it would throw an exception in which the below code would catch it
-                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".jpg");
+                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".jpg");
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
                         return Image.FromStream(ms);

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using client.Classes;
+using System.Diagnostics;
 
 namespace client.User_controls
 {
@@ -26,12 +27,19 @@ namespace client.User_controls
             this.Show();
             this.BringToFront();
             this.BackColor = MotherForm.BackColor;
-            picIcon.BackgroundImage = ThisCategory.loadImageCache(Psc.FilePath); // Use the local icon cache for the file specified as the icon image
+            picIcon.BackgroundImage = ThisCategory.loadImageCache(Psc); // Use the local icon cache for the file specified as the icon image
         }
 
         public void ucShortcut_Click(object sender, EventArgs e)
         {
-            MotherForm.OpenFile(Psc.Arguments, Psc.FilePath);
+            if (Psc.isWindowsApp)
+            {
+                Process p = new Process() {StartInfo = new ProcessStartInfo() { UseShellExecute = true, FileName = $@"shell:appsFolder\{Psc.FilePath}" }};
+                p.Start();
+            } else
+            {
+                MotherForm.OpenFile(Psc.Arguments, Psc.FilePath);
+            }
         }
 
         public void ucShortcut_MouseEnter(object sender, EventArgs e)

@@ -22,7 +22,10 @@ namespace client.User_controls
         {
             // Grab the file name without the extension to be used later as the naming scheme for the icon .jpg image
 
-            if (Shortcut.name == "")
+            if (Shortcut.isWindowsApp)
+            {
+                lbTextbox.Text = handleWindowsApp.findWindowsAppsName(Shortcut.FilePath);
+            } else if (Shortcut.name == "")
             {
                 if (File.Exists(Shortcut.FilePath) && Path.GetExtension(Shortcut.FilePath).ToLower() == ".lnk")
                 {
@@ -41,7 +44,12 @@ namespace client.User_controls
             lbTextbox.Width = size.Width;
             lbTextbox.Height = size.Height;
 
-            if (File.Exists(Shortcut.FilePath)) // Checks if the shortcut actually exists; if not then display an error image
+
+            if (Shortcut.isWindowsApp)
+            {
+                picShortcut.BackgroundImage = handleWindowsApp.getWindowsAppIcon(Shortcut.FilePath, true);
+            }
+            else if (File.Exists(Shortcut.FilePath)) // Checks if the shortcut actually exists; if not then display an error image
             {
                 String imageExtension = Path.GetExtension(Shortcut.FilePath).ToLower();
 

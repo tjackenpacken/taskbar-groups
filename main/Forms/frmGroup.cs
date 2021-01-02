@@ -10,7 +10,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Windows.Forms;
-
+using Microsoft.WindowsAPICodePack.Shell;
 
 namespace client.Forms
 {
@@ -28,6 +28,7 @@ namespace client.Forms
         public ucProgramShortcut selectedShortcut;
 
         public static Shell32.Shell shell = new Shell32.Shell();
+
 
         //--------------------------------------
         // CTOR AND LOAD
@@ -146,6 +147,7 @@ namespace client.Forms
                 lblErrorShortcut.Visible = true;
             }
 
+
             OpenFileDialog openFileDialog = new OpenFileDialog // ask user to select exe file
             {
                 InitialDirectory = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
@@ -155,11 +157,10 @@ namespace client.Forms
                 Multiselect = true,
                 DefaultExt = "exe",
                 Filter = "Exe or Shortcut (.exe, .lnk)|*.exe;*.lnk;*.url",
-                FilterIndex = 2,
                 RestoreDirectory = true,
                 ReadOnlyChecked = true,
                 DereferenceLinks = false
-        };
+             };
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -173,22 +174,31 @@ namespace client.Forms
         // Handle dropped programs into the add program/shortcut field
         private void pnlDragDropExt(object sender, DragEventArgs e)
         {
-            var files = (String[])e.Data.GetData(DataFormats.FileDrop);
-
-            // Loops through each file to make sure they exist and to add them directly to the shortcut list
-            foreach (var file in files)
+            if (e.Data.GetFormats()[0] == "Shell IDList Array")
             {
-                if (extensionExt.Contains(Path.GetExtension(file)) && System.IO.File.Exists(file) || Directory.Exists(file))
+                ShellObjectCollection ShellObj = ShellObjectCollection.FromDataObject((System.Runtime.InteropServices.ComTypes.IDataObject)e.Data);
+                foreach (ShellNonFileSystemItem item in ShellObj) {
+                    addShortcut(item.ParsingName, true);
+                }
+            } else
+            {
+                var files = (String[])e.Data.GetData(DataFormats.FileDrop);
+
+                // Loops through each file to make sure they exist and to add them directly to the shortcut list
+                foreach (var file in files)
                 {
-                    addShortcut(file);
+                    if (extensionExt.Contains(Path.GetExtension(file)) && System.IO.File.Exists(file) || Directory.Exists(file))
+                    {
+                        addShortcut(file);
+                    }
                 }
             }
         }
 
         // Handle adding the shortcut to list
-        private void addShortcut(String file)
+        private void addShortcut(String file, bool isExtension = false)
         {
-            ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file) }; //Create new shortcut obj
+            ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file), isWindowsApp = isExtension }; //Create new shortcut obj
             Category.ShortcutList.Add(psc); // Add to panel shortcut list
             LoadShortcut(psc, Category.ShortcutList.Count - 1);
 
@@ -388,8 +398,18 @@ namespace client.Forms
         // Series of checks to make sure it can be dropped
         private Boolean checkExtensions(DragEventArgs e, String[] exts)
         {
+
+
+
             // Make sure the file can be dragged dropped
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return false;
+
+            if (e.Data.GetDataPresent("Shell IDList Array"))
+            {
+                 e.Effect = e.AllowedEffect;
+                 return true;
+            }
+
 
             // Get the list of files of the files dropped
             String[] files = (String[])e.Data.GetData(DataFormats.FileDrop);
@@ -725,5 +745,7 @@ namespace client.Forms
         {
             Category.allowOpenAll = pnlAllowOpenAll.Checked;
         }
+
+
     }
 }

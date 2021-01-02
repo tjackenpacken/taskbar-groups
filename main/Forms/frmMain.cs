@@ -298,7 +298,7 @@ namespace client
             this.shortcutPic.BackColor = System.Drawing.Color.Transparent;
             this.shortcutPic.Location = new System.Drawing.Point(25, 15);
             this.shortcutPic.Size = new System.Drawing.Size(25, 25);
-            this.shortcutPic.BackgroundImage = ThisCategory.loadImageCache(psc.FilePath); // Use the local icon cache for the file specified as the icon image
+            this.shortcutPic.BackgroundImage = ThisCategory.loadImageCache(psc); // Use the local icon cache for the file specified as the icon image
             this.shortcutPic.BackgroundImageLayout = ImageLayout.Stretch;
             this.shortcutPic.TabStop = false;
             this.shortcutPic.Click += new System.EventHandler((sender, e) => OpenFile(psc.Arguments, psc.FilePath));

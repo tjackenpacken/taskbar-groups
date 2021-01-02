@@ -3,34 +3,24 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace client.Classes
 {
     class handleWindowsApp
     {
-        public static Image getWindowsAppIcon(String file)
+        public static Dictionary<string, string> fileDirectoryCache = new Dictionary<string, string>();
+
+        public static Image getWindowsAppIcon(String file, bool alreadyAppID = false)
         {
             // Get the app's ID from its shortcut target file (Ex. 4DF9E0F8.Netflix_mcm4njqhnhss8!Netflix.app)
-            String microsoftAppName = GetLnkTarget(file);
+            String microsoftAppName = (!alreadyAppID) ? GetLnkTarget(file) : file;
 
             // Split the string to get the app name from the beginning (Ex. 4DF9E0F8.Netflix)
             String subAppName = microsoftAppName.Split('_')[0];
 
-            // Find the directories in the WindowsApps folder containg that direcotry
-            string[] appDirecList = Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\");
-
             // Loop through each of the folders with the app name to find the one with the manifest + logos
-            String appPath = "";
-            foreach (var appDirec in appDirecList)
-            {
-                if (appDirec.Contains(subAppName) && File.Exists(appDirec + "\\AppxManifest.xml"))
-                {
-                    appPath = appDirec;
-
-                    // Break out early as to not loop through everything once a result is found
-                    break;
-                }
-            }
+            String appPath = findWindowsAppsFolder(subAppName);
 
             // Load and read manifest to get the logo path
             XmlDocument appManifest = new XmlDocument();
@@ -78,6 +68,52 @@ namespace client.Classes
             var itm = dir.Items().Item(System.IO.Path.GetFileName(lnkPath));
             var lnk = (Shell32.ShellLinkObject)itm.GetLink;
             return lnk.Target.Path;
+        }
+
+        public static string findWindowsAppsFolder(string subAppName)
+        {
+            if (!fileDirectoryCache.ContainsKey(subAppName))
+            {
+                // Find the directories in the WindowsApps folder containg that direcotry
+                string[] appDirecList = Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\");
+
+                foreach (var appDirec in appDirecList)
+                {
+                    if (appDirec.Contains(subAppName) && File.Exists(appDirec + "\\AppxManifest.xml"))
+                    {
+                        fileDirectoryCache[subAppName] = appDirec;
+                        return appDirec;
+                    }
+                }
+                return "";
+            }
+            else
+            {
+                return fileDirectoryCache[subAppName];
+            }
+        }
+
+        public static string findWindowsAppsName(string AppName)
+        {
+            String subAppName = AppName.Split('_')[0];
+
+            String appPath = findWindowsAppsFolder(subAppName);
+
+            // Load and read manifest to get the logo path
+            XmlDocument appManifest = new XmlDocument();
+            appManifest.Load(appPath + "\\AppxManifest.xml");
+
+            XmlNamespaceManager appManifestNamespace = new XmlNamespaceManager(new NameTable());
+            appManifestNamespace.AddNamespace("sm", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
+            appManifestNamespace.AddNamespace("uap", "http://schemas.microsoft.com/appx/manifest/uap/windows10");
+
+            try
+            {
+                return appManifest.SelectSingleNode("/sm:Package/sm:Applications/sm:Application/uap:VisualElements", appManifestNamespace).Attributes.GetNamedItem("DisplayName").InnerText;
+            } catch (Exception)
+            {
+                return appManifest.SelectSingleNode("/sm:Package/sm:Properties/sm:DisplayName", appManifestNamespace).InnerText;
+            }
         }
     }
 }
