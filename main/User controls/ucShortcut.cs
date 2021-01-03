@@ -8,6 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using client.Classes;
+using System.Diagnostics;
+using System.IO;
+using IWshRuntimeLibrary;
 
 namespace client.User_controls
 {
@@ -16,12 +19,9 @@ namespace client.User_controls
         public ProgramShortcut Psc { get; set; }
         public frmMain MotherForm { get; set; }
         public Category ThisCategory { get; set; }
-        public ucShortcut(ProgramShortcut psc, frmMain mainForm, Category category)
+        public ucShortcut()
         {
             InitializeComponent();
-            Psc = psc;
-            MotherForm = mainForm;
-            ThisCategory = category;
         }
 
         private void ucShortcut_Load(object sender, EventArgs e)
@@ -29,12 +29,25 @@ namespace client.User_controls
             this.Show();
             this.BringToFront();
             this.BackColor = MotherForm.BackColor;
-            picIcon.BackgroundImage = ThisCategory.loadImageCache(Psc.FilePath); // Use the local icon cache for the file specified as the icon image
+            picIcon.BackgroundImage = ThisCategory.loadImageCache(Psc); // Use the local icon cache for the file specified as the icon image
         }
 
         public void ucShortcut_Click(object sender, EventArgs e)
         {
-            MotherForm.OpenFile(sender, e, Psc.FilePath);
+            if (Psc.isWindowsApp)
+            {
+                Process p = new Process() {StartInfo = new ProcessStartInfo() { UseShellExecute = true, FileName = $@"shell:appsFolder\{Psc.FilePath}" }};
+                p.Start();
+            } else
+            {
+                if(Path.GetExtension(Psc.FilePath).ToLower() == ".lnk" && Psc.FilePath == MainPath.exeString)
+                {
+                    MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, MainPath.path);
+                } else
+                {
+                    MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, Psc.WorkingDirectory);
+                }
+            }
         }
 
         public void ucShortcut_MouseEnter(object sender, EventArgs e)

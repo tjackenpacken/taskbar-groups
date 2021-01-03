@@ -10,8 +10,8 @@ namespace client.User_controls
 {
     public partial class ucCategoryPanel : UserControl
     {
-        public Category Category { get; set; }
-        public frmClient Client { get; set; }
+        public Category Category;
+        public frmClient Client;
         public ucCategoryPanel(frmClient client, Category category)
         {
             InitializeComponent();
@@ -61,9 +61,9 @@ namespace client.User_controls
             this.shortcutPanel.Click += new System.EventHandler((sender, e) => OpenFolder(sender, e));
 
             // Check if file is stil existing and if so render it
-            if (File.Exists(programShortcut.FilePath) || Directory.Exists(programShortcut.FilePath))
+            if (File.Exists(programShortcut.FilePath) || Directory.Exists(programShortcut.FilePath) || programShortcut.isWindowsApp)
             {
-                this.shortcutPanel.BackgroundImage = Category.loadImageCache(programShortcut.FilePath);
+                this.shortcutPanel.BackgroundImage = Category.loadImageCache(programShortcut);
             }
             else // if file does not exist
             {
@@ -111,6 +111,8 @@ namespace client.User_controls
             using (BinaryReader reader = new BinaryReader(stream))
             {
                 var memoryStream = new MemoryStream(reader.ReadBytes((int)stream.Length));
+                reader.Close();
+                stream.Close();
                 return new Bitmap(memoryStream);
             }
         }

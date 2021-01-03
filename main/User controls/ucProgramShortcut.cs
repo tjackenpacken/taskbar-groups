@@ -4,6 +4,7 @@ using System.Windows.Forms;
 using client.Classes;
 using client.Forms;
 using System.IO;
+using System.Windows.Input;
 
 namespace client.User_controls
 {
@@ -11,29 +12,46 @@ namespace client.User_controls
     {
         public ProgramShortcut Shortcut { get; set; }
         public frmGroup MotherForm { get; set; }
+
+        public bool IsSelected = false;
         public int Position { get; set; }
-        public ucProgramShortcut(frmGroup motherForm, ProgramShortcut shortcut, int position)
+        public ucProgramShortcut()
         {
             InitializeComponent();
-            MotherForm = motherForm;
-            Shortcut = shortcut;
-            Position = position;
         }
 
         private void ucProgramShortcut_Load(object sender, EventArgs e)
         {
             // Grab the file name without the extension to be used later as the naming scheme for the icon .jpg image
 
-            if (File.Exists(Shortcut.FilePath) && Path.GetExtension(Shortcut.FilePath).ToLower() == ".lnk")
+            if (Shortcut.isWindowsApp)
             {
-                lblName.Text = frmGroup.handleExtName(Shortcut.FilePath);
+                txtShortcutName.Text = handleWindowsApp.findWindowsAppsName(Shortcut.FilePath);
+            } else if (Shortcut.name == "")
+            {
+                if (File.Exists(Shortcut.FilePath) && Path.GetExtension(Shortcut.FilePath).ToLower() == ".lnk")
+                {
+                    txtShortcutName.Text = frmGroup.handleExtName(Shortcut.FilePath);
+                }
+                else
+                {
+                    txtShortcutName.Text = Path.GetFileNameWithoutExtension(Shortcut.FilePath);
+                }
             } else
             {
-                lblName.Text = Path.GetFileNameWithoutExtension(Shortcut.FilePath);
+                txtShortcutName.Text = Shortcut.name;
             }
 
-              
-            if (File.Exists(Shortcut.FilePath)) // Checks if the shortcut actually exists; if not then display an error image
+            Size size = TextRenderer.MeasureText(txtShortcutName.Text, txtShortcutName.Font);
+            txtShortcutName.Width = size.Width;
+            txtShortcutName.Height = size.Height;
+
+
+            if (Shortcut.isWindowsApp)
+            {
+                picShortcut.BackgroundImage = handleWindowsApp.getWindowsAppIcon(Shortcut.FilePath, true);
+            }
+            else if (File.Exists(Shortcut.FilePath)) // Checks if the shortcut actually exists; if not then display an error image
             {
                 String imageExtension = Path.GetExtension(Shortcut.FilePath).ToLower();
 
@@ -63,8 +81,6 @@ namespace client.User_controls
                 picShortcut.BackgroundImage = global::client.Properties.Resources.Error;
             }
 
-            //picShortcut.BackgroundImage = System.Drawing.Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
-
             if (Position == 0)
             {
                 cmdNumUp.Enabled = false;
@@ -81,17 +97,15 @@ namespace client.User_controls
 
         private void ucProgramShortcut_MouseEnter(object sender, EventArgs e)
         {
-            this.BackColor = Color.FromArgb(26, 26, 26);
-            cmdNumUp.BackColor = Color.FromArgb(26, 26, 26);
-            cmdNumDown.BackColor = Color.FromArgb(26, 26, 26);
-
+            ucSelected();
         }
 
         private void ucProgramShortcut_MouseLeave(object sender, EventArgs e)
         {
-            this.BackColor = Color.FromArgb(31, 31, 31);
-            cmdNumUp.BackColor = Color.FromArgb(31, 31, 31);
-            cmdNumDown.BackColor = Color.FromArgb(31, 31, 31);
+            if (MotherForm.selectedShortcut != this)
+            {
+                ucDeselected();
+            }
         }
 
         private void cmdNumUp_Click(object sender, EventArgs e)
@@ -110,5 +124,88 @@ namespace client.User_controls
         {
             MotherForm.DeleteShortcut(Shortcut);
         }
+
+        // Handle what is selected/deselected when a shortcut is clicked on
+        // If current item is already selected, then deselect everything
+        private void ucProgramShortcut_Click(object sender, EventArgs e)
+        {
+            if (MotherForm.selectedShortcut == this)
+            {
+                MotherForm.resetSelection();
+                //IsSelected = false;
+            }
+            else
+            {
+                if (MotherForm.selectedShortcut != null)
+                {
+                    MotherForm.resetSelection();
+                    //IsSelected = false;
+                }
+
+                MotherForm.enableSelection(this);
+                //IsSelected = true;
+            }
+        }
+
+        public void ucDeselected()
+        {
+            txtShortcutName.DeselectAll();
+            txtShortcutName.Enabled = false;
+            txtShortcutName.Enabled = true;
+            txtShortcutName.TabStop = false; // Deselecting textbox text
+
+            this.BackColor = Color.FromArgb(31, 31, 31);
+            txtShortcutName.BackColor = Color.FromArgb(31, 31, 31);
+            cmdNumUp.BackColor = Color.FromArgb(31, 31, 31);
+            cmdNumDown.BackColor = Color.FromArgb(31, 31, 31);
+        }
+
+        public void ucSelected()
+        {
+
+            this.BackColor = Color.FromArgb(26, 26, 26);
+            txtShortcutName.BackColor = Color.FromArgb(26, 26, 26);
+            cmdNumUp.BackColor = Color.FromArgb(26, 26, 26);
+            cmdNumDown.BackColor = Color.FromArgb(26, 26, 26);
+
+        }
+
+        private void lbTextbox_TextChanged(object sender, EventArgs e)
+        {
+            Size size = TextRenderer.MeasureText(txtShortcutName.Text, txtShortcutName.Font);
+            txtShortcutName.Width = size.Width;
+            txtShortcutName.Height = size.Height;
+            Shortcut.name = txtShortcutName.Text;
+        }
+
+        private void ucProgramShortcut_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                picShortcut.Focus();
+
+
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void txtShortcutName_Click(object sender, EventArgs e)
+        {
+            
+            if (!IsSelected)
+                ucProgramShortcut_Click(sender, e);
+        }
+
+        private void ucProgramShortcut_Enter(object sender, EventArgs e)
+        {
+            //IsSelected = true;
+        }
+
+        private void ucProgramShortcut_Leave(object sender, EventArgs e)
+        {
+            //IsSelected = false;
+        }
+
     }
 }
