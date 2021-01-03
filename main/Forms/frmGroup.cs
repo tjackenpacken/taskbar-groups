@@ -71,6 +71,7 @@ namespace client.Forms
             IsNew = false;
 
             // Setting control values from loaded group
+            this.Text = "Edit group";
             txtGroupName.Text = Regex.Replace(Category.Name, @"(_)+", " ");
             pnlAllowOpenAll.Checked = category.allowOpenAll;
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
