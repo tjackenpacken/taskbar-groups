@@ -42,23 +42,50 @@ namespace client.Classes
                 String logoPath = "";
 
                 // Search for all files with 150x150 in its name and use the first result
-                string fileGoal = "StoreLogo";
                 DirectoryInfo logoDirectory = new DirectoryInfo(logoLocationFullPath);
-                FileInfo[] filesInDir = logoDirectory.GetFiles("*" + fileGoal + "*.*");
+                FileInfo[] filesInDir = getLogoFolder("StoreLogo", logoDirectory);
 
-                logoPath = filesInDir.Last().FullName;
+                if (filesInDir.Length != 0)
+                {
+                    return getLogo(filesInDir.Last().FullName, file);
+                }
+                else
+                {
 
-                if (File.Exists(logoPath))
-                {
-                    using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(logoPath)))
-                        return ImageFunctions.ResizeImage(Bitmap.FromStream(ms), 64, 64);
-                } else
-                {
-                    return Icon.ExtractAssociatedIcon(file).ToBitmap();
+                    filesInDir = getLogoFolder("scale-200", logoDirectory);
+
+                    if (filesInDir.Length != 0)
+                    {
+                        return getLogo(filesInDir[0].FullName, file);
+                    } else
+                    {
+                        return Icon.ExtractAssociatedIcon(file).ToBitmap();
+                    }
+                        
                 }
             } else
             {
                 return Icon.ExtractAssociatedIcon(file).ToBitmap();
+            }
+        }
+
+        private static FileInfo[] getLogoFolder(String keyname, DirectoryInfo logoDirectory)
+        {
+            // Search for all files with the keyname in its name and use the first result
+            FileInfo[] filesInDir = logoDirectory.GetFiles("*" + keyname + "*.*");
+            return filesInDir;
+        }
+
+        private static Bitmap getLogo(String logoPath, String defaultFile)
+        {
+            if (File.Exists(logoPath))
+            {
+                using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(logoPath)))
+                    return ImageFunctions.ResizeImage(Bitmap.FromStream(ms), 64, 64);
+            }
+            else
+            {
+                return Icon.ExtractAssociatedIcon(defaultFile).ToBitmap();
             }
         }
 

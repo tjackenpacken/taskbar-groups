@@ -82,7 +82,7 @@ namespace client.Classes
             // Create .ico
             //
 
-            Image img = ImageFunctions.ResizeImage(groupImage, 1024, 1024); // Resize img if too big
+            Image img = ImageFunctions.ResizeImage(groupImage, 256, 256); // Resize img if too big
             img.Save(path + @"\GroupImage.png");
 
             using (FileStream fs = new FileStream(path + @"\GroupIcon.ico", FileMode.Create))
