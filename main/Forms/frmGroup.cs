@@ -480,9 +480,17 @@ namespace client.Forms
         {
             resetSelection();
 
+            //List <Directory> directories = 
+
             if (txtGroupName.Text == "Name the new group...") // Verify category name
             {
                 lblErrorTitle.Text = "Must select a name";
+                lblErrorTitle.Visible = true;
+            }
+            else if (IsNew && Directory.Exists(@MainPath.path + @"\config\" + txtGroupName.Text) ||
+                     !IsNew && Category.Name != txtGroupName.Text && Directory.Exists(@MainPath.path + @"\config\" + txtGroupName.Text))
+            {
+                lblErrorTitle.Text = "There is already a group with that name";
                 lblErrorTitle.Visible = true;
             }
             else if (!new Regex("^[0-9a-zA-Z \b]+$").IsMatch(txtGroupName.Text))
