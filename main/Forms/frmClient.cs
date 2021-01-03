@@ -24,12 +24,12 @@ namespace client.Forms
                 return cp;
             }
         }
-
         public frmClient()
         {
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
             InitializeComponent();
             this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
+            trayIcon.Icon = this.Icon;
             Reload();
         }
         public void Reload()
@@ -106,7 +106,6 @@ namespace client.Forms
         {
             control.BackColor = Color.FromArgb(3, 3, 3);
         }
-
         private void toolStripMenuItemSettings_Click(object sender, EventArgs e)
         {
             Show();
@@ -116,7 +115,6 @@ namespace client.Forms
         {
             Application.Exit();
         }
-
         private void cmdClose_Click(object sender, EventArgs e)
         {
             Hide();
