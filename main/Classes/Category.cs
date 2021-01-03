@@ -82,7 +82,7 @@ namespace client.Classes
             // Create .ico
             //
 
-            Image img = ImageFunctions.ResizeImage(groupImage, 1024, 1024); // Resize img if too big
+            Image img = ImageFunctions.ResizeImage(groupImage, 256, 256); // Resize img if too big
             img.Save(path + @"\GroupImage.png");
 
             using (FileStream fs = new FileStream(path + @"\GroupIcon.ico", FileMode.Create))
@@ -156,18 +156,18 @@ namespace client.Classes
                 // Process .lnk (shortcut) files differently
                 if (ShortcutList[i].isWindowsApp)
                 {
-                    handleWindowsApp.getWindowsAppIcon(filePath, true).Save(iconPath + "\\" + specialCharRegex.Replace(filePath, string.Empty) + ".jpg");
+                    handleWindowsApp.getWindowsAppIcon(filePath, true).Save(iconPath + "\\" + specialCharRegex.Replace(filePath, string.Empty) + ".png");
                 }
                 else if (Path.GetExtension(filePath).ToLower() == ".lnk")
                 {
-                    Forms.frmGroup.handleLnkExt(filePath).Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
+                    Forms.frmGroup.handleLnkExt(filePath).Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".png");
                 } else if (Directory.Exists(filePath))
                 {
-                    handleFolder.GetFolderIcon(filePath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.jpg");
+                    handleFolder.GetFolderIcon(filePath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.png");
                 } else
                 {
                     // Extracts icon from the .exe if the provided file is not a shortcut file
-                    Icon.ExtractAssociatedIcon(Environment.ExpandEnvironmentVariables(filePath)).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
+                    Icon.ExtractAssociatedIcon(Environment.ExpandEnvironmentVariables(filePath)).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".png");
                 }
             }
         }
@@ -186,7 +186,9 @@ namespace client.Classes
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
                     // If not then it would throw an exception in which the below code would catch it
-                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".jpg");
+                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + 
+                        @"\config\" + this.Name + @"\Icons\" + ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : 
+                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".png");
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
                         return Image.FromStream(ms);
@@ -199,7 +201,7 @@ namespace client.Classes
                     // Checks if the original file even exists to make sure to not do any extra operations
 
                     // Same processing as above in cacheIcons()
-                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.jpg" : ".jpg");
+                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png");
 
                     Image finalImage;
 

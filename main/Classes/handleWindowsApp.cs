@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Collections.Generic;
+using System.Management.Automation;
+using System.Collections.ObjectModel;
 
 namespace client.Classes
 {
@@ -40,23 +42,50 @@ namespace client.Classes
                 String logoPath = "";
 
                 // Search for all files with 150x150 in its name and use the first result
-                string fileGoal = "StoreLogo";
                 DirectoryInfo logoDirectory = new DirectoryInfo(logoLocationFullPath);
-                FileInfo[] filesInDir = logoDirectory.GetFiles("*" + fileGoal + "*.*");
+                FileInfo[] filesInDir = getLogoFolder("StoreLogo", logoDirectory);
 
-                logoPath = filesInDir.Last().FullName;
+                if (filesInDir.Length != 0)
+                {
+                    return getLogo(filesInDir.Last().FullName, file);
+                }
+                else
+                {
 
-                if (File.Exists(logoPath))
-                {
-                    using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(logoPath)))
-                        return ImageFunctions.ResizeImage(Bitmap.FromStream(ms), 64, 64);
-                } else
-                {
-                    return Icon.ExtractAssociatedIcon(file).ToBitmap();
+                    filesInDir = getLogoFolder("scale-200", logoDirectory);
+
+                    if (filesInDir.Length != 0)
+                    {
+                        return getLogo(filesInDir[0].FullName, file);
+                    } else
+                    {
+                        return Icon.ExtractAssociatedIcon(file).ToBitmap();
+                    }
+                        
                 }
             } else
             {
                 return Icon.ExtractAssociatedIcon(file).ToBitmap();
+            }
+        }
+
+        private static FileInfo[] getLogoFolder(String keyname, DirectoryInfo logoDirectory)
+        {
+            // Search for all files with the keyname in its name and use the first result
+            FileInfo[] filesInDir = logoDirectory.GetFiles("*" + keyname + "*.*");
+            return filesInDir;
+        }
+
+        private static Bitmap getLogo(String logoPath, String defaultFile)
+        {
+            if (File.Exists(logoPath))
+            {
+                using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(logoPath)))
+                    return ImageFunctions.ResizeImage(Bitmap.FromStream(ms), 64, 64);
+            }
+            else
+            {
+                return Icon.ExtractAssociatedIcon(defaultFile).ToBitmap();
             }
         }
 
@@ -72,19 +101,34 @@ namespace client.Classes
 
         public static string findWindowsAppsFolder(string subAppName)
         {
+
             if (!fileDirectoryCache.ContainsKey(subAppName))
             {
-                // Find the directories in the WindowsApps folder containg that direcotry
-                string[] appDirecList = Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\");
-
-                foreach (var appDirec in appDirecList)
+                try
                 {
-                    if (appDirec.Contains(subAppName) && File.Exists(appDirec + "\\AppxManifest.xml"))
+
+                    using (PowerShell powerShell = PowerShell.Create())
                     {
-                        fileDirectoryCache[subAppName] = appDirec;
-                        return appDirec;
+                        powerShell.AddScript($"Get-AppxPackage -name {subAppName}");
+
+                        Collection<PSObject> PSOutput = powerShell.Invoke();
+
+
+                        if (PSOutput[0] != null)
+                        {
+                            String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + PSOutput[0] + @"\";
+                            fileDirectoryCache[subAppName] = finalPath;
+                            return finalPath;
+                        }
                     }
+
+                    /*
+                    foreach (string folder in Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\"))
+                    {
+                        appDirecList.Add(folder);
+                    }*/
                 }
+                catch (UnauthorizedAccessException) { };
                 return "";
             }
             else
@@ -96,11 +140,12 @@ namespace client.Classes
         public static string findWindowsAppsName(string AppName)
         {
             String subAppName = AppName.Split('_')[0];
-
             String appPath = findWindowsAppsFolder(subAppName);
 
-            // Load and read manifest to get the logo path
-            XmlDocument appManifest = new XmlDocument();
+            
+
+                // Load and read manifest to get the logo path
+                XmlDocument appManifest = new XmlDocument();
             appManifest.Load(appPath + "\\AppxManifest.xml");
 
             XmlNamespaceManager appManifestNamespace = new XmlNamespaceManager(new NameTable());
