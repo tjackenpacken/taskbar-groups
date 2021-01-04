@@ -4,8 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Collections.Generic;
-using System.Management.Automation;
-using System.Collections.ObjectModel;
+using Windows.Management.Deployment;
 
 namespace client.Classes
 {
@@ -13,8 +12,7 @@ namespace client.Classes
     {
         public static Dictionary<string, string> fileDirectoryCache = new Dictionary<string, string>();
 
-        private static PowerShell powerShell = PowerShell.Create();
-
+        private static PackageManager pkgManger = new PackageManager();
         public static Image getWindowsAppIcon(String file, bool alreadyAppID = false)
         {
             // Get the app's ID from its shortcut target file (Ex. 4DF9E0F8.Netflix_mcm4njqhnhss8!Netflix.app)
@@ -108,22 +106,15 @@ namespace client.Classes
             {
                 try
                 {
-                    powerShell.AddScript($"Get-AppxPackage -name {subAppName}");
+                    IEnumerable<Windows.ApplicationModel.Package> packages = pkgManger.FindPackagesForUser("");
 
-                    Collection<PSObject> PSOutput = powerShell.Invoke();
+                    String packagePath = (from packageItem in packages
+                                where packageItem.InstalledLocation.DisplayName.Contains(subAppName)
+                                select packageItem).First().InstalledLocation.DisplayName;
 
-                    if (PSOutput[0] != null)
-                    {
-                        String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + PSOutput[0] + @"\";
-                        fileDirectoryCache[subAppName] = finalPath;
-                        return finalPath;
-                    }
-
-                    /*
-                    foreach (string folder in Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\"))
-                    {
-                        appDirecList.Add(folder);
-                    }*/
+                    String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + packagePath + @"\";
+                    fileDirectoryCache[subAppName] = finalPath;
+                    return finalPath;
                 }
                 catch (UnauthorizedAccessException) { };
                 return "";
