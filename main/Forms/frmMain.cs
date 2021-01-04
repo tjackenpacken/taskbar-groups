@@ -85,6 +85,8 @@ namespace client
         // Sets location of form
         private void SetLocation()
         {
+            //System.Diagnostics.Debugger.Launch();
+
             List<Rectangle> taskbarList = FindDockedTaskBars();
             Rectangle taskbar = new Rectangle();
             Rectangle screen = new Rectangle();
@@ -141,22 +143,24 @@ namespace client
                     locationy = mouseClick.Y - this.Height - 20;
                     locationx = mouseClick.X - (this.Width / 2);
 
-                    this.Location = new Point(locationx, locationy);
-                    // If form goes over screen edge
-                    if (this.Left < screen.Left)
-                        this.Left = screen.Left + 10;
-                    if (this.Top < screen.Top)
-                        this.Top = screen.Top + 10;
-                    if (this.Right > screen.Right)
-                        this.Left = screen.Right - this.Width - 10;
-                    // If form goes over taskbar
-                    if (taskbar.Contains(this.Left, this.Top) && taskbar.Contains(this.Right, this.Top)) // Top taskbar
-                        this.Top = screen.Top + 10 + taskbar.Height;
-                    if (taskbar.Contains(this.Left, this.Top)) // Left taskbar
-                        this.Left = screen.Left + 10 + taskbar.Width;
-                    if (taskbar.Contains(this.Right, this.Top))  // Right taskbar
-                        this.Left = screen.Right - this.Width - 10 - taskbar.Width;
                 }
+
+                this.Location = new Point(locationx, locationy);
+
+                // If form goes over screen edge
+                if (this.Left < screen.Left)
+                    this.Left = screen.Left + 10;
+                if (this.Top < screen.Top)
+                    this.Top = screen.Top + 10;
+                if (this.Right > screen.Right)
+                    this.Left = screen.Right - this.Width - 10;
+                // If form goes over taskbar
+                if (taskbar.Contains(this.Left, this.Top) && taskbar.Contains(this.Right, this.Top)) // Top taskbar
+                    this.Top = screen.Top + 10 + taskbar.Height;
+                if (taskbar.Contains(this.Left, this.Top)) // Left taskbar
+                    this.Left = screen.Left + 10 + taskbar.Width;
+                if (taskbar.Contains(this.Right, this.Top))  // Right taskbar
+                    this.Left = screen.Right - this.Width - 10 - taskbar.Width;
 
             }
             else // Hidded taskbar
