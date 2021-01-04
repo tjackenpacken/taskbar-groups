@@ -39,16 +39,18 @@ namespace client
         //
         public frmMain(string passedDirectory, int cursorPosX, int cursorPosY)
         {
+            InitializeComponent();
+
             System.Runtime.ProfileOptimization.StartProfile("frmMain.Profile");
             mouseClick = new Point(cursorPosX, cursorPosY); // Consstruct point p based on passed x y mouse values
             passedDirec = passedDirectory;
-            InitializeComponent();
+            //InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
 
-            //InitializeComponent();
 
             using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(MainPath.path + "\\config\\" + passedDirec + "\\GroupIcon.ico")))
                 this.Icon = new Icon(ms);
+
         }
 
         private void frmMain_Load(object sender, EventArgs e)
