@@ -83,6 +83,9 @@ namespace client
         // Sets location of form
         private void SetLocation()
         {
+
+            //System.Diagnostics.Debugger.Launch();
+
             List<Rectangle> taskbarList = FindDockedTaskBars();
             Rectangle taskbar = new Rectangle();
             Rectangle screen = new Rectangle();
@@ -122,14 +125,14 @@ namespace client
                     else if (taskbar.Left == screen.Left)
                     {
                         // LEFT
-                        locationy = mouseClick.X - (this.Height / 2);
+                        locationy = mouseClick.Y - (this.Height / 2);
                         locationx = screen.X + taskbar.Width + 10;
 
                     }
                     else
                     {
                         // RIGHT
-                        locationy = mouseClick.X - (this.Height / 2);
+                        locationy = mouseClick.Y - (this.Height / 2);
                         locationx = screen.X + screen.Width - this.Width - taskbar.Width - 10;
                     }
 
