@@ -110,11 +110,11 @@ When you open a group once its created through the shortcut provided, there are 
 
 #### /config
 In the config folder, you will have the data regarding each group that you have created. 
-#### /config/Icons
+#### /config/<Goup_Name>/Icons
 This is the icon cache that comes with the folder. All icons of the shortcuts that you added are added into that cache. This cache will be read from when using your group to not have to fetch each individual icon every time.
-#### /config/GroupIcon.ico / GroupImage.png
+#### /config/<Goup_Name>/GroupIcon.ico / GroupImage.png
 Created image from the group icon you selected. This will be your application icon and read from when you start up the group.
-#### /config/ObjectData.xml
+#### /config/<Goup_Name>/ObjectData.xml
 Crucial information about the shortcuts and the group itself stored inside of here. It saves your settings for the group and is important in determining what goes into the group when you open it and any other visual settings you may have configured.
 #### /JITComp
 In here stores the individual profiles for each form. Essentially these profiles are per-compiled code that the application can read from to improve loading times and responsiveness in the system.
