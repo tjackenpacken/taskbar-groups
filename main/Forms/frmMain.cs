@@ -44,9 +44,7 @@ namespace client
             System.Runtime.ProfileOptimization.StartProfile("frmMain.Profile");
             mouseClick = new Point(cursorPosX, cursorPosY); // Consstruct point p based on passed x y mouse values
             passedDirec = passedDirectory;
-            //InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
-
 
             using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(MainPath.path + "\\config\\" + passedDirec + "\\GroupIcon.ico")))
                 this.Icon = new Icon(ms);
@@ -66,27 +64,22 @@ namespace client
                 else
                     //light backcolor is light, set hover color as darker
                     HoverColor = Color.FromArgb(BackColor.A, (BackColor.R + 50), (BackColor.G + 50), (BackColor.B + 50));
-
-                LoadCategory();
             }
             else
             {
                 Application.Exit();
             }
-
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
-            //System.Diagnostics.Debugger.Launch();
+            LoadCategory();
             SetLocation();
         }
 
         // Sets location of form
         private void SetLocation()
         {
-            //System.Diagnostics.Debugger.Launch();
-
             List<Rectangle> taskbarList = FindDockedTaskBars();
             Rectangle taskbar = new Rectangle();
             Rectangle screen = new Rectangle();
@@ -154,6 +147,7 @@ namespace client
                     this.Top = screen.Top + 10;
                 if (this.Right > screen.Right)
                     this.Left = screen.Right - this.Width - 10;
+
                 // If form goes over taskbar
                 if (taskbar.Contains(this.Left, this.Top) && taskbar.Contains(this.Right, this.Top)) // Top taskbar
                     this.Top = screen.Top + 10 + taskbar.Height;
@@ -184,6 +178,7 @@ namespace client
                 locationx = mouseClick.X - (this.Width / 2);
 
                 this.Location = new Point(locationx, locationy);
+
                 // If form goes over screen edge
                 if (this.Left < screen.Left)
                     this.Left = screen.Left + 10;
@@ -191,6 +186,7 @@ namespace client
                     this.Top = screen.Top + 10;
                 if (this.Right > screen.Right)
                     this.Left = screen.Right - this.Width - 10;
+
                 // If form goes over taskbar
                 if (taskbar.Contains(this.Left, this.Top) && taskbar.Contains(this.Right, this.Top)) // Top taskbar
                     this.Top = screen.Top + 10 + taskbar.Height;
@@ -265,6 +261,8 @@ namespace client
         // Loading category and building shortcuts
         private void LoadCategory()
         {
+            //System.Diagnostics.Debugger.Launch();
+
             this.Width = 0;
             this.Height = 45;
             int x = 0;
