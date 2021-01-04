@@ -19,7 +19,7 @@ namespace client.Classes
             String microsoftAppName = (!alreadyAppID) ? GetLnkTarget(file) : file;
 
             // Split the string to get the app name from the beginning (Ex. 4DF9E0F8.Netflix)
-            String subAppName = microsoftAppName.Split('_')[0];
+            String subAppName = microsoftAppName.Split('!')[0];
 
             // Loop through each of the folders with the app name to find the one with the manifest + logos
             String appPath = findWindowsAppsFolder(subAppName);
@@ -106,13 +106,10 @@ namespace client.Classes
             {
                 try
                 {
-                    IEnumerable<Windows.ApplicationModel.Package> packages = pkgManger.FindPackagesForUser("");
+                    IEnumerable<Windows.ApplicationModel.Package> packages = pkgManger.FindPackagesForUser("", subAppName);
 
-                    String packagePath = (from packageItem in packages
-                                where packageItem.InstalledLocation.DisplayName.Contains(subAppName)
-                                select packageItem).First().InstalledLocation.DisplayName;
 
-                    String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + packagePath + @"\";
+                    String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + packages.First().InstalledLocation.DisplayName + @"\";
                     fileDirectoryCache[subAppName] = finalPath;
                     return finalPath;
                 }
@@ -127,7 +124,7 @@ namespace client.Classes
 
         public static string findWindowsAppsName(string AppName)
         {
-            String subAppName = AppName.Split('_')[0];
+            String subAppName = AppName.Split('!')[0];
             String appPath = findWindowsAppsFolder(subAppName);
 
             
