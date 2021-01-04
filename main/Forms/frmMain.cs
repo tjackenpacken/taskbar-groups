@@ -39,16 +39,18 @@ namespace client
         //
         public frmMain(string passedDirectory, int cursorPosX, int cursorPosY)
         {
+            InitializeComponent();
+
             System.Runtime.ProfileOptimization.StartProfile("frmMain.Profile");
             mouseClick = new Point(cursorPosX, cursorPosY); // Consstruct point p based on passed x y mouse values
             passedDirec = passedDirectory;
-            InitializeComponent();
+            //InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
 
-            //InitializeComponent();
 
             using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(MainPath.path + "\\config\\" + passedDirec + "\\GroupIcon.ico")))
                 this.Icon = new Icon(ms);
+
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -83,6 +85,9 @@ namespace client
         // Sets location of form
         private void SetLocation()
         {
+
+            //System.Diagnostics.Debugger.Launch();
+
             List<Rectangle> taskbarList = FindDockedTaskBars();
             Rectangle taskbar = new Rectangle();
             Rectangle screen = new Rectangle();
@@ -122,14 +127,14 @@ namespace client
                     else if (taskbar.Left == screen.Left)
                     {
                         // LEFT
-                        locationy = mouseClick.X - (this.Height / 2);
+                        locationy = mouseClick.Y - (this.Height / 2);
                         locationx = screen.X + taskbar.Width + 10;
 
                     }
                     else
                     {
                         // RIGHT
-                        locationy = mouseClick.X - (this.Height / 2);
+                        locationy = mouseClick.Y - (this.Height / 2);
                         locationx = screen.X + screen.Width - this.Width - taskbar.Width - 10;
                     }
 
