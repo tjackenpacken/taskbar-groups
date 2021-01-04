@@ -89,6 +89,7 @@
     <Compile Include="Classes\Category.cs" />
     <Compile Include="Classes\handleFolder.cs" />
     <Compile Include="Classes\handleWindowsApp.cs" />
+    <Compile Include="Classes\IconFactory.cs" />
     <Compile Include="Classes\ImageFunctions.cs" />
     <Compile Include="Classes\MainPath.cs" />
     <Compile Include="Classes\ProgramShortcut.cs" />
