@@ -13,6 +13,8 @@ namespace client.Classes
     {
         public static Dictionary<string, string> fileDirectoryCache = new Dictionary<string, string>();
 
+        private static PowerShell powerShell = PowerShell.Create();
+
         public static Image getWindowsAppIcon(String file, bool alreadyAppID = false)
         {
             // Get the app's ID from its shortcut target file (Ex. 4DF9E0F8.Netflix_mcm4njqhnhss8!Netflix.app)
@@ -33,13 +35,13 @@ namespace client.Classes
 
             String logoLocation = (appManifest.SelectSingleNode("/sm:Package/sm:Properties/sm:Logo", appManifestNamespace).InnerText).Replace("\\", @"\");
 
+
+
             if (logoLocation != null)
             {
                 // Get the last instance or usage of \ to cut out the path of the logo just to have the path leading to the general logo folder
                 logoLocation = logoLocation.Substring(0, logoLocation.LastIndexOf(@"\"));
                 String logoLocationFullPath = Path.GetFullPath(appPath + "\\" + logoLocation);
-
-                String logoPath = "";
 
                 // Search for all files with 150x150 in its name and use the first result
                 DirectoryInfo logoDirectory = new DirectoryInfo(logoLocationFullPath);
@@ -106,20 +108,15 @@ namespace client.Classes
             {
                 try
                 {
+                    powerShell.AddScript($"Get-AppxPackage -name {subAppName}");
 
-                    using (PowerShell powerShell = PowerShell.Create())
+                    Collection<PSObject> PSOutput = powerShell.Invoke();
+
+                    if (PSOutput[0] != null)
                     {
-                        powerShell.AddScript($"Get-AppxPackage -name {subAppName}");
-
-                        Collection<PSObject> PSOutput = powerShell.Invoke();
-
-
-                        if (PSOutput[0] != null)
-                        {
-                            String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + PSOutput[0] + @"\";
-                            fileDirectoryCache[subAppName] = finalPath;
-                            return finalPath;
-                        }
+                        String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + PSOutput[0] + @"\";
+                        fileDirectoryCache[subAppName] = finalPath;
+                        return finalPath;
                     }
 
                     /*
