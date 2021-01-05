@@ -4,8 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Collections.Generic;
-using System.Management.Automation;
-using System.Collections.ObjectModel;
+using Windows.Management.Deployment;
 
 namespace client.Classes
 {
@@ -13,13 +12,14 @@ namespace client.Classes
     {
         public static Dictionary<string, string> fileDirectoryCache = new Dictionary<string, string>();
 
+        private static PackageManager pkgManger = new PackageManager();
         public static Image getWindowsAppIcon(String file, bool alreadyAppID = false)
         {
             // Get the app's ID from its shortcut target file (Ex. 4DF9E0F8.Netflix_mcm4njqhnhss8!Netflix.app)
             String microsoftAppName = (!alreadyAppID) ? GetLnkTarget(file) : file;
 
             // Split the string to get the app name from the beginning (Ex. 4DF9E0F8.Netflix)
-            String subAppName = microsoftAppName.Split('_')[0];
+            String subAppName = microsoftAppName.Split('!')[0];
 
             // Loop through each of the folders with the app name to find the one with the manifest + logos
             String appPath = findWindowsAppsFolder(subAppName);
@@ -33,13 +33,13 @@ namespace client.Classes
 
             String logoLocation = (appManifest.SelectSingleNode("/sm:Package/sm:Properties/sm:Logo", appManifestNamespace).InnerText).Replace("\\", @"\");
 
+
+
             if (logoLocation != null)
             {
                 // Get the last instance or usage of \ to cut out the path of the logo just to have the path leading to the general logo folder
                 logoLocation = logoLocation.Substring(0, logoLocation.LastIndexOf(@"\"));
                 String logoLocationFullPath = Path.GetFullPath(appPath + "\\" + logoLocation);
-
-                String logoPath = "";
 
                 // Search for all files with 150x150 in its name and use the first result
                 DirectoryInfo logoDirectory = new DirectoryInfo(logoLocationFullPath);
@@ -106,27 +106,12 @@ namespace client.Classes
             {
                 try
                 {
-
-                    using (PowerShell powerShell = PowerShell.Create())
-                    {
-                        powerShell.AddScript($"Get-AppxPackage -name {subAppName}");
-
-                        Collection<PSObject> PSOutput = powerShell.Invoke();
+                    IEnumerable<Windows.ApplicationModel.Package> packages = pkgManger.FindPackagesForUser("", subAppName);
 
 
-                        if (PSOutput[0] != null)
-                        {
-                            String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + PSOutput[0] + @"\";
-                            fileDirectoryCache[subAppName] = finalPath;
-                            return finalPath;
-                        }
-                    }
-
-                    /*
-                    foreach (string folder in Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\"))
-                    {
-                        appDirecList.Add(folder);
-                    }*/
+                    String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + packages.First().InstalledLocation.DisplayName + @"\";
+                    fileDirectoryCache[subAppName] = finalPath;
+                    return finalPath;
                 }
                 catch (UnauthorizedAccessException) { };
                 return "";
@@ -139,7 +124,7 @@ namespace client.Classes
 
         public static string findWindowsAppsName(string AppName)
         {
-            String subAppName = AppName.Split('_')[0];
+            String subAppName = AppName.Split('!')[0];
             String appPath = findWindowsAppsFolder(subAppName);
 
             
