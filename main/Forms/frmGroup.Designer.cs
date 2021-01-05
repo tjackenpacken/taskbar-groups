@@ -66,13 +66,13 @@
             this.cmdWidthDown = new System.Windows.Forms.Button();
             this.cmdWidthUp = new System.Windows.Forms.Button();
             this.pnlArguments = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.cmdSelectDirectory = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.pnlWorkingDirectory = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pnlArgumentTextbox = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
             this.pnlGroupIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
@@ -559,15 +559,36 @@
             this.pnlArguments.TabIndex = 48;
             this.pnlArguments.Visible = false;
             // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label7.Location = new System.Drawing.Point(26, 51);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(440, 1);
+            this.label7.TabIndex = 53;
+            // 
+            // label6
+            // 
+            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label6.Location = new System.Drawing.Point(26, 103);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(335, 1);
+            this.label6.TabIndex = 50;
+            // 
             // cmdSelectDirectory
             // 
             this.cmdSelectDirectory.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
             this.cmdSelectDirectory.FlatAppearance.BorderSize = 0;
             this.cmdSelectDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmdSelectDirectory.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.cmdSelectDirectory.ForeColor = System.Drawing.Color.White;
-            this.cmdSelectDirectory.Location = new System.Drawing.Point(369, 82);
+            this.cmdSelectDirectory.Location = new System.Drawing.Point(367, 79);
             this.cmdSelectDirectory.Name = "cmdSelectDirectory";
-            this.cmdSelectDirectory.Size = new System.Drawing.Size(90, 25);
+            this.cmdSelectDirectory.Size = new System.Drawing.Size(97, 27);
             this.cmdSelectDirectory.TabIndex = 52;
             this.cmdSelectDirectory.Text = "Select Directory";
             this.cmdSelectDirectory.UseVisualStyleBackColor = false;
@@ -621,26 +642,6 @@
             this.pnlArgumentTextbox.TabIndex = 0;
             this.pnlArgumentTextbox.TextChanged += new System.EventHandler(this.pnlArgumentTextbox_TextChanged);
             this.pnlArgumentTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pnlArgumentTextbox_KeyDown);
-            // 
-            // label6
-            // 
-            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label6.Location = new System.Drawing.Point(26, 103);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(335, 1);
-            this.label6.TabIndex = 50;
-            // 
-            // label7
-            // 
-            this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label7.Location = new System.Drawing.Point(26, 51);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(425, 1);
-            this.label7.TabIndex = 53;
             // 
             // frmGroup
             // 
