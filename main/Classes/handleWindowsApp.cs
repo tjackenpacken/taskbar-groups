@@ -13,7 +13,7 @@ namespace client.Classes
         public static Dictionary<string, string> fileDirectoryCache = new Dictionary<string, string>();
 
         private static PackageManager pkgManger = new PackageManager();
-        public static Image getWindowsAppIcon(String file, bool alreadyAppID = false)
+        public static Bitmap getWindowsAppIcon(String file, bool alreadyAppID = false)
         {
             // Get the app's ID from its shortcut target file (Ex. 4DF9E0F8.Netflix_mcm4njqhnhss8!Netflix.app)
             String microsoftAppName = (!alreadyAppID) ? GetLnkTarget(file) : file;

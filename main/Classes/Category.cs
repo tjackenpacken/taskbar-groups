@@ -1,4 +1,4 @@
-﻿using IWshRuntimeLibrary;
+﻿using client.User_controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -186,23 +186,23 @@ namespace client.Classes
             {
                 String filePath = ShortcutList[i].FilePath;
 
-                // Process .lnk (shortcut) files differently
+                ucProgramShortcut programShortcutControl = Application.OpenForms["frmGroup"].Controls["pnlShortcuts"].Controls[i] as ucProgramShortcut;
+                string savePath;
+
                 if (ShortcutList[i].isWindowsApp)
                 {
-                    handleWindowsApp.getWindowsAppIcon(filePath, true).Save(iconPath + "\\" + specialCharRegex.Replace(filePath, string.Empty) + ".png");
-                }
-                else if (Path.GetExtension(filePath).ToLower() == ".lnk")
-                {
-                    Forms.frmGroup.handleLnkExt(filePath).Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".png");
+                    savePath = iconPath + "\\" + specialCharRegex.Replace(filePath, string.Empty) + ".png";
                 } else if (Directory.Exists(filePath))
                 {
-                    handleFolder.GetFolderIcon(filePath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.png");
+                    savePath = iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.png";
                 } else
                 {
-                    // Extracts icon from the .exe if the provided file is not a shortcut file
-                    Icon.ExtractAssociatedIcon(Environment.ExpandEnvironmentVariables(filePath)).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".png");
+                    savePath = iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".png";
                 }
-            }
+
+                programShortcutControl.logo.Save(savePath);
+
+    }
         }
 
         // Try to load an iamge from the cache
