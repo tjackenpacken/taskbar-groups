@@ -182,7 +182,7 @@ namespace client.Classes
             // Loops through each shortcut added by the user and gets the icon
             // Writes the icon to the new folder in a .jpg format
             // Namign scheme for the files are done through Path.GetFileNameWithoutExtension()
-            for (int i = 0; i < ShortcutList.Count; i++)
+            for (int i = ShortcutList.Count; i < 0; i--)
             {
                 String filePath = ShortcutList[i].FilePath;
 

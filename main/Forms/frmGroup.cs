@@ -389,7 +389,6 @@ namespace client.Forms
             {
                 return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(lnkIcon.TargetPath))).ToBitmap();
             }
-
         }
 
 
@@ -770,7 +769,6 @@ namespace client.Forms
                 selectedShortcut.IsSelected = false;
                 selectedShortcut = null;
             }
-
         }
 
         // Enable the argument textbox once a shortcut/program has been selected
