@@ -50,12 +50,15 @@
             this.githubLabel = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlExistingGroups = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.pnlBottomMain = new System.Windows.Forms.Panel();
             this.pnlLeftColumn.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pnlHelp.SuspendLayout();
             this.pnlAddGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).BeginInit();
             this.panel1.SuspendLayout();
+            this.pnlBottomMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlLeftColumn
@@ -72,19 +75,24 @@
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.label6);
+            this.panel2.Controls.Add(this.currentVersion);
+            this.panel2.Controls.Add(this.githubVersion);
             this.panel2.Controls.Add(this.githubLink);
+            this.panel2.Controls.Add(this.githubLabel);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Controls.Add(this.label5);
-            this.panel2.Location = new System.Drawing.Point(12, 342);
+            this.panel2.Location = new System.Drawing.Point(12, 615);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(292, 113);
+            this.panel2.Size = new System.Drawing.Size(292, 178);
             this.panel2.TabIndex = 18;
             // 
             // githubLink
             // 
             this.githubLink.AutoSize = true;
             this.githubLink.Font = new System.Drawing.Font("Segoe UI", 9.75F);
-            this.githubLink.Location = new System.Drawing.Point(221, 59);
+            this.githubLink.LinkColor = System.Drawing.Color.White;
+            this.githubLink.Location = new System.Drawing.Point(218, 34);
             this.githubLink.Name = "githubLink";
             this.githubLink.Size = new System.Drawing.Size(34, 17);
             this.githubLink.TabIndex = 18;
@@ -97,9 +105,9 @@
             this.label4.BackColor = System.Drawing.Color.Transparent;
             this.label4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.Transparent;
-            this.label4.Location = new System.Drawing.Point(26, 19);
+            this.label4.Location = new System.Drawing.Point(22, 1);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(243, 26);
+            this.label4.Size = new System.Drawing.Size(243, 27);
             this.label4.TabIndex = 17;
             this.label4.Text = "Have issues/bugs?";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -109,9 +117,9 @@
             this.label5.BackColor = System.Drawing.Color.Transparent;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(26, 59);
+            this.label5.Location = new System.Drawing.Point(22, 34);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(243, 23);
+            this.label5.Size = new System.Drawing.Size(243, 24);
             this.label5.TabIndex = 14;
             this.label5.Text = "Please report them to the Github";
             // 
@@ -188,7 +196,7 @@
             // 
             this.pnlAddGroup.Controls.Add(this.lblAddGroup);
             this.pnlAddGroup.Controls.Add(this.cmdAddGroup);
-            this.pnlAddGroup.Location = new System.Drawing.Point(490, 178);
+            this.pnlAddGroup.Location = new System.Drawing.Point(164, 4);
             this.pnlAddGroup.Name = "pnlAddGroup";
             this.pnlAddGroup.Size = new System.Drawing.Size(340, 70);
             this.pnlAddGroup.TabIndex = 1;
@@ -239,9 +247,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.currentVersion);
-            this.panel1.Controls.Add(this.githubVersion);
-            this.panel1.Controls.Add(this.githubLabel);
             this.panel1.Controls.Add(this.label2);
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(320, 0);
@@ -253,11 +258,11 @@
             // 
             this.currentVersion.AutoSize = true;
             this.currentVersion.BackColor = System.Drawing.Color.Transparent;
-            this.currentVersion.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.currentVersion.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.currentVersion.ForeColor = System.Drawing.Color.Transparent;
-            this.currentVersion.Location = new System.Drawing.Point(236, 57);
+            this.currentVersion.Location = new System.Drawing.Point(173, 101);
             this.currentVersion.Name = "currentVersion";
-            this.currentVersion.Size = new System.Drawing.Size(19, 21);
+            this.currentVersion.Size = new System.Drawing.Size(17, 19);
             this.currentVersion.TabIndex = 15;
             this.currentVersion.Text = "0";
             // 
@@ -265,11 +270,11 @@
             // 
             this.githubVersion.AutoSize = true;
             this.githubVersion.BackColor = System.Drawing.Color.Transparent;
-            this.githubVersion.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.githubVersion.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.githubVersion.ForeColor = System.Drawing.Color.Transparent;
-            this.githubVersion.Location = new System.Drawing.Point(192, 21);
+            this.githubVersion.Location = new System.Drawing.Point(173, 130);
             this.githubVersion.Name = "githubVersion";
-            this.githubVersion.Size = new System.Drawing.Size(19, 21);
+            this.githubVersion.Size = new System.Drawing.Size(17, 19);
             this.githubVersion.TabIndex = 14;
             this.githubVersion.Text = "0";
             // 
@@ -277,13 +282,13 @@
             // 
             this.githubLabel.AutoSize = true;
             this.githubLabel.BackColor = System.Drawing.Color.Transparent;
-            this.githubLabel.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.githubLabel.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.githubLabel.ForeColor = System.Drawing.Color.Transparent;
-            this.githubLabel.Location = new System.Drawing.Point(34, 21);
+            this.githubLabel.Location = new System.Drawing.Point(75, 130);
             this.githubLabel.Name = "githubLabel";
-            this.githubLabel.Size = new System.Drawing.Size(161, 21);
+            this.githubLabel.Size = new System.Drawing.Size(98, 19);
             this.githubLabel.TabIndex = 13;
-            this.githubLabel.Text = "Github Latest Version:";
+            this.githubLabel.Text = "Latest Version:";
             // 
             // label2
             // 
@@ -305,6 +310,26 @@
             this.pnlExistingGroups.Size = new System.Drawing.Size(680, 0);
             this.pnlExistingGroups.TabIndex = 3;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label6.ForeColor = System.Drawing.Color.Transparent;
+            this.label6.Location = new System.Drawing.Point(66, 101);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(108, 19);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "Current Version:";
+            // 
+            // pnlBottomMain
+            // 
+            this.pnlBottomMain.Controls.Add(this.pnlAddGroup);
+            this.pnlBottomMain.Location = new System.Drawing.Point(326, 162);
+            this.pnlBottomMain.Name = "pnlBottomMain";
+            this.pnlBottomMain.Size = new System.Drawing.Size(662, 134);
+            this.pnlBottomMain.TabIndex = 4;
+            // 
             // frmClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -312,9 +337,9 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(3)))), ((int)(((byte)(3)))));
             this.ClientSize = new System.Drawing.Size(1000, 821);
+            this.Controls.Add(this.pnlBottomMain);
             this.Controls.Add(this.pnlExistingGroups);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.pnlAddGroup);
             this.Controls.Add(this.pnlLeftColumn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmClient";
@@ -329,6 +354,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.pnlBottomMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -356,5 +382,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.LinkLabel githubLink;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Panel pnlBottomMain;
     }
 }

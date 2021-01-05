@@ -55,8 +55,11 @@ namespace client.Forms
                 pnlHelp.Visible = false;
             }
 
-            pnlAddGroup.Top = pnlExistingGroups.Bottom + 40; // spacing between existing groups and add new group btn
-            pnlLeftColumn.Height = this.RectangleToScreen(this.ClientRectangle).Height; // making left column pnl dynamic
+            pnlBottomMain.Top = pnlExistingGroups.Bottom + 40; // spacing between existing groups and add new group btn
+            if (pnlBottomMain.Bottom > this.RectangleToScreen(this.ClientRectangle).Bottom)
+                pnlLeftColumn.Height = pnlBottomMain.Bottom;
+            else
+                pnlLeftColumn.Height = this.RectangleToScreen(this.ClientRectangle).Height; // making left column pnl dynamic
         }
 
         public void LoadCategory(string dir)
@@ -70,6 +73,9 @@ namespace client.Forms
             newCategory.BringToFront();
             newCategory.MouseEnter += new System.EventHandler((sender, e) => EnterControl(sender, e, newCategory));
             newCategory.MouseLeave += new System.EventHandler((sender, e) => LeaveControl(sender, e, newCategory));
+
+            //pnlLeftColumn.Height = this.Height;
+
         }
 
         private void cmdAddGroup_Click(object sender, EventArgs e)
@@ -120,5 +126,6 @@ namespace client.Forms
         {
             System.Diagnostics.Process.Start("https://github.com/tjackenpacken/taskbar-groups/releases");
         }
+
     }
 }
