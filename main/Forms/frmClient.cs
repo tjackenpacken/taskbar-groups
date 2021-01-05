@@ -54,12 +54,9 @@ namespace client.Forms
                 lblHelpTitle.Text = "Press on \"Add Taskbar group\" to get started";
                 pnlHelp.Visible = false;
             }
+            pnlBottomMain.Top = pnlExistingGroups.Bottom + 20; // spacing between existing groups and add new group btn
 
-            pnlBottomMain.Top = pnlExistingGroups.Bottom + 40; // spacing between existing groups and add new group btn
-            if (pnlBottomMain.Bottom > this.RectangleToScreen(this.ClientRectangle).Bottom)
-                pnlLeftColumn.Height = pnlBottomMain.Bottom;
-            else
-                pnlLeftColumn.Height = this.RectangleToScreen(this.ClientRectangle).Height; // making left column pnl dynamic
+            Reset();
         }
 
         public void LoadCategory(string dir)
@@ -73,14 +70,18 @@ namespace client.Forms
             newCategory.BringToFront();
             newCategory.MouseEnter += new System.EventHandler((sender, e) => EnterControl(sender, e, newCategory));
             newCategory.MouseLeave += new System.EventHandler((sender, e) => LeaveControl(sender, e, newCategory));
+        }
 
-            //pnlLeftColumn.Height = this.Height;
-
+        public void Reset()
+        {
+            if (pnlBottomMain.Bottom > this.Bottom)
+                pnlLeftColumn.Height = pnlBottomMain.Bottom;
+            else
+                pnlLeftColumn.Height = this.RectangleToScreen(this.ClientRectangle).Height; // making left column pnl dynamic
         }
 
         private void cmdAddGroup_Click(object sender, EventArgs e)
         {
-            //frmNewGroup newGroup = new frmNewGroup(this);
             frmGroup newGroup = new frmGroup(this);
             newGroup.Show();
             newGroup.BringToFront();
@@ -127,5 +128,9 @@ namespace client.Forms
             System.Diagnostics.Process.Start("https://github.com/tjackenpacken/taskbar-groups/releases");
         }
 
+        private void frmClient_Resize(object sender, EventArgs e)
+        {
+            Reset();
+        }
     }
 }

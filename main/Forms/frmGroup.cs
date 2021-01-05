@@ -568,6 +568,8 @@ namespace client.Forms
                 {
                     MessageBox.Show(ex.Message);
                 }
+
+                Client.Reset();
             }
 
         }
@@ -608,6 +610,7 @@ namespace client.Forms
             {
                 MessageBox.Show(ex.Message);
             }
+            Client.Reset();
 
         }
 
