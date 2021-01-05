@@ -15,6 +15,8 @@ namespace client.User_controls
 
         public bool IsSelected = false;
         public int Position { get; set; }
+
+        public Bitmap logo;
         public ucProgramShortcut()
         {
             InitializeComponent();
@@ -59,18 +61,18 @@ namespace client.User_controls
                 // Depending on the extension, the icon can be directly extracted or it has to be gotten through other methods as to not get the shortcut arrow
                 if (imageExtension == ".lnk")
                 {
-                    picShortcut.BackgroundImage = frmGroup.handleLnkExt(Shortcut.FilePath);
+                    picShortcut.BackgroundImage = logo = frmGroup.handleLnkExt(Shortcut.FilePath);
                 }
                 else
                 {
-                    picShortcut.BackgroundImage = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
+                    picShortcut.BackgroundImage = logo = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
                 }
 
             } else if (Directory.Exists(Shortcut.FilePath))
             {
                 try
                 {
-                    picShortcut.BackgroundImage = handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
+                    picShortcut.BackgroundImage = logo = handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
                 }
                 catch (Exception ex)
                 {
@@ -78,7 +80,7 @@ namespace client.User_controls
                 }
             } else
             {
-                picShortcut.BackgroundImage = global::client.Properties.Resources.Error;
+                picShortcut.BackgroundImage = logo = global::client.Properties.Resources.Error;
             }
 
             if (Position == 0)
