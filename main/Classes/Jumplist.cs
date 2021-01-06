@@ -28,6 +28,7 @@ namespace client.Classes
             {
                 JumpListLink recentlyOpenedShortcut = new JumpListLink(MainPath.exeString, programShortcut.name);
                 recentlyOpenedShortcut.Arguments = category.Name + " " + programShortcut.name;
+                recentlyOpenedShortcut.IconReference = new IconReference(MainPath.path + @"\config\" + category.Name + @"\GroupIcon.ico", 0);
                 userShortcutCategory.AddJumpListItems(recentlyOpenedShortcut);
             }
 
@@ -37,12 +38,14 @@ namespace client.Classes
 
             JumpListLink openEdit = new JumpListLink(MainPath.exeString, "Edit Group");
             openEdit.Arguments = "editingGroupMode " + category.Name;
+            openEdit.IconReference = new IconReference(MainPath.path + @"\config\" + category.Name + @"\GroupIcon.ico", 0);
             userTaskbarCategory.AddJumpListItems(openEdit);
 
             if (category.allowOpenAll)
             {
                 JumpListLink openAllShortcuts = new JumpListLink(MainPath.exeString, "Open all shortcuts");
                 openAllShortcuts.Arguments = category.Name + " tskBaropen_allGroup";
+                openAllShortcuts.IconReference = new IconReference(MainPath.path + @"\config\" + category.Name + @"\GroupIcon.ico", 0);
                 userTaskbarCategory.AddJumpListItems(openAllShortcuts);
             }
 
