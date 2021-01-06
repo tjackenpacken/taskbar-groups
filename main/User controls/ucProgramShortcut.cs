@@ -51,7 +51,7 @@ namespace client.User_controls
 
             if (Shortcut.isWindowsApp)
             {
-                picShortcut.BackgroundImage = handleWindowsApp.getWindowsAppIcon(Shortcut.FilePath, true);
+                picShortcut.BackgroundImage = logo = handleWindowsApp.getWindowsAppIcon(Shortcut.FilePath, true);
             }
             else if (File.Exists(Shortcut.FilePath)) // Checks if the shortcut actually exists; if not then display an error image
             {
