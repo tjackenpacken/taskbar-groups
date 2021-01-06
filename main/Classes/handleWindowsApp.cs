@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Collections.Generic;
+using Windows.Management.Deployment;
 
 namespace client.Classes
 {
@@ -11,13 +12,14 @@ namespace client.Classes
     {
         public static Dictionary<string, string> fileDirectoryCache = new Dictionary<string, string>();
 
-        public static Image getWindowsAppIcon(String file, bool alreadyAppID = false)
+        private static PackageManager pkgManger = new PackageManager();
+        public static Bitmap getWindowsAppIcon(String file, bool alreadyAppID = false)
         {
             // Get the app's ID from its shortcut target file (Ex. 4DF9E0F8.Netflix_mcm4njqhnhss8!Netflix.app)
             String microsoftAppName = (!alreadyAppID) ? GetLnkTarget(file) : file;
 
             // Split the string to get the app name from the beginning (Ex. 4DF9E0F8.Netflix)
-            String subAppName = microsoftAppName.Split('_')[0];
+            String subAppName = microsoftAppName.Split('!')[0];
 
             // Loop through each of the folders with the app name to find the one with the manifest + logos
             String appPath = findWindowsAppsFolder(subAppName);
@@ -31,32 +33,59 @@ namespace client.Classes
 
             String logoLocation = (appManifest.SelectSingleNode("/sm:Package/sm:Properties/sm:Logo", appManifestNamespace).InnerText).Replace("\\", @"\");
 
+
+
             if (logoLocation != null)
             {
                 // Get the last instance or usage of \ to cut out the path of the logo just to have the path leading to the general logo folder
                 logoLocation = logoLocation.Substring(0, logoLocation.LastIndexOf(@"\"));
                 String logoLocationFullPath = Path.GetFullPath(appPath + "\\" + logoLocation);
 
-                String logoPath = "";
-
                 // Search for all files with 150x150 in its name and use the first result
-                string fileGoal = "StoreLogo";
                 DirectoryInfo logoDirectory = new DirectoryInfo(logoLocationFullPath);
-                FileInfo[] filesInDir = logoDirectory.GetFiles("*" + fileGoal + "*.*");
+                FileInfo[] filesInDir = getLogoFolder("StoreLogo", logoDirectory);
 
-                logoPath = filesInDir.Last().FullName;
+                if (filesInDir.Length != 0)
+                {
+                    return getLogo(filesInDir.Last().FullName, file);
+                }
+                else
+                {
 
-                if (File.Exists(logoPath))
-                {
-                    using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(logoPath)))
-                        return ImageFunctions.ResizeImage(Bitmap.FromStream(ms), 64, 64);
-                } else
-                {
-                    return Icon.ExtractAssociatedIcon(file).ToBitmap();
+                    filesInDir = getLogoFolder("scale-200", logoDirectory);
+
+                    if (filesInDir.Length != 0)
+                    {
+                        return getLogo(filesInDir[0].FullName, file);
+                    } else
+                    {
+                        return Icon.ExtractAssociatedIcon(file).ToBitmap();
+                    }
+                        
                 }
             } else
             {
                 return Icon.ExtractAssociatedIcon(file).ToBitmap();
+            }
+        }
+
+        private static FileInfo[] getLogoFolder(String keyname, DirectoryInfo logoDirectory)
+        {
+            // Search for all files with the keyname in its name and use the first result
+            FileInfo[] filesInDir = logoDirectory.GetFiles("*" + keyname + "*.*");
+            return filesInDir;
+        }
+
+        private static Bitmap getLogo(String logoPath, String defaultFile)
+        {
+            if (File.Exists(logoPath))
+            {
+                using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(logoPath)))
+                    return ImageFunctions.ResizeImage(Bitmap.FromStream(ms), 64, 64);
+            }
+            else
+            {
+                return Icon.ExtractAssociatedIcon(defaultFile).ToBitmap();
             }
         }
 
@@ -72,19 +101,19 @@ namespace client.Classes
 
         public static string findWindowsAppsFolder(string subAppName)
         {
+
             if (!fileDirectoryCache.ContainsKey(subAppName))
             {
-                // Find the directories in the WindowsApps folder containg that direcotry
-                string[] appDirecList = Directory.GetDirectories(Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\");
-
-                foreach (var appDirec in appDirecList)
+                try
                 {
-                    if (appDirec.Contains(subAppName) && File.Exists(appDirec + "\\AppxManifest.xml"))
-                    {
-                        fileDirectoryCache[subAppName] = appDirec;
-                        return appDirec;
-                    }
+                    IEnumerable<Windows.ApplicationModel.Package> packages = pkgManger.FindPackagesForUser("", subAppName);
+
+
+                    String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + packages.First().InstalledLocation.DisplayName + @"\";
+                    fileDirectoryCache[subAppName] = finalPath;
+                    return finalPath;
                 }
+                catch (UnauthorizedAccessException) { };
                 return "";
             }
             else
@@ -95,12 +124,13 @@ namespace client.Classes
 
         public static string findWindowsAppsName(string AppName)
         {
-            String subAppName = AppName.Split('_')[0];
-
+            String subAppName = AppName.Split('!')[0];
             String appPath = findWindowsAppsFolder(subAppName);
 
-            // Load and read manifest to get the logo path
-            XmlDocument appManifest = new XmlDocument();
+            
+
+                // Load and read manifest to get the logo path
+                XmlDocument appManifest = new XmlDocument();
             appManifest.Load(appPath + "\\AppxManifest.xml");
 
             XmlNamespaceManager appManifestNamespace = new XmlNamespaceManager(new NameTable());

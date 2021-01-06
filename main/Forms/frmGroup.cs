@@ -11,8 +11,7 @@ using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Shell;
-using Microsoft.WindowsAPICodePack.Dialogs;
-using System.Threading.Tasks;
+using Microsoft.WindowsAPICodePack.Dialogs; 
 
 namespace client.Forms
 {
@@ -21,7 +20,6 @@ namespace client.Forms
         public Category Category;
         public frmClient Client;
         public bool IsNew;
-
         private String[] imageExt = new String[] { ".png", ".jpg", ".jpe", ".jfif", ".jpeg", };
         private String[] extensionExt = new String[] { ".exe", ".lnk", ".url" };
         private String[] specialImageExt = new String[] { ".ico", ".exe", ".lnk" };
@@ -73,6 +71,7 @@ namespace client.Forms
             IsNew = false;
 
             // Setting control values from loaded group
+            this.Text = "Edit group";
             txtGroupName.Text = Regex.Replace(Category.Name, @"(_)+", " ");
             pnlAllowOpenAll.Checked = category.allowOpenAll;
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
@@ -142,6 +141,8 @@ namespace client.Forms
         // Adding shortcut by button
         private void pnlAddShortcut_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             lblErrorShortcut.Visible = false; // resetting error msg
 
             if (Category.ShortcutList.Count >= 20)
@@ -172,22 +173,30 @@ namespace client.Forms
                 {
                     addShortcut(file);
                 }
+                resetSelection();
+            }
+
+            if (pnlShortcuts.Controls.Count != 0)
+            {
+                pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]);
             }
         }
 
         // Handle dropped programs into the add program/shortcut field
         private void pnlDragDropExt(object sender, DragEventArgs e)
         {
-            if (e.Data.GetFormats()[0] == "Shell IDList Array")
+            var files = (String[])e.Data.GetData(DataFormats.FileDrop);
+
+            if (files == null)
             {
                 ShellObjectCollection ShellObj = ShellObjectCollection.FromDataObject((System.Runtime.InteropServices.ComTypes.IDataObject)e.Data);
-                foreach (ShellNonFileSystemItem item in ShellObj) {
+
+                foreach (ShellNonFileSystemItem item in ShellObj)
+                {
                     addShortcut(item.ParsingName, true);
                 }
             } else
             {
-                var files = (String[])e.Data.GetData(DataFormats.FileDrop);
-
                 // Loops through each file to make sure they exist and to add them directly to the shortcut list
                 foreach (var file in files)
                 {
@@ -197,6 +206,13 @@ namespace client.Forms
                     }
                 }
             }
+
+            if (pnlShortcuts.Controls.Count != 0)
+            {
+                pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]);
+            }
+            
+            resetSelection();
         }
 
         // Handle adding the shortcut to list
@@ -207,13 +223,13 @@ namespace client.Forms
             ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file), isWindowsApp = isExtension, WorkingDirectory = workingDirec }; //Create new shortcut obj
             Category.ShortcutList.Add(psc); // Add to panel shortcut list
             LoadShortcut(psc, Category.ShortcutList.Count - 1);
-
-            pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[pnlShortcuts.Controls.Count - 1]);
         }
 
         // Delete shortcut
         public void DeleteShortcut(ProgramShortcut psc)
         {
+            resetSelection();
+
             Category.ShortcutList.Remove(psc);
             resetSelection();
             bool before = true;
@@ -224,6 +240,7 @@ namespace client.Forms
                 if (before)
                 {
                     ucPsc.Top -= 50;
+                    ucPsc.Position -= 1;
                 }
                 if (ucPsc.Shortcut == psc)
                 {
@@ -290,6 +307,8 @@ namespace client.Forms
         // Adding icon by button
         private void cmdAddGroupIcon_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             lblErrorIcon.Visible = false;  //resetting error msg
 
             OpenFileDialog openFileDialog = new OpenFileDialog  // ask user to select img as group icon
@@ -318,6 +337,8 @@ namespace client.Forms
         // Handle drag and dropped images
         private void pnlDragDropImg(object sender, DragEventArgs e)
         {
+            resetSelection();
+
             var files = (String[])e.Data.GetData(DataFormats.FileDrop);
 
             String imageExtension = Path.GetExtension(files[0]).ToLower();
@@ -351,7 +372,7 @@ namespace client.Forms
         }
 
         // Handle returning images of icon files (.lnk)
-        public static Image handleLnkExt(String file)
+        public static Bitmap handleLnkExt(String file)
         {
             IWshShortcut lnkIcon = (IWshShortcut)new WshShell().CreateShortcut(file);
             String[] icLocation = lnkIcon.IconLocation.Split(',');
@@ -368,7 +389,6 @@ namespace client.Forms
             {
                 return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(lnkIcon.TargetPath))).ToBitmap();
             }
-
         }
 
 
@@ -387,6 +407,8 @@ namespace client.Forms
         // Only highlights if the files being dropped are valid in extension wise
         private void pnlDragDropEnterExt(object sender, DragEventArgs e)
         {
+            resetSelection();
+
             if (checkExtensions(e, extensionExt))
             {
                 pnlAddShortcut.BackColor = Color.FromArgb(23, 23, 23);
@@ -395,6 +417,8 @@ namespace client.Forms
 
         private void pnlDragDropEnterImg(object sender, DragEventArgs e)
         {
+            resetSelection();
+
             if (checkExtensions(e, imageExt.Concat(specialImageExt).ToArray()))
             {
                 pnlGroupIcon.BackColor = Color.FromArgb(23, 23, 23);
@@ -404,8 +428,6 @@ namespace client.Forms
         // Series of checks to make sure it can be dropped
         private Boolean checkExtensions(DragEventArgs e, String[] exts)
         {
-
-
 
             // Make sure the file can be dragged dropped
             if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return false;
@@ -454,9 +476,19 @@ namespace client.Forms
         // Save group
         private void cmdSave_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
+            //List <Directory> directories = 
+
             if (txtGroupName.Text == "Name the new group...") // Verify category name
             {
                 lblErrorTitle.Text = "Must select a name";
+                lblErrorTitle.Visible = true;
+            }
+            else if (IsNew && Directory.Exists(@MainPath.path + @"\config\" + txtGroupName.Text) ||
+                     !IsNew && Category.Name != txtGroupName.Text && Directory.Exists(@MainPath.path + @"\config\" + txtGroupName.Text))
+            {
+                lblErrorTitle.Text = "There is already a group with that name";
                 lblErrorTitle.Visible = true;
             }
             else if (!new Regex("^[0-9a-zA-Z \b]+$").IsMatch(txtGroupName.Text))
@@ -534,6 +566,8 @@ namespace client.Forms
                 {
                     MessageBox.Show(ex.Message);
                 }
+
+                Client.Reset();
             }
 
         }
@@ -541,6 +575,8 @@ namespace client.Forms
         // Delete group
         private void cmdDelete_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             try
             {
                 string configPath = @MainPath.path + @"\config\" + Category.Name;
@@ -572,6 +608,7 @@ namespace client.Forms
             {
                 MessageBox.Show(ex.Message);
             }
+            Client.Reset();
 
         }
 
@@ -582,6 +619,8 @@ namespace client.Forms
         // Change category width
         private void cmdWidthUp_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             int num = int.Parse(lblNum.Text);
             if (num > 19)
             {
@@ -597,6 +636,8 @@ namespace client.Forms
         }
         private void cmdWidthDown_Click(object sender, EventArgs e)
         {
+            resetSelection();
+
             int num = int.Parse(lblNum.Text);
             if (num == 1)
             {
@@ -694,6 +735,7 @@ namespace client.Forms
         // Handles placeholder text for group name
         private void txtGroupName_MouseClick(object sender, MouseEventArgs e)
         {
+            resetSelection();
             if (txtGroupName.Text == "Name the new group...")
                 txtGroupName.Text = "";
         }
@@ -721,9 +763,10 @@ namespace client.Forms
             cmdSelectDirectory.Enabled = false;
             if (selectedShortcut != null)
             {
-
+                pnlColor.Visible = true;
+                pnlArguments.Visible = false;
                 selectedShortcut.ucDeselected();
-
+                selectedShortcut.IsSelected = false;
                 selectedShortcut = null;
             }
         }
@@ -733,6 +776,7 @@ namespace client.Forms
         {
             selectedShortcut = passedShortcut;
             passedShortcut.ucSelected();
+            passedShortcut.IsSelected = true;
 
             pnlArgumentTextbox.Text = Category.ShortcutList[selectedShortcut.Position].Arguments;
             pnlArgumentTextbox.Enabled = true;
@@ -740,6 +784,9 @@ namespace client.Forms
             pnlWorkingDirectory.Text = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory;
             pnlWorkingDirectory.Enabled = true;
             cmdSelectDirectory.Enabled = true;
+
+            pnlColor.Visible = false;
+            pnlArguments.Visible = true;
         }
 
         // Set the argument property to whatever the user set
@@ -810,6 +857,11 @@ namespace client.Forms
             {
                 return MainPath.exeString;
             }
+        }
+
+        private void frmGroup_MouseClick(object sender, MouseEventArgs e)
+        {
+            resetSelection();
         }
     }
 }

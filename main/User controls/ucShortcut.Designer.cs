@@ -35,9 +35,9 @@
             // picIcon
             // 
             this.picIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.picIcon.Location = new System.Drawing.Point(18, 13);
+            this.picIcon.Location = new System.Drawing.Point(16, 11);
             this.picIcon.Name = "picIcon";
-            this.picIcon.Size = new System.Drawing.Size(20, 20);
+            this.picIcon.Size = new System.Drawing.Size(23, 23);
             this.picIcon.TabIndex = 0;
             this.picIcon.TabStop = false;
             this.picIcon.Click += new System.EventHandler(this.ucShortcut_Click);

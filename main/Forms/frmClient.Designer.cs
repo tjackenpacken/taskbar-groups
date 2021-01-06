@@ -30,6 +30,14 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmClient));
             this.pnlLeftColumn = new System.Windows.Forms.Panel();
+            this.pnlVersionInfo = new System.Windows.Forms.Panel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.currentVersion = new System.Windows.Forms.Label();
+            this.githubVersion = new System.Windows.Forms.Label();
+            this.githubLink = new System.Windows.Forms.LinkLabel();
+            this.githubLabel = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.pnlHelp = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.lblHelp1 = new System.Windows.Forms.Label();
@@ -38,21 +46,25 @@
             this.lblHelpTitle = new System.Windows.Forms.Label();
             this.pnlAddGroup = new System.Windows.Forms.Panel();
             this.lblAddGroup = new System.Windows.Forms.Label();
+            this.cmdAddGroup = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlExistingGroups = new System.Windows.Forms.Panel();
-            this.cmdAddGroup = new System.Windows.Forms.PictureBox();
+            this.pnlBottomMain = new System.Windows.Forms.Panel();
             this.pnlLeftColumn.SuspendLayout();
+            this.pnlVersionInfo.SuspendLayout();
             this.pnlHelp.SuspendLayout();
             this.pnlAddGroup.SuspendLayout();
-            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).BeginInit();
+            this.panel1.SuspendLayout();
+            this.pnlBottomMain.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlLeftColumn
             // 
             this.pnlLeftColumn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.pnlLeftColumn.Controls.Add(this.pnlVersionInfo);
             this.pnlLeftColumn.Controls.Add(this.pnlHelp);
             this.pnlLeftColumn.Controls.Add(this.lblHelpTitle);
             this.pnlLeftColumn.ImeMode = System.Windows.Forms.ImeMode.On;
@@ -60,6 +72,105 @@
             this.pnlLeftColumn.Name = "pnlLeftColumn";
             this.pnlLeftColumn.Size = new System.Drawing.Size(320, 820);
             this.pnlLeftColumn.TabIndex = 0;
+            // 
+            // pnlVersionInfo
+            // 
+            this.pnlVersionInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.pnlVersionInfo.Controls.Add(this.label6);
+            this.pnlVersionInfo.Controls.Add(this.currentVersion);
+            this.pnlVersionInfo.Controls.Add(this.githubVersion);
+            this.pnlVersionInfo.Controls.Add(this.githubLink);
+            this.pnlVersionInfo.Controls.Add(this.githubLabel);
+            this.pnlVersionInfo.Controls.Add(this.label4);
+            this.pnlVersionInfo.Controls.Add(this.label5);
+            this.pnlVersionInfo.Location = new System.Drawing.Point(12, 615);
+            this.pnlVersionInfo.Name = "pnlVersionInfo";
+            this.pnlVersionInfo.Size = new System.Drawing.Size(292, 178);
+            this.pnlVersionInfo.TabIndex = 18;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.Transparent;
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label6.ForeColor = System.Drawing.Color.Transparent;
+            this.label6.Location = new System.Drawing.Point(66, 101);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(108, 19);
+            this.label6.TabIndex = 19;
+            this.label6.Text = "Current Version:";
+            // 
+            // currentVersion
+            // 
+            this.currentVersion.AutoSize = true;
+            this.currentVersion.BackColor = System.Drawing.Color.Transparent;
+            this.currentVersion.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.currentVersion.ForeColor = System.Drawing.Color.Transparent;
+            this.currentVersion.Location = new System.Drawing.Point(173, 101);
+            this.currentVersion.Name = "currentVersion";
+            this.currentVersion.Size = new System.Drawing.Size(17, 19);
+            this.currentVersion.TabIndex = 15;
+            this.currentVersion.Text = "0";
+            // 
+            // githubVersion
+            // 
+            this.githubVersion.AutoSize = true;
+            this.githubVersion.BackColor = System.Drawing.Color.Transparent;
+            this.githubVersion.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.githubVersion.ForeColor = System.Drawing.Color.Transparent;
+            this.githubVersion.Location = new System.Drawing.Point(173, 130);
+            this.githubVersion.Name = "githubVersion";
+            this.githubVersion.Size = new System.Drawing.Size(17, 19);
+            this.githubVersion.TabIndex = 14;
+            this.githubVersion.Text = "0";
+            // 
+            // githubLink
+            // 
+            this.githubLink.AutoSize = true;
+            this.githubLink.Font = new System.Drawing.Font("Segoe UI", 9.75F);
+            this.githubLink.LinkColor = System.Drawing.Color.White;
+            this.githubLink.Location = new System.Drawing.Point(218, 34);
+            this.githubLink.Name = "githubLink";
+            this.githubLink.Size = new System.Drawing.Size(34, 17);
+            this.githubLink.TabIndex = 18;
+            this.githubLink.TabStop = true;
+            this.githubLink.Text = "here";
+            this.githubLink.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.githubLink_LinkClicked);
+            // 
+            // githubLabel
+            // 
+            this.githubLabel.AutoSize = true;
+            this.githubLabel.BackColor = System.Drawing.Color.Transparent;
+            this.githubLabel.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.githubLabel.ForeColor = System.Drawing.Color.Transparent;
+            this.githubLabel.Location = new System.Drawing.Point(75, 130);
+            this.githubLabel.Name = "githubLabel";
+            this.githubLabel.Size = new System.Drawing.Size(98, 19);
+            this.githubLabel.TabIndex = 13;
+            this.githubLabel.Text = "Latest Version:";
+            // 
+            // label4
+            // 
+            this.label4.BackColor = System.Drawing.Color.Transparent;
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.Transparent;
+            this.label4.Location = new System.Drawing.Point(22, 1);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(243, 27);
+            this.label4.TabIndex = 17;
+            this.label4.Text = "Have issues/bugs?";
+            this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Transparent;
+            this.label5.Location = new System.Drawing.Point(22, 34);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(243, 24);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "Please report them to the Github";
             // 
             // pnlHelp
             // 
@@ -134,7 +245,7 @@
             // 
             this.pnlAddGroup.Controls.Add(this.lblAddGroup);
             this.pnlAddGroup.Controls.Add(this.cmdAddGroup);
-            this.pnlAddGroup.Location = new System.Drawing.Point(490, 178);
+            this.pnlAddGroup.Location = new System.Drawing.Point(164, 4);
             this.pnlAddGroup.Name = "pnlAddGroup";
             this.pnlAddGroup.Size = new System.Drawing.Size(340, 70);
             this.pnlAddGroup.TabIndex = 1;
@@ -157,6 +268,20 @@
             this.lblAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
             this.lblAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
             // 
+            // cmdAddGroup
+            // 
+            this.cmdAddGroup.BackgroundImage = global::client.Properties.Resources.AddGray;
+            this.cmdAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cmdAddGroup.Location = new System.Drawing.Point(88, 14);
+            this.cmdAddGroup.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
+            this.cmdAddGroup.Name = "cmdAddGroup";
+            this.cmdAddGroup.Size = new System.Drawing.Size(40, 40);
+            this.cmdAddGroup.TabIndex = 7;
+            this.cmdAddGroup.TabStop = false;
+            this.cmdAddGroup.Click += new System.EventHandler(this.cmdAddGroup_Click);
+            this.cmdAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
+            this.cmdAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -165,9 +290,9 @@
             this.label1.ForeColor = System.Drawing.Color.Transparent;
             this.label1.Location = new System.Drawing.Point(31, 42);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(209, 40);
+            this.label1.Size = new System.Drawing.Size(212, 40);
             this.label1.TabIndex = 11;
-            this.label1.Text = "Taskbar groups";
+            this.label1.Text = "Taskbar Groups";
             // 
             // panel1
             // 
@@ -198,19 +323,13 @@
             this.pnlExistingGroups.Size = new System.Drawing.Size(680, 0);
             this.pnlExistingGroups.TabIndex = 3;
             // 
-            // cmdAddGroup
+            // pnlBottomMain
             // 
-            this.cmdAddGroup.BackgroundImage = global::client.Properties.Resources.AddGray;
-            this.cmdAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cmdAddGroup.Location = new System.Drawing.Point(88, 14);
-            this.cmdAddGroup.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
-            this.cmdAddGroup.Name = "cmdAddGroup";
-            this.cmdAddGroup.Size = new System.Drawing.Size(40, 40);
-            this.cmdAddGroup.TabIndex = 7;
-            this.cmdAddGroup.TabStop = false;
-            this.cmdAddGroup.Click += new System.EventHandler(this.cmdAddGroup_Click);
-            this.cmdAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
-            this.cmdAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
+            this.pnlBottomMain.Controls.Add(this.pnlAddGroup);
+            this.pnlBottomMain.Location = new System.Drawing.Point(326, 162);
+            this.pnlBottomMain.Name = "pnlBottomMain";
+            this.pnlBottomMain.Size = new System.Drawing.Size(662, 101);
+            this.pnlBottomMain.TabIndex = 4;
             // 
             // frmClient
             // 
@@ -219,21 +338,25 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(3)))), ((int)(((byte)(3)))));
             this.ClientSize = new System.Drawing.Size(1000, 821);
+            this.Controls.Add(this.pnlBottomMain);
             this.Controls.Add(this.pnlExistingGroups);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.pnlAddGroup);
             this.Controls.Add(this.pnlLeftColumn);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmClient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "TaskbarGroups";
+            this.Resize += new System.EventHandler(this.frmClient_Resize);
             this.pnlLeftColumn.ResumeLayout(false);
+            this.pnlVersionInfo.ResumeLayout(false);
+            this.pnlVersionInfo.PerformLayout();
             this.pnlHelp.ResumeLayout(false);
             this.pnlAddGroup.ResumeLayout(false);
             this.pnlAddGroup.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).EndInit();
+            this.pnlBottomMain.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -254,5 +377,14 @@
         private System.Windows.Forms.Label lblHelp3;
         private System.Windows.Forms.Label lblHelp2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label currentVersion;
+        private System.Windows.Forms.Label githubVersion;
+        private System.Windows.Forms.Label githubLabel;
+        private System.Windows.Forms.Panel pnlVersionInfo;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.LinkLabel githubLink;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Panel pnlBottomMain;
     }
 }

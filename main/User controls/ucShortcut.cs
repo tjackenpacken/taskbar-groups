@@ -41,6 +41,7 @@ namespace client.User_controls
             } else
             {
                 if(Path.GetExtension(Psc.FilePath).ToLower() == ".lnk" && Psc.FilePath == MainPath.exeString)
+
                 {
                     MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, MainPath.path);
                 } else

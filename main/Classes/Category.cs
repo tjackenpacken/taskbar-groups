@@ -1,9 +1,10 @@
-﻿using IWshRuntimeLibrary;
+﻿using client.User_controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -18,6 +19,8 @@ namespace client.Classes
         public int Width; // not used aon
         public double Opacity = 10;
         Regex specialCharRegex = new Regex("[*'\",_&#^@]");
+
+        private static int[] iconSizes = new int[] {16,32,64,128,256,512};
 
         public Category(string path)
         {
@@ -82,18 +85,20 @@ namespace client.Classes
             // Create .ico
             //
 
-            Image img = ImageFunctions.ResizeImage(groupImage, 1024, 1024); // Resize img if too big
+            Image img = ImageFunctions.ResizeImage(groupImage, 256, 256); // Resize img if too big
             img.Save(path + @"\GroupImage.png");
 
-            using (FileStream fs = new FileStream(path + @"\GroupIcon.ico", FileMode.Create))
+            if (GetMimeType(groupImage).ToString() == "*.PNG")
             {
-                ImageFunctions.IconFromImage(img).Save(fs);
-                fs.Close();
+                createMultiIcon(groupImage, path + @"\GroupIcon.ico");
             }
-                                                            // saving as icon
-                                                            //
-                                                            // Create .lnk shortcut
-                                                            //
+            else { 
+                using (FileStream fs = new FileStream(path + @"\GroupIcon.ico", FileMode.Create))
+                {
+                    ImageFunctions.IconFromImage(img).Save(fs);
+                    fs.Close();
+                }
+            }
 
 
             // Through shellLink.cs class, pass through into the function information on how to construct the icon
@@ -115,6 +120,34 @@ namespace client.Classes
 
             System.IO.File.Move(@path + "\\" + this.Name + ".lnk",
                 Path.GetFullPath(@"Shortcuts\" + Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
+        }
+
+        private static void createMultiIcon(Image iconImage, string filePath)
+        {
+
+
+            var diffList = from number in iconSizes
+                select new
+                    {
+                        number,
+                        difference = Math.Abs(number - iconImage.Height)
+                    };
+            var nearestSize = (from diffItem in diffList
+                          orderby diffItem.difference
+                          select diffItem).First().number;
+
+            List<Bitmap> iconList = new List<Bitmap>();
+
+            while (nearestSize != 16)
+            {
+                iconList.Add(ImageFunctions.ResizeImage(iconImage, nearestSize, nearestSize));
+                nearestSize = (int)Math.Round((decimal) nearestSize / 2);
+            }
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                IconFactory.SavePngsAsIcon(iconList.ToArray(), stream);
+            }
         }
 
         public Bitmap LoadIconImage() // Needed to access img without occupying read/write
@@ -149,27 +182,27 @@ namespace client.Classes
             // Loops through each shortcut added by the user and gets the icon
             // Writes the icon to the new folder in a .jpg format
             // Namign scheme for the files are done through Path.GetFileNameWithoutExtension()
-            for (int i = 0; i < ShortcutList.Count; i++)
+            for (int i = ShortcutList.Count; i < 0; i--)
             {
                 String filePath = ShortcutList[i].FilePath;
 
-                // Process .lnk (shortcut) files differently
+                ucProgramShortcut programShortcutControl = Application.OpenForms["frmGroup"].Controls["pnlShortcuts"].Controls[i] as ucProgramShortcut;
+                string savePath;
+
                 if (ShortcutList[i].isWindowsApp)
                 {
-                    handleWindowsApp.getWindowsAppIcon(filePath, true).Save(iconPath + "\\" + specialCharRegex.Replace(filePath, string.Empty) + ".jpg");
-                }
-                else if (Path.GetExtension(filePath).ToLower() == ".lnk")
-                {
-                    Forms.frmGroup.handleLnkExt(filePath).Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
+                    savePath = iconPath + "\\" + specialCharRegex.Replace(filePath, string.Empty) + ".png";
                 } else if (Directory.Exists(filePath))
                 {
-                    handleFolder.GetFolderIcon(filePath).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.jpg");
+                    savePath = iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.png";
                 } else
                 {
-                    // Extracts icon from the .exe if the provided file is not a shortcut file
-                    Icon.ExtractAssociatedIcon(Environment.ExpandEnvironmentVariables(filePath)).ToBitmap().Save(iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".jpg");
+                    savePath = iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".png";
                 }
-            }
+
+                programShortcutControl.logo.Save(savePath);
+
+    }
         }
 
         // Try to load an iamge from the cache
@@ -186,7 +219,9 @@ namespace client.Classes
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
                     // If not then it would throw an exception in which the below code would catch it
-                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + @"\config\" + this.Name + @"\Icons\" + ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".jpg");
+                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + 
+                        @"\config\" + this.Name + @"\Icons\" + ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : 
+                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".png");
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
                         return Image.FromStream(ms);
@@ -199,7 +234,7 @@ namespace client.Classes
                     // Checks if the original file even exists to make sure to not do any extra operations
 
                     // Same processing as above in cacheIcons()
-                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.jpg" : ".jpg");
+                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png");
 
                     Image finalImage;
 
@@ -228,6 +263,17 @@ namespace client.Classes
             {
                 return global::client.Properties.Resources.Error;
             }
+        }
+
+        public static string GetMimeType(Image i)
+        {
+            var imgguid = i.RawFormat.Guid;
+            foreach (ImageCodecInfo codec in ImageCodecInfo.GetImageDecoders())
+            {
+                if (codec.FormatID == imgguid)
+                    return codec.FilenameExtension;
+            }
+            return "image/unknown";
         }
         //
         // END OF CLASS
