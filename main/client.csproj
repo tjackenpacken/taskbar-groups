@@ -64,6 +64,7 @@
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Shell.1.1.4\lib\net472\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -91,6 +92,7 @@
     <Compile Include="Classes\handleWindowsApp.cs" />
     <Compile Include="Classes\IconFactory.cs" />
     <Compile Include="Classes\ImageFunctions.cs" />
+    <Compile Include="Classes\Jumplist.cs" />
     <Compile Include="Classes\MainPath.cs" />
     <Compile Include="Classes\ProgramShortcut.cs" />
     <Compile Include="Classes\ShellLink.cs" />
@@ -199,7 +201,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
-    <Content Include="Taskbar groups icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Add.png" />

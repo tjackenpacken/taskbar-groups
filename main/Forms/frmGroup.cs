@@ -514,6 +514,7 @@ namespace client.Forms
 
                     foreach(ProgramShortcut shortcutModifiedItem in shortcutChanged)
                     {
+                        shortcutModifiedItem.WorkingDirectory = Environment.ExpandEnvironmentVariables(shortcutModifiedItem.WorkingDirectory);
                         if (!Directory.Exists(shortcutModifiedItem.WorkingDirectory))
                         {
                             shortcutModifiedItem.WorkingDirectory = getProperDirectory(shortcutModifiedItem.FilePath);
@@ -557,7 +558,7 @@ namespace client.Forms
                     Category.Name = Regex.Replace(txtGroupName.Text, @"\s+", "_");
 
                     Category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // Creating group config files
-                    Client.LoadCategory(Path.GetFullPath(@"config\" + Category.Name)); // Loading visuals
+                    Client.LoadCategory(Path.GetFullPath(MainPath.path + @"\config\" + Category.Name)); // Loading visuals
                     
                     this.Dispose();
                     Client.Reload();

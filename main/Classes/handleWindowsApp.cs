@@ -34,12 +34,20 @@ namespace client.Classes
             String logoLocation = (appManifest.SelectSingleNode("/sm:Package/sm:Properties/sm:Logo", appManifestNamespace).InnerText).Replace("\\", @"\");
 
 
-
-            if (logoLocation != null)
+            if (logoLocation != null && logoLocation != "")
             {
                 // Get the last instance or usage of \ to cut out the path of the logo just to have the path leading to the general logo folder
-                logoLocation = logoLocation.Substring(0, logoLocation.LastIndexOf(@"\"));
-                String logoLocationFullPath = Path.GetFullPath(appPath + "\\" + logoLocation);
+                int lastIndexOf = logoLocation.LastIndexOf(@"\");
+                String logoLocationFullPath;
+
+                if (lastIndexOf != -1)
+                { 
+                    logoLocation = logoLocation.Substring(0, logoLocation.LastIndexOf(@"\"));
+                    logoLocationFullPath = Path.GetFullPath(appPath + "\\" + logoLocation);
+                } else
+                {
+                    logoLocationFullPath = Path.GetFullPath(appPath + "\\");
+                }
 
                 // Search for all files with 150x150 in its name and use the first result
                 DirectoryInfo logoDirectory = new DirectoryInfo(logoLocationFullPath);
@@ -139,10 +147,10 @@ namespace client.Classes
 
             try
             {
-                return appManifest.SelectSingleNode("/sm:Package/sm:Applications/sm:Application/uap:VisualElements", appManifestNamespace).Attributes.GetNamedItem("DisplayName").InnerText;
+                return appManifest.SelectSingleNode("/sm:Package/sm:Properties/sm:DisplayName", appManifestNamespace).InnerText;
             } catch (Exception)
             {
-                return appManifest.SelectSingleNode("/sm:Package/sm:Properties/sm:DisplayName", appManifestNamespace).InnerText;
+                return appManifest.SelectSingleNode("/sm:Package/sm:Applications/sm:Application/uap:VisualElements", appManifestNamespace).Attributes.GetNamedItem("DisplayName").InnerText;
             }
         }
     }

@@ -92,7 +92,7 @@ namespace client.User_controls
             // Open the shortcut folder for the group when click on category panel
 
             // Build path based on the directory of the main .exe file
-            string filePath = Path.GetFullPath(new Uri($"{MainPath.path}\\Shortcuts").LocalPath + "\\" + Category.Name + ".lnk");
+            string filePath = Path.GetFullPath($"{MainPath.path}\\Shortcuts" + "\\" + Regex.Replace(Category.Name, @"_+", " ") + ".lnk");
 
             // Open directory in explorer and highlighting file
             System.Diagnostics.Process.Start("explorer.exe", string.Format("/select,\"{0}\"", @filePath));

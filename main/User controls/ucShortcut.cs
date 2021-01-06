@@ -2,15 +2,10 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using client.Classes;
 using System.Diagnostics;
 using System.IO;
-using IWshRuntimeLibrary;
 
 namespace client.User_controls
 {
@@ -34,6 +29,10 @@ namespace client.User_controls
 
         public void ucShortcut_Click(object sender, EventArgs e)
         {
+            if(ThisCategory.updateRecentlyOpened(Psc))
+            {
+                frmMain.jumpList.addItemToShortcutCut(ThisCategory, Psc);
+            }
             if (Psc.isWindowsApp)
             {
                 Process p = new Process() {StartInfo = new ProcessStartInfo() { UseShellExecute = true, FileName = $@"shell:appsFolder\{Psc.FilePath}" }};

@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.Data.Json;
 using System.Net.Http;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
 
 namespace client.Forms
 {
     public partial class frmClient : Form
     {
         private static readonly HttpClient client = new HttpClient();
-        public frmClient()
+        private List<Category> categoryList = new List<Category>();
+        public frmClient(List<string> arguments)
         {
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
             InitializeComponent();
@@ -23,6 +27,16 @@ namespace client.Forms
             currentVersion.Text = "v" + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
 
             githubVersion.Text = Task.Run(() => getVersionData()).Result;
+
+            if (arguments.Count > 2 && arguments[1] == "editingGroupMode" && Directory.Exists(MainPath.path + @"\config\" + arguments[2]))
+            {
+                try
+                {
+                    frmGroup editGroup = new frmGroup(this, categoryList.Where(cat => cat.Name == arguments[2]).First());
+                    editGroup.TopMost = true;
+                    editGroup.Show();
+                } catch { }
+            }
         }
         public void Reload()
         {
@@ -62,6 +76,8 @@ namespace client.Forms
         public void LoadCategory(string dir)
         {
             Category category = new Category(dir);
+            categoryList.Add(category);
+
             ucCategoryPanel newCategory = new ucCategoryPanel(this, category);
             pnlExistingGroups.Height += newCategory.Height;
             pnlExistingGroups.Controls.Add(newCategory);

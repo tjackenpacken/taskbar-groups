@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.IO;
-using System.Threading.Tasks;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace client
@@ -34,10 +34,14 @@ namespace client
         private string passedDirec;
         public Point mouseClick;
 
+        public static Jumplist jumpList;
+
+        private List<string> argumentList;
+
         //------------------------------------------------------------------------------------
         // CTOR AND LOAD
         //
-        public frmMain(string passedDirectory, int cursorPosX, int cursorPosY)
+        public frmMain(string passedDirectory, int cursorPosX, int cursorPosY, List<string> arguments)
         {
             InitializeComponent();
 
@@ -45,35 +49,59 @@ namespace client
             mouseClick = new Point(cursorPosX, cursorPosY); // Consstruct point p based on passed x y mouse values
             passedDirec = passedDirectory;
             FormBorderStyle = FormBorderStyle.None;
+            argumentList = arguments;
 
             using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(MainPath.path + "\\config\\" + passedDirec + "\\GroupIcon.ico")))
                 this.Icon = new Icon(ms);
 
-            if (Directory.Exists(@MainPath.path + @"\config\" + passedDirec))
-            {
-                ControlList = new List<ucShortcut>();
+            ControlList = new List<ucShortcut>();
 
-                this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-                ThisCategory = new Category($"config\\{passedDirec}");
-                this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
-                Opacity = (1 - (ThisCategory.Opacity / 100));
+            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            ThisCategory = new Category($"config\\{passedDirec}");
+            this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
+            Opacity = (1 - (ThisCategory.Opacity / 100));
 
-                if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
-                    //if backcolor is light, set hover color as darker
-                    HoverColor = Color.FromArgb(BackColor.A, (BackColor.R - 50), (BackColor.G - 50), (BackColor.B - 50));
-                else
-                    //light backcolor is light, set hover color as darker
-                    HoverColor = Color.FromArgb(BackColor.A, (BackColor.R + 50), (BackColor.G + 50), (BackColor.B + 50));
-            }
+            if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
+                //if backcolor is light, set hover color as darker
+                HoverColor = Color.FromArgb(BackColor.A, (BackColor.R - 50), (BackColor.G - 50), (BackColor.B - 50));
             else
+                //light backcolor is light, set hover color as darker
+                HoverColor = Color.FromArgb(BackColor.A, (BackColor.R + 50), (BackColor.G + 50), (BackColor.B + 50));
+
+
+            jumpList = new Jumplist(this.Handle);
+            jumpList.buildJumplist(ThisCategory);
+
+            if (arguments.Count > 2 && arguments[2] == "setGroupContextMenu")
             {
                 Application.Exit();
             }
+
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
             LoadCategory();
+
+            if (argumentList.Count >= 3)
+            {
+                argumentList.RemoveRange(0, 2);
+                string jointArgument = String.Join(" ", argumentList).Trim();
+                ucShortcut[] argumentMatch = ControlList.Where(prmShortcut => prmShortcut.Psc.name == jointArgument).ToArray();
+
+                if (jointArgument == "tskBaropen_allGroup")
+                {
+                    foreach (ucShortcut usc in this.ControlList)
+                        usc.ucShortcut_Click(usc, new EventArgs());
+                }
+                else if (argumentMatch.Any())
+                {
+                    argumentMatch[0].ucShortcut_Click(argumentMatch[0], new EventArgs());
+                }
+
+                Application.Exit();
+            }
+
             SetLocation();
         }
 

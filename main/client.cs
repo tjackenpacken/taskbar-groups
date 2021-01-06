@@ -5,6 +5,9 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using client.Classes;
 using System.Diagnostics;
+using Microsoft.WindowsAPICodePack.Taskbar;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace client
 {
@@ -30,8 +33,8 @@ namespace client
             int cursorY = Cursor.Position.Y;
 
             // Set the MainPath to the absolute path where the exe is located
-            MainPath.path = Path.GetFullPath(new Uri(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)).LocalPath);
-            MainPath.exeString = Path.GetFullPath(new Uri(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).LocalPath);
+            MainPath.path = Path.GetFullPath(new Uri(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)).LocalPath);
+            MainPath.exeString = Path.GetFullPath(new Uri(AppDomain.CurrentDomain.BaseDirectory + System.AppDomain.CurrentDomain.FriendlyName).LocalPath);
 
             // Creats folder for JIT compilation 
             Directory.CreateDirectory($"{MainPath.path}\\JITComp");
@@ -44,6 +47,9 @@ namespace client
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            //defining a new Custom Category called Actions
+            JumpListCustomCategory userActionsCategory = new JumpListCustomCategory("Actions");
 
             try
             {
@@ -68,16 +74,27 @@ namespace client
 
             if (arguments.Length > 1) // Checks for additional arguments; opens either main application or taskbar drawer application
             {
-                // Sets the AppUserModelID to tjackenpacken.taskbarGroup.menu.groupName
-                // Distinguishes each shortcut process from one another to prevent them from stacking with the main application
-                SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.menu."+ arguments[1]);
+                if (Directory.Exists(MainPath.path + @"\config\" + arguments[1]))
+                {
+                    // Sets the AppUserModelID to tjackenpacken.taskbarGroup.menu.groupName
+                    // Distinguishes each shortcut process from one another to prevent them from stacking with the main application
+                    SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.menu." + arguments[1]);
 
-                Application.Run(new frmMain(arguments[1], cursorX, cursorY));
+                    Application.Run(new frmMain(arguments[1], cursorX, cursorY, arguments.ToList()));
+                } else if (arguments[1] == "editingGroupMode")
+                {
+                    // See comment above
+                    SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");
+                    Application.Run(new frmClient(arguments.ToList()));
+                } else
+                {
+                    Application.Exit();
+                }
             } else
             {
                 // See comment above
                 SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");
-                Application.Run(new frmClient());
+                Application.Run(new frmClient(arguments.ToList()));
             }
         }
     }

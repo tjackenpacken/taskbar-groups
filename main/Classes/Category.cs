@@ -1,6 +1,7 @@
 ﻿using client.User_controls;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -18,9 +19,13 @@ namespace client.Classes
         public List<ProgramShortcut> ShortcutList;
         public int Width; // not used aon
         public double Opacity = 10;
+        public List<ProgramShortcut> recentlyOpened = new List<ProgramShortcut>();
+
         Regex specialCharRegex = new Regex("[*'\",_&#^@]");
 
         private static int[] iconSizes = new int[] {16,32,64,128,256,512};
+
+        string folderPath;
 
         public Category(string path)
         {
@@ -51,7 +56,9 @@ namespace client.Classes
                 this.ColorString = category.ColorString;
                 this.Opacity = category.Opacity;
                 this.allowOpenAll = category.allowOpenAll;
+                this.recentlyOpened = category.recentlyOpened;
             }
+            folderPath = MainPath.path + @"\config\" + this.Name;
         }
 
         public Category() // needed for XML serialization
@@ -62,38 +69,33 @@ namespace client.Classes
         public void CreateConfig(Image groupImage)
         {
 
-            string path = @"config\" + this.Name;
+            if (folderPath == null) {
+                folderPath = MainPath.path + @"\config\" + this.Name;
+            }
             //string filePath = path + @"\" + this.Name + "Group.exe";
             //
             // Directory and .exe
             //
-            System.IO.Directory.CreateDirectory(@path);
+            System.IO.Directory.CreateDirectory(folderPath);
 
             //System.IO.File.Copy(@"config\config.exe", @filePath);
-            //
-            // XML config
-            //
-            System.Xml.Serialization.XmlSerializer writer =
-                new System.Xml.Serialization.XmlSerializer(typeof(Category));
 
-            using (FileStream file = System.IO.File.Create(@path + @"\ObjectData.xml"))
-            {
-                writer.Serialize(file, this);
-                file.Close();
-            }
+
+            writeXML();
+
             //
             // Create .ico
             //
 
             Image img = ImageFunctions.ResizeImage(groupImage, 256, 256); // Resize img if too big
-            img.Save(path + @"\GroupImage.png");
+            img.Save(folderPath + @"\GroupImage.png");
 
             if (GetMimeType(groupImage).ToString() == "*.PNG")
             {
-                createMultiIcon(groupImage, path + @"\GroupIcon.ico");
+                createMultiIcon(groupImage, folderPath + @"\GroupIcon.ico");
             }
             else { 
-                using (FileStream fs = new FileStream(path + @"\GroupIcon.ico", FileMode.Create))
+                using (FileStream fs = new FileStream(folderPath + @"\GroupIcon.ico", FileMode.Create))
                 {
                     ImageFunctions.IconFromImage(img).Save(fs);
                     fs.Close();
@@ -107,10 +109,10 @@ namespace client.Classes
             ShellLink.InstallShortcut(
                 Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName),
                 "tjackenpacken.taskbarGroup.menu." + this.Name,
-                 path + " shortcut",
-                 Path.GetFullPath(@path),
-                 Path.GetFullPath(path + @"\GroupIcon.ico"),
-                 path + "\\" + this.Name + ".lnk",
+                 folderPath + " shortcut",
+                 Path.GetFullPath(folderPath),
+                 Path.GetFullPath(folderPath + @"\GroupIcon.ico"),
+                 folderPath + "\\" + this.Name + ".lnk",
                  this.Name
             );
 
@@ -118,8 +120,45 @@ namespace client.Classes
             // Build the icon cache
             cacheIcons();
 
-            System.IO.File.Move(@path + "\\" + this.Name + ".lnk",
+            System.IO.File.Move(folderPath + "\\" + this.Name + ".lnk",
                 Path.GetFullPath(@"Shortcuts\" + Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
+
+            Process p = new Process();
+            p.StartInfo.FileName = MainPath.exeString;
+            p.StartInfo.Arguments = this.Name + " setGroupContextMenu";
+            p.Start();
+        }
+
+        public bool updateRecentlyOpened(ProgramShortcut shortcutPressed)
+        {
+            if (!recentlyOpened.Where(pShortcut => pShortcut.FilePath == shortcutPressed.FilePath).Any())
+            {
+                if (recentlyOpened.Count >= 5)
+                {
+                    recentlyOpened.RemoveAt(0);
+                }
+                recentlyOpened.Add(shortcutPressed);
+                writeXML();
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
+        private void writeXML()
+        {
+            //
+            // XML config
+            //
+            System.Xml.Serialization.XmlSerializer writer =
+                new System.Xml.Serialization.XmlSerializer(typeof(Category));
+
+            using (FileStream file = System.IO.File.Create(folderPath + @"\ObjectData.xml"))
+            {
+                writer.Serialize(file, this);
+                file.Close();
+            }
         }
 
         private static void createMultiIcon(Image iconImage, string filePath)
@@ -152,7 +191,7 @@ namespace client.Classes
 
         public Bitmap LoadIconImage() // Needed to access img without occupying read/write
         {
-            string path = @"config\" + Name + @"\GroupImage.png";
+            string path = @MainPath.path + @"\config\" + Name + @"\GroupImage.png";
 
             using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
                 return new Bitmap(ms);
@@ -219,9 +258,7 @@ namespace client.Classes
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
                     // If not then it would throw an exception in which the below code would catch it
-                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + 
-                        @"\config\" + this.Name + @"\Icons\" + ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : 
-                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".png");
+                    String cacheImagePath = generateCachePath(shortcutObject, programPath);
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
                         return Image.FromStream(ms);
@@ -263,6 +300,13 @@ namespace client.Classes
             {
                 return global::client.Properties.Resources.Error;
             }
+        }
+
+        public String generateCachePath(ProgramShortcut shortcutObject, String programPath)
+        {
+            return @Path.GetDirectoryName(Application.ExecutablePath) +
+                        @"\config\" + this.Name + @"\Icons\" + ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) :
+                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png");
         }
 
         public static string GetMimeType(Image i)
