@@ -39,21 +39,15 @@ namespace client
         //
         public frmMain(string passedDirectory, int cursorPosX, int cursorPosY)
         {
+            InitializeComponent();
+
             System.Runtime.ProfileOptimization.StartProfile("frmMain.Profile");
             mouseClick = new Point(cursorPosX, cursorPosY); // Consstruct point p based on passed x y mouse values
             passedDirec = passedDirectory;
-            InitializeComponent();
             FormBorderStyle = FormBorderStyle.None;
-
-            //InitializeComponent();
 
             using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(MainPath.path + "\\config\\" + passedDirec + "\\GroupIcon.ico")))
                 this.Icon = new Icon(ms);
-        }
-
-        private void frmMain_Load(object sender, EventArgs e)
-        {
-            //System.Diagnostics.Debugger.Launch();
 
             if (Directory.Exists(@MainPath.path + @"\config\" + passedDirec))
             {
@@ -62,7 +56,7 @@ namespace client
                 this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
                 ThisCategory = new Category($"config\\{passedDirec}");
                 this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
-                Opacity = (1-(ThisCategory.Opacity/100));
+                Opacity = (1 - (ThisCategory.Opacity / 100));
 
                 if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
                     //if backcolor is light, set hover color as darker
@@ -70,14 +64,17 @@ namespace client
                 else
                     //light backcolor is light, set hover color as darker
                     HoverColor = Color.FromArgb(BackColor.A, (BackColor.R + 50), (BackColor.G + 50), (BackColor.B + 50));
-
-                LoadCategory();
-                SetLocation();
             }
             else
             {
                 Application.Exit();
             }
+        }
+
+        private void frmMain_Load(object sender, EventArgs e)
+        {
+            LoadCategory();
+            SetLocation();
         }
 
         // Sets location of form
@@ -122,14 +119,14 @@ namespace client
                     else if (taskbar.Left == screen.Left)
                     {
                         // LEFT
-                        locationy = mouseClick.X - (this.Height / 2);
+                        locationy = mouseClick.Y - (this.Height / 2);
                         locationx = screen.X + taskbar.Width + 10;
 
                     }
                     else
                     {
                         // RIGHT
-                        locationy = mouseClick.X - (this.Height / 2);
+                        locationy = mouseClick.Y - (this.Height / 2);
                         locationx = screen.X + screen.Width - this.Width - taskbar.Width - 10;
                     }
 
@@ -138,17 +135,29 @@ namespace client
                 {
                     locationy = mouseClick.Y - this.Height - 20;
                     locationx = mouseClick.X - (this.Width / 2);
+
                 }
 
                 this.Location = new Point(locationx, locationy);
+
+                // If form goes over screen edge
                 if (this.Left < screen.Left)
                     this.Left = screen.Left + 10;
                 if (this.Top < screen.Top)
                     this.Top = screen.Top + 10;
                 if (this.Right > screen.Right)
                     this.Left = screen.Right - this.Width - 10;
+
+                // If form goes over taskbar
+                if (taskbar.Contains(this.Left, this.Top) && taskbar.Contains(this.Right, this.Top)) // Top taskbar
+                    this.Top = screen.Top + 10 + taskbar.Height;
+                if (taskbar.Contains(this.Left, this.Top)) // Left taskbar
+                    this.Left = screen.Left + 10 + taskbar.Width;
+                if (taskbar.Contains(this.Right, this.Top))  // Right taskbar
+                    this.Left = screen.Right - this.Width - 10 - taskbar.Width;
+
             }
-            else // not click on taskbar
+            else // Hidded taskbar
             {
                 foreach (var scr in Screen.AllScreens) // get what screen user clicked on
                 {
@@ -169,12 +178,22 @@ namespace client
                 locationx = mouseClick.X - (this.Width / 2);
 
                 this.Location = new Point(locationx, locationy);
+
+                // If form goes over screen edge
                 if (this.Left < screen.Left)
                     this.Left = screen.Left + 10;
                 if (this.Top < screen.Top)
                     this.Top = screen.Top + 10;
                 if (this.Right > screen.Right)
                     this.Left = screen.Right - this.Width - 10;
+
+                // If form goes over taskbar
+                if (taskbar.Contains(this.Left, this.Top) && taskbar.Contains(this.Right, this.Top)) // Top taskbar
+                    this.Top = screen.Top + 10 + taskbar.Height;
+                if (taskbar.Contains(this.Left, this.Top)) // Left taskbar
+                    this.Left = screen.Left + 10 + taskbar.Width;
+                if (taskbar.Contains(this.Right, this.Top))  // Right taskbar
+                    this.Left = screen.Right - this.Width - 10 - taskbar.Width;
             }
         }
         // Search for active taskbars on screen
@@ -242,6 +261,8 @@ namespace client
         // Loading category and building shortcuts
         private void LoadCategory()
         {
+            //System.Diagnostics.Debugger.Launch();
+
             this.Width = 0;
             this.Height = 45;
             int x = 0;

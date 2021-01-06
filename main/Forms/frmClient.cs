@@ -1,29 +1,18 @@
 ﻿using client.Classes;
 using client.User_controls;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Windows.Data.Json;
+using System.Net.Http;
 
 namespace client.Forms
 {
     public partial class frmClient : Form
     {
-        private const int WS_SYSMENU = 0x80000;
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.Style &= ~WS_SYSMENU;
-                return cp;
-            }
-        }
+        private static readonly HttpClient client = new HttpClient();
         public frmClient()
         {
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
@@ -31,6 +20,10 @@ namespace client.Forms
             this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             trayIcon.Icon = this.Icon;
             Reload();
+
+            currentVersion.Text = "v" + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
+
+            githubVersion.Text = Task.Run(() => getVersionData()).Result;
         }
         public void Reload()
         {
@@ -62,9 +55,9 @@ namespace client.Forms
                 lblHelpTitle.Text = "Press on \"Add Taskbar group\" to get started";
                 pnlHelp.Visible = false;
             }
+            pnlBottomMain.Top = pnlExistingGroups.Bottom + 20; // spacing between existing groups and add new group btn
 
-            pnlAddGroup.Top = pnlExistingGroups.Bottom + 40; // spacing between existing groups and add new group btn
-            pnlLeftColumn.Height = this.RectangleToScreen(this.ClientRectangle).Height; // making left column pnl dynamic
+            Reset();
         }
 
         public void LoadCategory(string dir)
@@ -80,9 +73,16 @@ namespace client.Forms
             newCategory.MouseLeave += new System.EventHandler((sender, e) => LeaveControl(sender, e, newCategory));
         }
 
+        public void Reset()
+        {
+            if (pnlBottomMain.Bottom > this.Bottom)
+                pnlLeftColumn.Height = pnlBottomMain.Bottom;
+            else
+                pnlLeftColumn.Height = this.RectangleToScreen(this.ClientRectangle).Height; // making left column pnl dynamic
+        }
+
         private void cmdAddGroup_Click(object sender, EventArgs e)
         {
-            //frmNewGroup newGroup = new frmNewGroup(this);
             frmGroup newGroup = new frmGroup(this);
             newGroup.Show();
             newGroup.BringToFront();
@@ -106,19 +106,32 @@ namespace client.Forms
         {
             control.BackColor = Color.FromArgb(3, 3, 3);
         }
-        private void toolStripMenuItemSettings_Click(object sender, EventArgs e)
+
+        private static async Task<String> getVersionData()
         {
-            Show();
-            trayIcon.Visible = false;
+            try
+            {
+                HttpClient client = new HttpClient();
+                client.DefaultRequestHeaders.Add("User-Agent", "taskbar-groups");
+                var res = await client.GetAsync("https://api.github.com/repos/tjackenpacken/taskbar-groups/releases");
+                res.EnsureSuccessStatusCode();
+                string responseBody = await res.Content.ReadAsStringAsync();
+
+                JsonArray responseJSON = JsonArray.Parse(responseBody);
+                JsonObject jsonObjectData = responseJSON[0].GetObject();
+
+                return jsonObjectData["tag_name"].GetString();
+            } catch {return "Not found";}
         }
-        private void toolStripMenuItemExit_Click(object sender, EventArgs e)
+
+        private void githubLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            Application.Exit();
+            System.Diagnostics.Process.Start("https://github.com/tjackenpacken/taskbar-groups/releases");
         }
-        private void cmdClose_Click(object sender, EventArgs e)
+
+        private void frmClient_Resize(object sender, EventArgs e)
         {
-            Hide();
-            trayIcon.Visible = true;
+            Reset();
         }
     }
 }

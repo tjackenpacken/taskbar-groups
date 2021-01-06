@@ -173,6 +173,7 @@ namespace client.Forms
                 {
                     addShortcut(file);
                 }
+                resetSelection();
             }
 
             if (pnlShortcuts.Controls.Count != 0)
@@ -217,8 +218,6 @@ namespace client.Forms
         // Handle adding the shortcut to list
         private void addShortcut(String file, bool isExtension = false)
         {
-            resetSelection();
-
             String workingDirec = getProperDirectory(file);
 
             ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file), isWindowsApp = isExtension, WorkingDirectory = workingDirec }; //Create new shortcut obj
@@ -373,7 +372,7 @@ namespace client.Forms
         }
 
         // Handle returning images of icon files (.lnk)
-        public static Image handleLnkExt(String file)
+        public static Bitmap handleLnkExt(String file)
         {
             IWshShortcut lnkIcon = (IWshShortcut)new WshShell().CreateShortcut(file);
             String[] icLocation = lnkIcon.IconLocation.Split(',');
@@ -390,7 +389,6 @@ namespace client.Forms
             {
                 return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(lnkIcon.TargetPath))).ToBitmap();
             }
-
         }
 
 
@@ -568,6 +566,8 @@ namespace client.Forms
                 {
                     MessageBox.Show(ex.Message);
                 }
+
+                Client.Reset();
             }
 
         }
@@ -608,6 +608,7 @@ namespace client.Forms
             {
                 MessageBox.Show(ex.Message);
             }
+            Client.Reset();
 
         }
 
@@ -768,7 +769,6 @@ namespace client.Forms
                 selectedShortcut.IsSelected = false;
                 selectedShortcut = null;
             }
-
         }
 
         // Enable the argument textbox once a shortcut/program has been selected
