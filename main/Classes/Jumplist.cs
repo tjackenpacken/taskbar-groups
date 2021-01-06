@@ -34,14 +34,18 @@ namespace client.Classes
             list.AddCustomCategories(userShortcutCategory);
 
             JumpListCustomCategory userTaskbarCategory = new JumpListCustomCategory("Taskbar Groups");
-            JumpListLink openAllShortcuts = new JumpListLink(MainPath.exeString, "Open all shortcuts");
-            openAllShortcuts.Arguments = category.Name + " tskBaropen_allGroup";
 
             JumpListLink openEdit = new JumpListLink(MainPath.exeString, "Edit Group");
             openEdit.Arguments = "editingGroupMode " + category.Name;
-
             userTaskbarCategory.AddJumpListItems(openEdit);
-            userTaskbarCategory.AddJumpListItems(openAllShortcuts);
+
+            if (category.allowOpenAll)
+            {
+                JumpListLink openAllShortcuts = new JumpListLink(MainPath.exeString, "Open all shortcuts");
+                openAllShortcuts.Arguments = category.Name + " tskBaropen_allGroup";
+                userTaskbarCategory.AddJumpListItems(openAllShortcuts);
+            }
+
             list.AddCustomCategories(userTaskbarCategory);
 
             list.Refresh();
