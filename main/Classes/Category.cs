@@ -221,17 +221,17 @@ namespace client.Classes
             // Loops through each shortcut added by the user and gets the icon
             // Writes the icon to the new folder in a .jpg format
             // Namign scheme for the files are done through Path.GetFileNameWithoutExtension()
-            IEnumerable<ProgramShortcut> shortcutListReversed = ShortcutList.AsEnumerable().Reverse();
 
-            int ind = 0;
-            foreach(ProgramShortcut shrtcutList in shortcutListReversed)
+            int ind = ShortcutList.Count - 1;
+            foreach(ProgramShortcut shrtcutList in ShortcutList)
             {
-                String filePath = ShortcutList[ind].FilePath;
+                String filePath = shrtcutList.FilePath;
 
                 ucProgramShortcut programShortcutControl = Application.OpenForms["frmGroup"].Controls["pnlShortcuts"].Controls[ind] as ucProgramShortcut;
+                ind--;
                 string savePath;
 
-                if (ShortcutList[ind].isWindowsApp)
+                if (shrtcutList.isWindowsApp)
                 {
                     savePath = iconPath + "\\" + specialCharRegex.Replace(filePath, string.Empty) + ".png";
                 }
@@ -245,7 +245,6 @@ namespace client.Classes
                 }
 
                 programShortcutControl.logo.Save(savePath);
-                ind++;
             }
         }
 

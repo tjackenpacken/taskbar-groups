@@ -63,14 +63,16 @@
             // 
             // pnlLeftColumn
             // 
+            this.pnlLeftColumn.AutoSize = true;
             this.pnlLeftColumn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.pnlLeftColumn.Controls.Add(this.pnlVersionInfo);
             this.pnlLeftColumn.Controls.Add(this.pnlHelp);
             this.pnlLeftColumn.Controls.Add(this.lblHelpTitle);
+            this.pnlLeftColumn.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeftColumn.ImeMode = System.Windows.Forms.ImeMode.On;
             this.pnlLeftColumn.Location = new System.Drawing.Point(0, 0);
             this.pnlLeftColumn.Name = "pnlLeftColumn";
-            this.pnlLeftColumn.Size = new System.Drawing.Size(320, 820);
+            this.pnlLeftColumn.Size = new System.Drawing.Size(307, 821);
             this.pnlLeftColumn.TabIndex = 0;
             // 
             // pnlVersionInfo
@@ -83,7 +85,7 @@
             this.pnlVersionInfo.Controls.Add(this.githubLabel);
             this.pnlVersionInfo.Controls.Add(this.label4);
             this.pnlVersionInfo.Controls.Add(this.label5);
-            this.pnlVersionInfo.Location = new System.Drawing.Point(12, 615);
+            this.pnlVersionInfo.Location = new System.Drawing.Point(12, 616);
             this.pnlVersionInfo.Name = "pnlVersionInfo";
             this.pnlVersionInfo.Size = new System.Drawing.Size(292, 178);
             this.pnlVersionInfo.TabIndex = 18;
@@ -325,6 +327,7 @@
             // 
             // pnlBottomMain
             // 
+            this.pnlBottomMain.AutoSize = true;
             this.pnlBottomMain.Controls.Add(this.pnlAddGroup);
             this.pnlBottomMain.Location = new System.Drawing.Point(326, 162);
             this.pnlBottomMain.Name = "pnlBottomMain";
@@ -358,6 +361,7 @@
             this.panel1.PerformLayout();
             this.pnlBottomMain.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
