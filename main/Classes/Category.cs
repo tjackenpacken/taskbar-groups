@@ -31,14 +31,20 @@ namespace client.Classes
             // Check if path is a full directory or part of a file name
             // Passed from the main shortcut client and the config client
 
-            if (System.IO.File.Exists(@MainPath.path + @"\" + path + @"\ObjectData.xml"))
+
+            // This if won't ever be true, because the path passed in is a full path to a folder.
+            /*
+            if (System.IO.File.Exists(@Paths.path + @"\" + path + @"\ObjectData.xml"))
             {
-                fullPath = @MainPath.path + @"\" + path + @"\ObjectData.xml";
+                fullPath = @Paths.path + @"\" + path + @"\ObjectData.xml";
             }
             else
             {
-                fullPath = Path.GetFullPath(path + "\\ObjectData.xml");
+            */
+            fullPath = Path.GetFullPath(Path.Combine(path, "ObjectData.xml"));
+            /*
             }
+            */
 
             System.Xml.Serialization.XmlSerializer reader =
                 new System.Xml.Serialization.XmlSerializer(typeof(Category));
@@ -61,9 +67,7 @@ namespace client.Classes
 
         public void CreateConfig(Image groupImage)
         {
-
-            string path = @"config\" + this.Name;
-            //string filePath = path + @"\" + this.Name + "Group.exe";
+            string path = Path.Combine(Paths.ConfigPath, this.Name);
             //
             // Directory and .exe
             //
@@ -76,7 +80,7 @@ namespace client.Classes
             System.Xml.Serialization.XmlSerializer writer =
                 new System.Xml.Serialization.XmlSerializer(typeof(Category));
 
-            using (FileStream file = System.IO.File.Create(@path + @"\ObjectData.xml"))
+            using (FileStream file = System.IO.File.Create(Path.Combine(@path, "ObjectData.xml")))
             {
                 writer.Serialize(file, this);
                 file.Close();
@@ -86,14 +90,14 @@ namespace client.Classes
             //
 
             Image img = ImageFunctions.ResizeImage(groupImage, 256, 256); // Resize img if too big
-            img.Save(path + @"\GroupImage.png");
+            img.Save(Path.Combine(path, "GroupImage.png"));
 
             if (GetMimeType(groupImage).ToString() == "*.PNG")
             {
-                createMultiIcon(groupImage, path + @"\GroupIcon.ico");
+                createMultiIcon(groupImage, Path.Combine(path, "GroupIcon.ico"));
             }
             else { 
-                using (FileStream fs = new FileStream(path + @"\GroupIcon.ico", FileMode.Create))
+                using (FileStream fs = new FileStream(Path.Combine(path, "GroupIcon.ico"), FileMode.Create))
                 {
                     ImageFunctions.IconFromImage(img).Save(fs);
                     fs.Close();
@@ -105,12 +109,12 @@ namespace client.Classes
             // Needed due to needing to set a unique AppUserModelID so the shortcut applications don't stack on the taskbar with the main application
             // Tricks Windows to think they are from different applications even though they are from the same .exe
             ShellLink.InstallShortcut(
-                Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName),
+                Paths.exeString,
                 "tjackenpacken.taskbarGroup.menu." + this.Name,
                  path + " shortcut",
-                 Path.GetFullPath(@path),
-                 Path.GetFullPath(path + @"\GroupIcon.ico"),
-                 path + "\\" + this.Name + ".lnk",
+                 path,
+                 Path.Combine(path, "GroupIcon.ico"),
+                 Path.Combine(path, this.Name + ".lnk"),
                  this.Name
             );
 
@@ -118,8 +122,8 @@ namespace client.Classes
             // Build the icon cache
             cacheIcons();
 
-            System.IO.File.Move(@path + "\\" + this.Name + ".lnk",
-                Path.GetFullPath(@"Shortcuts\" + Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
+            System.IO.File.Move(Path.Combine(path, this.Name + ".lnk"),
+                Path.Combine(Paths.ShortcutsPath, Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
         }
 
         private static void createMultiIcon(Image iconImage, string filePath)
@@ -152,7 +156,7 @@ namespace client.Classes
 
         public Bitmap LoadIconImage() // Needed to access img without occupying read/write
         {
-            string path = @"config\" + Name + @"\GroupImage.png";
+            string path = Path.Combine(Paths.ConfigPath, Name, "GroupImage.png");
 
             using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
                 return new Bitmap(ms);
@@ -164,8 +168,8 @@ namespace client.Classes
         {
 
             // Defines the paths for the icons folder
-            string path = @MainPath.path + @"\config\" + this.Name;
-            string iconPath = path + "\\Icons\\";
+            string path = Path.Combine(Paths.ConfigPath, this.Name);
+            string iconPath = Path.Combine(path, "Icons");
 
             // Check and delete current icons folder to completely rebuild the icon cache
             // Only done on re-edits of the group and isn't done usually
@@ -176,8 +180,6 @@ namespace client.Classes
 
             // Creates the icons folder inside of existing config folder for the group
             Directory.CreateDirectory(iconPath);
-
-            iconPath = @path + @"\Icons\";
 
             // Loops through each shortcut added by the user and gets the icon
             // Writes the icon to the new folder in a .jpg format
@@ -191,13 +193,13 @@ namespace client.Classes
 
                 if (ShortcutList[i].isWindowsApp)
                 {
-                    savePath = iconPath + "\\" + specialCharRegex.Replace(filePath, string.Empty) + ".png";
+                    savePath = Path.Combine(iconPath, specialCharRegex.Replace(filePath, string.Empty) + ".png");
                 } else if (Directory.Exists(filePath))
                 {
-                    savePath = iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.png";
+                    savePath = Path.Combine(iconPath, Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.png");
                 } else
                 {
-                    savePath = iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".png";
+                    savePath = Path.Combine(iconPath, Path.GetFileNameWithoutExtension(filePath) + ".png");
                 }
 
                 programShortcutControl.logo.Save(savePath);
@@ -219,9 +221,9 @@ namespace client.Classes
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
                     // If not then it would throw an exception in which the below code would catch it
-                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + 
-                        @"\config\" + this.Name + @"\Icons\" + ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : 
-                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".png");
+                    String cacheImagePath = Path.Combine(Paths.ConfigPath, this.Name, "Icons",
+                        ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : 
+                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.jpg" : ".png"));
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
                         return Image.FromStream(ms);
@@ -234,7 +236,7 @@ namespace client.Classes
                     // Checks if the original file even exists to make sure to not do any extra operations
 
                     // Same processing as above in cacheIcons()
-                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png");
+                    String path = Path.Combine(Paths.ConfigPath, this.Name, "Icons", Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png"));
 
                     Image finalImage;
 

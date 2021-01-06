@@ -25,7 +25,7 @@ namespace client.User_controls
             int y = 55;
             int columns = 1;
 
-            if (!Directory.Exists((@"config\" + category.Name) + "\\Icons\\"))
+            if (!Directory.Exists(Path.Combine(Paths.ConfigPath, category.Name, "Icons")))
             {
                 category.cacheIcons();
             }
@@ -92,7 +92,7 @@ namespace client.User_controls
             // Open the shortcut folder for the group when click on category panel
 
             // Build path based on the directory of the main .exe file
-            string filePath = Path.GetFullPath(new Uri($"{MainPath.path}\\Shortcuts").LocalPath + "\\" + Category.Name + ".lnk");
+            string filePath = Path.Combine(Paths.ShortcutsPath, Category.Name + ".lnk");
 
             // Open directory in explorer and highlighting file
             System.Diagnostics.Process.Start("explorer.exe", string.Format("/select,\"{0}\"", @filePath));

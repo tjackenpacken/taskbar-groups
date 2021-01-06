@@ -7,7 +7,7 @@
 
         public string name { get; set; } = "";
         public string Arguments = "";
-        public string WorkingDirectory = MainPath.exeString;
+        public string WorkingDirectory = Paths.exeString;
  
 
         public ProgramShortcut() // needed for XML serialization

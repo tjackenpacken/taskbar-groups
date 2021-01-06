@@ -46,15 +46,15 @@ namespace client
             passedDirec = passedDirectory;
             FormBorderStyle = FormBorderStyle.None;
 
-            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(MainPath.path + "\\config\\" + passedDirec + "\\GroupIcon.ico")))
+            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(Path.Combine(Paths.ConfigPath, passedDirec, "GroupIcon.ico"))))
                 this.Icon = new Icon(ms);
 
-            if (Directory.Exists(@MainPath.path + @"\config\" + passedDirec))
+            if (Directory.Exists(Path.Combine(Paths.ConfigPath, passedDirec)))
             {
                 ControlList = new List<ucShortcut>();
 
                 this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-                ThisCategory = new Category($"config\\{passedDirec}");
+                ThisCategory = new Category(Path.Combine(Paths.ConfigPath, passedDirec));
                 this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
                 Opacity = (1 - (ThisCategory.Opacity / 100));
 
@@ -272,7 +272,7 @@ namespace client
 
             // Check if icon caches exist for the category being loaded
             // If not then rebuild the icon cache
-            if (!Directory.Exists(@MainPath.path + @"\config\" + ThisCategory.Name + @"\Icons\"))
+            if (!Directory.Exists(Path.Combine(Paths.ConfigPath, ThisCategory.Name, "Icons")))
             {
                 ThisCategory.cacheIcons();
             }

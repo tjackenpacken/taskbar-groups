@@ -155,7 +155,7 @@ namespace client.Forms
 
             OpenFileDialog openFileDialog = new OpenFileDialog // ask user to select exe file
             {
-                InitialDirectory = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms),
                 Title = "Create New Shortcut",
                 CheckFileExists = true,
                 CheckPathExists = true,
@@ -485,8 +485,8 @@ namespace client.Forms
                 lblErrorTitle.Text = "Must select a name";
                 lblErrorTitle.Visible = true;
             }
-            else if (IsNew && Directory.Exists(@MainPath.path + @"\config\" + txtGroupName.Text) ||
-                     !IsNew && Category.Name != txtGroupName.Text && Directory.Exists(@MainPath.path + @"\config\" + txtGroupName.Text))
+            else if (IsNew && Directory.Exists(Path.Combine(Paths.ConfigPath, txtGroupName.Text)) ||
+                     !IsNew && Category.Name != txtGroupName.Text && Directory.Exists(Path.Combine(Paths.ConfigPath, txtGroupName.Text)))
             {
                 lblErrorTitle.Text = "There is already a group with that name";
                 lblErrorTitle.Visible = true;
@@ -526,8 +526,8 @@ namespace client.Forms
                         //
                         // Delete old config
                         //
-                        string configPath = @MainPath.path + @"\config\" + Category.Name;
-                        string shortcutPath = @MainPath.path + @"\Shortcuts\" + Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk";
+                        string configPath = Path.Combine(Paths.ConfigPath, Category.Name);
+                        string shortcutPath = Path.Combine(Paths.ShortcutsPath, Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk");
 
                         try
                         {
@@ -557,7 +557,7 @@ namespace client.Forms
                     Category.Name = Regex.Replace(txtGroupName.Text, @"\s+", "_");
 
                     Category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // Creating group config files
-                    Client.LoadCategory(Path.GetFullPath(@"config\" + Category.Name)); // Loading visuals
+                    Client.LoadCategory(Path.Combine(Paths.ConfigPath, Category.Name)); // Loading visuals
                     
                     this.Dispose();
                     Client.Reload();
@@ -579,8 +579,8 @@ namespace client.Forms
 
             try
             {
-                string configPath = @MainPath.path + @"\config\" + Category.Name;
-                string shortcutPath = @MainPath.path + @"\Shortcuts\" + Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk";
+                string configPath = Path.Combine(Paths.ConfigPath, Category.Name);
+                string shortcutPath = Path.Combine(Paths.ShortcutsPath, Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk");
 
                 var dir = new DirectoryInfo(configPath);
 
@@ -753,7 +753,7 @@ namespace client.Forms
         }
 
         //--------------------------------------
-        // SHORTCUT/PRGORAM SELECTION
+        // SHORTCUT/PROGRAM SELECTION
         //--------------------------------------
 
         // Deselect selected program/shortcut
@@ -855,7 +855,7 @@ namespace client.Forms
                 }
             } catch (Exception)
             {
-                return MainPath.exeString;
+                return Paths.exeString;
             }
         }
 
