@@ -155,8 +155,7 @@ namespace client.Forms
 
             OpenFileDialog openFileDialog = new OpenFileDialog // ask user to select exe file
             {
-                // TODO: Fix this path.
-                InitialDirectory = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms),
                 Title = "Create New Shortcut",
                 CheckFileExists = true,
                 CheckPathExists = true,

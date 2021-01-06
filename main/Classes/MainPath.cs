@@ -22,12 +22,19 @@ namespace client.Classes
             path = System.IO.Path.GetDirectoryName(exeString);
         }
 
-        // TODO: Rename this.
+        private static string AppDataRelativePath
+        {
+            get
+            {
+                return System.IO.Path.Combine("Jack Schierbeck", "taskbar-groups");
+            }
+        }
+
         public static string ConfigPath
         {
             get
             {
-                string directoryPath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jack Schierbeck", "taskbar-groups", "config");
+                string directoryPath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataRelativePath, "config");
                 if (!System.IO.Directory.Exists(directoryPath))
                 {
                     System.IO.Directory.CreateDirectory(directoryPath);
@@ -36,12 +43,11 @@ namespace client.Classes
             }
         }
 
-        // TODO: Rename this.
         public static string ShortcutsPath
         {
             get
             {
-                string directoryPath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Jack Schierbeck", "taskbar-groups", "Shortcuts");
+                string directoryPath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataRelativePath, "Shortcuts");
                 if (!System.IO.Directory.Exists(directoryPath))
                 {
                     System.IO.Directory.CreateDirectory(directoryPath);
