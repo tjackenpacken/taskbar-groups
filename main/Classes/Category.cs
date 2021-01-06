@@ -61,8 +61,7 @@ namespace client.Classes
 
         public void CreateConfig(Image groupImage)
         {
-
-            string path = @"config\" + this.Name;
+            string path = Path.Combine(MainPath.ConfigPath, this.Name);
             //string filePath = path + @"\" + this.Name + "Group.exe";
             //
             // Directory and .exe
@@ -86,7 +85,7 @@ namespace client.Classes
             //
 
             Image img = ImageFunctions.ResizeImage(groupImage, 256, 256); // Resize img if too big
-            img.Save(path + @"\GroupImage.png");
+            img.Save(Path.Combine(path, "GroupImage.png"));
 
             if (GetMimeType(groupImage).ToString() == "*.PNG")
             {
@@ -119,7 +118,7 @@ namespace client.Classes
             cacheIcons();
 
             System.IO.File.Move(@path + "\\" + this.Name + ".lnk",
-                Path.GetFullPath(@"Shortcuts\" + Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
+                Path.Combine(MainPath.ShortcutsPath, Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
         }
 
         private static void createMultiIcon(Image iconImage, string filePath)
@@ -152,7 +151,7 @@ namespace client.Classes
 
         public Bitmap LoadIconImage() // Needed to access img without occupying read/write
         {
-            string path = @"config\" + Name + @"\GroupImage.png";
+            string path = Path.Combine(MainPath.ConfigPath, Name, "GroupImage.png");
 
             using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
                 return new Bitmap(ms);
@@ -164,8 +163,8 @@ namespace client.Classes
         {
 
             // Defines the paths for the icons folder
-            string path = @MainPath.path + @"\config\" + this.Name;
-            string iconPath = path + "\\Icons\\";
+            string path = Path.Combine(MainPath.ConfigPath, this.Name);
+            string iconPath = Path.Combine(path, "Icons");
 
             // Check and delete current icons folder to completely rebuild the icon cache
             // Only done on re-edits of the group and isn't done usually
@@ -177,7 +176,7 @@ namespace client.Classes
             // Creates the icons folder inside of existing config folder for the group
             Directory.CreateDirectory(iconPath);
 
-            iconPath = @path + @"\Icons\";
+            /*iconPath = @path + @"\Icons\";*/
 
             // Loops through each shortcut added by the user and gets the icon
             // Writes the icon to the new folder in a .jpg format
@@ -219,9 +218,9 @@ namespace client.Classes
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
                     // If not then it would throw an exception in which the below code would catch it
-                    String cacheImagePath = @Path.GetDirectoryName(Application.ExecutablePath) + 
-                        @"\config\" + this.Name + @"\Icons\" + ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : 
-                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".png");
+                    String cacheImagePath = Path.Combine(MainPath.ConfigPath, this.Name, "Icons",
+                        ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : 
+                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath)? "_FolderObjTSKGRoup.jpg" : ".png"));
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
                         return Image.FromStream(ms);
@@ -234,7 +233,7 @@ namespace client.Classes
                     // Checks if the original file even exists to make sure to not do any extra operations
 
                     // Same processing as above in cacheIcons()
-                    String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png");
+                    String path = Path.Combine(MainPath.ConfigPath, this.Name, "Icons", Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png"));
 
                     Image finalImage;
 

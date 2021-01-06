@@ -36,10 +36,6 @@ namespace client
             // Creats folder for JIT compilation 
             Directory.CreateDirectory($"{MainPath.path}\\JITComp");
 
-            // Creates directory in case it does not exist for config files
-            Directory.CreateDirectory($"{MainPath.path}\\config");
-            Directory.CreateDirectory($"{MainPath.path}\\Shortcuts");
-
             System.Runtime.ProfileOptimization.SetProfileRoot(MainPath.path + "\\JITComp");
 
             Application.EnableVisualStyles();
