@@ -30,7 +30,7 @@ namespace client.Forms
             pnlExistingGroups.Controls.Clear();
             pnlExistingGroups.Height = 0;
 
-            string[] subDirectories = Directory.GetDirectories(MainPath.ConfigPath);
+            string[] subDirectories = Directory.GetDirectories(Paths.ConfigPath);
             foreach (string dir in subDirectories)
             {
                 try

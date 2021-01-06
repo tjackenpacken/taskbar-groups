@@ -40,10 +40,10 @@ namespace client.User_controls
                 p.Start();
             } else
             {
-                if(Path.GetExtension(Psc.FilePath).ToLower() == ".lnk" && Psc.FilePath == MainPath.exeString)
+                if(Path.GetExtension(Psc.FilePath).ToLower() == ".lnk" && Psc.FilePath == Paths.exeString)
 
                 {
-                    MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, MainPath.path);
+                    MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, Paths.path);
                 } else
                 {
                     MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, Psc.WorkingDirectory);

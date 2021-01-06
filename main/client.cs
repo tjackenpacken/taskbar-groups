@@ -30,21 +30,21 @@ namespace client
             int cursorY = Cursor.Position.Y;
 
             // Creates folder for JIT compilation.
-            System.Runtime.ProfileOptimization.SetProfileRoot(MainPath.OptimizationProfilePath);
+            System.Runtime.ProfileOptimization.SetProfileRoot(Paths.OptimizationProfilePath);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
             try
             {
-                System.IO.File.Create(MainPath.path + "\\directoryTestingDocument.txt").Close();
-                System.IO.File.Delete(MainPath.path + "\\directoryTestingDocument.txt");
+                System.IO.File.Create(Paths.path + "\\directoryTestingDocument.txt").Close();
+                System.IO.File.Delete(Paths.path + "\\directoryTestingDocument.txt");
             }
             catch
             {
                 using (Process configTool = new Process())
                 {
-                    configTool.StartInfo.FileName = MainPath.exeString;
+                    configTool.StartInfo.FileName = Paths.exeString;
                     configTool.StartInfo.Verb = "runas";
                     try
                     {

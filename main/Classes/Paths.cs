@@ -4,7 +4,7 @@ namespace client.Classes
 {
     // Function that is accessed by all forms to get the starting absolute path of the .exe
     // Added as to not keep generating the path in each form
-    static class MainPath
+    static class Paths
     {
         /// <summary>
         /// The folder in which the main executable resides.
@@ -16,7 +16,7 @@ namespace client.Classes
         /// </summary>
         public static String exeString;
 
-        static MainPath()
+        static Paths()
         {
             exeString = System.Reflection.Assembly.GetExecutingAssembly().Location;
             path = System.IO.Path.GetDirectoryName(exeString);

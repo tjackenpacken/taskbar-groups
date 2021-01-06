@@ -485,8 +485,8 @@ namespace client.Forms
                 lblErrorTitle.Text = "Must select a name";
                 lblErrorTitle.Visible = true;
             }
-            else if (IsNew && Directory.Exists(Path.Combine(MainPath.ConfigPath, txtGroupName.Text)) ||
-                     !IsNew && Category.Name != txtGroupName.Text && Directory.Exists(Path.Combine(MainPath.ConfigPath, txtGroupName.Text)))
+            else if (IsNew && Directory.Exists(Path.Combine(Paths.ConfigPath, txtGroupName.Text)) ||
+                     !IsNew && Category.Name != txtGroupName.Text && Directory.Exists(Path.Combine(Paths.ConfigPath, txtGroupName.Text)))
             {
                 lblErrorTitle.Text = "There is already a group with that name";
                 lblErrorTitle.Visible = true;
@@ -526,8 +526,8 @@ namespace client.Forms
                         //
                         // Delete old config
                         //
-                        string configPath = Path.Combine(MainPath.ConfigPath, Category.Name);
-                        string shortcutPath = Path.Combine(MainPath.ShortcutsPath, Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk");
+                        string configPath = Path.Combine(Paths.ConfigPath, Category.Name);
+                        string shortcutPath = Path.Combine(Paths.ShortcutsPath, Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk");
 
                         try
                         {
@@ -557,7 +557,7 @@ namespace client.Forms
                     Category.Name = Regex.Replace(txtGroupName.Text, @"\s+", "_");
 
                     Category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // Creating group config files
-                    Client.LoadCategory(Path.Combine(MainPath.ConfigPath, Category.Name)); // Loading visuals
+                    Client.LoadCategory(Path.Combine(Paths.ConfigPath, Category.Name)); // Loading visuals
                     
                     this.Dispose();
                     Client.Reload();
@@ -579,8 +579,8 @@ namespace client.Forms
 
             try
             {
-                string configPath = Path.Combine(MainPath.ConfigPath, Category.Name);
-                string shortcutPath = Path.Combine(MainPath.ShortcutsPath, Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk");
+                string configPath = Path.Combine(Paths.ConfigPath, Category.Name);
+                string shortcutPath = Path.Combine(Paths.ShortcutsPath, Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk");
 
                 var dir = new DirectoryInfo(configPath);
 
@@ -855,7 +855,7 @@ namespace client.Forms
                 }
             } catch (Exception)
             {
-                return MainPath.exeString;
+                return Paths.exeString;
             }
         }
 

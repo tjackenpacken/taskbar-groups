@@ -91,7 +91,7 @@
     <Compile Include="Classes\handleWindowsApp.cs" />
     <Compile Include="Classes\IconFactory.cs" />
     <Compile Include="Classes\ImageFunctions.cs" />
-    <Compile Include="Classes\MainPath.cs" />
+    <Compile Include="Classes\Paths.cs" />
     <Compile Include="Classes\ProgramShortcut.cs" />
     <Compile Include="Classes\ShellLink.cs" />
     <Compile Include="Forms\frmClient.cs">
