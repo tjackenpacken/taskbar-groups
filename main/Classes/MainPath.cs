@@ -55,6 +55,18 @@ namespace client.Classes
                 return directoryPath;
             }
         }
+        public static string OptimizationProfilePath
+        {
+            get
+            {
+                string directoryPath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppDataRelativePath, "JITComp");
+                if (!System.IO.Directory.Exists(directoryPath))
+                {
+                    System.IO.Directory.CreateDirectory(directoryPath);
+                }
+                return directoryPath;
+            }
+        }
 
     }
 }

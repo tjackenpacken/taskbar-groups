@@ -29,9 +29,8 @@ namespace client
             int cursorX = Cursor.Position.X;
             int cursorY = Cursor.Position.Y;
 
-            // Creats folder for JIT compilation 
-            Directory.CreateDirectory($"{MainPath.path}\\JITComp");
-            System.Runtime.ProfileOptimization.SetProfileRoot(MainPath.path + "\\JITComp");
+            // Creates folder for JIT compilation.
+            System.Runtime.ProfileOptimization.SetProfileRoot(MainPath.OptimizationProfilePath);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
