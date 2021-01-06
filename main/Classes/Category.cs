@@ -221,27 +221,32 @@ namespace client.Classes
             // Loops through each shortcut added by the user and gets the icon
             // Writes the icon to the new folder in a .jpg format
             // Namign scheme for the files are done through Path.GetFileNameWithoutExtension()
-            for (int i = ShortcutList.Count; i < 0; i--)
-            {
-                String filePath = ShortcutList[i].FilePath;
+            IEnumerable<ProgramShortcut> shortcutListReversed = ShortcutList.AsEnumerable().Reverse();
 
-                ucProgramShortcut programShortcutControl = Application.OpenForms["frmGroup"].Controls["pnlShortcuts"].Controls[i] as ucProgramShortcut;
+            int ind = 0;
+            foreach(ProgramShortcut shrtcutList in shortcutListReversed)
+            {
+                String filePath = ShortcutList[ind].FilePath;
+
+                ucProgramShortcut programShortcutControl = Application.OpenForms["frmGroup"].Controls["pnlShortcuts"].Controls[ind] as ucProgramShortcut;
                 string savePath;
 
-                if (ShortcutList[i].isWindowsApp)
+                if (ShortcutList[ind].isWindowsApp)
                 {
                     savePath = iconPath + "\\" + specialCharRegex.Replace(filePath, string.Empty) + ".png";
-                } else if (Directory.Exists(filePath))
+                }
+                else if (Directory.Exists(filePath))
                 {
                     savePath = iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.png";
-                } else
+                }
+                else
                 {
                     savePath = iconPath + "\\" + Path.GetFileNameWithoutExtension(filePath) + ".png";
                 }
 
                 programShortcutControl.logo.Save(savePath);
-
-    }
+                ind++;
+            }
         }
 
         // Try to load an iamge from the cache
