@@ -16,6 +16,12 @@ namespace client.Classes
         /// </summary>
         public static String exeString;
 
+        static MainPath()
+        {
+            exeString = System.Reflection.Assembly.GetExecutingAssembly().Location;
+            path = System.IO.Path.GetDirectoryName(exeString);
+        }
+
         // TODO: Rename this.
         public static string ConfigPath
         {

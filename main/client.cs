@@ -29,13 +29,8 @@ namespace client
             int cursorX = Cursor.Position.X;
             int cursorY = Cursor.Position.Y;
 
-            // Set the MainPath to the absolute path where the exe is located
-            MainPath.path = Path.GetFullPath(new Uri(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase)).LocalPath);
-            MainPath.exeString = Path.GetFullPath(new Uri(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase).LocalPath);
-
             // Creats folder for JIT compilation 
             Directory.CreateDirectory($"{MainPath.path}\\JITComp");
-
             System.Runtime.ProfileOptimization.SetProfileRoot(MainPath.path + "\\JITComp");
 
             Application.EnableVisualStyles();
