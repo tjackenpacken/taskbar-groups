@@ -201,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
+    <None Include="Resources\pencil.png" />
     <None Include="Resources\grayline.png" />
     <None Include="Resources\graybox.jpg" />
   </ItemGroup>

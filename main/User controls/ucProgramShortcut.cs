@@ -17,6 +17,7 @@ namespace client.User_controls
         public int Position { get; set; }
 
         public Bitmap logo;
+        private int initalSize;
         public ucProgramShortcut()
         {
             InitializeComponent();
@@ -43,11 +44,8 @@ namespace client.User_controls
             {
                 txtShortcutName.Text = Shortcut.name;
             }
-
-            Size size = TextRenderer.MeasureText(txtShortcutName.Text, txtShortcutName.Font);
-            txtShortcutName.Width = size.Width;
-            txtShortcutName.Height = size.Height;
-
+            initalSize = this.Width;
+            txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
 
             if (Shortcut.isWindowsApp)
             {
@@ -178,11 +176,14 @@ namespace client.User_controls
         {
             Shortcut.name = txtShortcutName.Text;
 
-            if (!txtShortcutName.Bounds.IntersectsWith(cmdDelete.Bounds))
+            if (!txtShortcutName.Bounds.IntersectsWith(pictureBox1.Bounds))
             {
                 Size size = TextRenderer.MeasureText(txtShortcutName.Text, txtShortcutName.Font);
-                txtShortcutName.Width = size.Width;
-                txtShortcutName.Height = size.Height;
+                if (!(size.Width < txtShortcutName.Width))
+                {
+                    txtShortcutName.Width = size.Width;
+                    txtShortcutName.Height = size.Height;
+                }
             }
         }
 
@@ -213,6 +214,14 @@ namespace client.User_controls
         private void ucProgramShortcut_Leave(object sender, EventArgs e)
         {
             //IsSelected = false;
+        }
+
+        private void ucProgramShortcut_SizeChanged(object sender, EventArgs e)
+        {
+            if (this.Width < initalSize)
+            {
+                txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
+            }
         }
     }
 }

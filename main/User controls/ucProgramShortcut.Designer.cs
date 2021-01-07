@@ -33,7 +33,9 @@
             this.cmdNumDown = new System.Windows.Forms.Button();
             this.picShortcut = new System.Windows.Forms.PictureBox();
             this.txtShortcutName = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picShortcut)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // cmdDelete
@@ -111,7 +113,7 @@
             this.txtShortcutName.ForeColor = System.Drawing.Color.White;
             this.txtShortcutName.Location = new System.Drawing.Point(112, 13);
             this.txtShortcutName.Name = "txtShortcutName";
-            this.txtShortcutName.Size = new System.Drawing.Size(214, 22);
+            this.txtShortcutName.Size = new System.Drawing.Size(205, 22);
             this.txtShortcutName.TabIndex = 31;
             this.txtShortcutName.TabStop = false;
             this.txtShortcutName.Text = "Program Name";
@@ -123,12 +125,28 @@
             this.txtShortcutName.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
             this.txtShortcutName.MouseLeave += new System.EventHandler(this.ucProgramShortcut_MouseLeave);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
+            this.pictureBox1.Image = global::client.Properties.Resources.pencil;
+            this.pictureBox1.Location = new System.Drawing.Point(321, 14);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 32;
+            this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.txtShortcutName_Click);
+            this.pictureBox1.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
+            this.pictureBox1.MouseLeave += new System.EventHandler(this.ucProgramShortcut_MouseLeave);
+            // 
             // ucProgramShortcut
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.txtShortcutName);
             this.Controls.Add(this.cmdNumUp);
             this.Controls.Add(this.cmdNumDown);
@@ -137,12 +155,14 @@
             this.Name = "ucProgramShortcut";
             this.Size = new System.Drawing.Size(450, 50);
             this.Load += new System.EventHandler(this.ucProgramShortcut_Load);
+            this.SizeChanged += new System.EventHandler(this.ucProgramShortcut_SizeChanged);
             this.Click += new System.EventHandler(this.ucProgramShortcut_Click);
             this.Enter += new System.EventHandler(this.ucProgramShortcut_Enter);
             this.Leave += new System.EventHandler(this.ucProgramShortcut_Leave);
             this.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.ucProgramShortcut_MouseLeave);
             ((System.ComponentModel.ISupportInitialize)(this.picShortcut)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -154,5 +174,6 @@
         private System.Windows.Forms.Button cmdNumUp;
         private System.Windows.Forms.Button cmdNumDown;
         private System.Windows.Forms.TextBox txtShortcutName;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
