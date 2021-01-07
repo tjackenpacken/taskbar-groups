@@ -123,7 +123,8 @@ namespace client.Forms
                 MotherForm = this,
                 Shortcut = psc,
                 Position = position,
-            };
+                Width = pnlAddShortcut.Width
+        };
             pnlShortcuts.Controls.Add(ucPsc);
             ucPsc.Show();
             ucPsc.BringToFront();
