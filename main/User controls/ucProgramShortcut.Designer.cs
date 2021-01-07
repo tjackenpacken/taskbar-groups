@@ -38,8 +38,7 @@
             // 
             // cmdDelete
             // 
-            this.cmdDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
             this.cmdDelete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(148)))), ((int)(((byte)(148)))));
             this.cmdDelete.FlatAppearance.BorderSize = 0;
@@ -58,8 +57,6 @@
             // 
             // cmdNumUp
             // 
-            this.cmdNumUp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdNumUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.cmdNumUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
             this.cmdNumUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -76,8 +73,6 @@
             // 
             // cmdNumDown
             // 
-            this.cmdNumDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdNumDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.cmdNumDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
             this.cmdNumDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -94,8 +89,6 @@
             // 
             // picShortcut
             // 
-            this.picShortcut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.picShortcut.BackgroundImage = global::client.Properties.Resources.AddWhite;
             this.picShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.picShortcut.Location = new System.Drawing.Point(69, 9);
@@ -109,15 +102,14 @@
             // 
             // txtShortcutName
             // 
-            this.txtShortcutName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtShortcutName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
             this.txtShortcutName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.txtShortcutName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtShortcutName.Cursor = System.Windows.Forms.Cursors.Arrow;
             this.txtShortcutName.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.txtShortcutName.ForeColor = System.Drawing.Color.White;
             this.txtShortcutName.Location = new System.Drawing.Point(112, 13);
-            this.txtShortcutName.MaxLength = 27;
             this.txtShortcutName.Name = "txtShortcutName";
             this.txtShortcutName.Size = new System.Drawing.Size(214, 22);
             this.txtShortcutName.TabIndex = 31;
@@ -135,6 +127,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.Controls.Add(this.txtShortcutName);
             this.Controls.Add(this.cmdNumUp);

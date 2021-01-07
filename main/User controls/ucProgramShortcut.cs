@@ -95,6 +95,8 @@ namespace client.User_controls
 
             }
 
+            this.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+
         }
 
         private void ucProgramShortcut_MouseEnter(object sender, EventArgs e)
@@ -174,10 +176,14 @@ namespace client.User_controls
 
         private void lbTextbox_TextChanged(object sender, EventArgs e)
         {
-            Size size = TextRenderer.MeasureText(txtShortcutName.Text, txtShortcutName.Font);
-            txtShortcutName.Width = size.Width;
-            txtShortcutName.Height = size.Height;
             Shortcut.name = txtShortcutName.Text;
+
+            if (!txtShortcutName.Bounds.IntersectsWith(cmdDelete.Bounds))
+            {
+                Size size = TextRenderer.MeasureText(txtShortcutName.Text, txtShortcutName.Font);
+                txtShortcutName.Width = size.Width;
+                txtShortcutName.Height = size.Height;
+            }
         }
 
         private void ucProgramShortcut_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -208,6 +214,5 @@ namespace client.User_controls
         {
             //IsSelected = false;
         }
-
     }
 }

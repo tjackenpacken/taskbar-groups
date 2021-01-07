@@ -107,7 +107,7 @@ namespace client.Forms
         private void frmGroup_Load(object sender, EventArgs e)
         {
             // Scaling form (WORK IN PROGRESS)
-            this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
+            this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
         }
 
         //--------------------------------------
@@ -881,6 +881,13 @@ namespace client.Forms
             {
                 this.MinimumSize = new Size(this.MinimumSize.Width, this.Height);
             }
+
+       
+        }
+
+        private void fillTextbox()
+        {
+
         }
     }
 }
