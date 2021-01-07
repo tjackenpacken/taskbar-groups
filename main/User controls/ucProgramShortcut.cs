@@ -175,16 +175,6 @@ namespace client.User_controls
         private void lbTextbox_TextChanged(object sender, EventArgs e)
         {
             Shortcut.name = txtShortcutName.Text;
-
-            if (!txtShortcutName.Bounds.IntersectsWith(pictureBox1.Bounds))
-            {
-                Size size = TextRenderer.MeasureText(txtShortcutName.Text, txtShortcutName.Font);
-                if (!(size.Width < txtShortcutName.Width))
-                {
-                    txtShortcutName.Width = size.Width;
-                    txtShortcutName.Height = size.Height;
-                }
-            }
         }
 
         private void ucProgramShortcut_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -218,10 +208,7 @@ namespace client.User_controls
 
         private void ucProgramShortcut_SizeChanged(object sender, EventArgs e)
         {
-            if (this.Width < initalSize)
-            {
-                txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
-            }
+            txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
         }
     }
 }

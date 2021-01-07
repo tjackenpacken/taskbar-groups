@@ -11,7 +11,8 @@ using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Shell;
-using Microsoft.WindowsAPICodePack.Dialogs; 
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Reflection;
 
 namespace client.Forms
 {
@@ -30,7 +31,6 @@ namespace client.Forms
         public static Shell32.Shell shell = new Shell32.Shell();
 
         private List<ProgramShortcut> shortcutChanged = new List<ProgramShortcut>();
-
 
         //--------------------------------------
         // CTOR AND LOAD
@@ -108,6 +108,9 @@ namespace client.Forms
         {
             // Scaling form (WORK IN PROGRESS)
             this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
+
+            typeof(Control).GetProperty("ResizeRedraw", BindingFlags.NonPublic | BindingFlags.Instance)
+               .SetValue(pnlDeleteConfo, true, null);
         }
 
         //--------------------------------------
@@ -863,6 +866,11 @@ namespace client.Forms
 
         private void frmGroup_MouseClick(object sender, MouseEventArgs e)
         {
+            if (pnlDeleteConfo.Visible)
+            {
+                pnlDeleteConfo.Visible = false;
+            }
+
             resetSelection();
         }
 
@@ -883,12 +891,18 @@ namespace client.Forms
                 this.MinimumSize = new Size(this.MinimumSize.Width, this.Height);
             }
 
-       
+            if (pnlDeleteConfo.Visible)
+            {
+                Point deleteButton = cmdDelete.FindForm().PointToClient(cmdDelete.Parent.PointToScreen(cmdDelete.Location));
+                pnlDeleteConfo.Location = new Point(deleteButton.X - 63, deleteButton.Y - 100);
+            }
         }
 
-        private void fillTextbox()
+        private void openDeleteConformation(object sender, EventArgs e)
         {
-
+            Point deleteButton = cmdDelete.FindForm().PointToClient(cmdDelete.Parent.PointToScreen(cmdDelete.Location));
+            pnlDeleteConfo.Location = new Point(deleteButton.X - 63, deleteButton.Y - 100);
+            pnlDeleteConfo.Visible = true;
         }
     }
 }

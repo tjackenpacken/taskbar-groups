@@ -73,6 +73,9 @@
             this.cmdWidthUp = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pnlDeleteConfo = new System.Windows.Forms.Panel();
+            this.confirmDelete = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.pnlGroupIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
@@ -82,6 +85,7 @@
             this.pnlArguments.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            this.pnlDeleteConfo.SuspendLayout();
             this.SuspendLayout();
             // 
             // lblWith
@@ -505,7 +509,7 @@
             this.cmdDelete.TabIndex = 46;
             this.cmdDelete.Text = "Delete";
             this.cmdDelete.UseVisualStyleBackColor = false;
-            this.cmdDelete.Click += new System.EventHandler(this.cmdDelete_Click);
+            this.cmdDelete.Click += new System.EventHandler(this.openDeleteConformation);
             // 
             // pnlEnd
             // 
@@ -674,6 +678,45 @@
             this.pictureBox2.TabIndex = 50;
             this.pictureBox2.TabStop = false;
             // 
+            // pnlDeleteConfo
+            // 
+            this.pnlDeleteConfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlDeleteConfo.Controls.Add(this.confirmDelete);
+            this.pnlDeleteConfo.Controls.Add(this.label2);
+            this.pnlDeleteConfo.Location = new System.Drawing.Point(151, 395);
+            this.pnlDeleteConfo.Name = "pnlDeleteConfo";
+            this.pnlDeleteConfo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.pnlDeleteConfo.Size = new System.Drawing.Size(253, 78);
+            this.pnlDeleteConfo.TabIndex = 51;
+            this.pnlDeleteConfo.Visible = false;
+            // 
+            // confirmDelete
+            // 
+            this.confirmDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.confirmDelete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(148)))), ((int)(((byte)(148)))));
+            this.confirmDelete.FlatAppearance.BorderSize = 0;
+            this.confirmDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.confirmDelete.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.confirmDelete.ForeColor = System.Drawing.Color.White;
+            this.confirmDelete.Location = new System.Drawing.Point(74, 45);
+            this.confirmDelete.Name = "confirmDelete";
+            this.confirmDelete.Size = new System.Drawing.Size(99, 25);
+            this.confirmDelete.TabIndex = 47;
+            this.confirmDelete.Text = "Yes";
+            this.confirmDelete.UseVisualStyleBackColor = false;
+            this.confirmDelete.Click += new System.EventHandler(this.cmdDelete_Click);
+            // 
+            // label2
+            // 
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(0, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(252, 43);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Are you sure you want to delete this group?";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
             // frmGroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -681,6 +724,7 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(589, 821);
+            this.Controls.Add(this.pnlDeleteConfo);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.pnlArguments);
@@ -717,6 +761,7 @@
             this.pnlArguments.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            this.pnlDeleteConfo.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -768,5 +813,8 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Panel pnlDeleteConfo;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button confirmDelete;
     }
 }
