@@ -17,7 +17,9 @@ namespace client.User_controls
         public int Position { get; set; }
 
         public Bitmap logo;
-        private int initalSize;
+
+        private float characterWidth = 8f;
+
         public ucProgramShortcut()
         {
             InitializeComponent();
@@ -26,7 +28,6 @@ namespace client.User_controls
         private void ucProgramShortcut_Load(object sender, EventArgs e)
         {
             // Grab the file name without the extension to be used later as the naming scheme for the icon .jpg image
-
             if (Shortcut.isWindowsApp)
             {
                 txtShortcutName.Text = handleWindowsApp.findWindowsAppsName(Shortcut.FilePath);
@@ -44,7 +45,6 @@ namespace client.User_controls
             {
                 txtShortcutName.Text = Shortcut.name;
             }
-            initalSize = this.Width;
             txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
 
             if (Shortcut.isWindowsApp)
@@ -95,6 +95,9 @@ namespace client.User_controls
 
             this.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
+            txtShortcutName.GotFocus += txtShortcutName_GotFocus;
+
+            txtShortcutName.Text = Truncate(Shortcut.name, (int)Math.Floor(txtShortcutName.Width / characterWidth));
         }
 
         private void ucProgramShortcut_MouseEnter(object sender, EventArgs e)
@@ -174,7 +177,10 @@ namespace client.User_controls
 
         private void lbTextbox_TextChanged(object sender, EventArgs e)
         {
-            Shortcut.name = txtShortcutName.Text;
+            if (txtShortcutName.Focused)
+            {
+                Shortcut.name = txtShortcutName.Text;
+            }
         }
 
         private void ucProgramShortcut_KeyDown(object sender, System.Windows.Forms.KeyEventArgs e)
@@ -209,6 +215,35 @@ namespace client.User_controls
         private void ucProgramShortcut_SizeChanged(object sender, EventArgs e)
         {
             txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
+            
+            if (!txtShortcutName.Focused)
+            {
+                txtShortcutName.Text = Truncate(Shortcut.name, (int)Math.Floor(txtShortcutName.Width / characterWidth));
+            }
+        }
+
+        public static string Truncate(string value, int maxChars)
+        {
+            return value.Length <= maxChars ? value : value.Substring(0, maxChars) + "...";
+        }
+
+        private void txtShortcutName_GotFocus(object sender, EventArgs e)
+        {
+            if (txtShortcutName.Text != Shortcut.name)
+            {
+                txtShortcutName.Text = Shortcut.name;
+            }
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            if (!IsSelected)
+                ucProgramShortcut_Click(sender, e);
+            if (!txtShortcutName.Focused)
+            {
+                txtShortcutName.Focus();
+                txtShortcutName.Select(txtShortcutName.TextLength, txtShortcutName.TextLength);
+            }
         }
     }
 }

@@ -742,6 +742,7 @@
             this.Controls.Add(this.cmdWidthUp);
             this.Controls.Add(this.txtGroupName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MinimumSize = new System.Drawing.Size(605, 0);
             this.Name = "frmGroup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New group";
