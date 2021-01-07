@@ -100,9 +100,14 @@ namespace client.User_controls
 
         private void cmdDelete_Click(object sender, EventArgs e)
         {
-            frmGroup editGroup = new frmGroup(Client, Category);
-            editGroup.Show();
-            editGroup.BringToFront();
+            if (!Client.editOpened)
+            {
+                frmGroup editGroup = new frmGroup(Client, Category);
+                editGroup.Show();
+                editGroup.BringToFront();
+                editGroup.FormClosed += new FormClosedEventHandler(frmGroup_Closed);
+                Client.editOpened = true;
+            }
         }
 
         public static Bitmap LoadBitmap(string path) // needed to access img without occupying read/write
@@ -132,6 +137,11 @@ namespace client.User_controls
         // endregion
         //
         public System.Windows.Forms.PictureBox shortcutPanel;
+
+        private void frmGroup_Closed(object sender, FormClosedEventArgs e)
+        {
+            Client.editOpened = false;
+        }
 
     }
 }

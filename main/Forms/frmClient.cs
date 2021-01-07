@@ -17,6 +17,8 @@ namespace client.Forms
     {
         private static readonly HttpClient client = new HttpClient();
         private List<Category> categoryList = new List<Category>();
+        public bool editOpened = false;
+
         public frmClient(List<string> arguments)
         {
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
