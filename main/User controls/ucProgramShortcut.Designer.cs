@@ -38,6 +38,8 @@
             // 
             // cmdDelete
             // 
+            this.cmdDelete.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
             this.cmdDelete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(148)))), ((int)(((byte)(148)))));
             this.cmdDelete.FlatAppearance.BorderSize = 0;
@@ -56,6 +58,8 @@
             // 
             // cmdNumUp
             // 
+            this.cmdNumUp.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdNumUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.cmdNumUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
             this.cmdNumUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -72,6 +76,8 @@
             // 
             // cmdNumDown
             // 
+            this.cmdNumDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdNumDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.cmdNumDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
             this.cmdNumDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
@@ -88,6 +94,8 @@
             // 
             // picShortcut
             // 
+            this.picShortcut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.picShortcut.BackgroundImage = global::client.Properties.Resources.AddWhite;
             this.picShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.picShortcut.Location = new System.Drawing.Point(69, 9);
@@ -101,6 +109,8 @@
             // 
             // txtShortcutName
             // 
+            this.txtShortcutName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.txtShortcutName.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.txtShortcutName.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtShortcutName.Cursor = System.Windows.Forms.Cursors.Arrow;

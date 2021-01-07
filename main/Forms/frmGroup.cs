@@ -874,5 +874,13 @@ namespace client.Forms
 
             return Environment.ExpandEnvironmentVariables(path);
         }
+
+        private void frmGroup_SizeChanged(object sender, EventArgs e)
+        {
+            if (pnlAddShortcut.Bounds.IntersectsWith(pnlShortcuts.Bounds))
+            {
+                this.MinimumSize = new Size(this.MinimumSize.Width, this.Height);
+            }
+        }
     }
 }

@@ -176,7 +176,11 @@
             // 
             // pnlShortcuts
             // 
+            this.pnlShortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlShortcuts.AutoScroll = true;
+            this.pnlShortcuts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnlShortcuts.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.pnlShortcuts.ForeColor = System.Drawing.SystemColors.ControlText;
             this.pnlShortcuts.Location = new System.Drawing.Point(45, 194);
@@ -284,6 +288,8 @@
             // pnlAddShortcut
             // 
             this.pnlAddShortcut.AllowDrop = true;
+            this.pnlAddShortcut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlAddShortcut.Controls.Add(this.cmdAddShortcut);
             this.pnlAddShortcut.Controls.Add(this.lblErrorShortcut);
             this.pnlAddShortcut.Controls.Add(this.lblAddShortcut);
@@ -341,6 +347,8 @@
             // 
             // pnlColor
             // 
+            this.pnlColor.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlColor.Controls.Add(this.numOpacDown);
             this.pnlColor.Controls.Add(this.numOpacUp);
             this.pnlColor.Controls.Add(this.lblPercent);
@@ -508,6 +516,8 @@
             // 
             // pnlEnd
             // 
+            this.pnlEnd.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlEnd.Controls.Add(this.cmdDelete);
             this.pnlEnd.Controls.Add(this.cmdSave);
             this.pnlEnd.Controls.Add(this.cmdExit);
@@ -546,6 +556,8 @@
             // 
             // pnlArguments
             // 
+            this.pnlArguments.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlArguments.Controls.Add(this.label7);
             this.pnlArguments.Controls.Add(this.label6);
             this.pnlArguments.Controls.Add(this.cmdSelectDirectory);
@@ -671,6 +683,7 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New group";
             this.Load += new System.EventHandler(this.frmGroup_Load);
+            this.SizeChanged += new System.EventHandler(this.frmGroup_SizeChanged);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.frmGroup_MouseClick);
             this.pnlGroupIcon.ResumeLayout(false);
             this.pnlGroupIcon.PerformLayout();
