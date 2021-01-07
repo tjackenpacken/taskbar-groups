@@ -7,6 +7,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace client.Classes
@@ -68,65 +69,72 @@ namespace client.Classes
 
         public void CreateConfig(Image groupImage)
         {
-
-            if (folderPath == null) {
-                folderPath = MainPath.path + @"\config\" + this.Name;
-            }
-            //string filePath = path + @"\" + this.Name + "Group.exe";
-            //
-            // Directory and .exe
-            //
-            System.IO.Directory.CreateDirectory(folderPath);
-
-            //System.IO.File.Copy(@"config\config.exe", @filePath);
-
-
-            writeXML();
-
-            //
-            // Create .ico
-            //
-
-            Image img = ImageFunctions.ResizeImage(groupImage, 256, 256); // Resize img if too big
-            img.Save(folderPath + @"\GroupImage.png");
-
-            if (GetMimeType(groupImage).ToString() == "*.PNG")
+            try
             {
-                createMultiIcon(groupImage, folderPath + @"\GroupIcon.ico");
-            }
-            else { 
-                using (FileStream fs = new FileStream(folderPath + @"\GroupIcon.ico", FileMode.Create))
+                if (folderPath == null)
                 {
-                    ImageFunctions.IconFromImage(img).Save(fs);
-                    fs.Close();
+                    folderPath = MainPath.path + @"\config\" + this.Name;
                 }
+                //string filePath = path + @"\" + this.Name + "Group.exe";
+                //
+                // Directory and .exe
+                //
+                System.IO.Directory.CreateDirectory(folderPath);
+
+                //System.IO.File.Copy(@"config\config.exe", @filePath);
+
+
+                writeXML();
+
+                //
+                // Create .ico
+                //
+
+                Image img = ImageFunctions.ResizeImage(groupImage, 256, 256); // Resize img if too big
+                img.Save(folderPath + @"\GroupImage.png");
+
+                if (GetMimeType(groupImage).ToString() == "*.PNG")
+                {
+                    createMultiIcon(groupImage, folderPath + @"\GroupIcon.ico");
+                }
+                else
+                {
+                    using (FileStream fs = new FileStream(folderPath + @"\GroupIcon.ico", FileMode.Create))
+                    {
+                        ImageFunctions.IconFromImage(img).Save(fs);
+                        fs.Close();
+                    }
+                }
+
+
+                // Through shellLink.cs class, pass through into the function information on how to construct the icon
+                // Needed due to needing to set a unique AppUserModelID so the shortcut applications don't stack on the taskbar with the main application
+                // Tricks Windows to think they are from different applications even though they are from the same .exe
+                ShellLink.InstallShortcut(
+                    Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName),
+                    "tjackenpacken.taskbarGroup.menu." + this.Name,
+                     folderPath + " shortcut",
+                     Path.GetFullPath(folderPath),
+                     Path.GetFullPath(folderPath + @"\GroupIcon.ico"),
+                     folderPath + "\\" + this.Name + ".lnk",
+                     this.Name
+                );
+
+
+                // Build the icon cache
+                cacheIcons();
+
+                System.IO.File.Move(folderPath + "\\" + this.Name + ".lnk",
+                    Path.GetFullPath(@"Shortcuts\" + Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
             }
-
-
-            // Through shellLink.cs class, pass through into the function information on how to construct the icon
-            // Needed due to needing to set a unique AppUserModelID so the shortcut applications don't stack on the taskbar with the main application
-            // Tricks Windows to think they are from different applications even though they are from the same .exe
-            ShellLink.InstallShortcut(
-                Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName),
-                "tjackenpacken.taskbarGroup.menu." + this.Name,
-                 folderPath + " shortcut",
-                 Path.GetFullPath(folderPath),
-                 Path.GetFullPath(folderPath + @"\GroupIcon.ico"),
-                 folderPath + "\\" + this.Name + ".lnk",
-                 this.Name
-            );
-
-
-            // Build the icon cache
-            cacheIcons();
-
-            System.IO.File.Move(folderPath + "\\" + this.Name + ".lnk",
-                Path.GetFullPath(@"Shortcuts\" + Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
-
-            Process p = new Process();
-            p.StartInfo.FileName = MainPath.exeString;
-            p.StartInfo.Arguments = this.Name + " setGroupContextMenu";
-            p.Start();
+            catch { }
+            finally
+            {
+                Process p = new Process();
+                p.StartInfo.FileName = MainPath.exeString;
+                p.StartInfo.Arguments = this.Name + " setGroupContextMenu";
+                p.Start();
+            }
         }
 
         public bool updateRecentlyOpened(ProgramShortcut shortcutPressed)

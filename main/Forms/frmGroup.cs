@@ -220,7 +220,7 @@ namespace client.Forms
         {
             String workingDirec = getProperDirectory(file);
 
-            ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file), isWindowsApp = isExtension, WorkingDirectory = workingDirec }; //Create new shortcut obj
+            ProgramShortcut psc = new ProgramShortcut() { FilePath = expandEnvironment(file), isWindowsApp = isExtension, WorkingDirectory = workingDirec }; //Create new shortcut obj
             Category.ShortcutList.Add(psc); // Add to panel shortcut list
             LoadShortcut(psc, Category.ShortcutList.Count - 1);
         }
@@ -380,14 +380,14 @@ namespace client.Forms
             // Checks for link iconLocations as those are used by some applications
             if (icLocation[0] != "" && !lnkIcon.IconLocation.Contains("http"))
             {
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(icLocation[0]))).ToBitmap();
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(icLocation[0]))).ToBitmap();
             }
             else if (icLocation[0] == "" && lnkIcon.TargetPath == "")
             {
                 return handleWindowsApp.getWindowsAppIcon(file);
             } else
             {
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(lnkIcon.TargetPath))).ToBitmap();
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(lnkIcon.TargetPath))).ToBitmap();
             }
         }
 
@@ -514,7 +514,7 @@ namespace client.Forms
 
                     foreach(ProgramShortcut shortcutModifiedItem in shortcutChanged)
                     {
-                        shortcutModifiedItem.WorkingDirectory = Environment.ExpandEnvironmentVariables(shortcutModifiedItem.WorkingDirectory);
+                        shortcutModifiedItem.WorkingDirectory = expandEnvironment(shortcutModifiedItem.WorkingDirectory);
                         if (!Directory.Exists(shortcutModifiedItem.WorkingDirectory))
                         {
                             shortcutModifiedItem.WorkingDirectory = getProperDirectory(shortcutModifiedItem.FilePath);
@@ -863,6 +863,16 @@ namespace client.Forms
         private void frmGroup_MouseClick(object sender, MouseEventArgs e)
         {
             resetSelection();
+        }
+
+        public static String expandEnvironment(string path)
+        {
+           if (path.Contains("%ProgramFiles%"))
+           {
+                path = path.Replace("%ProgramFiles%", "%ProgramW6432%");
+           }
+
+            return Environment.ExpandEnvironmentVariables(path);
         }
     }
 }
