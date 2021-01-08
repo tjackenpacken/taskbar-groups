@@ -7,14 +7,7 @@ namespace client
 {
     class IconApplicationContext : TrayIconApplicationContext
     {
-        private string passedDirectory;
-        private int cursorPosX;
-        private int cursorPosY;
-
-        bool isClient = false;
-
         private frmClient frmClient;
-        private frmMain frmMain;
 
         public IconApplicationContext()
         {
@@ -24,22 +17,15 @@ namespace client
             ContextMenu.Items.Add("Taskbar Group", null, this.SettingsContextMenuClickHandler);
             ContextMenu.Items.Add("E&xit", null, this.ExitContextMenuClickHandler);
 
-            isClient = true;
-        }
+            if (Properties.Settings.Default.FirstRun == true)
+            {
+                frmClient = new frmClient();
+                frmClient.Show();
 
-        public IconApplicationContext(string _passedDirectory, int _cursorPosX, int _cursorPosY)
-        {
-            TrayIcon.Icon = Resources.Icon;
-            TrayIcon.Visible = true;
-
-            ContextMenu.Items.Add("Taskbar Group", null, this.SettingsContextMenuClickHandler).Font = new Font(this.ContextMenu.Font, FontStyle.Bold);
-            ContextMenu.Items.Add("E&xit", null, this.ExitContextMenuClickHandler);
-            
-            passedDirectory = _passedDirectory;
-            cursorPosX = _cursorPosX;
-            cursorPosY = _cursorPosY;
-
-            isClient = false;
+                //Change the value since the program has run once now
+                Properties.Settings.Default.FirstRun = false;
+                Properties.Settings.Default.Save();
+            }
         }
 
         protected override void OnApplicationExit(EventArgs e)
@@ -59,45 +45,22 @@ namespace client
 
         private void ShowSettings()
         {
-            if (isClient)
+            if (frmClient != null)
             {
-                if (frmClient != null)
-                {
-                    if (frmClient.IsDisposed)
-                    {
-                        frmClient = new frmClient();
-                        frmClient.Show();
-                    }
-                    else
-                    {
-                        frmClient.BringToFront();
-                    }
-                }
-                else
+                if (frmClient.IsDisposed)
                 {
                     frmClient = new frmClient();
                     frmClient.Show();
                 }
+                else
+                {
+                    frmClient.BringToFront();
+                }
             }
             else
             {
-                if (frmMain != null)
-                {
-                    if (frmMain.IsDisposed)
-                    {
-                        frmMain = new frmMain(passedDirectory, cursorPosX, cursorPosY);
-                        frmMain.Show();
-                    }
-                    else
-                    {
-                        frmMain.BringToFront();
-                    }
-                }
-                else
-                {
-                    frmMain = new frmMain(passedDirectory, cursorPosX, cursorPosY);
-                    frmMain.Show();                    
-                }
+                frmClient = new frmClient();
+                frmClient.Show();
             }
         }
     }
