@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Windows.Forms;
 
 namespace client
@@ -38,10 +39,12 @@ namespace client
 
         private List<string> argumentList;
 
+        private Mutex releaseMutex;
+
         //------------------------------------------------------------------------------------
         // CTOR AND LOAD
         //
-        public frmMain(string passedDirectory, int cursorPosX, int cursorPosY, List<string> arguments)
+        public frmMain(string passedDirectory, int cursorPosX, int cursorPosY, List<string> arguments, Mutex mutexPassed)
         {
             InitializeComponent();
 
@@ -50,6 +53,7 @@ namespace client
             passedDirec = passedDirectory;
             FormBorderStyle = FormBorderStyle.None;
             argumentList = arguments;
+            releaseMutex = mutexPassed;
 
             using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(MainPath.path + "\\config\\" + passedDirec + "\\GroupIcon.ico")))
                 this.Icon = new Icon(ms);
@@ -98,7 +102,6 @@ namespace client
                 {
                     argumentMatch[0].ucShortcut_Click(argumentMatch[0], new EventArgs());
                 }
-
                 Application.Exit();
             }
 

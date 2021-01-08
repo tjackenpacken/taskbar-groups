@@ -7,7 +7,7 @@ using client.Classes;
 using System.Diagnostics;
 using Microsoft.WindowsAPICodePack.Taskbar;
 using System.Linq;
-using System.Collections.Generic;
+using System.Threading;
 
 namespace client
 {
@@ -80,7 +80,17 @@ namespace client
                     // Distinguishes each shortcut process from one another to prevent them from stacking with the main application
                     SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.menu." + arguments[1]);
 
-                    Application.Run(new frmMain(arguments[1], cursorX, cursorY, arguments.ToList()));
+                    System.Threading.Mutex mutexThread = new Mutex(true, "tjackenpacken.taskbarGroup.menu." + arguments[1]);
+
+                    try
+                    {
+                        if (!mutexThread.WaitOne(TimeSpan.Zero, false))
+                        {
+                            Application.Exit();
+                        }
+                    }
+                    catch { }
+                    Application.Run(new frmMain(arguments[1], cursorX, cursorY, arguments.ToList(), mutexThread));
                 } else if (arguments[1] == "editingGroupMode")
                 {
                     // See comment above
