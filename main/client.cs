@@ -77,7 +77,7 @@ namespace client
             {
                 // See comment above
                 SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");
-                Application.Run(new frmClient());
+                Application.Run(new IconApplicationContext());
             }
         }
     }
