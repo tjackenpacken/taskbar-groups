@@ -94,6 +94,7 @@
     <Compile Include="Classes\MainPath.cs" />
     <Compile Include="Classes\ProgramShortcut.cs" />
     <Compile Include="Classes\ShellLink.cs" />
+    <Compile Include="IconApplicationContext.cs" />
     <Compile Include="Forms\frmClient.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,6 +115,7 @@
       <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TrayIconApplicationContext.cs" />
     <Compile Include="User controls\ucCategoryPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -198,7 +200,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icon.ico" />
+    <Content Include="Icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Taskbar groups icon.ico" />
   </ItemGroup>
   <ItemGroup>

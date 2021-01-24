@@ -16,10 +16,9 @@ namespace client.Forms
         public frmClient()
         {
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
-            InitializeComponent();
+            InitializeComponent();           
             this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
             Reload();
-
             currentVersion.Text = "v" + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
 
             githubVersion.Text = Task.Run(() => getVersionData()).Result;

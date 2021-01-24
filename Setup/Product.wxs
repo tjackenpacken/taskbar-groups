@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<?define client_TargetDir=$(var.client.TargetDir)?>
+	<Product Id="17a4f85a-1219-4143-a0d6-e9ebc6084064" Name="TaskbarGroups" Language="1033" Version="1.0.0.0" Manufacturer="github.com" UpgradeCode="3936e1bc-c06c-45ae-b1db-430cf31dd48b">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<Icon Id="icon.ico" SourceFile="$(var.ProjectDir)Icon.ico" />
+		<Property Id="ARPPRODUCTICON" Value="icon.ico" />
+
+
+		<WixVariable Id="WixUILicenseRtf" Value="$(var.ProjectDir)\license.rtf" />
+
+		<Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+		<UIRef Id="WixUI_InstallDir" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate EmbedCab="yes" />
+
+		<Feature Id="ProductFeature" Title="TaskbarGroups" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+			<ComponentRef Id="ApplicationShortcut" />
+			<ComponentRef Id="ApplicationShortcutDesktop" />
+			<ComponentRef Id="config_files" />
+			<ComponentGroupRef Id="JITComp_files" />
+			<ComponentRef Id="Shortcuts_files" />
+		</Feature>
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="TaskbarGroups">
+					<Directory Id="config" Name="config">
+						<Component Id="config_files" Guid="e29f1a9e-3ede-40d6-aba0-bfe451002ee2" SharedDllRefCount="no" KeyPath="no" NeverOverwrite="no" Permanent="no" Transitive="no" Win64="no" Location="either">
+							<CreateFolder/>
+						</Component>						
+					</Directory>
+					<Directory Id="JITComp" Name="JITComp" />
+					<Directory Id="Shortcuts" Name="Shortcuts">
+						<Component Id="Shortcuts_files" Guid="e29f1a9e-3ede-40d6-aba0-bfe451002ee3" SharedDllRefCount="no" KeyPath="no" NeverOverwrite="no" Permanent="no" Transitive="no" Win64="no" Location="either">
+							<CreateFolder/>
+						</Component>
+					</Directory>
+				</Directory>
+			</Directory>
+			<Directory Id="ProgramMenuFolder">
+				<Directory Id="ApplicationProgramsFolder" Name="TaskbarGroups" />
+			</Directory>
+			<Directory Id="DesktopFolder" Name="Desktop" />
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<DirectoryRef Id="ApplicationProgramsFolder">
+			<Component Id="ApplicationShortcut" Guid="9bd13330-6540-406f-a3a8-d7f7c69ae7f9">
+				<Shortcut Id="ApplicationStartMenuShortcut" Name="TaskbarGroups" Description="TaskbarGroups" Target="[INSTALLFOLDER]TaskbarGroups.exe" WorkingDirectory="INSTALLFOLDER" />
+				<RemoveFolder Id="RemoveApplicationProgramsFolder" Directory="ApplicationProgramsFolder" On="uninstall" />
+				<RegistryValue Root="HKCU" Key="Software\TaskbarGroups" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+		<DirectoryRef Id="DesktopFolder">
+			<Component Id="ApplicationShortcutDesktop" Guid="cde1e030-eb64-49a5-b7b8-400b379c2d1a">
+				<Shortcut Id="ApplicationDesktopShortcut" Name="TaskbarGroups" Description="TaskbarGroups" Target="[INSTALLFOLDER]TaskbarGroups.exe" WorkingDirectory="INSTALLFOLDER" />
+				<RemoveFolder Id="RemoveDesktopFolder" Directory="DesktopFolder" On="uninstall" />
+				<RegistryValue Root="HKCU" Key="Software\TaskbarGroups" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+			</Component>
+		</DirectoryRef>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<!-- <Component Id="ProductComponent"> -->
+			<!-- TODO: Insert files, registry keys, and other resources here. -->
+			<!-- </Component> -->
+			<Component Id="TaskbarGroups.exe" Guid="0f9a1acd-803f-4ecb-a283-7537a05a5eb1">
+				<File Id="TaskbarGroups.exe" Name="TaskbarGroups.exe" Source="$(var.client_TargetDir)TaskbarGroups.exe" />
+			</Component>
+			<Component Id="TaskbarGroups.exe.config" Guid="749595ae-e1ec-4afa-93ef-3a9ae3b938f7">
+				<File Id="TaskbarGroups.exe.config" Name="TaskbarGroups.exe.config" Source="$(var.client_TargetDir)TaskbarGroups.exe.config" />
+			</Component>
+			<Component Id="Icon.ico" Guid="16572e80-4a83-4302-b4e3-68d5d65276e2">
+				<File Id="Icon.ico" Name="Icon.ico" Source="$(var.client_TargetDir)Icon.ico" />
+			</Component>
+			<Component Id="TaskbarGroups.pdb" Guid="c701a409-833d-4860-abc6-e8674cfb114c">
+				<File Id="TaskbarGroups.pdb" Name="TaskbarGroups.pdb" Source="$(var.client_TargetDir)TaskbarGroups.pdb" />
+			</Component>
+		</ComponentGroup>
+	</Fragment>
+	<Fragment>
+		<ComponentGroup Id="Shortcuts_files" Directory="Shortcuts">
+		</ComponentGroup>
+		<ComponentGroup Id="JITComp_files" Directory="JITComp">
+			<Component Id="frmClient.Profile" Guid="aea868c1-2d18-400d-88fa-e506b16ef130">
+				<File Id="frmClient.Profile" Name="frmClient.Profile" Source="$(var.client_TargetDir)\JITComp\frmClient.Profile" />
+			</Component>
+		</ComponentGroup>
+		<ComponentGroup Id="config_files" Directory="config">
+		</ComponentGroup>
+	</Fragment>
+</Wix>
