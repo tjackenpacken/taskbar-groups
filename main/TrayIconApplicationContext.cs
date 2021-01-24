@@ -1,5 +1,8 @@
-﻿using client.Properties;
+﻿using client.Forms;
+using client.Properties;
 using System;
+using System.Drawing;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace client
@@ -8,23 +11,57 @@ namespace client
     {
         private readonly NotifyIcon _notifyIcon;
         private readonly ContextMenuStrip _contextMenu;
-
+        private frmClient _frmClient;
         protected TrayIconApplicationContext()
         {
             _contextMenu = new ContextMenuStrip();
             _notifyIcon = new NotifyIcon();
+            _frmClient = new frmClient();
 
             Application.ApplicationExit += this.ApplicationExitHandler;
             
-            this.TrayIcon.MouseClick += TrayIcon_MouseClick;
-            
+            this.TrayIcon.MouseDoubleClick += TrayIcon_MouseDoubleClick;
+
             this.TrayIcon.Icon = Resources.Icon;
             this.TrayIcon.ContextMenuStrip = this.ContextMenu;
         }
 
-        private void TrayIcon_MouseClick(object sender, MouseEventArgs e)
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        internal static extern bool GetCursorPos(ref Win32Point pt);
+
+        [StructLayout(LayoutKind.Sequential)]
+        internal struct Win32Point
         {
-            _contextMenu.Visible = true;
+            public Int32 X;
+            public Int32 Y;
+        };
+        public static Point GetMousePosition()
+        {
+            var w32Mouse = new Win32Point();
+            GetCursorPos(ref w32Mouse);
+
+            return new Point(w32Mouse.X, w32Mouse.Y);
+        }
+
+        private void TrayIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (_frmClient.IsDisposed)
+                {
+                    _frmClient = new frmClient();
+                    _frmClient.Show();
+                }
+                else
+                { _frmClient.Show(); }
+            }
+
+            if (e.Button == MouseButtons.Right)
+            {
+                _contextMenu.Show(GetMousePosition());
+                _contextMenu.Visible = true;
+            }
         }
 
         protected virtual void OnApplicationExit(EventArgs e)
