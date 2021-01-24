@@ -200,7 +200,9 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Icon.ico" />
+    <Content Include="Icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Taskbar groups icon.ico" />
   </ItemGroup>
   <ItemGroup>
