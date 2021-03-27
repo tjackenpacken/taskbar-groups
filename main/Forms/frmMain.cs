@@ -111,11 +111,10 @@ namespace client
         // Sets location of form
         private void SetLocation()
         {
-            List<Rectangle> taskbarList = FindDockedTaskBars();
+            Dictionary<String, Rectangle> taskbarList = FindDockedTaskBars();
             Rectangle taskbar = new Rectangle();
             Rectangle screen = new Rectangle();
 
-            int i = 0;
             int locationy;
             int locationx;
             if (taskbarList.Count != 0)
@@ -128,9 +127,9 @@ namespace client
                         screen.Y = scr.Bounds.Y;
                         screen.Width = scr.Bounds.Width;
                         screen.Height = scr.Bounds.Height;
-                        taskbar = taskbarList[i];
+                        taskbarList.TryGetValue(scr.DeviceName, out taskbar);
+                        break;
                     }
-                    i++;
                 }
 
                 if (taskbar.Contains(mouseClick)) // Click on taskbar
@@ -199,7 +198,6 @@ namespace client
                         screen.Width = scr.Bounds.Width;
                         screen.Height = scr.Bounds.Height;
                     }
-                    i++;
                 }
 
                 if (mouseClick.Y > Screen.PrimaryScreen.Bounds.Height - 35)
@@ -228,9 +226,10 @@ namespace client
             }
         }
         // Search for active taskbars on screen
-        public static List<Rectangle> FindDockedTaskBars()
+        public static Dictionary<String, Rectangle> FindDockedTaskBars()
         {
-            List<Rectangle> dockedRects = new List<Rectangle>();
+            var dockedRects = new Dictionary<String, Rectangle>();
+
             foreach (var tmpScrn in Screen.AllScreens)
             {
                 if (!tmpScrn.Bounds.Equals(tmpScrn.WorkingArea))
@@ -274,7 +273,7 @@ namespace client
                         // Nothing found!
                     }
 
-                    dockedRects.Add(rect);
+                    dockedRects.Add(tmpScrn.DeviceName, rect);
                 }
             }
 
