@@ -24,11 +24,12 @@ namespace client.Classes
         {
             userShortcutCategory = new JumpListCustomCategory("Recently Opened Applications");
 
+            string categoryPath = Path.Combine(Paths.ConfigPath, category.Name);
             foreach (ProgramShortcut programShortcut in category.recentlyOpened)
             {
-                JumpListLink recentlyOpenedShortcut = new JumpListLink(MainPath.exeString, programShortcut.name);
+                JumpListLink recentlyOpenedShortcut = new JumpListLink(Paths.exeString, programShortcut.name);
                 recentlyOpenedShortcut.Arguments = category.Name + " " + programShortcut.name;
-                recentlyOpenedShortcut.IconReference = new IconReference(MainPath.path + @"\config\" + category.Name + @"\GroupIcon.ico", 0);
+                recentlyOpenedShortcut.IconReference = new IconReference(Path.Combine(categoryPath, "GroupIcon.ico"), 0);
                 userShortcutCategory.AddJumpListItems(recentlyOpenedShortcut);
             }
 
@@ -36,16 +37,16 @@ namespace client.Classes
 
             JumpListCustomCategory userTaskbarCategory = new JumpListCustomCategory("Taskbar Groups");
 
-            JumpListLink openEdit = new JumpListLink(MainPath.exeString, "Edit Group");
+            JumpListLink openEdit = new JumpListLink(Paths.exeString, "Edit Group");
             openEdit.Arguments = "editingGroupMode " + category.Name;
-            openEdit.IconReference = new IconReference(MainPath.path + @"\config\" + category.Name + @"\GroupIcon.ico", 0);
+            openEdit.IconReference = new IconReference(Path.Combine(categoryPath, "GroupIcon.ico"), 0);
             userTaskbarCategory.AddJumpListItems(openEdit);
 
             if (category.allowOpenAll)
             {
-                JumpListLink openAllShortcuts = new JumpListLink(MainPath.exeString, "Open all shortcuts");
+                JumpListLink openAllShortcuts = new JumpListLink(Paths.exeString, "Open all shortcuts");
                 openAllShortcuts.Arguments = category.Name + " tskBaropen_allGroup";
-                openAllShortcuts.IconReference = new IconReference(MainPath.path + @"\config\" + category.Name + @"\GroupIcon.ico", 0);
+                openAllShortcuts.IconReference = new IconReference(Path.Combine(categoryPath, "GroupIcon.ico"), 0);
                 userTaskbarCategory.AddJumpListItems(openAllShortcuts);
             }
 
@@ -56,7 +57,7 @@ namespace client.Classes
 
         public void addItemToShortcutCut(Category category, ProgramShortcut programShortcut)
         {
-            JumpListLink recentlyOpenedShortcut = new JumpListLink(MainPath.exeString, programShortcut.name);
+            JumpListLink recentlyOpenedShortcut = new JumpListLink(Paths.exeString, programShortcut.name);
             recentlyOpenedShortcut.Arguments = category.Name + " " + programShortcut.name;
             userShortcutCategory.AddJumpListItems(recentlyOpenedShortcut);
 

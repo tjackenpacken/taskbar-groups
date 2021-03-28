@@ -403,8 +403,9 @@ namespace client
 
             try
             {
-                if (keyList.Contains(e.Keycode)) {
-                    ControlList[Array.IndexOf(keyList, e.Keycode)].ucShortcut_MouseEnter(sender, e);
+
+                if (keyList.Contains(e.KeyCode)) {
+                    ControlList[Array.IndexOf(keyList, e.KeyCode)].ucShortcut_MouseEnter(sender, e);
                 }
                 /*
                 switch (e.KeyCode)
@@ -461,9 +462,10 @@ namespace client
 
             try
             {
-                if (keyList.Contains(e.Keycode)) {
-                    ControlList[Array.IndexOf(keyList, e.Keycode)].ucShortcut_MouseEnter(sender, e);
-                    ControlList[Array.IndexOf(keyList, e.Keycode)].ucShortcut_Click(sender, e);
+                if (keyList.Contains(e.KeyCode)) {
+                    //ControlList[Array.IndexOf(keyList, e.KeyCode)].ucShortcut_MouseEnter(sender, e);
+                    ControlList[Array.IndexOf(keyList, e.KeyCode)].ucShortcut_Click(sender, e);
+                    ControlList[Array.IndexOf(keyList, e.KeyCode)].ucShortcut_Click(sender, e);
                 }
 
                 /*

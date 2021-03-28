@@ -43,7 +43,7 @@ namespace client.Classes
                 if (lastIndexOf != -1)
                 { 
                     logoLocation = logoLocation.Substring(0, logoLocation.LastIndexOf(@"\"));
-                    String logoLocationFullPath = Path.GetFullPath(Path.Combine(appPath, logoLocation));
+                    logoLocationFullPath = Path.GetFullPath(Path.Combine(appPath, logoLocation));
                 } else
                 {
                     logoLocationFullPath = Path.GetFullPath(appPath + "\\");

@@ -25,8 +25,7 @@ namespace client.Classes
         Regex specialCharRegex = new Regex("[*'\",_&#^@]");
 
         private static int[] iconSizes = new int[] {16,32,64,128,256,512};
-
-        string folderPath;
+        private string path;
 
         public Category(string path)
         {
@@ -65,7 +64,7 @@ namespace client.Classes
                 this.allowOpenAll = category.allowOpenAll;
                 this.recentlyOpened = category.recentlyOpened;
             }
-            folderPath = MainPath.path + @"\config\" + this.Name;
+
         }
 
         public Category() // needed for XML serialization
@@ -77,15 +76,11 @@ namespace client.Classes
         {
             try
             {
-                if (folderPath == null)
-                {
-                    folderPath = MainPath.path + @"\config\" + this.Name;
-                }
                 //string filePath = path + @"\" + this.Name + "Group.exe";
                 //
                 // Directory and .exe
                 //
-                string path = Path.Combine(Paths.ConfigPath, this.Name);
+                path = Path.Combine(Paths.ConfigPath, this.Name);
                 System.IO.Directory.CreateDirectory(@path);
 
                 //System.IO.File.Copy(@"config\config.exe", @filePath);
@@ -138,7 +133,7 @@ namespace client.Classes
             finally
             {
                 Process p = new Process();
-                p.StartInfo.FileName = MainPath.exeString;
+                p.StartInfo.FileName = Paths.exeString;
                 p.StartInfo.Arguments = this.Name + " setGroupContextMenu";
                 p.Start();
             }
@@ -169,7 +164,7 @@ namespace client.Classes
             System.Xml.Serialization.XmlSerializer writer =
                 new System.Xml.Serialization.XmlSerializer(typeof(Category));
 
-            using (FileStream file = System.IO.File.Create(Path.Combine(path, "ObjectData.xml")))
+            using (FileStream file = System.IO.File.Create(Path.Combine(@path, "ObjectData.xml")))
             {
                 writer.Serialize(file, this);
                 file.Close();

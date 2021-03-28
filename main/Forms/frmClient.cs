@@ -30,8 +30,9 @@ namespace client.Forms
 
             githubVersion.Text = Task.Run(() => getVersionData()).Result;
 
-            if (arguments.Count > 2 && arguments[1] == "editingGroupMode" && Directory.Exists(MainPath.path + @"\config\" + arguments[2]))
+            if (arguments.Count > 2 && arguments[1] == "editingGroupMode" && Directory.Exists(Path.Combine(Paths.ConfigPath, arguments[2])))
             {
+                
                 try
                 {
                     frmGroup editGroup = new frmGroup(this, categoryList.Where(cat => cat.Name == arguments[2]).First());

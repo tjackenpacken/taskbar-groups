@@ -29,7 +29,7 @@ namespace client.User_controls
 
         public void ucShortcut_Click(object sender, EventArgs e)
         {
-            if(ThisCategory.updateRecentlyOpened(Psc))
+            if (ThisCategory.updateRecentlyOpened(Psc))
             {
                 frmMain.jumpList.addItemToShortcutCut(ThisCategory, Psc);
             }

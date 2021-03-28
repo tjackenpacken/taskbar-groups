@@ -64,7 +64,7 @@ namespace client
 
             if (arguments.Length > 1) // Checks for additional arguments; opens either main application or taskbar drawer application
             {
-                if (Directory.Exists(MainPath.path + @"\config\" + arguments[1]))
+                if (Directory.Exists(Path.Combine(Paths.ConfigPath, arguments[1])))
                 {
                     // Sets the AppUserModelID to tjackenpacken.taskbarGroup.menu.groupName
                     // Distinguishes each shortcut process from one another to prevent them from stacking with the main application
