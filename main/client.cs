@@ -32,18 +32,8 @@ namespace client
             int cursorX = Cursor.Position.X;
             int cursorY = Cursor.Position.Y;
 
-            // Set the MainPath to the absolute path where the exe is located
-            MainPath.path = Path.GetFullPath(new Uri(Path.GetDirectoryName(AppDomain.CurrentDomain.BaseDirectory)).LocalPath);
-            MainPath.exeString = Path.GetFullPath(new Uri(AppDomain.CurrentDomain.BaseDirectory + System.AppDomain.CurrentDomain.FriendlyName).LocalPath);
-
-            // Creats folder for JIT compilation 
-            Directory.CreateDirectory($"{MainPath.path}\\JITComp");
-
-            // Creates directory in case it does not exist for config files
-            Directory.CreateDirectory($"{MainPath.path}\\config");
-            Directory.CreateDirectory($"{MainPath.path}\\Shortcuts");
-
-            System.Runtime.ProfileOptimization.SetProfileRoot(MainPath.path + "\\JITComp");
+            // Creates folder for JIT compilation.
+            System.Runtime.ProfileOptimization.SetProfileRoot(Paths.OptimizationProfilePath);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -53,14 +43,14 @@ namespace client
 
             try
             {
-                System.IO.File.Create(MainPath.path + "\\directoryTestingDocument.txt").Close();
-                System.IO.File.Delete(MainPath.path + "\\directoryTestingDocument.txt");
+                System.IO.File.Create(Paths.path + "\\directoryTestingDocument.txt").Close();
+                System.IO.File.Delete(Paths.path + "\\directoryTestingDocument.txt");
             }
             catch
             {
                 using (Process configTool = new Process())
                 {
-                    configTool.StartInfo.FileName = MainPath.exeString;
+                    configTool.StartInfo.FileName = Paths.exeString;
                     configTool.StartInfo.Verb = "runas";
                     try
                     {

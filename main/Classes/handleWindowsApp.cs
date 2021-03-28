@@ -26,7 +26,7 @@ namespace client.Classes
 
             // Load and read manifest to get the logo path
             XmlDocument appManifest = new XmlDocument();
-            appManifest.Load(appPath + "\\AppxManifest.xml");
+            appManifest.Load(Path.Combine(appPath, "AppxManifest.xml"));
 
             XmlNamespaceManager appManifestNamespace = new XmlNamespaceManager(new NameTable());
             appManifestNamespace.AddNamespace("sm", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
@@ -43,11 +43,12 @@ namespace client.Classes
                 if (lastIndexOf != -1)
                 { 
                     logoLocation = logoLocation.Substring(0, logoLocation.LastIndexOf(@"\"));
-                    logoLocationFullPath = Path.GetFullPath(appPath + "\\" + logoLocation);
+                    String logoLocationFullPath = Path.GetFullPath(Path.Combine(appPath, logoLocation));
                 } else
                 {
                     logoLocationFullPath = Path.GetFullPath(appPath + "\\");
                 }
+                
 
                 // Search for all files with 150x150 in its name and use the first result
                 DirectoryInfo logoDirectory = new DirectoryInfo(logoLocationFullPath);
@@ -116,7 +117,7 @@ namespace client.Classes
                 {
                     IEnumerable<Windows.ApplicationModel.Package> packages = pkgManger.FindPackagesForUser("", subAppName);
 
-
+                    // TODO: This should probably use Path.Combine().
                     String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + packages.First().InstalledLocation.DisplayName + @"\";
                     fileDirectoryCache[subAppName] = finalPath;
                     return finalPath;
@@ -139,7 +140,7 @@ namespace client.Classes
 
                 // Load and read manifest to get the logo path
                 XmlDocument appManifest = new XmlDocument();
-            appManifest.Load(appPath + "\\AppxManifest.xml");
+            appManifest.Load(Path.Combine(appPath, "AppxManifest.xml"));
 
             XmlNamespaceManager appManifestNamespace = new XmlNamespaceManager(new NameTable());
             appManifestNamespace.AddNamespace("sm", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");

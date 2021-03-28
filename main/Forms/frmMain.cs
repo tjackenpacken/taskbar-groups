@@ -30,6 +30,7 @@ namespace client
 
         public Category ThisCategory;
         public List<ucShortcut> ControlList;
+        Keys[] keyList = new Keys[] {Keys.D1, Keys.D2,Keys.D3, Keys.D4,Keys.D5, Keys.D6,Keys.D7, Keys.D8,Keys.D9, Keys.D0};
         public Color HoverColor;
 
         private string passedDirec;
@@ -55,15 +56,16 @@ namespace client
             argumentList = arguments;
             releaseMutex = mutexPassed;
 
-            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(MainPath.path + "\\config\\" + passedDirec + "\\GroupIcon.ico")))
+            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(Path.Combine(Paths.ConfigPath, passedDirec, "GroupIcon.ico"))))
                 this.Icon = new Icon(ms);
 
-            ControlList = new List<ucShortcut>();
+            if (Directory.Exists(Path.Combine(Paths.ConfigPath, passedDirec)))
+                ControlList = new List<ucShortcut>();
 
-            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-            ThisCategory = new Category($"config\\{passedDirec}");
-            this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
-            Opacity = (1 - (ThisCategory.Opacity / 100));
+                this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+                ThisCategory = new Category(Path.Combine(Paths.ConfigPath, passedDirec));
+                this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
+                Opacity = (1 - (ThisCategory.Opacity / 100));
 
             if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
                 //if backcolor is light, set hover color as darker
@@ -302,7 +304,7 @@ namespace client
 
             // Check if icon caches exist for the category being loaded
             // If not then rebuild the icon cache
-            if (!Directory.Exists(@MainPath.path + @"\config\" + ThisCategory.Name + @"\Icons\"))
+            if (!Directory.Exists(Path.Combine(Paths.ConfigPath, ThisCategory.Name, "Icons")))
             {
                 ThisCategory.cacheIcons();
             }
@@ -401,6 +403,10 @@ namespace client
 
             try
             {
+                if (keyList.Contains(e.Keycode)) {
+                    ControlList[Array.IndexOf(keyList, e.Keycode)].ucShortcut_MouseEnter(sender, e);
+                }
+                /*
                 switch (e.KeyCode)
                 {
 
@@ -435,11 +441,13 @@ namespace client
                         ControlList[9].ucShortcut_MouseEnter(sender, e);
                         break;
                 }
+                */
             }
             catch
             {
 
             }
+            
         }
 
         private void frmMain_KeyUp(object sender, KeyEventArgs e)
@@ -453,6 +461,12 @@ namespace client
 
             try
             {
+                if (keyList.Contains(e.Keycode)) {
+                    ControlList[Array.IndexOf(keyList, e.Keycode)].ucShortcut_MouseEnter(sender, e);
+                    ControlList[Array.IndexOf(keyList, e.Keycode)].ucShortcut_Click(sender, e);
+                }
+
+                /*
                 switch (e.KeyCode)
                 {
                     case Keys.D1:
@@ -497,6 +511,7 @@ namespace client
                         ControlList[9].ucShortcut_Click(sender, e);
                         break;
                 }
+                */
             }
             catch
             {

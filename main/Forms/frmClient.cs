@@ -46,8 +46,7 @@ namespace client.Forms
             pnlExistingGroups.Controls.Clear();
             pnlExistingGroups.Height = 0;
 
-            string configPath = @MainPath.path + @"\config";
-            string[] subDirectories = Directory.GetDirectories(configPath);
+            string[] subDirectories = Directory.GetDirectories(Paths.ConfigPath);
             foreach (string dir in subDirectories)
             {
                 try
