@@ -27,8 +27,9 @@ namespace client.Classes
         private static int[] iconSizes = new int[] {16,32,64,128,256,512};
         private string path;
 
-        public Category(string path)
+        public Category(string inputPath)
         {
+            path = inputPath;
             // Use application's absolute path; (grabs the .exe)
             // Gets the parent folder of the exe and concats the rest of the path
             string fullPath;
@@ -46,7 +47,7 @@ namespace client.Classes
             else
             {
             */
-            fullPath = Path.GetFullPath(Path.Combine(path, "ObjectData.xml"));
+            fullPath = Path.GetFullPath(Path.Combine(inputPath, "ObjectData.xml"));
             /*
             }
             */

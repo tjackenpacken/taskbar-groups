@@ -390,11 +390,12 @@ namespace client
             }
         }
 
+
         // Closes application upon deactivation
         private void frmMain_Deactivate(object sender, EventArgs e)
         {
             // closes program if user clicks outside form
-            this.Close();
+            Application.Exit();
         }
 
         // Keyboard shortcut handlers
@@ -463,8 +464,7 @@ namespace client
             try
             {
                 if (keyList.Contains(e.KeyCode)) {
-                    //ControlList[Array.IndexOf(keyList, e.KeyCode)].ucShortcut_MouseEnter(sender, e);
-                    ControlList[Array.IndexOf(keyList, e.KeyCode)].ucShortcut_Click(sender, e);
+                    ControlList[Array.IndexOf(keyList, e.KeyCode)].ucShortcut_MouseEnter(sender, e);
                     ControlList[Array.IndexOf(keyList, e.KeyCode)].ucShortcut_Click(sender, e);
                 }
 
