@@ -20,7 +20,6 @@ namespace client.Classes
         public List<ProgramShortcut> ShortcutList;
         public int Width; // not used aon
         public double Opacity = 10;
-        public List<ProgramShortcut> recentlyOpened = new List<ProgramShortcut>();
 
         Regex specialCharRegex = new Regex("[*'\",_&#^@]");
 
@@ -63,7 +62,6 @@ namespace client.Classes
                 this.ColorString = category.ColorString;
                 this.Opacity = category.Opacity;
                 this.allowOpenAll = category.allowOpenAll;
-                this.recentlyOpened = category.recentlyOpened;
             }
 
         }
@@ -140,22 +138,6 @@ namespace client.Classes
             }
         }
 
-        public bool updateRecentlyOpened(ProgramShortcut shortcutPressed)
-        {
-            if (!recentlyOpened.Where(pShortcut => pShortcut.FilePath == shortcutPressed.FilePath).Any())
-            {
-                if (recentlyOpened.Count >= 5)
-                {
-                    recentlyOpened.RemoveAt(0);
-                }
-                recentlyOpened.Add(shortcutPressed);
-                writeXML();
-                return true;
-            } else
-            {
-                return false;
-            }
-        }
 
         private void writeXML()
         {

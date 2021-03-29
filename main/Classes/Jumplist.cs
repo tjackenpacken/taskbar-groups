@@ -18,22 +18,10 @@ namespace client.Classes
             list.KnownCategoryToDisplay = JumpListKnownCategoryType.Recent;
         }
 
-        private JumpListCustomCategory userShortcutCategory;
-
         public void buildJumplist(Category category)
         {
-            userShortcutCategory = new JumpListCustomCategory("Recently Opened Applications");
 
             string categoryPath = Path.Combine(Paths.ConfigPath, category.Name);
-            foreach (ProgramShortcut programShortcut in category.recentlyOpened)
-            {
-                JumpListLink recentlyOpenedShortcut = new JumpListLink(Paths.exeString, programShortcut.name);
-                recentlyOpenedShortcut.Arguments = category.Name + " " + programShortcut.name;
-                recentlyOpenedShortcut.IconReference = new IconReference(Path.Combine(categoryPath, "GroupIcon.ico"), 0);
-                userShortcutCategory.AddJumpListItems(recentlyOpenedShortcut);
-            }
-
-            list.AddCustomCategories(userShortcutCategory);
 
             JumpListCustomCategory userTaskbarCategory = new JumpListCustomCategory("Taskbar Groups");
 
@@ -51,15 +39,6 @@ namespace client.Classes
             }
 
             list.AddCustomCategories(userTaskbarCategory);
-
-            list.Refresh();
-        }
-
-        public void addItemToShortcutCut(Category category, ProgramShortcut programShortcut)
-        {
-            JumpListLink recentlyOpenedShortcut = new JumpListLink(Paths.exeString, programShortcut.name);
-            recentlyOpenedShortcut.Arguments = category.Name + " " + programShortcut.name;
-            userShortcutCategory.AddJumpListItems(recentlyOpenedShortcut);
 
             list.Refresh();
         }
