@@ -9,7 +9,6 @@ using Windows.Data.Json;
 using System.Net.Http;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 
 namespace client.Forms
 {

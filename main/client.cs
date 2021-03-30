@@ -5,7 +5,6 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using client.Classes;
 using System.Diagnostics;
-using Microsoft.WindowsAPICodePack.Taskbar;
 using System.Linq;
 using System.Threading;
 
@@ -37,9 +36,6 @@ namespace client
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-
-            //defining a new Custom Category called Actions
-            JumpListCustomCategory userActionsCategory = new JumpListCustomCategory("Actions");
 
             try
             {

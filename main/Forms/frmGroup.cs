@@ -1,5 +1,4 @@
-﻿using ChinhDo.Transactions;
-using client.Classes;
+﻿using client.Classes;
 using client.User_controls;
 using IWshRuntimeLibrary;
 using System;
@@ -10,9 +9,10 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Windows.Forms;
+using System.Reflection;
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Dialogs;
-using System.Reflection;
+using ChinhDo.Transactions;
 
 namespace client.Forms
 {
@@ -39,12 +39,14 @@ namespace client.Forms
         // CTOR for creating a new group
         public frmGroup(frmClient client)
         {
+            intializeDLLs();
+
             // Setting from profile
             System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
 
             InitializeComponent();
 
-            // Setting default category properties
+            // Setting default category properties  
             newExt = imageExt.Concat(specialImageExt).ToArray();
             Category = new Category { ShortcutList = new List<ProgramShortcut>() };
             Client = client;
@@ -60,6 +62,9 @@ namespace client.Forms
         // CTOR for editing an existing group
         public frmGroup(frmClient client, Category category)
         {
+            intializeDLLs();
+
+
             // Setting form profile
             System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
 
@@ -79,7 +84,7 @@ namespace client.Forms
             lblOpacity.Text = Category.Opacity.ToString();
            
             if (Category.ColorString == null)  // Handles if groups is created from earlier releas w/o ColorString property
-                Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
+                Category.ColorString = ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
 
             Color categoryColor = ImageFunctions.FromString(Category.ColorString);
             
@@ -931,6 +936,22 @@ namespace client.Forms
             Point deleteButton = cmdDelete.FindForm().PointToClient(cmdDelete.Parent.PointToScreen(cmdDelete.Location));
             pnlDeleteConfo.Location = new Point(deleteButton.X - 63, deleteButton.Y - 100);
             pnlDeleteConfo.Visible = true;
+        }
+
+        private void intializeDLLs()
+        {
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                string resourceName = new AssemblyName(args.Name).Name + ".dll";
+                string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+                {
+                    Byte[] assemblyData = new Byte[stream.Length];
+                    stream.Read(assemblyData, 0, assemblyData.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            };
         }
     }
 }

@@ -130,11 +130,20 @@
   <data name="AddWhite" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\AddIconWhite.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="ChinhDo_Transactions_FileManager" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\lib\ChinhDo.Transactions.FileManager.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="Error" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Error.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="grayline" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\grayline.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="Microsoft_WindowsAPICodePack" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\lib\Microsoft.WindowsAPICodePack.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="Microsoft_WindowsAPICodePack_Shell" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\lib\Microsoft.WindowsAPICodePack.Shell.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="NumDown" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\NumDown.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
