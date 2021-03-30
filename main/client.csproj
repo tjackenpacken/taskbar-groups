@@ -49,6 +49,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
@@ -136,6 +137,7 @@
     </Compile>
     <EmbeddedResource Include="Forms\frmClient.resx">
       <DependentUpon>frmClient.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmGroup.resx">
       <DependentUpon>frmGroup.cs</DependentUpon>

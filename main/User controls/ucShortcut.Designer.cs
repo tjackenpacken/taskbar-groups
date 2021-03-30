@@ -40,6 +40,7 @@
             this.picIcon.Location = new System.Drawing.Point(16, 11);
             this.picIcon.Name = "picIcon";
             this.picIcon.Size = new System.Drawing.Size(23, 23);
+            this.picIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picIcon.TabIndex = 0;
             this.picIcon.TabStop = false;
             this.picIcon.Click += new System.EventHandler(this.ucShortcut_Click);

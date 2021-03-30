@@ -27,6 +27,13 @@ namespace client.User_controls
 
         private void ucProgramShortcut_Load(object sender, EventArgs e)
         {
+            // Ensure the shortcut name cannot be empty
+            if (Shortcut.name == "")
+            {
+                Shortcut.name = frmGroup.getShortcutName(Shortcut.name, Shortcut.isWindowsApp, Shortcut.FilePath);
+            }
+            txtShortcutName.Text = Shortcut.name;
+            /*
             // Grab the file name without the extension to be used later as the naming scheme for the icon .jpg image
             if (Shortcut.isWindowsApp)
             {
@@ -45,6 +52,7 @@ namespace client.User_controls
             {
                 txtShortcutName.Text = Shortcut.name;
             }
+            */
             txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
 
             if (Shortcut.isWindowsApp)

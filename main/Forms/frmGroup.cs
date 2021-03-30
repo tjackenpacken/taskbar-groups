@@ -223,10 +223,36 @@ namespace client.Forms
         private void addShortcut(String file, bool isExtension = false)
         {
             String workingDirec = getProperDirectory(file);
+            String appName = "";
+            String appFilePath = expandEnvironment(file);
 
-            ProgramShortcut psc = new ProgramShortcut() { FilePath = expandEnvironment(file), isWindowsApp = isExtension, WorkingDirectory = workingDirec }; //Create new shortcut obj
+            getShortcutName(appName, isExtension, appFilePath);
+
+
+            ProgramShortcut psc = new ProgramShortcut() { FilePath = appFilePath, isWindowsApp = isExtension, WorkingDirectory = workingDirec, name = appName }; //Create new shortcut obj
             Category.ShortcutList.Add(psc); // Add to panel shortcut list
             LoadShortcut(psc, Category.ShortcutList.Count - 1);
+        }
+
+        // Handle setting/getting shortcut name
+        public static String getShortcutName(String appName, bool isExtension, String appFilePath)
+        {
+            // Grab the file name without the extension to be used later as the naming scheme for the icon .jpg image
+            if (isExtension)
+            {
+                return handleWindowsApp.findWindowsAppsName(appFilePath);
+            }
+            else
+            {
+                if (System.IO.File.Exists(appFilePath) && Path.GetExtension(appFilePath).ToLower() == ".lnk")
+                {
+                    return handleExtName(appFilePath);
+                }
+                else
+                {
+                    return Path.GetFileNameWithoutExtension(appFilePath);
+                }
+            }
         }
 
         // Delete shortcut
@@ -596,8 +622,10 @@ namespace client.Forms
                     {
                         fm.DeleteDirectory(configPath);
                         fm.Delete(shortcutPath);
-                        this.Hide();
-                        this.Dispose();
+                        //this.Hide();
+                        //this.Dispose();
+                        this.Close();
+
                         Client.Reload(); //flush and reload category panels
                         scope1.Complete();
                     }
