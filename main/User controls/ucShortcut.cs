@@ -25,6 +25,8 @@ namespace client.User_controls
             this.BringToFront();
             this.BackColor = MotherForm.BackColor;
             picIcon.BackgroundImage = ThisCategory.loadImageCache(Psc); // Use the local icon cache for the file specified as the icon image
+            toolTip1.SetToolTip(picIcon, Psc.name);
+            toolTip1.SetToolTip(this, Psc.name);
         }
 
         public void ucShortcut_Click(object sender, EventArgs e)

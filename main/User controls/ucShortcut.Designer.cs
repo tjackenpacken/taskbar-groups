@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.picIcon = new System.Windows.Forms.PictureBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -64,5 +66,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox picIcon;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
