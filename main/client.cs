@@ -44,6 +44,7 @@ namespace client
             }
             catch
             {
+                /*
                 using (Process configTool = new Process())
                 {
                     configTool.StartInfo.FileName = Paths.exeString;
@@ -56,6 +57,9 @@ namespace client
                         Process.GetCurrentProcess().Kill();
                     }
                 }
+                */
+
+                Process.GetCurrentProcess().Kill();
             }
 
             if (arguments.Length > 1) // Checks for additional arguments; opens either main application or taskbar drawer application
