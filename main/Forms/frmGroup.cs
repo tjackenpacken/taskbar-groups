@@ -13,6 +13,8 @@ using System.Reflection;
 using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using ChinhDo.Transactions;
+using System.Drawing.Imaging;
+using System.Diagnostics;
 
 namespace client.Forms
 {
@@ -82,12 +84,12 @@ namespace client.Forms
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
             lblNum.Text = Category.Width.ToString();
             lblOpacity.Text = Category.Opacity.ToString();
-           
+
             if (Category.ColorString == null)  // Handles if groups is created from earlier releas w/o ColorString property
                 Category.ColorString = ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
 
             Color categoryColor = ImageFunctions.FromString(Category.ColorString);
-            
+
             if (categoryColor == Color.FromArgb(31, 31, 31))
                 radioDark.Checked = true;
             else if (categoryColor == Color.FromArgb(230, 230, 230))
@@ -132,7 +134,7 @@ namespace client.Forms
                 Shortcut = psc,
                 Position = position,
                 Width = pnlAddShortcut.Width
-        };
+            };
             pnlShortcuts.Controls.Add(ucPsc);
             ucPsc.Show();
             ucPsc.BringToFront();
@@ -142,7 +144,7 @@ namespace client.Forms
                 pnlShortcuts.Height += 50;
                 pnlAddShortcut.Top += 50;
             }
-            ucPsc.Location = new Point(25, (pnlShortcuts.Controls.Count * 50)-50);
+            ucPsc.Location = new Point(25, (pnlShortcuts.Controls.Count * 50) - 50);
             pnlShortcuts.AutoScroll = true;
 
         }
@@ -174,7 +176,7 @@ namespace client.Forms
                 RestoreDirectory = true,
                 ReadOnlyChecked = true,
                 DereferenceLinks = false
-             };
+            };
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -204,7 +206,8 @@ namespace client.Forms
                 {
                     addShortcut(item.ParsingName, true);
                 }
-            } else
+            }
+            else
             {
                 // Loops through each file to make sure they exist and to add them directly to the shortcut list
                 foreach (var file in files)
@@ -220,7 +223,7 @@ namespace client.Forms
             {
                 pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]);
             }
-            
+
             resetSelection();
         }
 
@@ -290,7 +293,8 @@ namespace client.Forms
                         try
                         {
                             pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[controlIndex]);
-                        } catch
+                        }
+                        catch
                         {
                             if (pnlShortcuts.Controls.Count != 0)
                             {
@@ -358,7 +362,7 @@ namespace client.Forms
                 RestoreDirectory = true,
                 ReadOnlyChecked = true,
                 DereferenceLinks = false,
-        };
+            };
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -531,11 +535,11 @@ namespace client.Forms
                 lblErrorTitle.Text = "Name must not have any special characters";
                 lblErrorTitle.Visible = true;
             }
-            else if (cmdAddGroupIcon.BackgroundImage ==
-                global::client.Properties.Resources.AddWhite) // Verify icon
+            else if (cmdAddGroupIcon.Tag == "Unchanged") // Verify icon
             {
-                lblErrorIcon.Text = "Must select group icon";
-                lblErrorIcon.Visible = true;
+                cmdAddGroupIcon.BackgroundImage = constructIcons();
+                //lblErrorIcon.Text = "Must select group icon";
+                //lblErrorIcon.Visible = true;
             }
             else if (Category.ShortcutList.Count == 0) // Verify shortcuts
             {
@@ -547,7 +551,7 @@ namespace client.Forms
                 try
                 {
 
-                    foreach(ProgramShortcut shortcutModifiedItem in shortcutChanged)
+                    foreach (ProgramShortcut shortcutModifiedItem in shortcutChanged)
                     {
                         shortcutModifiedItem.WorkingDirectory = expandEnvironment(shortcutModifiedItem.WorkingDirectory);
                         if (!Directory.Exists(shortcutModifiedItem.WorkingDirectory))
@@ -574,7 +578,8 @@ namespace client.Forms
                                 fm.Delete(shortcutPath);
                                 scope1.Complete();
                             }
-                        } catch (Exception)
+                        }
+                        catch (Exception)
                         {
                             MessageBox.Show("Please close all programs used within the taskbar group in order to save!");
                             return;
@@ -594,8 +599,8 @@ namespace client.Forms
 
                     Category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // Creating group config files
                     Client.LoadCategory(Path.Combine(Paths.ConfigPath, Category.Name)); // Loading visuals
-                    
-                    this.Dispose();
+
+                    this.Close();
                     Client.Reload();
                 }
                 catch (IOException ex)
@@ -880,7 +885,8 @@ namespace client.Forms
 
         private String getProperDirectory(String file)
         {
-            try {
+            try
+            {
                 if (Path.GetExtension(file).ToLower() == ".lnk")
                 {
                     IWshShortcut extension = (IWshShortcut)new WshShell().CreateShortcut(file);
@@ -891,7 +897,8 @@ namespace client.Forms
                 {
                     return Path.GetDirectoryName(file);
                 }
-            } catch (Exception)
+            }
+            catch (Exception)
             {
                 return Paths.exeString;
             }
@@ -909,10 +916,10 @@ namespace client.Forms
 
         public static String expandEnvironment(string path)
         {
-           if (path.Contains("%ProgramFiles%"))
-           {
+            if (path.Contains("%ProgramFiles%"))
+            {
                 path = path.Replace("%ProgramFiles%", "%ProgramW6432%");
-           }
+            }
 
             return Environment.ExpandEnvironmentVariables(path);
         }
@@ -952,6 +959,58 @@ namespace client.Forms
                     return Assembly.Load(assemblyData);
                 }
             };
+        }
+
+        private Image constructIcons()
+        {
+            List<Image> iconImages = new List<Image>();
+            if (pnlShortcuts.Controls.Count >= 4)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    iconImages.Insert(0, ((ucProgramShortcut)pnlShortcuts.Controls[i]).logo);
+                }
+            }
+            else
+            {
+                foreach (ucProgramShortcut controlItem in pnlShortcuts.Controls)
+                {
+                    iconImages.Insert(0, controlItem.logo);
+                }
+            }
+
+            var image = new Bitmap(256, 256, PixelFormat.Format32bppArgb);
+            using (var g = Graphics.FromImage(image))
+            {
+                g.Clear(Color.Transparent);
+
+                PointF drawLocation = new PointF(0, 0);
+                int counter = 0;
+
+                foreach (Image iconImage in iconImages)
+                {
+                    if (counter == 2)
+                    {
+                        counter = 0;
+                        drawLocation.Y += 128;
+                        drawLocation.X = 0;
+                    }
+
+                    g.DrawImage(ImageFunctions.ResizeImage(iconImage, 128, 128), drawLocation);
+
+                    drawLocation.X += 128;
+                    counter += 1;
+
+
+                }
+                g.Dispose();
+            }
+            return image;
+        }
+
+        private void cmdAddGroupIcon_BackgroundImageChanged(object sender, EventArgs e)
+        {
+            cmdAddGroupIcon.Tag = "Changed";
         }
     }
 }
