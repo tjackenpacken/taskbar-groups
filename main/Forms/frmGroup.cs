@@ -535,12 +535,6 @@ namespace client.Forms
                 lblErrorTitle.Text = "Name must not have any special characters";
                 lblErrorTitle.Visible = true;
             }
-            else if (cmdAddGroupIcon.Tag == "Unchanged") // Verify icon
-            {
-                cmdAddGroupIcon.BackgroundImage = constructIcons();
-                //lblErrorIcon.Text = "Must select group icon";
-                //lblErrorIcon.Visible = true;
-            }
             else if (Category.ShortcutList.Count == 0) // Verify shortcuts
             {
                 lblErrorShortcut.Text = "Must select at least one shortcut";
@@ -548,6 +542,12 @@ namespace client.Forms
             }
             else
             {
+                if ((string)cmdAddGroupIcon.Tag == "Unchanged") // Verify icon
+                {
+                    cmdAddGroupIcon.BackgroundImage = constructIcons();
+                    //lblErrorIcon.Text = "Must select group icon";
+                    //lblErrorIcon.Visible = true;
+                }
                 try
                 {
 

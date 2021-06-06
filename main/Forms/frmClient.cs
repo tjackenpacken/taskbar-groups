@@ -17,6 +17,7 @@ namespace client.Forms
         private static readonly HttpClient client = new HttpClient();
         private List<Category> categoryList = new List<Category>();
         public bool editOpened = false;
+        
 
         public frmClient(List<string> arguments)
         {
@@ -39,6 +40,7 @@ namespace client.Forms
                     editGroup.Show();
                 } catch { }
             }
+            
         }
         public void Reload()
         {

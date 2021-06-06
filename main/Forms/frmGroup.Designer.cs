@@ -227,6 +227,8 @@
             this.cmdAddGroupIcon.Size = new System.Drawing.Size(60, 60);
             this.cmdAddGroupIcon.TabIndex = 10;
             this.cmdAddGroupIcon.TabStop = false;
+            this.cmdAddGroupIcon.Tag = "Unchanged";
+            this.cmdAddGroupIcon.BackgroundImageChanged += new System.EventHandler(this.cmdAddGroupIcon_BackgroundImageChanged);
             this.cmdAddGroupIcon.Click += new System.EventHandler(this.cmdAddGroupIcon_Click);
             this.cmdAddGroupIcon.MouseEnter += new System.EventHandler(this.pnlGroupIcon_MouseEnter);
             this.cmdAddGroupIcon.MouseLeave += new System.EventHandler(this.pnlGroupIcon_MouseLeave);
@@ -742,7 +744,7 @@
             this.Controls.Add(this.cmdWidthUp);
             this.Controls.Add(this.txtGroupName);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MinimumSize = new System.Drawing.Size(605, 0);
+            this.MinimumSize = new System.Drawing.Size(605, 39);
             this.Name = "frmGroup";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "New group";
