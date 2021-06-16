@@ -374,7 +374,7 @@
             // 
             this.pnlCustomColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlCustomColor1.Controls.Add(this.panel3);
-            this.pnlCustomColor1.Location = new System.Drawing.Point(250, 75);
+            this.pnlCustomColor1.Location = new System.Drawing.Point(246, 75);
             this.pnlCustomColor1.Name = "pnlCustomColor1";
             this.pnlCustomColor1.Size = new System.Drawing.Size(15, 15);
             this.pnlCustomColor1.TabIndex = 5;
@@ -475,7 +475,7 @@
             // 
             this.pnlCustomColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlCustomColor.Controls.Add(this.panel1);
-            this.pnlCustomColor.Location = new System.Drawing.Point(227, 75);
+            this.pnlCustomColor.Location = new System.Drawing.Point(223, 75);
             this.pnlCustomColor.Name = "pnlCustomColor";
             this.pnlCustomColor.Size = new System.Drawing.Size(15, 15);
             this.pnlCustomColor.TabIndex = 3;
@@ -493,7 +493,7 @@
             this.radioCustom.AutoSize = true;
             this.radioCustom.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioCustom.ForeColor = System.Drawing.Color.White;
-            this.radioCustom.Location = new System.Drawing.Point(108, 69);
+            this.radioCustom.Location = new System.Drawing.Point(104, 69);
             this.radioCustom.Name = "radioCustom";
             this.radioCustom.Size = new System.Drawing.Size(115, 24);
             this.radioCustom.TabIndex = 2;
@@ -569,7 +569,7 @@
             this.pnlArguments.Controls.Add(this.pnlWorkingDirectory);
             this.pnlArguments.Controls.Add(this.label3);
             this.pnlArguments.Controls.Add(this.pnlArgumentTextbox);
-            this.pnlArguments.Location = new System.Drawing.Point(33, 781);
+            this.pnlArguments.Location = new System.Drawing.Point(33, 581);
             this.pnlArguments.Name = "pnlArguments";
             this.pnlArguments.Size = new System.Drawing.Size(482, 131);
             this.pnlArguments.TabIndex = 48;
