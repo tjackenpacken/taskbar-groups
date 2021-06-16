@@ -81,6 +81,7 @@ namespace client
                 this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
                 Opacity = (1 - (ThisCategory.Opacity / 100));
 
+            /*
             if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
             {
                 // Do prior calculations on darker colors to prevent color values going negative
@@ -100,6 +101,14 @@ namespace client
 
                 //light backcolor is light, set hover color as darker
                 HoverColor = Color.FromArgb(BackColor.A, (BackColor.R + 50), (BackColor.G + 50), (BackColor.B + 50));
+            }*/
+
+            if (ThisCategory.HoverColor == null)
+            {
+                HoverColor = ThisCategory.calculateHoverColor();
+            } else
+            {
+                HoverColor = ColorTranslator.FromHtml(ThisCategory.HoverColor);
             }
 
 

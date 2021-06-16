@@ -47,6 +47,8 @@
             this.lblErrorShortcut = new System.Windows.Forms.Label();
             this.lblAddShortcut = new System.Windows.Forms.Label();
             this.pnlColor = new System.Windows.Forms.Panel();
+            this.pnlCustomColor1 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.numOpacDown = new System.Windows.Forms.Button();
             this.numOpacUp = new System.Windows.Forms.Button();
             this.lblPercent = new System.Windows.Forms.Label();
@@ -55,6 +57,7 @@
             this.lblOpacity = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.pnlCustomColor = new System.Windows.Forms.Panel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.radioCustom = new System.Windows.Forms.RadioButton();
             this.radioDark = new System.Windows.Forms.RadioButton();
             this.radioLight = new System.Windows.Forms.RadioButton();
@@ -81,6 +84,8 @@
             this.pnlAddShortcut.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).BeginInit();
             this.pnlColor.SuspendLayout();
+            this.pnlCustomColor1.SuspendLayout();
+            this.pnlCustomColor.SuspendLayout();
             this.pnlEnd.SuspendLayout();
             this.pnlArguments.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -348,6 +353,7 @@
             // 
             this.pnlColor.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pnlColor.AutoSize = true;
+            this.pnlColor.Controls.Add(this.pnlCustomColor1);
             this.pnlColor.Controls.Add(this.numOpacDown);
             this.pnlColor.Controls.Add(this.numOpacUp);
             this.pnlColor.Controls.Add(this.lblPercent);
@@ -363,6 +369,23 @@
             this.pnlColor.Name = "pnlColor";
             this.pnlColor.Size = new System.Drawing.Size(368, 164);
             this.pnlColor.TabIndex = 48;
+            // 
+            // pnlCustomColor1
+            // 
+            this.pnlCustomColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCustomColor1.Controls.Add(this.panel3);
+            this.pnlCustomColor1.Location = new System.Drawing.Point(250, 75);
+            this.pnlCustomColor1.Name = "pnlCustomColor1";
+            this.pnlCustomColor1.Size = new System.Drawing.Size(15, 15);
+            this.pnlCustomColor1.TabIndex = 5;
+            this.pnlCustomColor1.Click += new System.EventHandler(this.pnlCustomColor1_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.Location = new System.Drawing.Point(26, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(15, 15);
+            this.panel3.TabIndex = 4;
             // 
             // numOpacDown
             // 
@@ -450,17 +473,27 @@
             // 
             // pnlCustomColor
             // 
-            this.pnlCustomColor.Location = new System.Drawing.Point(256, 75);
+            this.pnlCustomColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCustomColor.Controls.Add(this.panel1);
+            this.pnlCustomColor.Location = new System.Drawing.Point(227, 75);
             this.pnlCustomColor.Name = "pnlCustomColor";
             this.pnlCustomColor.Size = new System.Drawing.Size(15, 15);
             this.pnlCustomColor.TabIndex = 3;
+            this.pnlCustomColor.MouseClick += new System.Windows.Forms.MouseEventHandler(this.radioCustom_Click);
+            // 
+            // panel1
+            // 
+            this.panel1.Location = new System.Drawing.Point(26, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(15, 15);
+            this.panel1.TabIndex = 4;
             // 
             // radioCustom
             // 
             this.radioCustom.AutoSize = true;
             this.radioCustom.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioCustom.ForeColor = System.Drawing.Color.White;
-            this.radioCustom.Location = new System.Drawing.Point(135, 69);
+            this.radioCustom.Location = new System.Drawing.Point(108, 69);
             this.radioCustom.Name = "radioCustom";
             this.radioCustom.Size = new System.Drawing.Size(115, 24);
             this.radioCustom.TabIndex = 2;
@@ -536,7 +569,7 @@
             this.pnlArguments.Controls.Add(this.pnlWorkingDirectory);
             this.pnlArguments.Controls.Add(this.label3);
             this.pnlArguments.Controls.Add(this.pnlArgumentTextbox);
-            this.pnlArguments.Location = new System.Drawing.Point(33, 581);
+            this.pnlArguments.Location = new System.Drawing.Point(33, 781);
             this.pnlArguments.Name = "pnlArguments";
             this.pnlArguments.Size = new System.Drawing.Size(482, 131);
             this.pnlArguments.TabIndex = 48;
@@ -759,6 +792,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).EndInit();
             this.pnlColor.ResumeLayout(false);
             this.pnlColor.PerformLayout();
+            this.pnlCustomColor1.ResumeLayout(false);
+            this.pnlCustomColor.ResumeLayout(false);
             this.pnlEnd.ResumeLayout(false);
             this.pnlArguments.ResumeLayout(false);
             this.pnlArguments.PerformLayout();
@@ -819,5 +854,8 @@
         private System.Windows.Forms.Panel pnlDeleteConfo;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button confirmDelete;
+        private System.Windows.Forms.Panel pnlCustomColor1;
+        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel panel1;
     }
 }

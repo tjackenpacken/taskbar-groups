@@ -97,8 +97,16 @@ namespace client.Forms
             else
             {
                 radioCustom.Checked = true;
-                pnlCustomColor.Visible = true;
+                //pnlCustomColor.Visible = true;
                 pnlCustomColor.BackColor = categoryColor;
+
+                if (category.HoverColor != null)
+                {
+                    pnlCustomColor1.BackColor = ImageFunctions.FromString(category.HoverColor);
+                } else
+                {
+                    pnlCustomColor1.BackColor = category.calculateHoverColor();
+                }
             }
 
             // Loading existing shortcutpanels
@@ -695,27 +703,39 @@ namespace client.Forms
             }
         }
 
-        // Color radio buttons
+        // Custom colors
         private void radioCustom_Click(object sender, EventArgs e)
         {
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                Category.ColorString = System.Drawing.ColorTranslator.ToHtml(colorDialog.Color);
-                pnlCustomColor.Visible = true;
+                Category.ColorString = ColorTranslator.ToHtml(colorDialog.Color);
+                //pnlCustomColor.Visible = true;
                 pnlCustomColor.BackColor = colorDialog.Color;
+
+                pnlCustomColor1.BackColor = Category.calculateHoverColor();
+                Category.HoverColor = ColorTranslator.ToHtml(pnlCustomColor1.BackColor);
+            }
+        }
+
+        private void pnlCustomColor1_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                Category.HoverColor = ColorTranslator.ToHtml(colorDialog.Color);
+                pnlCustomColor1.BackColor = colorDialog.Color;
             }
         }
 
         private void radioDark_Click(object sender, EventArgs e)
         {
             Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
-            pnlCustomColor.Visible = false;
+            //pnlCustomColor.Visible = false;
         }
 
         private void radioLight_Click(object sender, EventArgs e)
         {
             Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(230, 230, 230));
-            pnlCustomColor.Visible = false;
+            //pnlCustomColor.Visible = false;
         }
 
         // Opacity buttons

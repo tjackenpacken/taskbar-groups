@@ -20,6 +20,7 @@ namespace client.Classes
         public List<ProgramShortcut> ShortcutList;
         public int Width; // not used aon
         public double Opacity = 10;
+        public String HoverColor;
 
         Regex specialCharRegex = new Regex("[*'\",_&#^@]");
 
@@ -62,6 +63,7 @@ namespace client.Classes
                 this.ColorString = category.ColorString;
                 this.Opacity = category.Opacity;
                 this.allowOpenAll = category.allowOpenAll;
+                this.HoverColor = category.HoverColor;
             }
 
         }
@@ -317,6 +319,31 @@ namespace client.Classes
                     return codec.FilenameExtension;
             }
             return "image/unknown";
+        }
+
+        public Color calculateHoverColor()
+        {
+            Color BackColor = ImageFunctions.FromString(ColorString);
+            if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
+            {
+                // Do prior calculations on darker colors to prevent color values going negative
+                int backColorR = BackColor.R - 50 >= 0 ? BackColor.R - 50 : 0;
+                int backColorG = BackColor.G - 50 >= 0 ? BackColor.G - 50 : 0;
+                int backColorB = BackColor.B - 50 >= 0 ? BackColor.B - 50 : 0;
+
+                //if backcolor is light, set hover color as darker
+                return Color.FromArgb(BackColor.A, backColorR, backColorG, backColorB);
+            }
+            else
+            {
+                // Do prior calculations on darker colors to prevent color values going over 255
+                int backColorR = BackColor.R + 50 <= 255 ? BackColor.R + 50 : 255;
+                int backColorG = BackColor.G + 50 <= 255 ? BackColor.G + 50 : 255;
+                int backColorB = BackColor.B + 50 <= 255 ? BackColor.B + 50 : 255;
+
+                //light backcolor is light, set hover color as darker
+                return Color.FromArgb(BackColor.A, (BackColor.R + 50), (BackColor.G + 50), (BackColor.B + 50));
+            }
         }
         //
         // END OF CLASS
