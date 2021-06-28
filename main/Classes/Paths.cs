@@ -25,6 +25,8 @@ namespace client.Classes
         public static String defaultShortcutsPath;
         public static String defaultBackgroundPath;
 
+        public static bool justWritten = false;
+
         static Paths()
         {
             
@@ -114,6 +116,8 @@ namespace client.Classes
             if (!System.IO.File.Exists(filePath))
             {
                 System.IO.File.WriteAllBytes(filePath, Resources.Taskbar_Groups_Background);
+
+                justWritten = true;
             }
             
             return filePath;

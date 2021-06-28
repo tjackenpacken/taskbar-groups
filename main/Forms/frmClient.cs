@@ -69,7 +69,11 @@ namespace client.Forms
                 portabilityButton.Tag = "n";
                 portabilityButton.Image = Properties.Resources.toggleOff;
             }
-
+            
+            if (Paths.justWritten)
+            {
+                changeAllShortcuts();
+            }
         }
         public void Reload()
         {
@@ -204,7 +208,7 @@ namespace client.Forms
             }
         }
 
-        private void changeAllShortcuts()
+        public static void changeAllShortcuts()
         {
             string[] files = System.IO.Directory.GetFiles(Paths.ShortcutsPath, "*.lnk");
             WshShell wshShell = new WshShell();
