@@ -1,5 +1,4 @@
-﻿using client.User_controls;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -10,7 +9,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace client.Classes
+namespace backgroundClient.Classes
 {
     public class Category
     {
@@ -73,173 +72,6 @@ namespace client.Classes
 
         }
 
-        public void CreateConfig(Image groupImage)
-        {
-            try
-            {
-                //string filePath = path + @"\" + this.Name + "Group.exe";
-                //
-                // Directory and .exe
-                //
-                path = Path.Combine(Paths.ConfigPath, this.Name);
-                System.IO.Directory.CreateDirectory(@path);
-
-                //System.IO.File.Copy(@"config\config.exe", @filePath);
-
-
-                writeXML();
-
-                //
-                // Create .ico
-                //
-
-                Image img = ImageFunctions.ResizeImage(groupImage, 256, 256); // Resize img if too big
-                img.Save(Path.Combine(path, "GroupImage.png"));
-
-                if (GetMimeType(groupImage).ToString() == "*.PNG")
-                {
-                    createMultiIcon(groupImage, Path.Combine(path, "GroupIcon.ico"));
-                }
-                else
-                {
-                    using (FileStream fs = new FileStream(Path.Combine(path, "GroupIcon.ico"), FileMode.Create))
-                    {
-                        ImageFunctions.IconFromImage(img).Save(fs);
-                        fs.Close();
-                    }
-                }
-
-
-                // Through shellLink.cs class, pass through into the function information on how to construct the icon
-                // Needed due to needing to set a unique AppUserModelID so the shortcut applications don't stack on the taskbar with the main application
-                // Tricks Windows to think they are from different applications even though they are from the same .exe
-                ShellLink.InstallShortcut(
-                    Paths.BackgroundApplication,
-                    "tjackenpacken.taskbarGroup.menu." + this.Name,
-                    path + " shortcut",
-                    path,
-                    Path.Combine(path, "GroupIcon.ico"),
-                    Path.Combine(path, this.Name + ".lnk"),
-                    this.Name
-                );
-
-
-                // Build the icon cache
-                cacheIcons();
-
-                System.IO.File.Move(Path.Combine(path, this.Name + ".lnk"),
-                    Path.Combine(Paths.ShortcutsPath, Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
-            }
-            catch { }
-            finally
-            {
-                
-                Process p = new Process();
-                p.StartInfo.FileName = Paths.BackgroundApplication;
-                p.StartInfo.Arguments = this.Name + " setGroupContextMenu";
-                p.Start();
-                
-            }
-        }
-
-
-        private void writeXML()
-        {
-            //
-            // XML config
-            //
-            System.Xml.Serialization.XmlSerializer writer =
-                new System.Xml.Serialization.XmlSerializer(typeof(Category));
-
-            using (FileStream file = System.IO.File.Create(Path.Combine(@path, "ObjectData.xml")))
-            {
-                writer.Serialize(file, this);
-                file.Close();
-            }
-        }
-
-        private static void createMultiIcon(Image iconImage, string filePath)
-        {
-
-
-            var diffList = from number in iconSizes
-                select new
-                    {
-                        number,
-                        difference = Math.Abs(number - iconImage.Height)
-                    };
-            var nearestSize = (from diffItem in diffList
-                          orderby diffItem.difference
-                          select diffItem).First().number;
-
-            List<Bitmap> iconList = new List<Bitmap>();
-
-            while (nearestSize != 16)
-            {
-                iconList.Add(ImageFunctions.ResizeImage(iconImage, nearestSize, nearestSize));
-                nearestSize = (int)Math.Round((decimal) nearestSize / 2);
-            }
-
-            using (var stream = new FileStream(filePath, FileMode.Create))
-            {
-                IconFactory.SavePngsAsIcon(iconList.ToArray(), stream);
-            }
-        }
-
-        public Bitmap LoadIconImage() // Needed to access img without occupying read/write
-        {
-            string path = Path.Combine(Paths.ConfigPath, Name, "GroupImage.png");
-
-            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(path)))
-                return new Bitmap(ms);
-        }
-
-        // Goal is to create a folder with icons of the programs pre-cached and ready to be read
-        // Avoids having the icons need to be rebuilt everytime which takes time and resources
-        public void cacheIcons()
-        {
-
-            // Defines the paths for the icons folder
-            string path = Path.Combine(Paths.ConfigPath, this.Name);
-            string iconPath = Path.Combine(path, "Icons");
-
-            // Check and delete current icons folder to completely rebuild the icon cache
-            // Only done on re-edits of the group and isn't done usually
-            if (Directory.Exists(iconPath))
-            {
-                Directory.Delete(iconPath, true);
-            }
-
-            // Creates the icons folder inside of existing config folder for the group
-            Directory.CreateDirectory(iconPath);
-
-            // Loops through each shortcut added by the user and gets the icon
-            // Writes the icon to the new folder in a .jpg format
-            // Namign scheme for the files are done through Path.GetFileNameWithoutExtension()
-
-            int ind = ShortcutList.Count - 1;
-            foreach(ProgramShortcut shrtcutList in ShortcutList)
-            {
-                String filePath = shrtcutList.FilePath;
-
-                ucProgramShortcut programShortcutControl = Application.OpenForms["frmGroup"].Controls["pnlShortcuts"].Controls[ind] as ucProgramShortcut;
-                ind--;
-                string savePath;
-
-                if (shrtcutList.isWindowsApp)
-                {
-                    savePath = Path.Combine(iconPath, specialCharRegex.Replace(filePath, string.Empty) + ".png");
-                } else if (Directory.Exists(filePath))
-                {
-                    savePath = Path.Combine(iconPath, Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.png");
-                } else
-                {
-                    savePath = Path.Combine(iconPath, Path.GetFileNameWithoutExtension(filePath) + ".png");
-                }
-
-                programShortcutControl.logo.Save(savePath);
-            }
-        }
 
         // Try to load an iamge from the cache
         // Takes in a programPath (shortcut) and processes it to the proper file name
@@ -263,6 +95,7 @@ namespace client.Classes
                 }
                 catch (Exception)
                 {
+                    /*
                     // Try to recreate the cache icon image and catch and missing file/icon situations that may arise
 
                     // Checks if the original file even exists to make sure to not do any extra operations
@@ -291,11 +124,13 @@ namespace client.Classes
 
                     // Return the said image
                     return finalImage;
+                    */
+                    return global::backgroundClient.Properties.Resources.Error;
                 }
             }
             else
             {
-                return global::client.Properties.Resources.Error;
+                return global::backgroundClient.Properties.Resources.Error;
             }
         }
 
@@ -312,20 +147,9 @@ namespace client.Classes
                         @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.jpg" : ".png"));
         }
 
-        public static string GetMimeType(Image i)
-        {
-            var imgguid = i.RawFormat.Guid;
-            foreach (ImageCodecInfo codec in ImageCodecInfo.GetImageDecoders())
-            {
-                if (codec.FormatID == imgguid)
-                    return codec.FilenameExtension;
-            }
-            return "image/unknown";
-        }
-
         public Color calculateHoverColor()
         {
-            Color BackColor = ImageFunctions.FromString(ColorString);
+            Color BackColor = FromString(ColorString);
             if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
             {
                 // Do prior calculations on darker colors to prevent color values going negative
@@ -346,6 +170,23 @@ namespace client.Classes
                 //light backcolor is light, set hover color as darker
                 return Color.FromArgb(BackColor.A, (BackColor.R + 50), (BackColor.G + 50), (BackColor.B + 50));
             }
+        }
+
+        public static Color FromString(string name)
+        {
+            if (String.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("name");
+            }
+
+            KnownColor knownColor;
+
+            if (Enum.TryParse(name, out knownColor))
+            {
+                return Color.FromKnownColor(knownColor);
+            }
+
+            return ColorTranslator.FromHtml(name);
         }
         //
         // END OF CLASS

@@ -30,6 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmClient));
             this.pnlLeftColumn = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.portabilityButton = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.pnlVersionInfo = new System.Windows.Forms.Panel();
             this.label6 = new System.Windows.Forms.Label();
             this.currentVersion = new System.Windows.Forms.Label();
@@ -53,6 +58,7 @@
             this.pnlExistingGroups = new System.Windows.Forms.Panel();
             this.pnlBottomMain = new System.Windows.Forms.Panel();
             this.pnlLeftColumn.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.pnlVersionInfo.SuspendLayout();
             this.pnlHelp.SuspendLayout();
             this.pnlAddGroup.SuspendLayout();
@@ -65,6 +71,7 @@
             // 
             this.pnlLeftColumn.AutoSize = true;
             this.pnlLeftColumn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.pnlLeftColumn.Controls.Add(this.panel2);
             this.pnlLeftColumn.Controls.Add(this.pnlVersionInfo);
             this.pnlLeftColumn.Controls.Add(this.pnlHelp);
             this.pnlLeftColumn.Controls.Add(this.lblHelpTitle);
@@ -74,6 +81,73 @@
             this.pnlLeftColumn.Name = "pnlLeftColumn";
             this.pnlLeftColumn.Size = new System.Drawing.Size(307, 821);
             this.pnlLeftColumn.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel2.Controls.Add(this.portabilityButton);
+            this.panel2.Controls.Add(this.label8);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.label11);
+            this.panel2.Location = new System.Drawing.Point(12, 356);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(292, 180);
+            this.panel2.TabIndex = 20;
+            // 
+            // portabilityButton
+            // 
+            this.portabilityButton.BackColor = System.Drawing.Color.Transparent;
+            this.portabilityButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.portabilityButton.FlatAppearance.BorderSize = 0;
+            this.portabilityButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.portabilityButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.portabilityButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.portabilityButton.ForeColor = System.Drawing.Color.Transparent;
+            this.portabilityButton.Image = ((System.Drawing.Image)(resources.GetObject("portabilityButton.Image")));
+            this.portabilityButton.Location = new System.Drawing.Point(108, 53);
+            this.portabilityButton.Name = "portabilityButton";
+            this.portabilityButton.Size = new System.Drawing.Size(66, 31);
+            this.portabilityButton.TabIndex = 21;
+            this.portabilityButton.TabStop = false;
+            this.portabilityButton.Tag = "n";
+            this.portabilityButton.UseVisualStyleBackColor = false;
+            this.portabilityButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label8
+            // 
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.Transparent;
+            this.label8.Location = new System.Drawing.Point(3, 87);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(283, 90);
+            this.label8.TabIndex = 20;
+            this.label8.Text = resources.GetString("label8.Text");
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Transparent;
+            this.label7.Location = new System.Drawing.Point(34, 38);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(218, 23);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Portability Mode\r\n\r\n\r\n";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label11
+            // 
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Transparent;
+            this.label11.Location = new System.Drawing.Point(22, 1);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(243, 27);
+            this.label11.TabIndex = 17;
+            this.label11.Text = "Want portability?";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // pnlVersionInfo
             // 
@@ -272,7 +346,7 @@
             // 
             // cmdAddGroup
             // 
-            this.cmdAddGroup.BackgroundImage = global::client.Properties.Resources.AddGray;
+            this.cmdAddGroup.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cmdAddGroup.BackgroundImage")));
             this.cmdAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cmdAddGroup.Location = new System.Drawing.Point(88, 14);
             this.cmdAddGroup.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
@@ -351,6 +425,7 @@
             this.Text = "TaskbarGroups";
             this.Resize += new System.EventHandler(this.frmClient_Resize);
             this.pnlLeftColumn.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.pnlVersionInfo.ResumeLayout(false);
             this.pnlVersionInfo.PerformLayout();
             this.pnlHelp.ResumeLayout(false);
@@ -390,5 +465,10 @@
         private System.Windows.Forms.LinkLabel githubLink;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel pnlBottomMain;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Button portabilityButton;
     }
 }

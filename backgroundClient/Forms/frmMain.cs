@@ -1,16 +1,13 @@
-﻿using client.Classes;
-using client.User_controls;
+﻿using backgroundClient.Classes;
+using backgroundClient.User_controls;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Threading;
 using System.Windows.Forms;
 
-namespace client
+namespace backgroundClient
 {
 
     public partial class frmMain : Form
@@ -29,25 +26,25 @@ namespace client
             }
         }
 
-        public Category ThisCategory;
         public List<ucShortcut> ControlList;
         Keys[] keyList = new Keys[] {Keys.D1, Keys.D2,Keys.D3, Keys.D4,Keys.D5, Keys.D6,Keys.D7, Keys.D8,Keys.D9, Keys.D0};
         public Color HoverColor;
 
-        private string passedDirec;
+        //private string passedDirec;
         public Point mouseClick;
 
-        public static Jumplist jumpList;
+        private string[] argumentList;
 
-        private List<string> argumentList;
+        private LoadedCategory loadedCat;
 
-        private Mutex releaseMutex;
+        private Jumplist jumpList;
 
         //------------------------------------------------------------------------------------
         // CTOR AND LOAD
         //
-        public frmMain(string passedDirectory, int cursorPosX, int cursorPosY, List<string> arguments, Mutex mutexPassed)
+        public frmMain(LoadedCategory category, string[] arguments)
         {
+            /*
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
             {
                 string resourceName = new AssemblyName(args.Name).Name + ".dll";
@@ -60,26 +57,24 @@ namespace client
                     return Assembly.Load(assemblyData);
                 }
             };
+            */
 
             InitializeComponent();
 
+            loadedCat = category;
+
             System.Runtime.ProfileOptimization.StartProfile("frmMain.Profile");
-            mouseClick = new Point(cursorPosX, cursorPosY); // Consstruct point p based on passed x y mouse values
-            passedDirec = passedDirectory;
+            mouseClick = new Point(Cursor.Position.X, Cursor.Position.Y); // Consstruct point p based on passed x y mouse values
             FormBorderStyle = FormBorderStyle.None;
             argumentList = arguments;
-            releaseMutex = mutexPassed;
 
-            using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(Path.Combine(Paths.ConfigPath, passedDirec, "GroupIcon.ico"))))
-                this.Icon = new Icon(ms);
+            this.Icon = category.groupIco;
 
-            if (Directory.Exists(Path.Combine(Paths.ConfigPath, passedDirec)))
-                ControlList = new List<ucShortcut>();
+            ControlList = new List<ucShortcut>();
 
-                this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
-                ThisCategory = new Category(Path.Combine(Paths.ConfigPath, passedDirec));
-                this.BackColor = ImageFunctions.FromString(ThisCategory.ColorString);
-                Opacity = (1 - (ThisCategory.Opacity / 100));
+            this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
+            this.BackColor = Category.FromString(category.ColorString);
+            Opacity = (1 - (category.Opacity / 100));
 
             /*
             if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
@@ -103,32 +98,30 @@ namespace client
                 HoverColor = Color.FromArgb(BackColor.A, (BackColor.R + 50), (BackColor.G + 50), (BackColor.B + 50));
             }*/
 
-            if (ThisCategory.HoverColor == null)
+            if (category.HoverColor == null)
             {
-                HoverColor = ThisCategory.calculateHoverColor();
+                HoverColor = category.calculateHoverColor();
             } else
             {
-                HoverColor = ColorTranslator.FromHtml(ThisCategory.HoverColor);
+                HoverColor = ColorTranslator.FromHtml(category.HoverColor);
             }
-
 
             jumpList = new Jumplist(this.Handle);
-            jumpList.buildJumplist(ThisCategory);
+            jumpList.buildJumplist(category.allowOpenAll, category.Name);
 
-            if (arguments.Count > 2 && arguments[2] == "setGroupContextMenu")
+            if (arguments[0] == "setGroupContextMenu")
             {
-                Application.Exit();
+                this.Close();
             }
-
         }
 
         private void frmMain_Load(object sender, EventArgs e)
         {
             LoadCategory();
 
-            if (argumentList.Count >= 3)
+            /*
+            if (argumentList.Length >= 2)
             {
-                argumentList.RemoveRange(0, 2);
                 string jointArgument = String.Join(" ", argumentList).Trim();
                 ucShortcut[] argumentMatch = ControlList.Where(prmShortcut => prmShortcut.Psc.name == jointArgument).ToArray();
 
@@ -137,14 +130,18 @@ namespace client
                     foreach (ucShortcut usc in this.ControlList)
                         usc.ucShortcut_Click(usc, new EventArgs());
                 }
-                else if (argumentMatch.Any())
-                {
-                    argumentMatch[0].ucShortcut_Click(argumentMatch[0], new EventArgs());
-                }
-                Application.Exit();
-            }
+                this.Close();
+            }*/
 
+            if (argumentList[0] == "tskBaropen_allGroup")
+            {
+                foreach (ucShortcut usc in this.ControlList)
+                    usc.ucShortcut_Click(usc, new EventArgs());
+                this.Close();
+            }
             SetLocation();
+
+            this.Focus();
         }
 
         // Sets location of form
@@ -330,24 +327,26 @@ namespace client
         // Loading category and building shortcuts
         private void LoadCategory()
         {
-            //System.Diagnostics.Debugger.Launch();
-
             this.Width = 0;
             this.Height = 45;
             int x = 0;
             int y = 0;
-            int width = ThisCategory.Width;
+            int width = loadedCat.Width;
             int columns = 1;
 
             // Check if icon caches exist for the category being loaded
             // If not then rebuild the icon cache
-            if (!Directory.Exists(Path.Combine(Paths.ConfigPath, ThisCategory.Name, "Icons")))
+
+            /*
+            if (!Directory.Exists(Path.Combine(Paths.ConfigPath, loadedCat.Name, "Icons")))
             {
                 ThisCategory.cacheIcons();
             }
+            */
 
-            foreach (ProgramShortcut psc in ThisCategory.ShortcutList)
+            for (int i=0; i<loadedCat.programShortcuts.Count; i++)
             {
+                ProgramShortcut psc = loadedCat.programShortcuts[i];
 
                 if (columns > width)  // creating new row if there are more psc than max width
                 {
@@ -362,13 +361,13 @@ namespace client
 
                 // OLD
                 //BuildShortcutPanel(x, y, psc);
-                
+
                 // Building shortcut controls
-                ucShortcut pscPanel = new ucShortcut() 
+                ucShortcut pscPanel = new ucShortcut()
                 {
-                    Psc = psc, 
-                    MotherForm = this, 
-                    ThisCategory = ThisCategory 
+                    Psc = psc,
+                    MotherForm = this,
+                    bkgImage = loadedCat.programImages[i]
                 };
                 pscPanel.Location = new System.Drawing.Point(x, y);
                 this.Controls.Add(pscPanel);
@@ -385,6 +384,7 @@ namespace client
         }
 
         // OLD (Having some issues with the uc build, so keeping the old code below)
+        /*
         private void BuildShortcutPanel(int x, int y, ProgramShortcut psc)
         {
             this.shortcutPic = new System.Windows.Forms.PictureBox();
@@ -402,6 +402,7 @@ namespace client
             this.shortcutPic.MouseEnter += new System.EventHandler((sender, e) => this.shortcutPanel.BackColor = Color.Black);
             this.shortcutPic.MouseLeave += new System.EventHandler((sender, e) => this.shortcutPanel.BackColor = System.Drawing.Color.Transparent);
         }
+        */
 
         // Click handler for shortcuts
         public void OpenFile(string arguments, string path, string workingDirec)
@@ -432,7 +433,7 @@ namespace client
         private void frmMain_Deactivate(object sender, EventArgs e)
         {
             // closes program if user clicks outside form
-            Application.Exit();
+            this.Close();
         }
 
         // Keyboard shortcut handlers
@@ -491,8 +492,7 @@ namespace client
 
         private void frmMain_KeyUp(object sender, KeyEventArgs e)
         {
-            //System.Diagnostics.Debugger.Launch();
-            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Enter && ThisCategory.allowOpenAll)
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.Enter && loadedCat.allowOpenAll)
             {
                 foreach (ucShortcut usc in this.ControlList)
                     usc.ucShortcut_Click(sender, e);
@@ -563,6 +563,7 @@ namespace client
         //
         public System.Windows.Forms.PictureBox shortcutPic;
         public System.Windows.Forms.Panel shortcutPanel;
+
         //
         // END OF CLASS
         //

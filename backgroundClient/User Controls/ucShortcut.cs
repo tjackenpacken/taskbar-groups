@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using client.Classes;
 using System.Diagnostics;
 using System.IO;
+using backgroundClient.Classes;
 
-namespace client.User_controls
+namespace backgroundClient.User_controls
 {
     public partial class ucShortcut : UserControl
     {
         public ProgramShortcut Psc { get; set; }
         public frmMain MotherForm { get; set; }
-        public Category ThisCategory { get; set; }
+        public Image bkgImage { get; set; }
         public ucShortcut()
         {
             InitializeComponent();
@@ -24,7 +24,7 @@ namespace client.User_controls
             this.Show();
             this.BringToFront();
             this.BackColor = MotherForm.BackColor;
-            picIcon.BackgroundImage = ThisCategory.loadImageCache(Psc); // Use the local icon cache for the file specified as the icon image
+            picIcon.BackgroundImage = bkgImage;
             toolTip1.SetToolTip(picIcon, Psc.name);
             toolTip1.SetToolTip(this, Psc.name);
         }

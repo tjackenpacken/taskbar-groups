@@ -1,4 +1,7 @@
-﻿using System;
+﻿using client.Properties;
+using IWshRuntimeLibrary;
+using System;
+using System.IO;
 
 namespace client.Classes
 {
@@ -9,17 +12,22 @@ namespace client.Classes
         /// <summary>
         /// The folder in which the main executable resides.
         /// </summary>
-        public static String path;
+        public static String path = System.IO.Path.GetDirectoryName(exeString);
 
         /// <summary>
         /// The full path to the application's main executable.
         /// </summary>
-        public static String exeString;
+        public static String exeString = System.Reflection.Assembly.GetExecutingAssembly().Location;
+
+        public static String exeFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+        public static String defaultConfigPath;
+        public static String defaultShortcutsPath;
+        public static String defaultBackgroundPath;
 
         static Paths()
         {
-            exeString = System.Reflection.Assembly.GetExecutingAssembly().Location;
-            path = System.IO.Path.GetDirectoryName(exeString);
+            
         }
 
         private static string AppDataRelativePath
@@ -30,43 +38,104 @@ namespace client.Classes
             }
         }
 
-        public static string ConfigPath
+        public static string ConfigPath = setupConfigPath();
+        public static string BackgroundApplication = setupBackgroundApplication();
+        public static string ShortcutsPath = setupShortcutsPath();
+
+        private static string setupConfigPath()
         {
-            get
+            string directoryPath;
+            defaultConfigPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataRelativePath, "config");
+            if (!Settings.settingInfo.portableMode)
             {
-                string directoryPath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataRelativePath, "config");
-                if (!System.IO.Directory.Exists(directoryPath))
-                {
-                    System.IO.Directory.CreateDirectory(directoryPath);
-                }
-                return directoryPath;
+                directoryPath = defaultConfigPath;
             }
+            else
+            {
+                directoryPath = Path.Combine(exeFolder, "config");
+            }
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+            
+            return directoryPath;
         }
 
-        public static string ShortcutsPath
+        private static string setupShortcutsPath()
         {
-            get
+            string directoryPath;
+            defaultShortcutsPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataRelativePath, "Shortcuts");
+            if (!Settings.settingInfo.portableMode)
             {
-                string directoryPath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), AppDataRelativePath, "Shortcuts");
-                if (!System.IO.Directory.Exists(directoryPath))
-                {
-                    System.IO.Directory.CreateDirectory(directoryPath);
-                }
-                return directoryPath;
+                directoryPath = defaultShortcutsPath;
             }
+            else
+            {
+                directoryPath = Path.Combine(exeFolder, "Shortcuts");
+            }
+
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
+
+            return directoryPath;
         }
+
         public static string OptimizationProfilePath
         {
             get
             {
-                string directoryPath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppDataRelativePath, "JITComp");
-                if (!System.IO.Directory.Exists(directoryPath))
+                string directoryPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppDataRelativePath, "JITComp");
+                if (!Directory.Exists(directoryPath))
                 {
-                    System.IO.Directory.CreateDirectory(directoryPath);
+                    Directory.CreateDirectory(directoryPath);
                 }
                 return directoryPath;
             }
         }
 
+        private static string setupBackgroundApplication()
+        {
+            string filePath;
+            defaultBackgroundPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppDataRelativePath, "Taskbar Groups Background.exe");
+
+            if (!Settings.settingInfo.portableMode)
+            {
+                filePath = defaultBackgroundPath;
+            }
+            else
+            {
+                filePath = Path.Combine(exeFolder, "Taskbar Groups Background.exe");
+            }
+
+            if (!System.IO.File.Exists(filePath))
+            {
+                System.IO.File.WriteAllBytes(filePath, Resources.Taskbar_Groups_Background);
+            }
+            
+            return filePath;
+        }
+
+        private static string setupMainClientShortcut()
+        {
+            string filePath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppDataRelativePath, "Taskbar Group Editor.lnk");
+            if (!System.IO.File.Exists(filePath))
+            {
+                string shortcutLocation = System.IO.Path.Combine(filePath);
+                WshShell shell = new WshShell();
+                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
+
+                shortcut.Description = "Shortcut for Edit Group context menu feature";   // The description of the shortcut
+                shortcut.TargetPath = Paths.exeString;                 // The path of the file that will launch when the shortcut is run
+                shortcut.Save();
+            }
+            return filePath;
+        }
+
+
+        public static string MainClientShortcut = setupMainClientShortcut();
     }
 }

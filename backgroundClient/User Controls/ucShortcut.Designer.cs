@@ -1,4 +1,4 @@
-﻿namespace client.User_controls
+﻿namespace backgroundClient.User_controls
 {
     partial class ucShortcut
     {

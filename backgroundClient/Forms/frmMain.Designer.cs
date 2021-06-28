@@ -1,4 +1,4 @@
-﻿namespace client
+﻿namespace backgroundClient
 {
     partial class frmMain
     {

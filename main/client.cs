@@ -28,14 +28,18 @@ namespace client
         {
             // Use existing methods to obtain cursor already imported as to not import any extra functions
             // Pass as two variables instead of Point due to Point requiring System.Drawing
-            int cursorX = Cursor.Position.X;
-            int cursorY = Cursor.Position.Y;
+
+            // OLD - No longer handled here
+            //int cursorX = Cursor.Position.X;
+            //int cursorY = Cursor.Position.Y;
 
             // Creates folder for JIT compilation.
             System.Runtime.ProfileOptimization.SetProfileRoot(Paths.OptimizationProfilePath);
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            
 
             try
             {
@@ -62,6 +66,7 @@ namespace client
                 Process.GetCurrentProcess().Kill();
             }
 
+            /*
             if (arguments.Length > 1) // Checks for additional arguments; opens either main application or taskbar drawer application
             {
                 if (Directory.Exists(Path.Combine(Paths.ConfigPath, arguments[1])))
@@ -80,7 +85,7 @@ namespace client
                         }
                     }
                     catch { }
-                    Application.Run(new frmMain(arguments[1], cursorX, cursorY, arguments.ToList(), mutexThread));
+                    //Application.Run(new frmMain(arguments[1], cursorX, cursorY, arguments.ToList(), mutexThread));
                 } else if (arguments[1] == "editingGroupMode")
                 {
                     // See comment above
@@ -96,6 +101,10 @@ namespace client
                 SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");
                 Application.Run(new frmClient(arguments.ToList()));
             }
+            */
+
+            SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");
+            Application.Run(new frmClient(arguments.ToList()));
         }
     }
 }

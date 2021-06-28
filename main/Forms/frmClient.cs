@@ -1,14 +1,19 @@
-﻿using client.Classes;
+﻿using ChinhDo.Transactions;
+using client.Classes;
 using client.User_controls;
+using IWshRuntimeLibrary;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Transactions;
 using System.Windows.Forms;
 using Windows.Data.Json;
-using System.Net.Http;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace client.Forms
 {
@@ -17,10 +22,22 @@ namespace client.Forms
         private static readonly HttpClient client = new HttpClient();
         private List<Category> categoryList = new List<Category>();
         public bool editOpened = false;
-        
 
         public frmClient(List<string> arguments)
         {
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                string resourceName = new AssemblyName(args.Name).Name + ".dll";
+                string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+                {
+                    Byte[] assemblyData = new Byte[stream.Length];
+                    stream.Read(assemblyData, 0, assemblyData.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            };
+
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
             InitializeComponent();
             this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
@@ -32,15 +49,27 @@ namespace client.Forms
 
             if (arguments.Count > 2 && arguments[1] == "editingGroupMode" && Directory.Exists(Path.Combine(Paths.ConfigPath, arguments[2])))
             {
-                
+
                 try
                 {
                     frmGroup editGroup = new frmGroup(this, categoryList.Where(cat => cat.Name == arguments[2]).First());
                     editGroup.TopMost = true;
                     editGroup.Show();
-                } catch { }
+                }
+                catch { }
             }
-            
+
+            if (Settings.settingInfo.portableMode)
+            {
+                portabilityButton.Tag = "y";
+                portabilityButton.Image = Properties.Resources.toggleOn;
+            }
+            else
+            {
+                portabilityButton.Tag = "n";
+                portabilityButton.Image = Properties.Resources.toggleOff;
+            }
+
         }
         public void Reload()
         {
@@ -139,7 +168,8 @@ namespace client.Forms
                 JsonObject jsonObjectData = responseJSON[0].GetObject();
 
                 return jsonObjectData["tag_name"].GetString();
-            } catch {return "Not found";}
+            }
+            catch { return "Not found"; }
         }
 
         private void githubLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -150,6 +180,141 @@ namespace client.Forms
         private void frmClient_Resize(object sender, EventArgs e)
         {
             Reset();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if ((string)portabilityButton.Tag != "n")
+            {
+
+                DialogResult res = MessageBox.Show("NOTE: Pressing OK will move the following folders back to the AppData folder (config, Shortcuts) and will move Taskbar Groups Background exe back to AppData.\r\n\r\nWARNING: PLASE DO NOT CLOSE THIS APPLICATION UNTIL A COMPLETION POPUP APPEARS.", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                if (res == DialogResult.OK)
+                {
+                    portibleModeToggle(0);
+                }
+            }
+            else
+            {
+                DialogResult res = MessageBox.Show("NOTE: Pressing OK will move the following folders to the CURRENT folder (config, Shortcuts) and will move Taskbar Groups Background exe to the CURENT folder.\r\n\r\nWARNING: PLASE DO NOT CLOSE THIS APPLICATION UNTIL A COMPLETION POPUP APPEARS.", "Confirmation", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+
+                if (res == DialogResult.OK)
+                {
+                    portibleModeToggle(1);
+                }
+            }
+        }
+
+        private void changeAllShortcuts()
+        {
+            string[] files = System.IO.Directory.GetFiles(Paths.ShortcutsPath, "*.lnk");
+            WshShell wshShell = new WshShell();
+            foreach (string filePath in files)
+            {
+                IWshRuntimeLibrary.IWshShortcut newShortcut = (IWshRuntimeLibrary.IWshShortcut)wshShell.CreateShortcut(filePath);
+                newShortcut.TargetPath = Paths.BackgroundApplication;
+                newShortcut.IconLocation = Path.Combine(Paths.ConfigPath, newShortcut.Arguments.Trim(), "GroupIcon.ico");
+                newShortcut.WorkingDirectory = Path.Combine(Paths.ConfigPath, newShortcut.Arguments.Trim());
+                newShortcut.Save();
+            }
+        }
+
+        // Moves files from AppData to current folder and vice versa
+        // This is based off of the array below
+        // Index 0 = Current Path
+        // Index 1 = Default Path
+
+        // Mode 0 = Current path -> Default Path (Turning off)
+        // Mode 1 = Default path -> Current Path (Turning on)
+        private void portibleModeToggle(int mode)
+        {
+            String[,] folderArray = new string[,] { { Path.Combine(Paths.exeFolder, "config"), Paths.defaultConfigPath }, { Path.Combine(Paths.exeFolder, "Shortcuts"), Paths.defaultShortcutsPath }};
+            String[,] fileArray = new string[,] { { Path.Combine(Paths.exeFolder, "Taskbar Groups Background.exe"), Paths.defaultBackgroundPath }, { Path.Combine(Paths.exeFolder, "Settings.xml"), Settings.defaultSettingsPath } };
+
+            int int1;
+            int int2;
+            if (mode == 0)
+            {
+                int1 = 0;
+                int2 = 1;
+            } else
+            {
+                int1 = 1;
+                int2 = 0;
+            }
+
+            try
+            {
+                // Kill off the background process
+                Process[] pname = Process.GetProcessesByName("Taskbar Groups Background Client");
+                if (pname.Length != 0)
+                    pname[0].Kill();
+
+                IFileManager fm = new TxFileManager();
+                using (TransactionScope scope1 = new TransactionScope())
+                {
+
+                    Settings.settingInfo.portableMode = true;
+                    Settings.writeXML();
+
+                    for (int i = 0; i < folderArray.Length/2; i++)
+                    {
+                        if (fm.DirectoryExists(folderArray[i, int1]))
+                        {
+                            Directory.Move(folderArray[i, int1], folderArray[i, int2]);
+
+                            if (fm.DirectoryExists(folderArray[i, int1]) && !Directory.EnumerateFileSystemEntries(folderArray[i, int1]).Any())
+                            {
+                                fm.DeleteDirectory(folderArray[i, int1]);
+                            }
+                        }
+                        else
+                        {
+                            fm.CreateDirectory(folderArray[i, int2]);
+                        }
+                    }
+
+                    for (int i = 0; i < fileArray.Length/2; i++)
+                    {
+                        if (fm.FileExists(fileArray[i, int1]))
+                        {
+                            fm.Move(fileArray[i, int1], fileArray[i, int2]);
+                        }
+                    }
+
+                    if (mode == 0)
+                    {
+                        Paths.ConfigPath = Paths.defaultConfigPath;
+                        Paths.ShortcutsPath = Paths.defaultShortcutsPath;
+                        Paths.BackgroundApplication = Paths.defaultBackgroundPath;
+                        Settings.settingsPath = Settings.defaultSettingsPath;
+
+                        portabilityButton.Tag = "n";
+                        portabilityButton.Image = Properties.Resources.toggleOff;
+
+                    } else
+                    {
+                        Paths.ConfigPath = folderArray[0, 0];
+                        Paths.ShortcutsPath = folderArray[1, 0];
+
+                        Paths.BackgroundApplication = fileArray[0, 0];
+                        Settings.settingsPath = fileArray[1, 0];
+
+                        portabilityButton.Tag = "y";
+                        portabilityButton.Image = Properties.Resources.toggleOn;
+
+                    }
+
+                    changeAllShortcuts();
+
+                    
+                    scope1.Complete();
+
+                    MessageBox.Show("File moving done!");
+                }
+            }
+            catch(IOException) {
+                MessageBox.Show("The application does not have access to this directory!");
+            }
         }
     }
 }

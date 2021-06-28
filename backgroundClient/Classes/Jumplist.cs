@@ -6,8 +6,9 @@ using Microsoft.WindowsAPICodePack.Taskbar;
 using System.IO;
 using System.Reflection;
 using Microsoft.WindowsAPICodePack.Shell;
+using IWshRuntimeLibrary;
 
-namespace client.Classes
+namespace backgroundClient.Classes
 {
     public class Jumplist
     {
@@ -18,22 +19,22 @@ namespace client.Classes
             list.KnownCategoryToDisplay = JumpListKnownCategoryType.Recent;
         }
 
-        public void buildJumplist(Category category)
+        public void buildJumplist(bool allowOpenAll, string Name)
         {
 
-            string categoryPath = Path.Combine(Paths.ConfigPath, category.Name);
+            string categoryPath = Path.Combine(Paths.ConfigPath, Name);
 
             JumpListCustomCategory userTaskbarCategory = new JumpListCustomCategory("Taskbar Groups");
 
             JumpListLink openEdit = new JumpListLink(Paths.exeString, "Edit Group");
-            openEdit.Arguments = "editingGroupMode " + category.Name;
+            openEdit.Arguments = "editingGroupMode " + Name;
             openEdit.IconReference = new IconReference(Path.Combine(categoryPath, "GroupIcon.ico"), 0);
             userTaskbarCategory.AddJumpListItems(openEdit);
 
-            if (category.allowOpenAll)
+            if (allowOpenAll)
             {
                 JumpListLink openAllShortcuts = new JumpListLink(Paths.exeString, "Open all shortcuts");
-                openAllShortcuts.Arguments = category.Name + " tskBaropen_allGroup";
+                openAllShortcuts.Arguments = Name + " tskBaropen_allGroup";
                 openAllShortcuts.IconReference = new IconReference(Path.Combine(categoryPath, "GroupIcon.ico"), 0);
                 userTaskbarCategory.AddJumpListItems(openAllShortcuts);
             }
