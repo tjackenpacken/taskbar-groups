@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using backgroundClient.Classes;
 
@@ -10,22 +11,10 @@ namespace backgroundClient
 {
     public partial class bkgProcess : Form
     {
-        protected override void DefWndProc(ref Message m)
-        {
-            const int WM_MOUSEACTIVATE = 0x21;
-            const int MA_NOACTIVATE = 0x0003;
-
-            switch (m.Msg)
-            {
-                case WM_MOUSEACTIVATE:
-                    m.Result = (IntPtr)MA_NOACTIVATE;
-                    return;
-            }
-            base.DefWndProc(ref m);
-        }
-
-
         public static Dictionary<String, LoadedCategory> loadedCategories = new Dictionary<String, LoadedCategory>();
+
+        [DllImport("user32.dll")]
+        public static extern bool ShowWindow(IntPtr handle, int flags);
 
         protected override CreateParams CreateParams
         {
@@ -33,6 +22,7 @@ namespace backgroundClient
             {
                 var Params = base.CreateParams;
                 Params.ExStyle |= 0x80;
+                Params.ExStyle |= 0x08000000;
                 return Params;
             }
         }

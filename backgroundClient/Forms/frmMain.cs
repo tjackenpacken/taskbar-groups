@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 
 namespace backgroundClient
@@ -12,6 +13,8 @@ namespace backgroundClient
 
     public partial class frmMain : Form
     {
+        [DllImport("user32.dll")]
+        public static extern bool ShowWindow(IntPtr handle, int flags);
 
         // Allow doubleBuffering drawing each frame to memory and then onto screen
         // Solves flickering issues mostly as the entire rendering of the screen is done in 1 operation after being first loaded to memory
@@ -23,6 +26,21 @@ namespace backgroundClient
                 CreateParams cp = base.CreateParams;
                 cp.ExStyle |= 0x02000000;
                 return cp;
+            }
+        }
+
+        protected override void WndProc(ref Message m)
+        {
+            base.WndProc(ref m);
+
+            // if click outside dialog -> Close Dlg
+            if (m.Msg == 0x0086) //0x86
+            {
+                if (this.Visible)
+                {
+                    if (!this.RectangleToScreen(this.DisplayRectangle).Contains(Cursor.Position))
+                        this.Close();
+                }
             }
         }
 
@@ -132,6 +150,7 @@ namespace backgroundClient
                 }
                 this.Close();
             }*/
+ 
 
             if (argumentList[0] == "tskBaropen_allGroup")
             {
@@ -140,8 +159,10 @@ namespace backgroundClient
                 this.Close();
             }
             SetLocation();
+            ShowWindow(this.Handle, 8);
 
-            this.Focus();
+            this.TopMost = false;
+            this.LostFocus += frmMain_Deactivate;
         }
 
         // Sets location of form

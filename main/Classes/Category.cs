@@ -133,7 +133,17 @@ namespace client.Classes
             catch { }
             finally
             {
+
+                Process[] pname = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("Taskbar Groups Background")); 
+                if (pname.Length != 0)
+                    pname[0].Kill();
+
                 
+                Process backgroundProcess = new Process();
+                backgroundProcess.StartInfo.FileName = Paths.BackgroundApplication;
+                backgroundProcess.Start();
+                
+
                 Process p = new Process();
                 p.StartInfo.FileName = Paths.BackgroundApplication;
                 p.StartInfo.Arguments = this.Name + " setGroupContextMenu";

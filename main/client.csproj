@@ -189,14 +189,11 @@
     <None Include="Resources\Taskbar Groups Background.exe" />
     <None Include="Resources\toggleOn.png" />
     <None Include="Resources\toggleOff.png" />
-    <None Include="Resources\Untitled design%2816%29.png" />
-    <None Include="Resources\Untitled design%2815%29.png" />
     <EmbeddedResource Include="lib\ChinhDo.Transactions.FileManager.dll" />
     <EmbeddedResource Include="lib\Microsoft.WindowsAPICodePack.dll" />
     <EmbeddedResource Include="lib\Microsoft.WindowsAPICodePack.Shell.dll" />
     <None Include="Resources\pencil.png" />
     <None Include="Resources\grayline.png" />
-    <None Include="Resources\graybox.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Add.png" />

@@ -245,7 +245,7 @@ namespace client.Forms
             try
             {
                 // Kill off the background process
-                Process[] pname = Process.GetProcessesByName("Taskbar Groups Background Client");
+                Process[] pname = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("Taskbar Groups Background"));
                 if (pname.Length != 0)
                     pname[0].Kill();
 
