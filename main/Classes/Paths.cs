@@ -2,6 +2,9 @@
 using IWshRuntimeLibrary;
 using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Security.Cryptography;
 
 namespace client.Classes
 {
@@ -118,6 +121,31 @@ namespace client.Classes
                 System.IO.File.WriteAllBytes(filePath, Resources.Taskbar_Groups_Background);
 
                 justWritten = true;
+            } else
+            {
+                byte[] fileHash;
+                byte[] localHash;
+                using (var md5 = MD5.Create())
+                {
+                    using (MemoryStream memStream = new MemoryStream(Resources.Taskbar_Groups_Background))
+                    {
+                        using (var stream = System.IO.File.OpenRead(filePath))
+                        {
+                            fileHash = md5.ComputeHash(stream);
+                        }
+
+                        localHash = md5.ComputeHash(memStream);
+                    }
+
+
+                }
+
+                if (fileHash.SequenceEqual(localHash) == false)
+                {
+                    System.IO.File.WriteAllBytes(filePath, Resources.Taskbar_Groups_Background);
+
+                    justWritten = true;
+                }
             }
             
             return filePath;

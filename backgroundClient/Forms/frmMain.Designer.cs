@@ -40,7 +40,6 @@
             this.KeyPreview = true;
             this.Name = "frmMain";
             this.Text = "Group";
-            this.TopMost = true;
             this.Deactivate += new System.EventHandler(this.frmMain_Deactivate);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);

@@ -264,8 +264,10 @@ namespace client.Forms
                     {
                         if (fm.DirectoryExists(folderArray[i, int1]))
                         {
-                            Directory.Move(folderArray[i, int1], folderArray[i, int2]);
+                            // Need to use another method to move from one partition to another
+                            Microsoft.VisualBasic.FileIO.FileSystem.MoveDirectory(folderArray[i, int1], folderArray[i, int2]);
 
+                            // Folders may still reside after being moved
                             if (fm.DirectoryExists(folderArray[i, int1]) && !Directory.EnumerateFileSystemEntries(folderArray[i, int1]).Any())
                             {
                                 fm.DeleteDirectory(folderArray[i, int1]);
@@ -316,8 +318,8 @@ namespace client.Forms
                     MessageBox.Show("File moving done!");
                 }
             }
-            catch(IOException) {
-                MessageBox.Show("The application does not have access to this directory!");
+            catch(IOException e) {
+                MessageBox.Show("The application does not have access to this directory!\r\n\r\nError: " + e.Message);
             }
         }
     }

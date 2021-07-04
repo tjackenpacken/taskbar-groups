@@ -62,9 +62,9 @@ namespace client.Classes
                     writer.Serialize(file, settingInfo);
                     file.Close();
                 }
-            }catch(IOException)
+            }catch(IOException e)
             {
-                DialogResult result = MessageBox.Show("Settings.xml may be open in another file.", "Exit", MessageBoxButtons.OK);
+                DialogResult result = MessageBox.Show("Settings.xml may be open in another file.\r\n\r\nError: " + e.Message, "Exit", MessageBoxButtons.OK);
                 Environment.Exit(4);
             }
         }

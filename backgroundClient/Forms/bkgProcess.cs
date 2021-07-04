@@ -16,6 +16,7 @@ namespace backgroundClient
         [DllImport("user32.dll")]
         public static extern bool ShowWindow(IntPtr handle, int flags);
 
+        /*
         protected override CreateParams CreateParams
         {
             get
@@ -26,6 +27,7 @@ namespace backgroundClient
                 return Params;
             }
         }
+        */
 
         public bkgProcess()
         {

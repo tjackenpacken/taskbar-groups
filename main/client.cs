@@ -62,7 +62,7 @@ namespace client
                     }
                 }
                 */
-
+                MessageBox.Show("This program does not have access to this directory!");
                 Process.GetCurrentProcess().Kill();
             }
 

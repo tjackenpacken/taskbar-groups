@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
@@ -26,21 +27,6 @@ namespace backgroundClient
                 CreateParams cp = base.CreateParams;
                 cp.ExStyle |= 0x02000000;
                 return cp;
-            }
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            base.WndProc(ref m);
-
-            // if click outside dialog -> Close Dlg
-            if (m.Msg == 0x0086) //0x86
-            {
-                if (this.Visible)
-                {
-                    if (!this.RectangleToScreen(this.DisplayRectangle).Contains(Cursor.Position))
-                        this.Close();
-                }
             }
         }
 
@@ -93,6 +79,8 @@ namespace backgroundClient
             this.SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             this.BackColor = Category.FromString(category.ColorString);
             Opacity = (1 - (category.Opacity / 100));
+
+            this.TopLevel = true;
 
             /*
             if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
@@ -159,10 +147,9 @@ namespace backgroundClient
                 this.Close();
             }
             SetLocation();
-            ShowWindow(this.Handle, 8);
 
-            this.TopMost = false;
-            this.LostFocus += frmMain_Deactivate;
+            //this.TopMost = false;
+            //this.LostFocus += frmMain_Deactivate;
         }
 
         // Sets location of form
@@ -521,7 +508,8 @@ namespace backgroundClient
 
             try
             {
-                if (keyList.Contains(e.KeyCode)) {
+                if (keyList.Contains(e.KeyCode))
+                {
                     ControlList[Array.IndexOf(keyList, e.KeyCode)].ucShortcut_MouseEnter(sender, e);
                     ControlList[Array.IndexOf(keyList, e.KeyCode)].ucShortcut_Click(sender, e);
                 }
@@ -579,11 +567,14 @@ namespace backgroundClient
             }
         }
 
+
         //
         // endregion
         //
         public System.Windows.Forms.PictureBox shortcutPic;
         public System.Windows.Forms.Panel shortcutPanel;
+
+
 
         //
         // END OF CLASS
