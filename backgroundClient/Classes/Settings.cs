@@ -29,6 +29,7 @@ namespace backgroundClient.Classes
             }
             else
             {
+                Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appDataRelative));
                 settingInfo = new Setting();
                 writeXML();
                 return;
