@@ -13,16 +13,16 @@ namespace client.Classes
     static class Paths
     {
         /// <summary>
-        /// The folder in which the main executable resides.
-        /// </summary>
-        public static String path = System.IO.Path.GetDirectoryName(exeString);
-
-        /// <summary>
         /// The full path to the application's main executable.
         /// </summary>
         public static String exeString = System.Reflection.Assembly.GetExecutingAssembly().Location;
 
         public static String exeFolder = AppDomain.CurrentDomain.BaseDirectory;
+
+        /// <summary>
+        /// The folder in which the main executable resides.
+        /// </summary>
+        public static String path = System.IO.Path.GetDirectoryName(exeString);
 
         public static String defaultConfigPath;
         public static String defaultShortcutsPath;
