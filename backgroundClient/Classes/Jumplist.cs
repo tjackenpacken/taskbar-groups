@@ -39,9 +39,13 @@ namespace backgroundClient.Classes
                 userTaskbarCategory.AddJumpListItems(openAllShortcuts);
             }
 
-            list.AddCustomCategories(userTaskbarCategory);
+            try
+            {
+                list.AddCustomCategories(userTaskbarCategory);
 
-            list.Refresh();
+                list.Refresh();
+            }
+            catch { }
         }
     }
 }
