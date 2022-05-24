@@ -104,6 +104,8 @@ namespace client.Classes
 
         private static string setupBackgroundApplication()
         {
+            Directory.CreateDirectory(Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppDataRelativePath));
+
             string filePath;
             defaultBackgroundPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppDataRelativePath, "Taskbar Groups Background.exe");
 
