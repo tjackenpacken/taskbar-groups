@@ -15,7 +15,7 @@ namespace backgroundClient.Classes
 
         public bool allowOpenAll;
         public int Width;
-        public double Opacity = 10;
+        public double Opacity;
         public string ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
         public Icon groupIco;
         public string Name;
@@ -32,6 +32,7 @@ namespace backgroundClient.Classes
             ColorString = newCat.ColorString;
             Name = newCat.Name;
             allowOpenAll = newCat.allowOpenAll;
+            Opacity = newCat.Opacity;
 
             foreach (ProgramShortcut psc in programShortcuts)
             {
