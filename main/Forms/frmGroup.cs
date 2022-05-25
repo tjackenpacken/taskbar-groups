@@ -179,9 +179,9 @@ namespace client.Forms
 
             lblErrorShortcut.Visible = false; // resetting error msg
 
-            if (Category.ShortcutList.Count >= 20)
+            if (Category.ShortcutList.Count >= 50)
             {
-                lblErrorShortcut.Text = "Max 20 shortcuts in one group";
+                lblErrorShortcut.Text = "Max 50 shortcuts in one group";
                 lblErrorShortcut.BringToFront();
                 lblErrorShortcut.Visible = true;
             }
