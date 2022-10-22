@@ -380,7 +380,13 @@ namespace client.Forms
             // Checks for link iconLocations as those are used by some applications
             if (icLocation[0] != "" && !lnkIcon.IconLocation.Contains("http"))
             {
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(icLocation[0]))).ToBitmap();
+                // Get shortcut icon without the shortcut arrow. 
+                // To avoid getting a different icon than the one selected on shortcut
+                // i.e. try to add "Computer manager" shortcut under 
+                //      "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Administrative Tools" 
+                //       without this change another icon is added !! :(
+                return System.Drawing.Icon.ExtractAssociatedIcon(((IWshRuntimeLibrary.IWshShortcut)new IWshRuntimeLibrary.WshShell().CreateShortcut(file)).TargetPath).ToBitmap();
+                //return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(icLocation[0]))).ToBitmap();
             }
             else if (icLocation[0] == "" && lnkIcon.TargetPath == "")
             {
