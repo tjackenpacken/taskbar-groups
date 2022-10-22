@@ -205,7 +205,7 @@ namespace client.Classes
     }
         }
 
-        // Try to load an iamge from the cache
+        // Try to load an image from the cache
         // Takes in a programPath (shortcut) and processes it to the proper file name
         public Image loadImageCache(ProgramShortcut shortcutObject)
         {
