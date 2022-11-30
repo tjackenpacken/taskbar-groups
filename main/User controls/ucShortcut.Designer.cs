@@ -34,6 +34,7 @@
             // 
             // picIcon
             // 
+            this.picIcon.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.picIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.picIcon.Location = new System.Drawing.Point(16, 11);
             this.picIcon.Name = "picIcon";
