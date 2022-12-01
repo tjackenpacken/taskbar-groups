@@ -107,7 +107,7 @@ namespace client.Forms
         private void frmGroup_Load(object sender, EventArgs e)
         {
             // Scaling form (WORK IN PROGRESS)
-            this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
+            this.MaximumSize = new Size(Size.Width, Screen.PrimaryScreen.WorkingArea.Height);
         }
 
         //--------------------------------------
@@ -130,10 +130,10 @@ namespace client.Forms
 
             if (pnlShortcuts.Controls.Count < 6)
             {
-                pnlShortcuts.Height += 50;
-                pnlAddShortcut.Top += 50;
+                pnlShortcuts.Height += 50 * (int)(frmClient.eDpi / 96);
+                pnlAddShortcut.Top += 50 * (int)(frmClient.eDpi / 96);
             }
-            ucPsc.Location = new Point(25, (pnlShortcuts.Controls.Count * 50)-50);
+            ucPsc.Location = new Point(25 * (int)(frmClient.eDpi / 96), (pnlShortcuts.Controls.Count * 50 * (int)(frmClient.eDpi / 96)) - 50 * (int)(frmClient.eDpi / 96));
             pnlShortcuts.AutoScroll = true;
 
         }
@@ -239,7 +239,7 @@ namespace client.Forms
             {
                 if (before)
                 {
-                    ucPsc.Top -= 50;
+                    ucPsc.Top -= 50 * (int)(frmClient.eDpi / 96);
                     ucPsc.Position -= 1;
                 }
                 if (ucPsc.Shortcut == psc)
@@ -270,8 +270,8 @@ namespace client.Forms
 
             if (pnlShortcuts.Controls.Count < 5)
             {
-                pnlShortcuts.Height -= 50;
-                pnlAddShortcut.Top -= 50;
+                pnlShortcuts.Height -= 50 * (int)(frmClient.eDpi / 96);
+                pnlAddShortcut.Top -= 50 * (int)(frmClient.eDpi / 96);
             }
         }
 
@@ -286,7 +286,7 @@ namespace client.Forms
             // Clears and reloads all shortcuts with new positions
             pnlShortcuts.Controls.Clear();
             pnlShortcuts.Height = 0;
-            pnlAddShortcut.Top = 220;
+            pnlAddShortcut.Top = 220 * (int)(frmClient.eDpi / 96);
 
             selectedShortcut = null;
 

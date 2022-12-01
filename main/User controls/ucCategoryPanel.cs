@@ -21,8 +21,8 @@ namespace client.User_controls
             picGroupIcon.BackgroundImage = Category.LoadIconImage();
 
             // starting values for position of shortcuts
-            int x = 90;
-            int y = 55;
+            int x = (int)(90 * frmClient.eDpi / 96);
+            int y = (int)(56 * frmClient.eDpi / 96);
             int columns = 1;
 
             if (!Directory.Exists((@"config\" + category.Name) + "\\Icons\\"))
@@ -34,13 +34,13 @@ namespace client.User_controls
             {
                 if (columns == 8)
                 {
-                    x = 90; // resetting x
-                    y += 40; // adding new row
-                    this.Height += 40;
+                    x = (int)(90 * frmClient.eDpi / 96); // resetting x
+                    y += (int)(40 * frmClient.eDpi / 96); // adding new row
+                    this.Height += (int)(40 * frmClient.eDpi / 96);
                     columns = 1;
                 }
                 CreateShortcut(x, y, psc);
-                x += 50;
+                x += (int)(50 * frmClient.eDpi / 96);
                 columns++;
             }
         }
@@ -52,7 +52,7 @@ namespace client.User_controls
             {
                 BackColor = System.Drawing.Color.Transparent,
                 Location = new System.Drawing.Point(x, y),
-                Size = new System.Drawing.Size(30, 30),
+                Size = new System.Drawing.Size((int)(30 * frmClient.eDpi / 96), (int)(30 * frmClient.eDpi / 96)),
                 BackgroundImageLayout = ImageLayout.Stretch,
                 TabStop = false
             };

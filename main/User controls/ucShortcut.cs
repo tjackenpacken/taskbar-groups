@@ -26,6 +26,7 @@ namespace client.User_controls
 
         private void ucShortcut_Load(object sender, EventArgs e)
         {
+            this.Size = new Size(MotherForm.ucShortcutWidth, MotherForm.ucShortcutHeight);
             this.Show();
             this.BringToFront();
             this.BackColor = MotherForm.BackColor;

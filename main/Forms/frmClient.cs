@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using Windows.Data.Json;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 
 namespace client.Forms
 {
@@ -17,16 +18,32 @@ namespace client.Forms
         {
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
             InitializeComponent();
+            eDpi = Display(DpiType.Effective);
             this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
+            this.MinimumSize = new Size(Size.Width + 1, Size.Height);  // +1 seems to fix the bottomscroll bar randomly appearing.
             Reload();
 
             currentVersion.Text = "v" + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
 
             githubVersion.Text = Task.Run(() => getVersionData()).Result;
         }
+
+        public static uint eDpi { get; set; } // Effective DPI
+
+        public uint Display(DpiType type)
+        {
+            foreach (var screen in System.Windows.Forms.Screen.AllScreens)
+            {
+                screen.GetDpi(DpiType.Effective, out uint x, out _);
+                eDpi = x;
+                return (x);
+            }
+            return (eDpi);
+        }
         public void Reload()
         {
             // flush and reload existing groups
+            pnlVersionInfo.Location = new Point((int)(19 * eDpi / 96), (int)(615 * eDpi / 96)); // eDpi position ajustments
             pnlExistingGroups.Controls.Clear();
             pnlExistingGroups.Height = 0;
 
@@ -54,7 +71,7 @@ namespace client.Forms
                 lblHelpTitle.Text = "Press on \"Add Taskbar group\" to get started";
                 pnlHelp.Visible = false;
             }
-            pnlBottomMain.Top = pnlExistingGroups.Bottom + 20; // spacing between existing groups and add new group btn
+            pnlBottomMain.Top = pnlExistingGroups.Bottom + (int)(20 * eDpi / 96); // spacing between existing groups and add new group btn
 
             Reset();
         }
@@ -132,5 +149,32 @@ namespace client.Forms
         {
             Reset();
         }
+    }
+
+    // Get DPI function below
+    public static class ScreenExtensions
+    {
+        public static void GetDpi(this System.Windows.Forms.Screen screen, DpiType dpiType, out uint dpiX, out uint dpiY)
+        {
+            var pnt = new System.Drawing.Point(screen.Bounds.Left + 1, screen.Bounds.Top + 1);
+            var mon = MonitorFromPoint(pnt, 2/*MONITOR_DEFAULTTONEAREST*/);
+            GetDpiForMonitor(mon, dpiType, out dpiX, out dpiY);
+        }
+
+        //https://msdn.microsoft.com/en-us/library/windows/desktop/dd145062(v=vs.85).aspx
+        [DllImport("User32.dll")]
+        private static extern IntPtr MonitorFromPoint([In] System.Drawing.Point pt, [In] uint dwFlags);
+
+        //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280510(v=vs.85).aspx
+        [DllImport("Shcore.dll")]
+        private static extern IntPtr GetDpiForMonitor([In] IntPtr hmonitor, [In] DpiType dpiType, [Out] out uint dpiX, [Out] out uint dpiY);
+    }
+
+    //https://msdn.microsoft.com/en-us/library/windows/desktop/dn280511(v=vs.85).aspx
+    public enum DpiType
+    {
+        Effective = 0,
+        Angular = 1,
+        Raw = 2,
     }
 }
