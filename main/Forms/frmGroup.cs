@@ -180,7 +180,7 @@ namespace client.Forms
                 CheckPathExists = true,
                 Multiselect = true,
                 DefaultExt = "exe",
-                Filter = "Exe or Shortcut (.exe, .lnk)|*.exe;*.lnk;*.url",
+                Filter = "Executable or Shortcut|*.exe;*.lnk;*.url;*.bat|All files (*.*)|*.*",
                 RestoreDirectory = true,
                 ReadOnlyChecked = true,
                 DereferenceLinks = false
