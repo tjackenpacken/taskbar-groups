@@ -91,6 +91,8 @@ namespace backgroundClient
 
             this.MainForm = new bkgProcess();
 
+            Directory.SetCurrentDirectory(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location));
+
             if (arguments.Length > 1) // Checks for additional arguments; opens either main application or taskbar drawer application
             {
                 if (bkgProcess.loadedCategories.ContainsKey(arguments[1]) || arguments[1] == "editingGroupMode")

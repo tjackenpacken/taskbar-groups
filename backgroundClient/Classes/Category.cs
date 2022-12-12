@@ -90,7 +90,10 @@ namespace backgroundClient.Classes
                     String cacheImagePath = generateCachePath(shortcutObject, programPath);
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
+                    {
                         return Image.FromStream(ms);
+                       
+                    }
                     
                 }
                 catch (Exception)
@@ -144,7 +147,7 @@ namespace backgroundClient.Classes
             
             return Path.Combine(Paths.ConfigPath, this.Name, "Icons",
                         ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : 
-                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.jpg" : ".png"));
+                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png"));
         }
 
         public Color calculateHoverColor()
@@ -178,7 +181,7 @@ namespace backgroundClient.Classes
             {
                 throw new ArgumentException("name");
             }
-
+             
             KnownColor knownColor;
 
             if (Enum.TryParse(name, out knownColor))

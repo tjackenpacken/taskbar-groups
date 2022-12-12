@@ -1,6 +1,7 @@
 ﻿using client.Properties;
 using IWshRuntimeLibrary;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -144,6 +145,9 @@ namespace client.Classes
 
                 if (fileHash.SequenceEqual(localHash) == false)
                 {
+                    Process[] pname = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("Taskbar Groups Background")); // Kill process if alive
+                    if (pname.Length != 0)
+                        pname[0].Kill();
                     System.IO.File.WriteAllBytes(filePath, Resources.Taskbar_Groups_Background);
 
                     justWritten = true;

@@ -16,7 +16,7 @@ namespace backgroundClient
         [DllImport("user32.dll")]
         public static extern bool ShowWindow(IntPtr handle, int flags);
 
-        /*
+        
         protected override CreateParams CreateParams
         {
             get
@@ -27,13 +27,15 @@ namespace backgroundClient
                 return Params;
             }
         }
-        */
+        
 
         public bkgProcess()
         {
             //Make background transparent
             this.BackColor = Color.LimeGreen;
             this.TransparencyKey = Color.LimeGreen;
+            this.ShowInTaskbar = false;
+            this.Opacity = 0;
 
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
             {
@@ -60,7 +62,7 @@ namespace backgroundClient
                 }
             }
 
-            
+
 
             notifyIcon1.Visible = true;
             notifyIcon1.Icon = backgroundClient.Properties.Resources.Icon;
