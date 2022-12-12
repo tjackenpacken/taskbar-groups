@@ -1,9 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30523.141
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "client", "main\client.csproj", "{B6E63AE7-4433-44EC-BCDE-031CD779E8CC}"
+	ProjectSection(ProjectDependencies) = postProject
+		{880E67DC-610D-4661-878B-14C0A76223B5} = {880E67DC-610D-4661-878B-14C0A76223B5}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "backgroundClient", "backgroundClient\backgroundClient.csproj", "{880E67DC-610D-4661-878B-14C0A76223B5}"
 EndProject

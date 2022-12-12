@@ -15,6 +15,7 @@ using Microsoft.WindowsAPICodePack.Dialogs;
 using ChinhDo.Transactions;
 using System.Drawing.Imaging;
 using System.Diagnostics;
+using Shell32;
 
 namespace client.Forms
 {
@@ -421,20 +422,32 @@ namespace client.Forms
         // Handle returning images of icon files (.lnk)
         public static Bitmap handleLnkExt(String file)
         {
-            IWshShortcut lnkIcon = (IWshShortcut)new WshShell().CreateShortcut(file);
-            String[] icLocation = lnkIcon.IconLocation.Split(',');
+
+            Shell shell = new Shell();
+            string path = Path.GetDirectoryName(file);   // Get individual path/directory strings
+            string file_name = Path.GetFileName(file);
+            Shell32.Folder folder = shell.NameSpace(path); // Pass into Shell32 to get link for the shortcut
+            FolderItem folderItem = folder.ParseName(file_name);
+
+
+            ShellLinkObject link = (ShellLinkObject)folderItem.GetLink;
+            String iconLC; // Icon location
+            link.GetIconLocation(out iconLC);
+            
+
+            String[] icLocation = iconLC.Split(',');
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
             // Checks for link iconLocations as those are used by some applications
-            if (icLocation[0] != "" && !lnkIcon.IconLocation.Contains("http"))
+            if (icLocation[0] != "" && !iconLC.Contains("http"))
             {
                 return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(icLocation[0]))).ToBitmap();
             }
-            else if (icLocation[0] == "" && lnkIcon.TargetPath == "")
+            else if (icLocation[0] == "" && link.Target.Path == "")
             {
                 return handleWindowsApp.getWindowsAppIcon(file);
             } else
             {
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(lnkIcon.TargetPath))).ToBitmap();
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(link.Target.Path))).ToBitmap();
             }
         }
 
