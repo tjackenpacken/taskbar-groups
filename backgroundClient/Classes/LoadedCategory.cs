@@ -13,9 +13,9 @@ namespace backgroundClient.Classes
         public List<Image> programImages = new List<Image>();
         public List<ProgramShortcut> programShortcuts = new List<ProgramShortcut>();
 
-        public bool allowOpenAll = false;
+        public bool allowOpenAll;
         public int Width;
-        public double Opacity = 10;
+        public double Opacity;
         public string ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
         public Icon groupIco;
         public string Name;
@@ -31,8 +31,10 @@ namespace backgroundClient.Classes
             Width = newCat.Width;
             ColorString = newCat.ColorString;
             Name = newCat.Name;
-            
-            foreach(ProgramShortcut psc in programShortcuts)
+            allowOpenAll = newCat.allowOpenAll;
+            Opacity = newCat.Opacity;
+
+            foreach (ProgramShortcut psc in programShortcuts)
             {
                 programImages.Add(newCat.loadImageCache(psc));
             }
