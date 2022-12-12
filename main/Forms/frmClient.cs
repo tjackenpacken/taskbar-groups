@@ -164,7 +164,7 @@ namespace client.Forms
             {
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Add("User-Agent", "taskbar-groups");
-                var res = await client.GetAsync("https://api.github.com/repos/tjackenpacken/taskbar-groups/releases");
+                var res = await client.GetAsync("https://github.com/PikeNote/taskbar-groups-pike-beta");
                 res.EnsureSuccessStatusCode();
                 string responseBody = await res.Content.ReadAsStringAsync();
 
@@ -178,7 +178,7 @@ namespace client.Forms
 
         private void githubLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start("https://github.com/tjackenpacken/taskbar-groups/releases");
+            System.Diagnostics.Process.Start("https://github.com/PikeNote/taskbar-groups-pike-beta");
         }
 
         private void frmClient_Resize(object sender, EventArgs e)
