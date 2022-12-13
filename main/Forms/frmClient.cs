@@ -164,7 +164,7 @@ namespace client.Forms
             {
                 HttpClient client = new HttpClient();
                 client.DefaultRequestHeaders.Add("User-Agent", "taskbar-groups");
-                var res = await client.GetAsync("https://github.com/PikeNote/taskbar-groups-pike-beta");
+                var res = await client.GetAsync("https://api.github.com/repos/PikeNote/taskbar-groups-pike-beta/releases");
                 res.EnsureSuccessStatusCode();
                 string responseBody = await res.Content.ReadAsStringAsync();
 
