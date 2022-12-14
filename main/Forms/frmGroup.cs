@@ -16,6 +16,11 @@ using ChinhDo.Transactions;
 using System.Drawing.Imaging;
 using System.Diagnostics;
 using Shell32;
+using Lnk;
+using Lnk.ShellItems;
+using ExtensionBlocks;
+using ShellBag0X31 = Lnk.ShellItems.ShellBag0X31;
+using System.Runtime.CompilerServices;
 
 namespace client.Forms
 {
@@ -109,6 +114,7 @@ namespace client.Forms
                 {
                     pnlCustomColor1.BackColor = category.calculateHoverColor();
                 }
+
             }
 
             // Loading existing shortcutpanels
@@ -426,6 +432,7 @@ namespace client.Forms
         public static Bitmap handleLnkExt(String file)
         {
 
+            /*
             Shell shell = new Shell();
             string path = Path.GetDirectoryName(file);   // Get individual path/directory strings
             string file_name = Path.GetFileName(file);
@@ -434,30 +441,65 @@ namespace client.Forms
 
 
             ShellLinkObject link = (ShellLinkObject)folderItem.GetLink;
-            String iconLC; // Icon location
-            String targetPath = link.Target.Path;
-            link.GetIconLocation(out iconLC);
+            */
+
+            LnkFile linkFile = Lnk.Lnk.LoadFile(file);
+
+            var targetPath = "";
+
+            linkFile.TargetIDs.ForEach(s =>
+            {
+                //targetPath += s. + "\\";
+                var sType = s.GetType().Name.ToUpper();
+                if (sType == "SHELLBAG0X2F")
+                {
+                    targetPath += ((ShellBag0X2F)s).Value + "\\";
+                }
+                else if (sType == "SHELLBAG0X31")
+                {
+                    targetPath += ((ShellBag0X31)s).ShortName + "\\";
+                }
+                else if (sType == "SHELLBAG0X32")
+                {
+                    targetPath += ((ShellBag0X32)s).ShortName;
+                }
+            });
+
+
+            if(linkFile.LocalPath != null)
+            {
+                targetPath = linkFile.LocalPath;
+            }
+
+
+
+            var iconLC = linkFile.IconLocation;
             
 
-            String[] icLocation = iconLC.Split(',');
+
+            var test = System.IO.File.Exists(targetPath);
+
+            //String[] icLocation = iconLC.Split(',');
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
             // Checks for link iconLocations as those are used by some applications
 
 
 
-            if (icLocation[0] != "" && !iconLC.Contains("http"))
+            if (!string.IsNullOrEmpty(iconLC) && !iconLC.Contains("http"))
             {
-                
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(icLocation[0]))).ToBitmap();
+
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(iconLC))).ToBitmap();
             }
-            else if (icLocation[0] == "" && (targetPath == "" || !(Directory.Exists(targetPath) || System.IO.File.Exists(targetPath))))
+            else if (string.IsNullOrEmpty(iconLC) && (targetPath == "" || !System.IO.File.Exists(targetPath)))
             {
                 return handleWindowsApp.getWindowsAppIcon(file);
 
-            } else
+            }
+            else
             {
                 return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(targetPath))).ToBitmap();
             }
+           
         }
 
 
@@ -611,7 +653,6 @@ namespace client.Forms
                         }
                         catch (Exception ex)
                         {
-                            throw ex;
                             MessageBox.Show("Please close all programs used within the taskbar group in order to save!");
                             return;
                         }
