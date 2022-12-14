@@ -34,7 +34,8 @@ namespace client
             //int cursorY = Cursor.Position.Y;
 
             // Creates folder for JIT compilation.
-            System.Runtime.ProfileOptimization.SetProfileRoot(Paths.OptimizationProfilePath);
+            try
+            {System.Runtime.ProfileOptimization.SetProfileRoot(Paths.OptimizationProfilePath);} catch (Exception ex){}
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
@@ -63,7 +64,7 @@ namespace client
                 }
                 */
                 MessageBox.Show("This program does not have access to this directory!");
-                Process.GetCurrentProcess().Kill();
+                Process.GetCurrentProcess().Close();
             }
 
             /*

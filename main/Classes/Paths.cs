@@ -147,7 +147,7 @@ namespace client.Classes
                 {
                     Process[] pname = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("Taskbar Groups Background")); // Kill process if alive
                     if (pname.Length != 0)
-                        pname[0].Kill();
+                        pname[0].Close();
                     System.IO.File.WriteAllBytes(filePath, Resources.Taskbar_Groups_Background);
 
                     justWritten = true;

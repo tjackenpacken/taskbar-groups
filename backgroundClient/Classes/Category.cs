@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -146,8 +147,7 @@ namespace backgroundClient.Classes
             */
             
             return Path.Combine(Paths.ConfigPath, this.Name, "Icons",
-                        ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : 
-                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png"));
+                        generateMD5Hash(programPath)+".png");
         }
 
         public Color calculateHoverColor()
@@ -190,6 +190,23 @@ namespace backgroundClient.Classes
             }
 
             return ColorTranslator.FromHtml(name);
+        }
+
+        private String generateMD5Hash(String s)
+        {
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(s);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+
+                StringBuilder sb = new System.Text.StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
         }
         //
         // END OF CLASS

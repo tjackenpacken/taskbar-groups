@@ -63,6 +63,8 @@ namespace backgroundClient
             };
             */
 
+            
+
             InitializeComponent();
 
             loadedCat = category;

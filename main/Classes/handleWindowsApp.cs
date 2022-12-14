@@ -32,7 +32,7 @@ namespace client.Classes
             appManifestNamespace.AddNamespace("sm", "http://schemas.microsoft.com/appx/manifest/foundation/windows10");
 
             String logoLocation = (appManifest.SelectSingleNode("/sm:Package/sm:Properties/sm:Logo", appManifestNamespace).InnerText).Replace("\\", @"\");
-
+            String logoPNG = "";
 
             if (logoLocation != null && logoLocation != "")
             {
@@ -41,8 +41,9 @@ namespace client.Classes
                 String logoLocationFullPath;
 
                 if (lastIndexOf != -1)
-                { 
-                    logoLocation = logoLocation.Substring(0, logoLocation.LastIndexOf(@"\"));
+                {
+                    logoPNG = logoLocation.Substring(lastIndexOf + 1, logoLocation.LastIndexOf(@".") - lastIndexOf - 1);
+                    logoLocation = logoLocation.Substring(0, lastIndexOf);
                     logoLocationFullPath = Path.GetFullPath(Path.Combine(appPath, logoLocation));
                 } else
                 {
@@ -52,26 +53,22 @@ namespace client.Classes
 
                 // Search for all files with 150x150 in its name and use the first result
                 DirectoryInfo logoDirectory = new DirectoryInfo(logoLocationFullPath);
-                FileInfo[] filesInDir = getLogoFolder("StoreLogo", logoDirectory);
+                
 
-                if (filesInDir.Length != 0)
-                {
-                    return getLogo(filesInDir.Last().FullName, file);
-                }
-                else
-                {
+                String[] keysToTest = { logoPNG, "scale-200","StoreLogo"};
 
-                    filesInDir = getLogoFolder("scale-200", logoDirectory);
+
+                for (int i=0; i<keysToTest.Length; i++)
+                {
+                    FileInfo[] filesInDir = getLogoFolder(keysToTest[i], logoDirectory);
 
                     if (filesInDir.Length != 0)
                     {
-                        return getLogo(filesInDir[0].FullName, file);
-                    } else
-                    {
-                        return Icon.ExtractAssociatedIcon(file).ToBitmap();
+                        return getLogo(filesInDir.Last().FullName, file);
                     }
-                        
                 }
+                return Icon.ExtractAssociatedIcon(file).ToBitmap();
+
             } else
             {
                 return Icon.ExtractAssociatedIcon(file).ToBitmap();

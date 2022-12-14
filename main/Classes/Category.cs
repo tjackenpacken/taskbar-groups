@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -136,7 +138,7 @@ namespace client.Classes
 
                 Process[] pname = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("Taskbar Groups Background")); 
                 if (pname.Length != 0)
-                    pname[0].Kill();
+                    pname[0].Close();
 
                 
                 Process backgroundProcess = new Process();
@@ -234,19 +236,7 @@ namespace client.Classes
 
                 ucProgramShortcut programShortcutControl = Application.OpenForms["frmGroup"].Controls["pnlShortcuts"].Controls[ind] as ucProgramShortcut;
                 ind--;
-                string savePath;
-
-                if (shrtcutList.isWindowsApp)
-                {
-                    savePath = Path.Combine(iconPath, specialCharRegex.Replace(filePath, string.Empty) + ".png");
-                } else if (Directory.Exists(filePath))
-                {
-                    savePath = Path.Combine(iconPath, Path.GetFileNameWithoutExtension(filePath) + "_FolderObjTSKGRoup.png");
-                } else
-                {
-                    savePath = Path.Combine(iconPath, Path.GetFileNameWithoutExtension(filePath) + ".png");
-                }
-
+                string savePath = Path.Combine(iconPath, generateMD5Hash(filePath) + ".png");
                 programShortcutControl.logo.Save(savePath);
             }
         }
@@ -278,7 +268,7 @@ namespace client.Classes
                     // Checks if the original file even exists to make sure to not do any extra operations
 
                     // Same processing as above in cacheIcons()
-                    String path = Path.Combine(Paths.ConfigPath, this.Name, "Icons", Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png"));
+                    String path = Path.Combine(Paths.ConfigPath, this.Name, "Icons", generateMD5Hash(programPath)+".png");
 
                     Image finalImage;
 
@@ -316,10 +306,9 @@ namespace client.Classes
                         @"\config\" + this.Name + @"\Icons\" + ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) :
                         @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png");
             */
-            
+
             return Path.Combine(Paths.ConfigPath, this.Name, "Icons",
-                        ((shortcutObject.isWindowsApp) ? specialCharRegex.Replace(programPath, string.Empty) : 
-                        @Path.GetFileNameWithoutExtension(programPath)) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.jpg" : ".png"));
+                        generateMD5Hash(programPath) + ".png");
         }
 
         public static string GetMimeType(Image i)
@@ -357,8 +346,28 @@ namespace client.Classes
                 return Color.FromArgb(BackColor.A, (BackColor.R + 50), (BackColor.G + 50), (BackColor.B + 50));
             }
         }
-        //
-        // END OF CLASS
-        //
+
+        private String generateMD5Hash(String s)
+        {
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(s);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+
+                StringBuilder sb = new System.Text.StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                     sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
+        }
+
+            //
+            // END OF CLASS
+            //
+
+
     }
 }

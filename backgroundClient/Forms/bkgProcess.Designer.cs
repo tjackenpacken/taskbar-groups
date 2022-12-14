@@ -36,7 +36,6 @@ namespace backgroundClient
             // notifyIcon1
             // 
             this.notifyIcon1.Text = "Taskbar Groups Background";
-            this.notifyIcon1.Visible = true;
             // 
             // bkgProcess
             // 

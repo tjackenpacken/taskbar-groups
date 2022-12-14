@@ -251,7 +251,7 @@ namespace client.Forms
                 // Kill off the background process
                 Process[] pname = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("Taskbar Groups Background"));
                 if (pname.Length != 0)
-                    pname[0].Kill();
+                    pname[0].Close();
 
                 IFileManager fm = new TxFileManager();
                 using (TransactionScope scope1 = new TransactionScope())

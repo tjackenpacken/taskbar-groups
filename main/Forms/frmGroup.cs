@@ -19,6 +19,7 @@ using Shell32;
 
 namespace client.Forms
 {
+
     public partial class frmGroup : Form
     {
         public Category Category;
@@ -419,6 +420,8 @@ namespace client.Forms
             lblAddGroupIcon.Text = "Change group icon";
         }
 
+
+
         // Handle returning images of icon files (.lnk)
         public static Bitmap handleLnkExt(String file)
         {
@@ -432,22 +435,28 @@ namespace client.Forms
 
             ShellLinkObject link = (ShellLinkObject)folderItem.GetLink;
             String iconLC; // Icon location
+            String targetPath = link.Target.Path;
             link.GetIconLocation(out iconLC);
             
 
             String[] icLocation = iconLC.Split(',');
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
             // Checks for link iconLocations as those are used by some applications
+
+
+
             if (icLocation[0] != "" && !iconLC.Contains("http"))
             {
+                
                 return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(icLocation[0]))).ToBitmap();
             }
-            else if (icLocation[0] == "" && link.Target.Path == "")
+            else if (icLocation[0] == "" && (targetPath == "" || !(Directory.Exists(targetPath) || System.IO.File.Exists(targetPath))))
             {
                 return handleWindowsApp.getWindowsAppIcon(file);
+
             } else
             {
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(link.Target.Path))).ToBitmap();
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(targetPath))).ToBitmap();
             }
         }
 
@@ -600,8 +609,9 @@ namespace client.Forms
                                 scope1.Complete();
                             }
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
+                            throw ex;
                             MessageBox.Show("Please close all programs used within the taskbar group in order to save!");
                             return;
                         }

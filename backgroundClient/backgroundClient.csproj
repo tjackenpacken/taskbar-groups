@@ -109,6 +109,7 @@
     </Compile>
     <EmbeddedResource Include="Forms\bkgProcess.resx">
       <DependentUpon>bkgProcess.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
