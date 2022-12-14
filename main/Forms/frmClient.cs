@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using System.Windows.Forms;
 using Windows.Data.Json;
+using System.Runtime.InteropServices;
 
 namespace client.Forms
 {
@@ -40,7 +41,9 @@ namespace client.Forms
 
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
             InitializeComponent();
+            eDpi = Display(DpiType.Effective);
             this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
+            this.MinimumSize = new Size(Size.Width + 1, Size.Height);  // +1 seems to fix the bottomscroll bar randomly appearing.
             Reload();
 
             currentVersion.Text = "v" + System.Reflection.Assembly.GetEntryAssembly().GetName().Version.ToString();
@@ -75,9 +78,23 @@ namespace client.Forms
                 changeAllShortcuts();
             }
         }
+
+        public static uint eDpi { get; set; } // Effective DPI
+
+        public uint Display(DpiType type)
+        {
+            foreach (var screen in System.Windows.Forms.Screen.AllScreens)
+            {
+                screen.GetDpi(DpiType.Effective, out uint x, out _);
+                eDpi = x;
+                return (x);
+            }
+            return (eDpi);
+        }
         public void Reload()
         {
             // flush and reload existing groups
+            pnlVersionInfo.Location = new Point((int)(19 * eDpi / 96), (int)(615 * eDpi / 96)); // eDpi position ajustments
             pnlExistingGroups.Controls.Clear();
             pnlExistingGroups.Height = 0;
 
@@ -104,7 +121,7 @@ namespace client.Forms
                 lblHelpTitle.Text = "Press on \"Add Taskbar group\" to get started";
                 pnlHelp.Visible = false;
             }
-            pnlBottomMain.Top = pnlExistingGroups.Bottom + 20; // spacing between existing groups and add new group btn
+            pnlBottomMain.Top = pnlExistingGroups.Bottom + (int)(20 * eDpi / 96); // spacing between existing groups and add new group btn
 
             Reset();
         }
@@ -323,4 +340,6 @@ namespace client.Forms
             }
         }
     }
+
+    
 }

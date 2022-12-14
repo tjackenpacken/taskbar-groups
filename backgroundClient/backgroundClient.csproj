@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Jumplist.cs" />
+    <Compile Include="Classes\ScreenExtensions.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Forms\bkgProcess.cs">
       <SubType>Form</SubType>

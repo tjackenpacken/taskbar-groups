@@ -137,6 +137,7 @@
     <Compile Include="Classes\ImageFunctions.cs" />
     <Compile Include="Classes\Paths.cs" />
     <Compile Include="Classes\ProgramShortcut.cs" />
+    <Compile Include="Classes\ScreenExtensions.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\ShellLink.cs" />
     <Compile Include="Forms\frmClient.cs">
@@ -176,6 +177,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmGroup.resx">
       <DependentUpon>frmGroup.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

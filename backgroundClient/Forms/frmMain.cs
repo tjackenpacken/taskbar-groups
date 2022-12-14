@@ -1,4 +1,4 @@
-﻿using backgroundClient.Classes;
+using backgroundClient.Classes;
 using backgroundClient.User_controls;
 using System;
 using System.Collections.Generic;
@@ -33,6 +33,8 @@ namespace backgroundClient
         public List<ucShortcut> ControlList;
         Keys[] keyList = new Keys[] {Keys.D1, Keys.D2,Keys.D3, Keys.D4,Keys.D5, Keys.D6,Keys.D7, Keys.D8,Keys.D9, Keys.D0};
         public Color HoverColor;
+        public static uint eDpi { get; set; } // Effective DPI
+        public static decimal xDpi { get; set; } // eDpi ratio for HDPi conversions
 
         //private string passedDirec;
         public Point mouseClick;
@@ -42,6 +44,9 @@ namespace backgroundClient
         private LoadedCategory loadedCat;
 
         private Jumplist jumpList;
+
+        public int ucShortcutHeight;
+        public int ucShortcutWidth;
 
         //------------------------------------------------------------------------------------
         // CTOR AND LOAD
@@ -71,6 +76,8 @@ namespace backgroundClient
 
             System.Runtime.ProfileOptimization.StartProfile("frmMain.Profile");
             mouseClick = new Point(Cursor.Position.X, Cursor.Position.Y); // Consstruct point p based on passed x y mouse values
+            eDpi = Display(DpiType.Effective); // Get Dpi from clicked screen
+            xDpi = eDpi / 96; // Get eDpi conversion ratio
             FormBorderStyle = FormBorderStyle.None;
             argumentList = arguments;
 
@@ -121,6 +128,21 @@ namespace backgroundClient
             {
                 this.Close();
             }
+        }
+
+        // eDpi Calculations Below -----------------
+        public uint Display(DpiType type)
+        {
+            foreach (var screen in System.Windows.Forms.Screen.AllScreens)
+            {
+                if (screen.Bounds.Contains(mouseClick)) // Get what screen to target eDpi
+                {
+                    screen.GetDpi(DpiType.Effective, out uint x, out _);
+                eDpi = x;
+                return (x);
+                }
+            }
+            return (eDpi);
         }
 
         private void frmMain_Load(object sender, EventArgs e)
@@ -337,8 +359,10 @@ namespace backgroundClient
         // Loading category and building shortcuts
         private void LoadCategory()
         {
-            this.Width = 0;
-            this.Height = 45;
+            this.Width = 0; 
+            this.Height = (int)(45 * xDpi);
+            ucShortcutHeight = this.Height;
+            ucShortcutWidth = (int)(55 * xDpi);
             int x = 0;
             int y = 0;
             int width = loadedCat.Width;
@@ -361,13 +385,13 @@ namespace backgroundClient
                 if (columns > width)  // creating new row if there are more psc than max width
                 {
                     x = 0;
-                    y += 45;
-                    this.Height += 45;
+                    y += (int)(45 * xDpi);
+                    this.Height += (int)(45*xDpi);
                     columns = 1;
                 }
 
-                if (this.Width < ((width * 55)))
-                    this.Width += (55);
+                if (this.Width < ((width * (int)(55 * xDpi))))
+                    this.Width += ((int)(55 * (xDpi)));
 
                 // OLD
                 //BuildShortcutPanel(x, y, psc);
@@ -386,11 +410,12 @@ namespace backgroundClient
                 pscPanel.BringToFront();
 
                 // Reset values
-                x += 55;
+                x += (int)(55 * xDpi);
                 columns++;
             }
 
-            this.Width -= 2; // For some reason the width is 2 pixels larger than the shortcuts. Temporary fix
+            // this.Width -= 2; // For some reason the width is 2 pixels larger than the shortcuts. Temporary fix
+            // Fixed by setting the width of the ucPanel to the real value up here 
         }
 
         // OLD (Having some issues with the uc build, so keeping the old code below)
