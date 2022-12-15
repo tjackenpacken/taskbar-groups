@@ -5,18 +5,21 @@ using System.Linq;
 using System.Xml;
 using System.Collections.Generic;
 using Windows.Management.Deployment;
+using System.Text.RegularExpressions;
+using System.Runtime.InteropServices;
 
 namespace client.Classes
 {
     class handleWindowsApp
     {
+
         public static Dictionary<string, string> fileDirectoryCache = new Dictionary<string, string>();
 
         private static PackageManager pkgManger = new PackageManager();
         public static Bitmap getWindowsAppIcon(String file, bool alreadyAppID = false)
         {
             // Get the app's ID from its shortcut target file (Ex. 4DF9E0F8.Netflix_mcm4njqhnhss8!Netflix.app)
-            String microsoftAppName = (!alreadyAppID) ? GetLnkTarget(file) : file;
+            String microsoftAppName = (!alreadyAppID) ? GetLnkTarget(file)[0] : file;
 
             // Split the string to get the app name from the beginning (Ex. 4DF9E0F8.Netflix)
             String subAppName = microsoftAppName.Split('!')[0];
@@ -95,19 +98,21 @@ namespace client.Classes
             }
         }
 
-        public static string GetLnkTarget(string lnkPath)
+        public static string[] GetLnkTarget(string lnkPath)
         {
             var shl = new Shell32.Shell();
             lnkPath = System.IO.Path.GetFullPath(lnkPath);
             var dir = shl.NameSpace(System.IO.Path.GetDirectoryName(lnkPath));
             var itm = dir.Items().Item(System.IO.Path.GetFileName(lnkPath));
             var lnk = (Shell32.ShellLinkObject)itm.GetLink;
-            return lnk.Target.Path;
+            var lnkIc = "";
+            return new String[] { lnk.Target.Path, lnkIc};
         }
+
 
         public static string findWindowsAppsFolder(string subAppName)
         {
-
+            
             if (!fileDirectoryCache.ContainsKey(subAppName))
             {
                 try
@@ -115,7 +120,9 @@ namespace client.Classes
                     IEnumerable<Windows.ApplicationModel.Package> packages = pkgManger.FindPackagesForUser("", subAppName);
 
                     // TODO: This should probably use Path.Combine().
-                    String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + packages.First().InstalledLocation.DisplayName + @"\";
+                    var test = packages.First();
+                    //String finalPath = Environment.ExpandEnvironmentVariables("%ProgramW6432%") + $@"\WindowsApps\" + packages.First().InstalledLocation.DisplayName + @"\";
+                    String finalPath = packages.First().InstalledLocation.Path;
                     fileDirectoryCache[subAppName] = finalPath;
                     return finalPath;
                 }

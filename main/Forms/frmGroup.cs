@@ -21,12 +21,16 @@ using Lnk.ShellItems;
 using ExtensionBlocks;
 using ShellBag0X31 = Lnk.ShellItems.ShellBag0X31;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
 
 namespace client.Forms
 {
 
     public partial class frmGroup : Form
     {
+        [DllImport("shell32.dll")]
+        static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, IntPtr hToken, out IntPtr ppszPath);
+
         public Category Category;
         public frmClient Client;
         public bool IsNew;
@@ -462,22 +466,65 @@ namespace client.Forms
                 else if (sType == "SHELLBAG0X32")
                 {
                     targetPath += ((ShellBag0X32)s).ShortName;
+                } else if (sType == "SHELLBAG0X00")
+                {
+                    ShellBag0X00 castedShellBag = ((ShellBag0X00)s);
+                    //targetPath += ((ShellBag0X00)s).PropertyStore.Sheets.First().PropertyNames.First().Value; // Super super hacky
+                    for (int i=0; i< castedShellBag.PropertyStore.Sheets.Count; i++)
+                    {
+                        var testPath = "";
+                        if(castedShellBag.PropertyStore.Sheets[i].PropertyNames.TryGetValue("2", out testPath))
+                        {
+                            if(System.IO.File.Exists(testPath))
+                            {
+                                targetPath = testPath;
+                            }
+                        }
+                    }
+                    
+                    //((ShellBag0X00)s).PropertyStore.Sheets.First().PropertyNames.TryGetValue(2, out testPath); // Super super hacky
                 }
             });
 
+            var iconLC = linkFile.IconLocation;
 
-            if(linkFile.LocalPath != null)
+            var isURI = false;
+            try
+            {
+                new Uri(targetPath);
+                isURI = true;
+            }
+            catch (Exception) { };
+
+
+            if (!string.IsNullOrEmpty(linkFile.LocalPath))
             {
                 targetPath = linkFile.LocalPath;
+            } else
+            {
+                try
+                {
+                    //string[] testPath = handleWindowsApp.GetLnkTarget(file); // Try using old method to get path
+                    IWshShortcut lnkIcon = (IWshShortcut)new WshShell().CreateShortcut(file);
+                    String[] icLocation = lnkIcon.IconLocation.Split(',');
+                    String testPath = lnkIcon.TargetPath;
+
+                    if(string.IsNullOrEmpty(targetPath) && (System.IO.File.Exists(testPath) || Directory.Exists(testPath)))
+                    {
+                        targetPath = testPath;
+                    }
+
+                    if(string.IsNullOrEmpty(iconLC))
+                    {
+                        iconLC = icLocation[0];
+                    }
+
+                }
+                catch (Exception e)
+                {}
             }
 
 
-
-            var iconLC = linkFile.IconLocation;
-            
-
-
-            var test = System.IO.File.Exists(targetPath);
 
             //String[] icLocation = iconLC.Split(',');
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
@@ -485,20 +532,30 @@ namespace client.Forms
 
 
 
-            if (!string.IsNullOrEmpty(iconLC) && !iconLC.Contains("http"))
+            try
             {
+                if (!string.IsNullOrEmpty(iconLC) && !iconLC.Contains("http"))
+                {
 
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(iconLC))).ToBitmap();
-            }
-            else if (string.IsNullOrEmpty(iconLC) && (targetPath == "" || !System.IO.File.Exists(targetPath)))
-            {
-                return handleWindowsApp.getWindowsAppIcon(file);
+                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(iconLC))).ToBitmap();
+                }
+                else if (!isURI && string.IsNullOrEmpty(iconLC) && (targetPath == "" || !System.IO.File.Exists(targetPath)))
+                {
+                    return handleWindowsApp.getWindowsAppIcon(file);
 
-            }
-            else
+                } else if (isURI)
+                {
+                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(file))).ToBitmap();
+                }
+                else
+                {
+                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(targetPath))).ToBitmap();
+                }
+            } catch (Exception)
             {
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(targetPath))).ToBitmap();
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(file))).ToBitmap();
             }
+            
            
         }
 

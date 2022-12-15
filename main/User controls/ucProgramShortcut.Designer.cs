@@ -92,11 +92,12 @@
             // picShortcut
             // 
             this.picShortcut.BackgroundImage = global::client.Properties.Resources.AddWhite;
-            this.picShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.picShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.picShortcut.Location = new System.Drawing.Point(69, 9);
             this.picShortcut.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
             this.picShortcut.Name = "picShortcut";
             this.picShortcut.Size = new System.Drawing.Size(30, 30);
+            this.picShortcut.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picShortcut.TabIndex = 17;
             this.picShortcut.TabStop = false;
             this.picShortcut.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
