@@ -6,10 +6,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace client.Classes
@@ -136,11 +134,9 @@ namespace client.Classes
             finally
             {
 
-                Process[] pname = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("Taskbar Groups Background")); 
-                if (pname.Length != 0)
-                    pname[0].Close();
+                closeBackgroundApp();
 
-                
+
                 Process backgroundProcess = new Process();
                 backgroundProcess.StartInfo.FileName = Paths.BackgroundApplication;
                 backgroundProcess.Start();
@@ -364,10 +360,21 @@ namespace client.Classes
             }
         }
 
-            //
-            // END OF CLASS
-            //
+        //
+        // END OF CLASS
+        //
 
+        public static void closeBackgroundApp()
+        {
+            Process[] pname = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("Taskbar Groups Background"));
+            if (pname.Length != 0)
+            {
+                Process bkg = pname[0];
 
+                bkg.Kill();
+
+            }
+            
+        }
     }
 }

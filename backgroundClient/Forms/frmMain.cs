@@ -19,6 +19,7 @@ namespace backgroundClient
 
         // Allow doubleBuffering drawing each frame to memory and then onto screen
         // Solves flickering issues mostly as the entire rendering of the screen is done in 1 operation after being first loaded to memory
+        /*
         protected override CreateParams CreateParams
 
         {
@@ -29,6 +30,7 @@ namespace backgroundClient
                 return cp;
             }
         }
+        */
 
         public List<ucShortcut> ControlList;
         Keys[] keyList = new Keys[] {Keys.D1, Keys.D2,Keys.D3, Keys.D4,Keys.D5, Keys.D6,Keys.D7, Keys.D8,Keys.D9, Keys.D0};

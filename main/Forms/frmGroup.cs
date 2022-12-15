@@ -488,14 +488,6 @@ namespace client.Forms
 
             var iconLC = linkFile.IconLocation;
 
-            var isURI = false;
-            try
-            {
-                new Uri(targetPath);
-                isURI = true;
-            }
-            catch (Exception) { };
-
 
             if (!string.IsNullOrEmpty(linkFile.LocalPath))
             {
@@ -539,15 +531,11 @@ namespace client.Forms
 
                     return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(iconLC))).ToBitmap();
                 }
-                else if (!isURI && string.IsNullOrEmpty(iconLC) && (targetPath == "" || !System.IO.File.Exists(targetPath)))
+                else if (string.IsNullOrEmpty(iconLC) && (targetPath == "" || !System.IO.File.Exists(targetPath)))
                 {
                     return handleWindowsApp.getWindowsAppIcon(file);
 
-                } else if (isURI)
-                {
-                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(file))).ToBitmap();
-                }
-                else
+                } else
                 {
                     return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(targetPath))).ToBitmap();
                 }
