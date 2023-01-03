@@ -50,6 +50,7 @@ namespace client.Classes
                     logoLocationFullPath = Path.GetFullPath(Path.Combine(appPath, logoLocation));
                 } else
                 {
+                    logoPNG = logoLocation;
                     logoLocationFullPath = Path.GetFullPath(appPath + "\\");
                 }
                 
