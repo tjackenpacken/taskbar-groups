@@ -98,12 +98,13 @@ namespace client.Forms
             pnlExistingGroups.Controls.Clear();
             pnlExistingGroups.Height = 0;
 
-            string[] subDirectories = Directory.GetDirectories(Paths.ConfigPath);
+            string[] subDirectories = Directory.EnumerateDirectories(Paths.ConfigPath).ToArray();
+            //string[] subDirectories = Directory.GetDirectories(Paths.ConfigPath);
             foreach (string dir in subDirectories)
             {
                 try
                 {
-                    LoadCategory(dir);
+                    LoadCategory(Path.Combine(Paths.ConfigPath, dir));
                 }
                 catch (IOException ex)
                 {

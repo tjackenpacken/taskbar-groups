@@ -14,7 +14,7 @@ namespace client.Classes
 {
     public class Category
     {
-        public string Name;
+        public string Name = "";
         public string ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
         public bool allowOpenAll = false;
         public List<ProgramShortcut> ShortcutList;

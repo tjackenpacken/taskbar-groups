@@ -422,7 +422,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmClient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "TaskbarGroups";
+            this.Text = "Taskbar Groups";
             this.Resize += new System.EventHandler(this.frmClient_Resize);
             this.pnlLeftColumn.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
