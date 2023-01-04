@@ -5,6 +5,7 @@ using client.Classes;
 using client.Forms;
 using System.IO;
 using System.Windows.Input;
+using System.Linq;
 
 namespace client.User_controls
 {
@@ -210,16 +211,6 @@ namespace client.User_controls
                 ucProgramShortcut_Click(sender, e);
         }
 
-        private void ucProgramShortcut_Enter(object sender, EventArgs e)
-        {
-            //IsSelected = true;
-        }
-
-        private void ucProgramShortcut_Leave(object sender, EventArgs e)
-        {
-            //IsSelected = false;
-        }
-
         private void ucProgramShortcut_SizeChanged(object sender, EventArgs e)
         {
             txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
@@ -251,6 +242,31 @@ namespace client.User_controls
             {
                 txtShortcutName.Focus();
                 txtShortcutName.Select(txtShortcutName.TextLength, txtShortcutName.TextLength);
+            }
+        }
+
+        private void picShortcut_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog  // ask user to select img as group icon
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+                Title = "Select Group Icon",
+                CheckFileExists = true,
+                CheckPathExists = true,
+                DefaultExt = "img",
+                Filter = "Image files and exec (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.exe, *.ico) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.ico; *.exe",
+                FilterIndex = 2,
+                RestoreDirectory = true,
+                ReadOnlyChecked = true,
+                DereferenceLinks = false,
+            };
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+
+                String imageExtension = Path.GetExtension(openFileDialog.FileName).ToLower();
+
+                picShortcut.BackgroundImage = logo = MotherForm.handleIcon(openFileDialog.FileName, imageExtension);
             }
         }
     }

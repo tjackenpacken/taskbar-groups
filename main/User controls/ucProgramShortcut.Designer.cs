@@ -93,6 +93,7 @@
             // 
             this.picShortcut.BackgroundImage = global::client.Properties.Resources.AddWhite;
             this.picShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.picShortcut.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picShortcut.Location = new System.Drawing.Point(69, 9);
             this.picShortcut.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
             this.picShortcut.Name = "picShortcut";
@@ -100,8 +101,7 @@
             this.picShortcut.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picShortcut.TabIndex = 17;
             this.picShortcut.TabStop = false;
-            this.picShortcut.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
-            this.picShortcut.MouseLeave += new System.EventHandler(this.ucProgramShortcut_MouseLeave);
+            this.picShortcut.Click += new System.EventHandler(this.picShortcut_Click);
             // 
             // txtShortcutName
             // 
@@ -120,9 +120,7 @@
             this.txtShortcutName.Text = "Program Name";
             this.txtShortcutName.Click += new System.EventHandler(this.txtShortcutName_Click);
             this.txtShortcutName.TextChanged += new System.EventHandler(this.lbTextbox_TextChanged);
-            this.txtShortcutName.Enter += new System.EventHandler(this.ucProgramShortcut_Enter);
             this.txtShortcutName.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ucProgramShortcut_KeyDown);
-            this.txtShortcutName.Leave += new System.EventHandler(this.ucProgramShortcut_Leave);
             this.txtShortcutName.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
             this.txtShortcutName.MouseLeave += new System.EventHandler(this.ucProgramShortcut_MouseLeave);
             // 
@@ -147,19 +145,17 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.Controls.Add(this.picShortcut);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.txtShortcutName);
             this.Controls.Add(this.cmdNumUp);
             this.Controls.Add(this.cmdNumDown);
             this.Controls.Add(this.cmdDelete);
-            this.Controls.Add(this.picShortcut);
             this.Name = "ucProgramShortcut";
             this.Size = new System.Drawing.Size(450, 50);
             this.Load += new System.EventHandler(this.ucProgramShortcut_Load);
             this.SizeChanged += new System.EventHandler(this.ucProgramShortcut_SizeChanged);
             this.Click += new System.EventHandler(this.ucProgramShortcut_Click);
-            this.Enter += new System.EventHandler(this.ucProgramShortcut_Enter);
-            this.Leave += new System.EventHandler(this.ucProgramShortcut_Leave);
             this.MouseEnter += new System.EventHandler(this.ucProgramShortcut_MouseEnter);
             this.MouseLeave += new System.EventHandler(this.ucProgramShortcut_MouseLeave);
             ((System.ComponentModel.ISupportInitialize)(this.picShortcut)).EndInit();

@@ -37,7 +37,7 @@ namespace client.Forms
         private String[] imageExt = new String[] { ".png", ".jpg", ".jpe", ".jfif", ".jpeg", };
         private String[] extensionExt = new String[] { ".exe", ".lnk", ".url" };
         private String[] specialImageExt = new String[] { ".ico", ".exe", ".lnk" };
-        private String[] newExt;
+        public String[] newExt;
 
         public ucProgramShortcut selectedShortcut;
 
@@ -389,7 +389,8 @@ namespace client.Forms
 
                 String imageExtension = Path.GetExtension(openFileDialog.FileName).ToLower();
 
-                handleIcon(openFileDialog.FileName, imageExtension);
+                
+                cmdAddGroupIcon.BackgroundImage = handleIcon(openFileDialog.FileName, imageExtension);
             }
         }
 
@@ -405,29 +406,29 @@ namespace client.Forms
             if (files.Length == 1 && newExt.Contains(imageExtension) && System.IO.File.Exists(files[0]))
             {
                 // Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
-                handleIcon(files[0], imageExtension);
+                cmdAddGroupIcon.BackgroundImage = handleIcon(files[0], imageExtension);
             }
         }
 
-        private void handleIcon(String file, String imageExtension)
+        public Bitmap handleIcon(String file, String imageExtension)
         {
             // Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
             if (specialImageExt.Contains(imageExtension))
             {
                 if (imageExtension == ".lnk")
                 {
-                    cmdAddGroupIcon.BackgroundImage = handleLnkExt(file);
+                    return handleLnkExt(file);
                 }
                 else
                 {
-                    cmdAddGroupIcon.BackgroundImage = Icon.ExtractAssociatedIcon(file).ToBitmap();
+                    return Icon.ExtractAssociatedIcon(file).ToBitmap();
                 }
             }
             else
             {
-                cmdAddGroupIcon.BackgroundImage = Image.FromFile(file);
+                return new Bitmap(file);
             }
-            lblAddGroupIcon.Text = "Change group icon";
+     
         }
 
 
@@ -575,14 +576,14 @@ namespace client.Forms
         {
             resetSelection();
 
-            if (checkExtensions(e, imageExt.Concat(specialImageExt).ToArray()))
+            if (checkExtensions(e, newExt))
             {
                 pnlGroupIcon.BackColor = Color.FromArgb(23, 23, 23);
             }
         }
 
         // Series of checks to make sure it can be dropped
-        private Boolean checkExtensions(DragEventArgs e, String[] exts)
+        public Boolean checkExtensions(DragEventArgs e, String[] exts)
         {
 
             // Make sure the file can be dragged dropped
