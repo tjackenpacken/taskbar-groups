@@ -426,7 +426,7 @@ namespace client.Forms
             }
             else
             {
-                return new Bitmap(file);
+                return BitmapFromFile(file);
             }
      
         }
@@ -1141,6 +1141,14 @@ namespace client.Forms
         private void cmdAddGroupIcon_BackgroundImageChanged(object sender, EventArgs e)
         {
             cmdAddGroupIcon.Tag = "Changed";
+        }
+
+        public static Bitmap BitmapFromFile(string path)
+        {
+            var bytes = System.IO.File.ReadAllBytes(path);
+            var ms = new MemoryStream(bytes);
+            var bp = (Bitmap)Image.FromStream(ms);
+            return bp;
         }
     }
 }

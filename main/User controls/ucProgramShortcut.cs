@@ -56,39 +56,53 @@ namespace client.User_controls
             */
             txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
 
-            if (Shortcut.isWindowsApp)
-            {
-                picShortcut.BackgroundImage = logo = handleWindowsApp.getWindowsAppIcon(Shortcut.FilePath, true);
-            }
-            else if (File.Exists(Shortcut.FilePath)) // Checks if the shortcut actually exists; if not then display an error image
-            {
-                String imageExtension = Path.GetExtension(Shortcut.FilePath).ToLower();
 
-                // Start checking if the extension is an lnk (shortcut) file
-                // Depending on the extension, the icon can be directly extracted or it has to be gotten through other methods as to not get the shortcut arrow
-                if (imageExtension == ".lnk")
+            String cacheIconPath = MotherForm.Category.generateCachePath(Shortcut.FilePath);
+
+
+            if(File.Exists(cacheIconPath))
+            {
+                picShortcut.BackgroundImage = logo = frmGroup.BitmapFromFile(cacheIconPath); 
+            } else
+            {
+                if (Shortcut.isWindowsApp)
                 {
-                    picShortcut.BackgroundImage = logo = frmGroup.handleLnkExt(Shortcut.FilePath);
+                    picShortcut.BackgroundImage = logo = handleWindowsApp.getWindowsAppIcon(Shortcut.FilePath, true);
+                }
+                else if (File.Exists(Shortcut.FilePath)) // Checks if the shortcut actually exists; if not then display an error image
+                {
+                    String imageExtension = Path.GetExtension(Shortcut.FilePath).ToLower();
+
+                    // Start checking if the extension is an lnk (shortcut) file
+                    // Depending on the extension, the icon can be directly extracted or it has to be gotten through other methods as to not get the shortcut arrow
+                    if (imageExtension == ".lnk")
+                    {
+                        picShortcut.BackgroundImage = logo = frmGroup.handleLnkExt(Shortcut.FilePath);
+                    }
+                    else
+                    {
+                        picShortcut.BackgroundImage = logo = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
+                    }
+
+                }
+                else if (Directory.Exists(Shortcut.FilePath))
+                {
+                    try
+                    {
+                        picShortcut.BackgroundImage = logo = handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
                 else
                 {
-                    picShortcut.BackgroundImage = logo = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
+                    picShortcut.BackgroundImage = logo = global::client.Properties.Resources.Error;
                 }
-
-            } else if (Directory.Exists(Shortcut.FilePath))
-            {
-                try
-                {
-                    picShortcut.BackgroundImage = logo = handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-            } else
-            {
-                picShortcut.BackgroundImage = logo = global::client.Properties.Resources.Error;
             }
+
+           
 
             if (Position == 0)
             {

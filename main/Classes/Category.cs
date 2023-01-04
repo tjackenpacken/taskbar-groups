@@ -251,7 +251,7 @@ namespace client.Classes
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
                     // If not then it would throw an exception in which the below code would catch it
-                    String cacheImagePath = generateCachePath(shortcutObject, programPath);
+                    String cacheImagePath = generateCachePath(programPath);
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
                         return Image.FromStream(ms);
@@ -295,7 +295,7 @@ namespace client.Classes
             }
         }
 
-        public String generateCachePath(ProgramShortcut shortcutObject, String programPath)
+        public String generateCachePath(String programPath)
         {
             /*
             return @Path.GetDirectoryName(Application.ExecutablePath) +
