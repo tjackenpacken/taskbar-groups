@@ -101,7 +101,10 @@
             this.picShortcut.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picShortcut.TabIndex = 17;
             this.picShortcut.TabStop = false;
+            this.picShortcut.BackgroundImageChanged += new System.EventHandler(this.picShortcut_BackgroundImageChanged);
             this.picShortcut.Click += new System.EventHandler(this.picShortcut_Click);
+            this.picShortcut.DragDrop += new System.Windows.Forms.DragEventHandler(this.picShortcut_DragDrop);
+            this.picShortcut.DragEnter += new System.Windows.Forms.DragEventHandler(this.picShortcut_DragEnter);
             // 
             // txtShortcutName
             // 

@@ -24,6 +24,7 @@ namespace client.User_controls
         public ucProgramShortcut()
         {
             InitializeComponent();
+            picShortcut.AllowDrop = true;
         }
 
         private void ucProgramShortcut_Load(object sender, EventArgs e)
@@ -62,12 +63,12 @@ namespace client.User_controls
 
             if(File.Exists(cacheIconPath))
             {
-                picShortcut.BackgroundImage = logo = frmGroup.BitmapFromFile(cacheIconPath); 
+                picShortcut.BackgroundImage = frmGroup.BitmapFromFile(cacheIconPath); 
             } else
             {
                 if (Shortcut.isWindowsApp)
                 {
-                    picShortcut.BackgroundImage = logo = handleWindowsApp.getWindowsAppIcon(Shortcut.FilePath, true);
+                    picShortcut.BackgroundImage = handleWindowsApp.getWindowsAppIcon(Shortcut.FilePath, true);
                 }
                 else if (File.Exists(Shortcut.FilePath)) // Checks if the shortcut actually exists; if not then display an error image
                 {
@@ -77,11 +78,11 @@ namespace client.User_controls
                     // Depending on the extension, the icon can be directly extracted or it has to be gotten through other methods as to not get the shortcut arrow
                     if (imageExtension == ".lnk")
                     {
-                        picShortcut.BackgroundImage = logo = frmGroup.handleLnkExt(Shortcut.FilePath);
+                        picShortcut.BackgroundImage = frmGroup.handleLnkExt(Shortcut.FilePath);
                     }
                     else
                     {
-                        picShortcut.BackgroundImage = logo = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
+                        picShortcut.BackgroundImage = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
                     }
 
                 }
@@ -89,7 +90,7 @@ namespace client.User_controls
                 {
                     try
                     {
-                        picShortcut.BackgroundImage = logo = handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
+                        picShortcut.BackgroundImage = handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
                     }
                     catch (Exception ex)
                     {
@@ -98,7 +99,7 @@ namespace client.User_controls
                 }
                 else
                 {
-                    picShortcut.BackgroundImage = logo = global::client.Properties.Resources.Error;
+                    picShortcut.BackgroundImage = global::client.Properties.Resources.Error;
                 }
             }
 
@@ -280,8 +281,32 @@ namespace client.User_controls
 
                 String imageExtension = Path.GetExtension(openFileDialog.FileName).ToLower();
 
-                picShortcut.BackgroundImage = logo = MotherForm.handleIcon(openFileDialog.FileName, imageExtension);
+                picShortcut.BackgroundImage =  MotherForm.handleIcon(openFileDialog.FileName, imageExtension);
             }
+        }
+
+        private void picShortcut_DragEnter(object sender, DragEventArgs e)
+        {
+            MotherForm.checkExtensions(e, MotherForm.newExt);
+        }
+
+        private void picShortcut_DragDrop(object sender, DragEventArgs e)
+        {
+            var files = (String[])e.Data.GetData(DataFormats.FileDrop);
+
+            String imageExtension = Path.GetExtension(files[0]).ToLower();
+
+            if (files.Length == 1 && MotherForm.newExt.Contains(imageExtension) && System.IO.File.Exists(files[0]))
+            {
+                // Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
+                picShortcut.BackgroundImage = MotherForm.handleIcon(files[0], imageExtension);
+            }
+        }
+
+        // Bind this so that any changes to the logos automatically bind to changing the logo variable
+        private void picShortcut_BackgroundImageChanged(object sender, EventArgs e)
+        {
+            logo = new Bitmap(picShortcut.BackgroundImage);
         }
     }
 }

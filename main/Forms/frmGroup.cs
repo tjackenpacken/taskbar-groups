@@ -60,7 +60,6 @@ namespace client.Forms
             InitializeComponent();
 
             // Setting default category properties  
-            newExt = imageExt.Concat(specialImageExt).ToArray();
             Category = new Category { ShortcutList = new List<ProgramShortcut>() };
             Client = client;
             IsNew = true;
@@ -138,6 +137,8 @@ namespace client.Forms
 
             typeof(Control).GetProperty("ResizeRedraw", BindingFlags.NonPublic | BindingFlags.Instance)
                .SetValue(pnlDeleteConfo, true, null);
+
+            newExt = imageExt.Concat(specialImageExt).ToArray();
         }
 
         //--------------------------------------
