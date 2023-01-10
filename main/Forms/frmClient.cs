@@ -98,7 +98,26 @@ namespace client.Forms
             pnlExistingGroups.Controls.Clear();
             pnlExistingGroups.Height = 0;
 
-            string[] subDirectories = Directory.EnumerateDirectories(Paths.ConfigPath).ToArray();
+            List<String> subDirectories = new List<String>();
+
+            using(IEnumerator<String> enumeratorDrectories = Directory.EnumerateDirectories(Paths.ConfigPath).GetEnumerator())
+            {
+                while (true)
+                {
+                    try
+                    {
+                        if (!enumeratorDrectories.MoveNext())
+                            break;
+                        subDirectories.Add(enumeratorDrectories.Current);
+                        // processing
+                    }
+                    catch (Exception e)
+                    {
+                    }
+                }
+            }
+
+
             //string[] subDirectories = Directory.GetDirectories(Paths.ConfigPath);
             foreach (string dir in subDirectories)
             {
