@@ -30,21 +30,20 @@
  [![-----------------------------------------------------](https://user-images.githubusercontent.com/56088716/103312593-8a37ff80-49eb-11eb-91d3-75488e21a0a9.png)](#how-to-download-taskbar-groups)
 
 ##  🔽 How to download Taskbar groups:
-    1. Download the .zip-file from the latest release (link above)
-    2. Unpack the .zip-file at a desired location
-    3. Run the TaskbarGroups.exe file in the extracted folder
+1. Download the TaskbarGroups.exe from [releases](https://github.com/PikeNote/taskbar-groups-pike-beta/releases)
+2. Place in any location and run
 
  [ ![-----------------------------------------------------](https://user-images.githubusercontent.com/56088716/103312593-8a37ff80-49eb-11eb-91d3-75488e21a0a9.png)](#creating-your-first-group)
-## 🛠️ Creating your first group
-    1. Press on the "Add taskbar group"
-    2. Give the group a name and an icon
-    3. Click on the "Add new shortcut" and select an .exe or .lnk (repeat until you got all your desired shortcuts)
-	    a. You can select multiple .exe or .lnk files at once
-	    b. You can drag and drop .exe, .lnk, or folders into the add new shortcut field
-    4. Save the group
-    enter image description here5. Left click on the group
-    6. In the folder that opens up, right click on the highlighted shortcut
-    7. Select "Pin to taskbar"
+## 🛠️ Creating and pinning your first group
+1. Press on the "Add taskbar group"
+2. Give the group a name and an icon
+3. Click on the "Add new shortcut" and select an .exe or .lnk (repeat until you got all your desired shortcuts)
+    a. You can select multiple .exe or .lnk files at once
+    b. You can drag and drop .exe, .lnk, or folders into the add new shortcut field
+4. Save the group
+5. Left click on the group in an empty space
+6. In the folder that opens up, right click on the highlighted shortcut with the same name as your group
+7. Select "Pin to taskbar"
  [ ![-----------------------------------------------------](https://user-images.githubusercontent.com/56088716/103312593-8a37ff80-49eb-11eb-91d3-75488e21a0a9.png)](#-License)
 ## 📜 License
 This project is licensed under the [MIT License](https://github.com/tjackenpacken/taskbar-groups/blob/master/LICENSE).
