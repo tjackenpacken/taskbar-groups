@@ -43,6 +43,7 @@
             this.githubLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.pnlHelp = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lblHelp1 = new System.Windows.Forms.Label();
             this.lblHelp3 = new System.Windows.Forms.Label();
@@ -56,7 +57,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.pnlExistingGroups = new System.Windows.Forms.Panel();
             this.pnlBottomMain = new System.Windows.Forms.Panel();
-            this.label5 = new System.Windows.Forms.Label();
             this.pnlLeftColumn.SuspendLayout();
             this.panel2.SuspendLayout();
             this.pnlVersionInfo.SuspendLayout();
@@ -185,7 +185,7 @@
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.label6.ForeColor = System.Drawing.Color.Transparent;
-            this.label6.Location = new System.Drawing.Point(80, 54);
+            this.label6.Location = new System.Drawing.Point(44, 54);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(108, 19);
             this.label6.TabIndex = 19;
@@ -197,7 +197,7 @@
             this.currentVersion.BackColor = System.Drawing.Color.Transparent;
             this.currentVersion.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.currentVersion.ForeColor = System.Drawing.Color.Transparent;
-            this.currentVersion.Location = new System.Drawing.Point(191, 54);
+            this.currentVersion.Location = new System.Drawing.Point(154, 54);
             this.currentVersion.Name = "currentVersion";
             this.currentVersion.Size = new System.Drawing.Size(17, 19);
             this.currentVersion.TabIndex = 15;
@@ -209,7 +209,7 @@
             this.githubVersion.BackColor = System.Drawing.Color.Transparent;
             this.githubVersion.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.githubVersion.ForeColor = System.Drawing.Color.Transparent;
-            this.githubVersion.Location = new System.Drawing.Point(191, 83);
+            this.githubVersion.Location = new System.Drawing.Point(147, 83);
             this.githubVersion.Name = "githubVersion";
             this.githubVersion.Size = new System.Drawing.Size(17, 19);
             this.githubVersion.TabIndex = 14;
@@ -221,7 +221,7 @@
             this.githubLabel.BackColor = System.Drawing.Color.Transparent;
             this.githubLabel.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.githubLabel.ForeColor = System.Drawing.Color.Transparent;
-            this.githubLabel.Location = new System.Drawing.Point(88, 83);
+            this.githubLabel.Location = new System.Drawing.Point(45, 83);
             this.githubLabel.Name = "githubLabel";
             this.githubLabel.Size = new System.Drawing.Size(98, 19);
             this.githubLabel.TabIndex = 13;
@@ -251,6 +251,17 @@
             this.pnlHelp.Size = new System.Drawing.Size(292, 224);
             this.pnlHelp.TabIndex = 17;
             this.pnlHelp.Visible = false;
+            // 
+            // label5
+            // 
+            this.label5.BackColor = System.Drawing.Color.Transparent;
+            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.Transparent;
+            this.label5.Location = new System.Drawing.Point(25, 48);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(243, 40);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "1. Click on the group you want to pin to open the shortcuts folder";
             // 
             // label3
             // 
@@ -399,17 +410,6 @@
             this.pnlBottomMain.Name = "pnlBottomMain";
             this.pnlBottomMain.Size = new System.Drawing.Size(662, 101);
             this.pnlBottomMain.TabIndex = 4;
-            // 
-            // label5
-            // 
-            this.label5.BackColor = System.Drawing.Color.Transparent;
-            this.label5.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Transparent;
-            this.label5.Location = new System.Drawing.Point(25, 48);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(243, 40);
-            this.label5.TabIndex = 18;
-            this.label5.Text = "1. Click on the group you want to pin to open the shortcuts folder";
             // 
             // frmClient
             // 
