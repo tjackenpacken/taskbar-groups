@@ -91,8 +91,9 @@ namespace backgroundClient
             this.BackColor = Category.FromString(category.ColorString);
             Opacity = (1 - (category.Opacity / 100));
 
-            this.TopLevel = true;
-
+            //this.TopLevel = true;
+            this.TopMost = true;
+            
             /*
             if (BackColor.R * 0.2126 + BackColor.G * 0.7152 + BackColor.B * 0.0722 > 255 / 2)
             {
@@ -175,8 +176,13 @@ namespace backgroundClient
             SetLocation();
 
             //this.TopMost = false;
-            //this.LostFocus += frmMain_Deactivate;
+            this.Focus();
+            this.LostFocus += frmMain_Deactivate;
         }
+
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
 
         // Sets location of form
         private void SetLocation()
@@ -469,8 +475,11 @@ namespace backgroundClient
         // Closes application upon deactivation
         private void frmMain_Deactivate(object sender, EventArgs e)
         {
-            // closes program if user clicks outside form
-            this.Close();
+            if(GetForegroundWindow() != this.Handle)
+            {
+                // closes program if user clicks outside form
+                this.Close();
+            }
         }
 
         // Keyboard shortcut handlers

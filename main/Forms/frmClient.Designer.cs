@@ -185,7 +185,7 @@
             this.label6.BackColor = System.Drawing.Color.Transparent;
             this.label6.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.label6.ForeColor = System.Drawing.Color.Transparent;
-            this.label6.Location = new System.Drawing.Point(44, 54);
+            this.label6.Location = new System.Drawing.Point(60, 54);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(108, 19);
             this.label6.TabIndex = 19;
@@ -197,7 +197,7 @@
             this.currentVersion.BackColor = System.Drawing.Color.Transparent;
             this.currentVersion.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.currentVersion.ForeColor = System.Drawing.Color.Transparent;
-            this.currentVersion.Location = new System.Drawing.Point(154, 54);
+            this.currentVersion.Location = new System.Drawing.Point(170, 54);
             this.currentVersion.Name = "currentVersion";
             this.currentVersion.Size = new System.Drawing.Size(17, 19);
             this.currentVersion.TabIndex = 15;
@@ -209,7 +209,7 @@
             this.githubVersion.BackColor = System.Drawing.Color.Transparent;
             this.githubVersion.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.githubVersion.ForeColor = System.Drawing.Color.Transparent;
-            this.githubVersion.Location = new System.Drawing.Point(147, 83);
+            this.githubVersion.Location = new System.Drawing.Point(163, 83);
             this.githubVersion.Name = "githubVersion";
             this.githubVersion.Size = new System.Drawing.Size(17, 19);
             this.githubVersion.TabIndex = 14;
@@ -221,7 +221,7 @@
             this.githubLabel.BackColor = System.Drawing.Color.Transparent;
             this.githubLabel.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.githubLabel.ForeColor = System.Drawing.Color.Transparent;
-            this.githubLabel.Location = new System.Drawing.Point(45, 83);
+            this.githubLabel.Location = new System.Drawing.Point(61, 83);
             this.githubLabel.Name = "githubLabel";
             this.githubLabel.Size = new System.Drawing.Size(98, 19);
             this.githubLabel.TabIndex = 13;
