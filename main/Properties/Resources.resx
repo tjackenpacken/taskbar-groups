@@ -136,17 +136,11 @@
   <data name="Error" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Error.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="ExtensionBlocks" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\ExtensionBlocks.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="grayline" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\grayline.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="GuidMapping" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\GuidMapping.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="Lnk" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\lnk.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="Kaitai_Struct_Runtime" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\lib\kaitai.struct.runtime.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Microsoft_WindowsAPICodePack" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\lib\Microsoft.WindowsAPICodePack.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
@@ -175,26 +169,8 @@
   <data name="pencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pencil.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="Serilog" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\Serilog.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="Subtract" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Subtract.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="System_Buffers" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\System.Buffers.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="System_Memory" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\System.Memory.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="System_Numerics_Vectors" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\System.Numerics.Vectors.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="System_Runtime_CompilerServices_Unsafe" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\System.Runtime.CompilerServices.Unsafe.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="System_Text_Encoding_CodePages" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\lib\System.Text.Encoding.CodePages.dll;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="Taskbar_Groups_Background" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Taskbar Groups Background.exe;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

@@ -14,14 +14,9 @@ using Microsoft.WindowsAPICodePack.Shell;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using ChinhDo.Transactions;
 using System.Drawing.Imaging;
-using System.Diagnostics;
-using Shell32;
-using Lnk;
-using Lnk.ShellItems;
-using ExtensionBlocks;
-using ShellBag0X31 = Lnk.ShellItems.ShellBag0X31;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+
 
 namespace client.Forms
 {
@@ -448,53 +443,82 @@ namespace client.Forms
 
             ShellLinkObject link = (ShellLinkObject)folderItem.GetLink;
             */
-
-            LnkFile linkFile = Lnk.Lnk.LoadFile(file);
-
+            var ShellData = Kaitai.WindowsLnkFile.FromFile(file);
+            
+            
             var targetPath = "";
+            var iconLC = "";
 
-            linkFile.TargetIDs.ForEach(s =>
+            // Pass #1 using Kaitai reading
+            //LnkFile linkFile = Lnk.Lnk.LoadFile(file);
+
+
+            if (ShellData.RelPath != null)
             {
-                //targetPath += s. + "\\";
-                var sType = s.GetType().Name.ToUpper();
-                if (sType == "SHELLBAG0X2F")
+                var test = Path.GetDirectoryName(file);
+                targetPath = Path.GetFullPath(Path.GetDirectoryName(file) + "\\" + ShellData.RelPath.Str);
+            }
+            if(ShellData.IconLocation != null && ShellData.IconLocation.Str != null)
+            {
+                targetPath = ShellData.IconLocation.Str;
+            }
+
+            /*
+
+            // Pass #2 using Lnk library
+            if(string.IsNullOrEmpty(targetPath))
+            {
+                LnkFile linkFile = Lnk.Lnk.LoadFile(file);
+                linkFile.TargetIDs.ForEach(s =>
                 {
-                    targetPath += ((ShellBag0X2F)s).Value + "\\";
-                }
-                else if (sType == "SHELLBAG0X31")
-                {
-                    targetPath += ((ShellBag0X31)s).ShortName + "\\";
-                }
-                else if (sType == "SHELLBAG0X32")
-                {
-                    targetPath += ((ShellBag0X32)s).ShortName;
-                } else if (sType == "SHELLBAG0X00")
-                {
-                    ShellBag0X00 castedShellBag = ((ShellBag0X00)s);
-                    //targetPath += ((ShellBag0X00)s).PropertyStore.Sheets.First().PropertyNames.First().Value; // Super super hacky
-                    for (int i=0; i< castedShellBag.PropertyStore.Sheets.Count; i++)
+                    var sType = s.GetType().Name.ToUpper();
+                    if (sType == "SHELLBAG0X2F")
                     {
-                        var testPath = "";
-                        if(castedShellBag.PropertyStore.Sheets[i].PropertyNames.TryGetValue("2", out testPath))
+                        targetPath += ((ShellBag0X2F)s).Value + "\\";
+                    }
+                    else if (sType == "SHELLBAG0X31")
+                    {
+                        targetPath += ((ShellBag0X31)s).ShortName + "\\";
+                    }
+                    else if (sType == "SHELLBAG0X32")
+                    {
+                        targetPath += ((ShellBag0X32)s).ShortName;
+                    }
+                    else if (sType == "SHELLBAG0X00")
+                    {
+                        ShellBag0X00 castedShellBag = ((ShellBag0X00)s);
+                        //targetPath += ((ShellBag0X00)s).PropertyStore.Sheets.First().PropertyNames.First().Value; // Super super hacky
+                        for (int i = 0; i < castedShellBag.PropertyStore.Sheets.Count; i++)
                         {
-                            if(System.IO.File.Exists(testPath))
+                            var testPath = "";
+                            if (castedShellBag.PropertyStore.Sheets[i].PropertyNames.TryGetValue("2", out testPath))
                             {
-                                targetPath = testPath;
+                                if (System.IO.File.Exists(testPath))
+                                {
+                                    targetPath = testPath;
+                                }
                             }
                         }
+
+                        //((ShellBag0X00)s).PropertyStore.Sheets.First().PropertyNames.TryGetValue(2, out testPath); // Super super hacky
                     }
-                    
-                    //((ShellBag0X00)s).PropertyStore.Sheets.First().PropertyNames.TryGetValue(2, out testPath); // Super super hacky
+                });
+
+
+                if (string.IsNullOrEmpty(iconLC))
+                {
+                    iconLC = linkFile.IconLocation;
                 }
-            });
+            }
+            
+            */
 
-            var iconLC = linkFile.IconLocation;
+
+            //var iconLC = linkFile.IconLocation;
 
 
-            if (!string.IsNullOrEmpty(linkFile.LocalPath))
-            {
-                targetPath = linkFile.LocalPath;
-            } else
+            // Pass #3 using IWshShortcut (native)
+            if (string.IsNullOrEmpty(targetPath))
             {
                 try
                 {
@@ -503,19 +527,19 @@ namespace client.Forms
                     String[] icLocation = lnkIcon.IconLocation.Split(',');
                     String testPath = lnkIcon.TargetPath;
 
-                    if(string.IsNullOrEmpty(targetPath) && (System.IO.File.Exists(testPath) || Directory.Exists(testPath)))
+                    if (string.IsNullOrEmpty(targetPath) && (System.IO.File.Exists(testPath) || Directory.Exists(testPath)))
                     {
                         targetPath = testPath;
                     }
 
-                    if(string.IsNullOrEmpty(iconLC))
+                    if (string.IsNullOrEmpty(iconLC))
                     {
                         iconLC = icLocation[0];
                     }
 
                 }
                 catch (Exception e)
-                {}
+                { }
             }
 
 
@@ -526,6 +550,21 @@ namespace client.Forms
 
 
 
+            if (!string.IsNullOrEmpty(iconLC) && !iconLC.Contains("http"))
+            {
+
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(iconLC))).ToBitmap();
+            }
+            else if (string.IsNullOrEmpty(iconLC) && (targetPath == "" || !System.IO.File.Exists(targetPath)))
+            {
+                return handleWindowsApp.getWindowsAppIcon(file);
+
+            }
+            else
+            {
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(targetPath))).ToBitmap();
+            }
+            // Return the icon
             try
             {
                 if (!string.IsNullOrEmpty(iconLC) && !iconLC.Contains("http"))
@@ -541,7 +580,7 @@ namespace client.Forms
                 {
                     return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(targetPath))).ToBitmap();
                 }
-            } catch (Exception)
+            } catch (Exception e)
             {
                 return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(file))).ToBitmap();
             }

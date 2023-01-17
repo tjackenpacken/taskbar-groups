@@ -121,16 +121,6 @@ namespace client.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] ExtensionBlocks {
-            get {
-                object obj = ResourceManager.GetObject("ExtensionBlocks", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap grayline {
@@ -143,19 +133,9 @@ namespace client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
-        internal static byte[] GuidMapping {
+        internal static byte[] Kaitai_Struct_Runtime {
             get {
-                object obj = ResourceManager.GetObject("GuidMapping", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Lnk {
-            get {
-                object obj = ResourceManager.GetObject("Lnk", resourceCulture);
+                object obj = ResourceManager.GetObject("Kaitai_Struct_Runtime", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -251,72 +231,12 @@ namespace client.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] Serilog {
-            get {
-                object obj = ResourceManager.GetObject("Serilog", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap Subtract {
             get {
                 object obj = ResourceManager.GetObject("Subtract", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] System_Buffers {
-            get {
-                object obj = ResourceManager.GetObject("System_Buffers", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] System_Memory {
-            get {
-                object obj = ResourceManager.GetObject("System_Memory", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] System_Numerics_Vectors {
-            get {
-                object obj = ResourceManager.GetObject("System_Numerics_Vectors", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] System_Runtime_CompilerServices_Unsafe {
-            get {
-                object obj = ResourceManager.GetObject("System_Runtime_CompilerServices_Unsafe", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
-        /// </summary>
-        internal static byte[] System_Text_Encoding_CodePages {
-            get {
-                object obj = ResourceManager.GetObject("System_Text_Encoding_CodePages", resourceCulture);
-                return ((byte[])(obj));
             }
         }
         
