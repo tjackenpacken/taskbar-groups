@@ -372,7 +372,7 @@ namespace client.Classes
                 Process bkg = pname[0];
 
                 bkg.Kill();
-
+                bkg.WaitForExit();
             }
             
         }

@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Timers;
 using System.Windows.Forms;
 
 namespace backgroundClient
@@ -14,8 +15,12 @@ namespace backgroundClient
 
     public partial class frmMain : Form
     {
-        [DllImport("user32.dll")]
-        public static extern bool ShowWindow(IntPtr handle, int flags);
+        [DllImport("User32.dll")]
+        internal static extern IntPtr SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        static extern void SwitchToThisWindow(IntPtr hWnd, bool turnOn);
+
 
         // Allow doubleBuffering drawing each frame to memory and then onto screen
         // Solves flickering issues mostly as the entire rendering of the screen is done in 1 operation after being first loaded to memory
@@ -91,7 +96,7 @@ namespace backgroundClient
             this.BackColor = Category.FromString(category.ColorString);
             Opacity = (1 - (category.Opacity / 100));
 
-            //this.TopLevel = true;
+            this.TopLevel = true;
             this.TopMost = true;
             
             /*
@@ -176,7 +181,20 @@ namespace backgroundClient
             SetLocation();
 
             //this.TopMost = false;
-            this.Focus();
+
+            SetForegroundWindow(this.Handle);
+            SwitchToThisWindow(this.Handle, true);
+
+        System.Timers.Timer t = new System.Timers.Timer();
+            t.Interval = 50;
+            t.AutoReset = false; 
+            t.Elapsed += new ElapsedEventHandler(TimerElapsed);
+            t.Start();
+        }
+
+        private void TimerElapsed(object sender, ElapsedEventArgs e)
+        {
+            this.Deactivate += frmMain_Deactivate;
             this.LostFocus += frmMain_Deactivate;
         }
 
@@ -475,7 +493,8 @@ namespace backgroundClient
         // Closes application upon deactivation
         private void frmMain_Deactivate(object sender, EventArgs e)
         {
-            if(GetForegroundWindow() != this.Handle)
+           
+            if (GetForegroundWindow() != this.Handle)
             {
                 // closes program if user clicks outside form
                 this.Close();

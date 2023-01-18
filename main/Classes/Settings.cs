@@ -19,15 +19,11 @@ namespace client.Classes
         static Settings()
         {
             defaultSettingsPath = settingsPath;
-            if (File.Exists(settingsPath))
-            {
-
-            }
-            else if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.xml")))
+            if (File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.xml")))
             {
                 settingsPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Settings.xml");
             }
-            else
+            else if (!File.Exists(settingsPath))
             {
                 Directory.CreateDirectory(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), appDataRelative));
                 settingInfo = new Setting();
