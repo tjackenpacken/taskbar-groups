@@ -158,16 +158,14 @@ namespace client.Classes
         private static string setupMainClientShortcut()
         {
             string filePath = System.IO.Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), AppDataRelativePath, "Taskbar Group Editor.lnk");
-            if (!System.IO.File.Exists(filePath))
-            {
-                string shortcutLocation = System.IO.Path.Combine(filePath);
-                WshShell shell = new WshShell();
-                IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
+            // Regenerate .lnk every time (doing the entire process to check it is just more tedious and most likely more computationally expensive.
+            string shortcutLocation = System.IO.Path.Combine(filePath);
+            WshShell shell = new WshShell();
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutLocation);
 
-                shortcut.Description = "Shortcut for Edit Group context menu feature";   // The description of the shortcut
-                shortcut.TargetPath = Paths.exeString;                 // The path of the file that will launch when the shortcut is run
-                shortcut.Save();
-            }
+            shortcut.Description = "Shortcut for Edit Group context menu feature";   // The description of the shortcut
+            shortcut.TargetPath = Paths.exeString;                 // The path of the file that will launch when the shortcut is run
+            shortcut.Save();
             return filePath;
         }
 
