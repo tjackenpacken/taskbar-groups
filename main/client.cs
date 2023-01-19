@@ -7,6 +7,7 @@ using client.Classes;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
+using System.Reflection;
 
 namespace client
 {
@@ -50,6 +51,18 @@ namespace client
 
         static void Main()
         {
+            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            {
+                string resourceName = new AssemblyName(args.Name).Name + ".dll";
+                string resource = Array.Find(Assembly.GetExecutingAssembly().GetManifestResourceNames(), element => element.EndsWith(resourceName));
+
+                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+                {
+                    Byte[] assemblyData = new Byte[stream.Length];
+                    stream.Read(assemblyData, 0, assemblyData.Length);
+                    return Assembly.Load(assemblyData);
+                }
+            };
             if (Environment.OSVersion.Version >= new Version(6, 3, 0)) // win 8.1 added support for per monitor dpi
             {
                 if (Environment.OSVersion.Version >= new Version(10, 0, 15063)) // win 10 creators update added support for per monitor v2

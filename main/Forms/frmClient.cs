@@ -15,6 +15,7 @@ using System.Transactions;
 using System.Windows.Forms;
 using Windows.Data.Json;
 using System.Runtime.InteropServices;
+using Kaitai;
 
 namespace client.Forms
 {
@@ -26,19 +27,6 @@ namespace client.Forms
 
         public frmClient(List<string> arguments)
         {
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-            {
-                string resourceName = new AssemblyName(args.Name).Name + ".dll";
-                string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
-
-                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
-                {
-                    Byte[] assemblyData = new Byte[stream.Length];
-                    stream.Read(assemblyData, 0, assemblyData.Length);
-                    return Assembly.Load(assemblyData);
-                }
-            };
-
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
             InitializeComponent();
             eDpi = Display(DpiType.Effective);
@@ -66,6 +54,20 @@ namespace client.Forms
             {
                 portabilityButton.Tag = "y";
                 portabilityButton.Image = Properties.Resources.toggleOn;
+
+                string[] files =
+    Directory.GetFiles(Paths.ShortcutsPath, "*.lnk");
+
+                foreach (string lnkPath in files)
+                {
+                    WindowsLnkFile lk = WindowsLnkFile.FromFile(lnkPath);
+                    if (lk.RelPath == null || string.IsNullOrEmpty(lk.RelPath.Str) || lk.RelPath.Str != "..\\Taskbar Groups Background.exe")
+                    {
+                        changeAllShortcuts();
+                        break;
+                    }
+
+                }
             }
             else
             {
@@ -318,6 +320,11 @@ namespace client.Forms
                     {
                         if (fm.FileExists(fileArray[i, int1]))
                         {
+                            // Delete if a file is already there (edge cases where the background or another group is created)
+                            if(fm.FileExists(fileArray[i, int2]))
+                            {
+                                fm.Delete(fileArray[i, int2]);
+                            }
                             fm.Move(fileArray[i, int1], fileArray[i, int2]);
                         }
                     }

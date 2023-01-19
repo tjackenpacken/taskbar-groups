@@ -47,8 +47,6 @@ namespace client.Forms
         // CTOR for creating a new group
         public frmGroup(frmClient client)
         {
-            intializeDLLs();
-
             // Setting from profile
             System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
 
@@ -69,9 +67,6 @@ namespace client.Forms
         // CTOR for editing an existing group
         public frmGroup(frmClient client, Category category)
         {
-            intializeDLLs();
-
-
             // Setting form profile
             System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
 
@@ -1113,22 +1108,6 @@ namespace client.Forms
             Point deleteButton = cmdDelete.FindForm().PointToClient(cmdDelete.Parent.PointToScreen(cmdDelete.Location));
             pnlDeleteConfo.Location = new Point(deleteButton.X - 63, deleteButton.Y - 100);
             pnlDeleteConfo.Visible = true;
-        }
-
-        private void intializeDLLs()
-        {
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-            {
-                string resourceName = new AssemblyName(args.Name).Name + ".dll";
-                string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
-
-                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
-                {
-                    Byte[] assemblyData = new Byte[stream.Length];
-                    stream.Read(assemblyData, 0, assemblyData.Length);
-                    return Assembly.Load(assemblyData);
-                }
-            };
         }
 
         private Image constructIcons()
