@@ -362,15 +362,26 @@ namespace client.Classes
         // END OF CLASS
         //
 
-        public static void closeBackgroundApp()
+        public static void closeBackgroundApp(string path = "")
         {
             Process[] pname = Process.GetProcessesByName(Path.GetFileNameWithoutExtension("Taskbar Groups Background"));
             if (pname.Length != 0)
             {
                 Process bkg = pname[0];
 
-                bkg.Kill();
-                bkg.WaitForExit();
+                Process p = new Process();
+                if (path == "")
+                {
+                    path = Paths.BackgroundApplication;
+                }
+                p.StartInfo.FileName = path;
+                p.StartInfo.Arguments = "exitApplicationModeReserved";
+                p.Start();
+
+                if(!bkg.WaitForExit(2000))
+                {
+                    bkg.Kill();
+                }
             }
             
         }

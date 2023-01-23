@@ -79,6 +79,9 @@ namespace backgroundClient
                             MessageBox.Show("Please reopen your Taskbar Groups editor to set the location of itself so you can use this feature!");
                         }
                     }
+                } else if (secondInstanceArgumens[1] == "exitApplicationModeReserved")
+                {
+                    Application.Exit();
                 }
             }
         }

@@ -145,7 +145,7 @@ namespace client.Classes
 
                 if (fileHash.SequenceEqual(localHash) == false)
                 {
-                    Category.closeBackgroundApp();
+                    Category.closeBackgroundApp(filePath);
                     System.IO.File.WriteAllBytes(filePath, Resources.Taskbar_Groups_Background);
 
                     justWritten = true;

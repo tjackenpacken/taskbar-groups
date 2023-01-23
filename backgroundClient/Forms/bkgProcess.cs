@@ -70,7 +70,7 @@ namespace backgroundClient
             ContextMenu trayContext = new ContextMenu();
 
             trayContext.MenuItems.Add("Exit", (s,e) => {
-                Environment.Exit(0);
+                Application.Exit();
             });
             notifyIcon1.ContextMenu = trayContext;
         }
