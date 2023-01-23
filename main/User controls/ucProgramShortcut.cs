@@ -103,25 +103,37 @@ namespace client.User_controls
                 }
             }
 
-           
-
-            if (Position == 0)
-            {
-                cmdNumUp.Enabled = false;
-                cmdNumUp.BackgroundImage = global::client.Properties.Resources.NumUpGray;
-            }
-            if (Position == MotherForm.Category.ShortcutList.Count - 1)
-            {
-                cmdNumDown.Enabled = false;
-                cmdNumDown.BackgroundImage = global::client.Properties.Resources.NumDownGray;
-
-            }
-
             this.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 
             txtShortcutName.GotFocus += txtShortcutName_GotFocus;
 
             txtShortcutName.Text = Truncate(Shortcut.name, (int)Math.Floor(txtShortcutName.Width / characterWidth));
+        }
+
+        public void ucProgramShortcut_ReadjustArrows()
+        {
+            // Reset to default
+            // Rerun checks
+            if (Position == 0)
+            {
+                cmdNumUp.Enabled = false;
+                cmdNumUp.BackgroundImage = global::client.Properties.Resources.NumUpGray;
+            } else
+            {
+                cmdNumUp.Enabled = true;
+                cmdNumUp.BackgroundImage = global::client.Properties.Resources.NumUp;
+            }
+
+            if (Position == MotherForm.Category.ShortcutList.Count - 1)
+            {
+                cmdNumDown.Enabled = false;
+                cmdNumDown.BackgroundImage = global::client.Properties.Resources.NumDownGray;
+
+            } else
+            {
+                cmdNumDown.Enabled = true;
+                cmdNumDown.BackgroundImage = global::client.Properties.Resources.NumDown;
+            }
         }
 
         private void ucProgramShortcut_MouseEnter(object sender, EventArgs e)

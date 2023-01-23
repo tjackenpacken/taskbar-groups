@@ -201,6 +201,7 @@
             this.pnlShortcuts.Name = "pnlShortcuts";
             this.pnlShortcuts.Size = new System.Drawing.Size(476, 39);
             this.pnlShortcuts.TabIndex = 34;
+            this.pnlShortcuts.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pnlShortcuts_ControlAdded);
             // 
             // pnlGroupIcon
             // 

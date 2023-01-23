@@ -148,7 +148,7 @@ namespace client.Forms
             };
             pnlShortcuts.Controls.Add(ucPsc);
             ucPsc.Show();
-            ucPsc.BringToFront();
+            ucPsc.SendToBack();
 
             if (pnlShortcuts.Controls.Count < 6)
             {
@@ -245,12 +245,12 @@ namespace client.Forms
             String appName = "";
             String appFilePath = expandEnvironment(file);
 
-            getShortcutName(appName, isExtension, appFilePath);
+            appName = getShortcutName(appName, isExtension, appFilePath);
 
 
             ProgramShortcut psc = new ProgramShortcut() { FilePath = appFilePath, isWindowsApp = isExtension, WorkingDirectory = workingDirec, name = appName }; //Create new shortcut obj
             Category.ShortcutList.Add(psc); // Add to panel shortcut list
-            LoadShortcut(psc, Category.ShortcutList.Count - 1);
+            LoadShortcut(psc, Category.ShortcutList.Count-1);
         }
 
         // Handle setting/getting shortcut name
@@ -281,12 +281,13 @@ namespace client.Forms
 
             Category.ShortcutList.Remove(psc);
             resetSelection();
-            bool before = true;
+            bool after = false;
+            int controlIndex=0;
             //int i = 0;
 
             foreach (ucProgramShortcut ucPsc in pnlShortcuts.Controls)
             {
-                if (before)
+                if (after)
                 {
                     ucPsc.Top -= 50 * (int)(frmClient.eDpi / 96);
                     ucPsc.Position -= 1;
@@ -295,15 +296,15 @@ namespace client.Forms
                 {
                     //i = pnlShortcuts.Controls.IndexOf(ucPsc);
 
-                    int controlIndex = pnlShortcuts.Controls.IndexOf(ucPsc);
+                    controlIndex = pnlShortcuts.Controls.IndexOf(ucPsc);
 
-                    pnlShortcuts.Controls.Remove(ucPsc);
+                    
 
                     if (controlIndex + 1 != pnlShortcuts.Controls.Count)
                     {
                         try
                         {
-                            pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[controlIndex]);
+                            pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[controlIndex+1]);
                         }
                         catch
                         {
@@ -314,15 +315,19 @@ namespace client.Forms
                         }
                     }
 
-                    before = false;
+                    after = true;
                 }
             }
+
+            pnlShortcuts.Controls.Remove(pnlShortcuts.Controls[controlIndex]);
 
             if (pnlShortcuts.Controls.Count < 5)
             {
                 pnlShortcuts.Height -= 50 * (int)(frmClient.eDpi / 96);
                 pnlAddShortcut.Top -= 50 * (int)(frmClient.eDpi / 96);
             }
+
+            pnlShortcuts_ControlAdded(this, new ControlEventArgs(this));
         }
 
         // Change positions of shortcut panels
@@ -1168,6 +1173,14 @@ namespace client.Forms
             var ms = new MemoryStream(bytes);
             var bp = (Bitmap)Image.FromStream(ms);
             return bp;
+        }
+
+        private void pnlShortcuts_ControlAdded(object sender, ControlEventArgs e)
+        {
+            for(int i=0; i< pnlShortcuts.Controls.Count; i++)
+            {
+                ((ucProgramShortcut)pnlShortcuts.Controls[i]).ucProgramShortcut_ReadjustArrows();
+            }
         }
     }
 }

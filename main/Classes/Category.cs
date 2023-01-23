@@ -225,13 +225,11 @@ namespace client.Classes
             // Writes the icon to the new folder in a .jpg format
             // Namign scheme for the files are done through Path.GetFileNameWithoutExtension()
 
-            int ind = ShortcutList.Count - 1;
-            foreach(ProgramShortcut shrtcutList in ShortcutList)
+            for(int i=0; i< ShortcutList.Count; i++)
             {
-                String filePath = shrtcutList.FilePath;
+                String filePath = ShortcutList[i].FilePath;
 
-                ucProgramShortcut programShortcutControl = Application.OpenForms["frmGroup"].Controls["pnlShortcuts"].Controls[ind] as ucProgramShortcut;
-                ind--;
+                ucProgramShortcut programShortcutControl = Application.OpenForms["frmGroup"].Controls["pnlShortcuts"].Controls[i] as ucProgramShortcut;
                 string savePath = Path.Combine(iconPath, generateMD5Hash(filePath) + ".png");
                 programShortcutControl.logo.Save(savePath);
             }
