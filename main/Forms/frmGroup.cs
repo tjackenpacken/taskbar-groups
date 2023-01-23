@@ -333,24 +333,25 @@ namespace client.Forms
         // Change positions of shortcut panels
         public void Swap<T>(IList<T> list, int indexA, int indexB)
         {
-            resetSelection();
-            T tmp = list[indexA];
-            list[indexA] = list[indexB];
-            list[indexB] = tmp;
-
-            // Clears and reloads all shortcuts with new positions
-            pnlShortcuts.Controls.Clear();
-            pnlShortcuts.Height = 0;
-            pnlAddShortcut.Top = 220 * (int)(frmClient.eDpi / 96);
-
-            selectedShortcut = null;
-
-            int position = 0;
-            foreach (ProgramShortcut psc in Category.ShortcutList)
+            // Get move amount via eDPI calculation
+            int moveAmount = 50 * (int)(frmClient.eDpi / 96);
+            (list[indexA], list[indexB]) = (list[indexB], list[indexA]); // Swap items
+            resetSelection(); // Reset item selection
+            
+            if (indexA>indexB) 
             {
-                LoadShortcut(psc, position);
-                position++;
+                pnlShortcuts.Controls[indexA].Top -= moveAmount;
+                pnlShortcuts.Controls[indexB].Top += moveAmount;
+
+                pnlShortcuts.Controls.SetChildIndex(pnlShortcuts.Controls[indexB], indexA);
+            } else
+            {
+                pnlShortcuts.Controls[indexA].Top += moveAmount;
+                pnlShortcuts.Controls[indexB].Top -= moveAmount;
+                pnlShortcuts.Controls.SetChildIndex(pnlShortcuts.Controls[indexA], indexB);
             }
+
+            pnlShortcuts_ControlAdded(this, new ControlEventArgs(this));
         }
 
 
@@ -1179,7 +1180,7 @@ namespace client.Forms
         {
             for(int i=0; i< pnlShortcuts.Controls.Count; i++)
             {
-                ((ucProgramShortcut)pnlShortcuts.Controls[i]).ucProgramShortcut_ReadjustArrows();
+                ((ucProgramShortcut)pnlShortcuts.Controls[i]).ucProgramShortcut_ReadjustArrows(i);
             }
         }
     }

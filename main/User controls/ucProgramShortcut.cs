@@ -110,8 +110,9 @@ namespace client.User_controls
             txtShortcutName.Text = Truncate(Shortcut.name, (int)Math.Floor(txtShortcutName.Width / characterWidth));
         }
 
-        public void ucProgramShortcut_ReadjustArrows()
+        public void ucProgramShortcut_ReadjustArrows(int pos)
         {
+            Position = pos;
             // Reset to default
             // Rerun checks
             if (Position == 0)
@@ -158,7 +159,6 @@ namespace client.User_controls
         private void cmdNumDown_Click(object sender, EventArgs e)
         {
             MotherForm.Swap(MotherForm.Category.ShortcutList, Position, Position + 1);
-
         }
 
         private void cmdDelete_Click(object sender, EventArgs e)
