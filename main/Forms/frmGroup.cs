@@ -117,6 +117,9 @@ namespace client.Forms
                 LoadShortcut(psc, position);
                 position++;
             }
+
+            pnlShortcuts_ControlAdded(this, new ControlEventArgs(this));
+
         }
 
         // Handle scaling etc(?) (WORK IN PROGRESS)
@@ -147,15 +150,18 @@ namespace client.Forms
                 Width = pnlAddShortcut.Width
             };
             pnlShortcuts.Controls.Add(ucPsc);
+            ucPsc.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             ucPsc.Show();
             ucPsc.SendToBack();
 
+            
             if (pnlShortcuts.Controls.Count < 6)
             {
                 pnlShortcuts.Height += 50 * (int)(frmClient.eDpi / 96);
                 pnlAddShortcut.Top += 50 * (int)(frmClient.eDpi / 96);
             }
-            ucPsc.Location = new Point(25 * (int)(frmClient.eDpi / 96), (pnlShortcuts.Controls.Count * 50 * (int)(frmClient.eDpi / 96)) - 50 * (int)(frmClient.eDpi / 96));
+            //ucPsc.Location = new Point(25 * (int)(frmClient.eDpi / 96), (pnlShortcuts.Controls.Count * 50 * (int)(frmClient.eDpi / 96)) - 50 * (int)(frmClient.eDpi / 96));
+            
             pnlShortcuts.AutoScroll = true;
 
         }
@@ -289,7 +295,7 @@ namespace client.Forms
             {
                 if (after)
                 {
-                    ucPsc.Top -= 50 * (int)(frmClient.eDpi / 96);
+                    //ucPsc.Top -= 50 * (int)(frmClient.eDpi / 96);
                     ucPsc.Position -= 1;
                 }
                 if (ucPsc.Shortcut == psc)
@@ -340,14 +346,14 @@ namespace client.Forms
             
             if (indexA>indexB) 
             {
-                pnlShortcuts.Controls[indexA].Top -= moveAmount;
-                pnlShortcuts.Controls[indexB].Top += moveAmount;
+                //pnlShortcuts.Controls[indexA].Top -= moveAmount;
+                //pnlShortcuts.Controls[indexB].Top += moveAmount;
 
                 pnlShortcuts.Controls.SetChildIndex(pnlShortcuts.Controls[indexB], indexA);
             } else
             {
-                pnlShortcuts.Controls[indexA].Top += moveAmount;
-                pnlShortcuts.Controls[indexB].Top -= moveAmount;
+                //pnlShortcuts.Controls[indexA].Top += moveAmount;
+                //pnlShortcuts.Controls[indexB].Top -= moveAmount;
                 pnlShortcuts.Controls.SetChildIndex(pnlShortcuts.Controls[indexA], indexB);
             }
 
@@ -427,7 +433,6 @@ namespace client.Forms
             }
      
         }
-
 
 
         // Handle returning images of icon files (.lnk)
@@ -667,7 +672,7 @@ namespace client.Forms
         private void cmdExit_Click(object sender, EventArgs e)
         {
             this.Close();
-            Client.Reload(); //flush and reload category panels
+            Client.Reload(); //flush and reload category panel
             Client.Reset();
         }
 

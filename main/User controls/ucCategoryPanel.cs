@@ -36,7 +36,7 @@ namespace client.User_controls
                 {
                     x = (int)(90 * frmClient.eDpi / 96); // resetting x
                     y += (int)(40 * frmClient.eDpi / 96); // adding new row
-                    this.Height += (int)(40 * frmClient.eDpi / 96);
+                    //this.Height += (int)(40 * frmClient.eDpi / 96);
                     columns = 1;
                 }
                 CreateShortcut(x, y, psc);
@@ -76,7 +76,7 @@ namespace client.User_controls
                 tt.SetToolTip(this.shortcutPanel, "Program does not exist");
             }
 
-            this.Controls.Add(this.shortcutPanel);
+            this.pnlShortcuts.Controls.Add(this.shortcutPanel);
             this.shortcutPanel.Show();
             this.shortcutPanel.BringToFront();
         }

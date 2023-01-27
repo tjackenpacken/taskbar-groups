@@ -117,40 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="
-        
-
-
-
-
-
-
-Button.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        vgAADr4B6kKxwAAAAkhJREFUWEftlzGLGlEUhUchQhAFwUosXFEsLbXT5DfEQogYSJMurXYJpEoqwUis
-        DHYprNbSQivByiLsD9hiCwuRNcpsxLk5xzxDNnlm1bBPSObAhzAM9353LqNPy40bN2784Cl4rXh1Irb9
-        6UKnvRMFTXDt8XjWyWRScrmcZDIZCQaDa1wXsP00CXteA7rR8Y95AuaRSMSp1WoymUzk56zXaxkMBlIo
-        FARDOrhX1/C+Yd85oKs2L8Aaks5sNlPqu9PtdiUUCukamYDDcEN0vpVH4KZYLDp86vtmNBqJ3+/XNTIB
-        h7kBdN/kIbiIx+POYrFQivunXq/rmpiCw1wAzmA944VWq6XUDstqtZJYLKZrYgoOwxmsc5/Pd9Q2tqlU
-        KroGpuAg58C6SqfTSum4dDodXQOTXAHLzufzSum49Pt9XXGT2MCy/4GNbAa5xDsiy+VSaR2earWqK26S
-        S2B9Ak673VZah4XfWmdnZ7ripuDLzhk2P/VOIpEQ27aV3v5pNpu64ibhIJvjygPwGUi5XBbHcZTi3RmP
-        xxIIBHTFTUJ3zrDJY/AVSKlUkvl8rlR3p9frSTgc1hU2CZ3p/iMe8BJwTRKNRqXRaMh0OlXa38NtDYdD
-        wZmMp19dYZPQlc50vxUvKIEF2Nzs9XollUoJf2ey2ewpT7u/Qke60lkbThcHH8EXoCtySuhENzr+tgld
-        OGkIPAdvQQ18ULwH78AboPtr+jewJmuzx7Yfe9OBLnTauYW7wskJC2zZ62kcGV2v++znxs1/EMv6BiNp
-        rbcJH+PnAAAAAElFTkSuQmCC
-</value>
-  </data>
   <data name="label8.Text" xml:space="preserve">
     <value>Note: Enabling this feature will move all your folders (config + shortcut folders). The background exe will be replicated here and a new settings file will be created. All shortcuts in the shortcuts folder will be pointed there.
 
 </value>
   </data>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="cmdAddGroup.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
-        DgAACw4BQL7hQQAAAS1JREFUeF7t1UEKwlAQBNEczRvGI3mzOGDPpjJ/oRAULKE2Ir+Ht3G77/th54RZ
+        DAAACwwBP0AiyAAAAS1JREFUeF7t1UEKwlAQBNEczRvGI3mzOGDPpjJ/oRAULKE2Ir+Ht3G77/th54RZ
         JMwiYRadYOqz/WN0ECbRQZhEB2ESHYRJdBAm0UGYRAdhEh2ESXQQJtFBmEQHYRIdhEl0ECbRQZhEB2ES
         HYRJdPg6TG3ecMNj+t3V4QZhOtwgTIcbhOlwgzAdbhCmww3CdLhBmA43CNPhBmE63CBMhxuE6XDDNTB8
         8+q4/0l8U5jEN4VJfFOYxDcvgXmn2vRfaao2hZmqTWGmalOYqdoUZqo2hZmqTWGmalOYqdoUZqo2hZmq

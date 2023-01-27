@@ -30,11 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmClient));
             this.pnlLeftColumn = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.portabilityButton = new System.Windows.Forms.Button();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
+            this.lblHelpTitle = new System.Windows.Forms.Label();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.pnlVersionInfo = new System.Windows.Forms.Panel();
             this.githubLink = new System.Windows.Forms.LinkLabel();
             this.label6 = new System.Windows.Forms.Label();
@@ -42,24 +39,29 @@
             this.githubVersion = new System.Windows.Forms.Label();
             this.githubLabel = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.portabilityButton = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
             this.pnlHelp = new System.Windows.Forms.Panel();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lblHelp1 = new System.Windows.Forms.Label();
             this.lblHelp3 = new System.Windows.Forms.Label();
             this.lblHelp2 = new System.Windows.Forms.Label();
-            this.lblHelpTitle = new System.Windows.Forms.Label();
             this.pnlAddGroup = new System.Windows.Forms.Panel();
             this.lblAddGroup = new System.Windows.Forms.Label();
             this.cmdAddGroup = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.label2 = new System.Windows.Forms.Label();
-            this.pnlExistingGroups = new System.Windows.Forms.Panel();
             this.pnlBottomMain = new System.Windows.Forms.Panel();
+            this.pnlExistingShortcuts = new System.Windows.Forms.TableLayoutPanel();
             this.pnlLeftColumn.SuspendLayout();
-            this.panel2.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.pnlVersionInfo.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.pnlHelp.SuspendLayout();
             this.pnlAddGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).BeginInit();
@@ -71,96 +73,55 @@
             // 
             this.pnlLeftColumn.AutoSize = true;
             this.pnlLeftColumn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.pnlLeftColumn.Controls.Add(this.panel2);
-            this.pnlLeftColumn.Controls.Add(this.pnlVersionInfo);
-            this.pnlLeftColumn.Controls.Add(this.pnlHelp);
             this.pnlLeftColumn.Controls.Add(this.lblHelpTitle);
+            this.pnlLeftColumn.Controls.Add(this.tableLayoutPanel2);
             this.pnlLeftColumn.Dock = System.Windows.Forms.DockStyle.Left;
             this.pnlLeftColumn.ImeMode = System.Windows.Forms.ImeMode.On;
             this.pnlLeftColumn.Location = new System.Drawing.Point(0, 0);
             this.pnlLeftColumn.Name = "pnlLeftColumn";
-            this.pnlLeftColumn.Size = new System.Drawing.Size(307, 821);
+            this.pnlLeftColumn.Size = new System.Drawing.Size(312, 821);
             this.pnlLeftColumn.TabIndex = 0;
             // 
-            // panel2
+            // lblHelpTitle
             // 
-            this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel2.Controls.Add(this.portabilityButton);
-            this.panel2.Controls.Add(this.label8);
-            this.panel2.Controls.Add(this.label7);
-            this.panel2.Controls.Add(this.label11);
-            this.panel2.Location = new System.Drawing.Point(12, 356);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(292, 180);
-            this.panel2.TabIndex = 20;
+            this.lblHelpTitle.BackColor = System.Drawing.Color.Transparent;
+            this.lblHelpTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHelpTitle.ForeColor = System.Drawing.Color.Transparent;
+            this.lblHelpTitle.Location = new System.Drawing.Point(41, 44);
+            this.lblHelpTitle.Name = "lblHelpTitle";
+            this.lblHelpTitle.Size = new System.Drawing.Size(240, 56);
+            this.lblHelpTitle.TabIndex = 13;
+            this.lblHelpTitle.Text = "Press on \"Add Taskbar group\" to get started";
+            this.lblHelpTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // portabilityButton
+            // tableLayoutPanel2
             // 
-            this.portabilityButton.BackColor = System.Drawing.Color.Transparent;
-            this.portabilityButton.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.portabilityButton.FlatAppearance.BorderSize = 0;
-            this.portabilityButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
-            this.portabilityButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
-            this.portabilityButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.portabilityButton.ForeColor = System.Drawing.Color.Transparent;
-            this.portabilityButton.Image = ((System.Drawing.Image)(resources.GetObject("portabilityButton.Image")));
-            this.portabilityButton.Location = new System.Drawing.Point(111, 53);
-            this.portabilityButton.Name = "portabilityButton";
-            this.portabilityButton.Size = new System.Drawing.Size(66, 31);
-            this.portabilityButton.TabIndex = 21;
-            this.portabilityButton.TabStop = false;
-            this.portabilityButton.Tag = "n";
-            this.portabilityButton.UseVisualStyleBackColor = false;
-            this.portabilityButton.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // label8
-            // 
-            this.label8.BackColor = System.Drawing.Color.Transparent;
-            this.label8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.Transparent;
-            this.label8.Location = new System.Drawing.Point(3, 87);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(283, 90);
-            this.label8.TabIndex = 20;
-            this.label8.Text = resources.GetString("label8.Text");
-            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label7
-            // 
-            this.label7.BackColor = System.Drawing.Color.Transparent;
-            this.label7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.Transparent;
-            this.label7.Location = new System.Drawing.Point(35, 38);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(218, 23);
-            this.label7.TabIndex = 18;
-            this.label7.Text = "Portability Mode\r\n\r\n\r\n";
-            this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // label11
-            // 
-            this.label11.BackColor = System.Drawing.Color.Transparent;
-            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.Transparent;
-            this.label11.Location = new System.Drawing.Point(23, 1);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(243, 27);
-            this.label11.TabIndex = 17;
-            this.label11.Text = "Want portability?";
-            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.tableLayoutPanel2.AutoSize = true;
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Controls.Add(this.pnlVersionInfo, 0, 2);
+            this.tableLayoutPanel2.Controls.Add(this.panel2, 0, 1);
+            this.tableLayoutPanel2.Controls.Add(this.pnlHelp, 0, 0);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 126);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 3;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 248F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 153F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(306, 683);
+            this.tableLayoutPanel2.TabIndex = 18;
             // 
             // pnlVersionInfo
             // 
-            this.pnlVersionInfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.pnlVersionInfo.Controls.Add(this.githubLink);
             this.pnlVersionInfo.Controls.Add(this.label6);
             this.pnlVersionInfo.Controls.Add(this.currentVersion);
             this.pnlVersionInfo.Controls.Add(this.githubVersion);
             this.pnlVersionInfo.Controls.Add(this.githubLabel);
             this.pnlVersionInfo.Controls.Add(this.label4);
-            this.pnlVersionInfo.Location = new System.Drawing.Point(12, 616);
+            this.pnlVersionInfo.Location = new System.Drawing.Point(3, 533);
             this.pnlVersionInfo.Name = "pnlVersionInfo";
-            this.pnlVersionInfo.Size = new System.Drawing.Size(292, 112);
+            this.pnlVersionInfo.Size = new System.Drawing.Size(300, 116);
             this.pnlVersionInfo.TabIndex = 18;
             // 
             // githubLink
@@ -239,6 +200,73 @@
             this.label4.Text = "Have issues/bugs?";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.portabilityButton);
+            this.panel2.Controls.Add(this.label8);
+            this.panel2.Controls.Add(this.label7);
+            this.panel2.Controls.Add(this.label11);
+            this.panel2.Location = new System.Drawing.Point(3, 285);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(300, 179);
+            this.panel2.TabIndex = 20;
+            // 
+            // portabilityButton
+            // 
+            this.portabilityButton.BackColor = System.Drawing.Color.Transparent;
+            this.portabilityButton.BackgroundImage = global::client.Properties.Resources.toggleOff;
+            this.portabilityButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.portabilityButton.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.portabilityButton.FlatAppearance.BorderSize = 0;
+            this.portabilityButton.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.portabilityButton.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.portabilityButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.portabilityButton.ForeColor = System.Drawing.Color.Transparent;
+            this.portabilityButton.Location = new System.Drawing.Point(111, 53);
+            this.portabilityButton.Name = "portabilityButton";
+            this.portabilityButton.Size = new System.Drawing.Size(66, 31);
+            this.portabilityButton.TabIndex = 21;
+            this.portabilityButton.TabStop = false;
+            this.portabilityButton.Tag = "n";
+            this.portabilityButton.UseVisualStyleBackColor = false;
+            this.portabilityButton.Click += new System.EventHandler(this.button1_Click);
+            // 
+            // label8
+            // 
+            this.label8.BackColor = System.Drawing.Color.Transparent;
+            this.label8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.Transparent;
+            this.label8.Location = new System.Drawing.Point(3, 87);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(283, 90);
+            this.label8.TabIndex = 20;
+            this.label8.Text = resources.GetString("label8.Text");
+            this.label8.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label7
+            // 
+            this.label7.BackColor = System.Drawing.Color.Transparent;
+            this.label7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.ForeColor = System.Drawing.Color.Transparent;
+            this.label7.Location = new System.Drawing.Point(35, 38);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(218, 23);
+            this.label7.TabIndex = 18;
+            this.label7.Text = "Portability Mode\r\n\r\n\r\n";
+            this.label7.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // label11
+            // 
+            this.label11.BackColor = System.Drawing.Color.Transparent;
+            this.label11.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Transparent;
+            this.label11.Location = new System.Drawing.Point(23, 1);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(243, 27);
+            this.label11.TabIndex = 17;
+            this.label11.Text = "Want portability?";
+            this.label11.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // pnlHelp
             // 
             this.pnlHelp.Controls.Add(this.label5);
@@ -246,11 +274,10 @@
             this.pnlHelp.Controls.Add(this.lblHelp1);
             this.pnlHelp.Controls.Add(this.lblHelp3);
             this.pnlHelp.Controls.Add(this.lblHelp2);
-            this.pnlHelp.Location = new System.Drawing.Point(12, 126);
+            this.pnlHelp.Location = new System.Drawing.Point(3, 3);
             this.pnlHelp.Name = "pnlHelp";
-            this.pnlHelp.Size = new System.Drawing.Size(292, 224);
+            this.pnlHelp.Size = new System.Drawing.Size(300, 224);
             this.pnlHelp.TabIndex = 17;
-            this.pnlHelp.Visible = false;
             // 
             // label5
             // 
@@ -308,23 +335,13 @@
             this.lblHelp2.TabIndex = 15;
             this.lblHelp2.Text = "3. Click on \"Pin to taskbar\"";
             // 
-            // lblHelpTitle
-            // 
-            this.lblHelpTitle.BackColor = System.Drawing.Color.Transparent;
-            this.lblHelpTitle.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHelpTitle.ForeColor = System.Drawing.Color.Transparent;
-            this.lblHelpTitle.Location = new System.Drawing.Point(41, 44);
-            this.lblHelpTitle.Name = "lblHelpTitle";
-            this.lblHelpTitle.Size = new System.Drawing.Size(240, 56);
-            this.lblHelpTitle.TabIndex = 13;
-            this.lblHelpTitle.Text = "Press on \"Add Taskbar group\" to get started";
-            this.lblHelpTitle.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // pnlAddGroup
             // 
+            this.pnlAddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlAddGroup.Controls.Add(this.lblAddGroup);
             this.pnlAddGroup.Controls.Add(this.cmdAddGroup);
-            this.pnlAddGroup.Location = new System.Drawing.Point(164, 4);
+            this.pnlAddGroup.Location = new System.Drawing.Point(179, 16);
             this.pnlAddGroup.Name = "pnlAddGroup";
             this.pnlAddGroup.Size = new System.Drawing.Size(340, 70);
             this.pnlAddGroup.TabIndex = 1;
@@ -334,6 +351,7 @@
             // 
             // lblAddGroup
             // 
+            this.lblAddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.lblAddGroup.AutoSize = true;
             this.lblAddGroup.BackColor = System.Drawing.Color.Transparent;
             this.lblAddGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -349,6 +367,7 @@
             // 
             // cmdAddGroup
             // 
+            this.cmdAddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.cmdAddGroup.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cmdAddGroup.BackgroundImage")));
             this.cmdAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.cmdAddGroup.Location = new System.Drawing.Point(88, 14);
@@ -379,7 +398,7 @@
             this.panel1.Controls.Add(this.label1);
             this.panel1.Location = new System.Drawing.Point(320, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(680, 133);
+            this.panel1.Size = new System.Drawing.Size(677, 133);
             this.panel1.TabIndex = 2;
             // 
             // label2
@@ -394,22 +413,28 @@
             this.label2.TabIndex = 12;
             this.label2.Text = "Group your favourite programs and pin them to the taskbar for easy access";
             // 
-            // pnlExistingGroups
-            // 
-            this.pnlExistingGroups.Location = new System.Drawing.Point(320, 133);
-            this.pnlExistingGroups.Margin = new System.Windows.Forms.Padding(0);
-            this.pnlExistingGroups.Name = "pnlExistingGroups";
-            this.pnlExistingGroups.Size = new System.Drawing.Size(680, 0);
-            this.pnlExistingGroups.TabIndex = 3;
-            // 
             // pnlBottomMain
             // 
-            this.pnlBottomMain.AutoSize = true;
+            this.pnlBottomMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlBottomMain.Controls.Add(this.pnlAddGroup);
             this.pnlBottomMain.Location = new System.Drawing.Point(326, 162);
             this.pnlBottomMain.Name = "pnlBottomMain";
-            this.pnlBottomMain.Size = new System.Drawing.Size(662, 101);
+            this.pnlBottomMain.Size = new System.Drawing.Size(671, 101);
             this.pnlBottomMain.TabIndex = 4;
+            // 
+            // pnlExistingShortcuts
+            // 
+            this.pnlExistingShortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlExistingShortcuts.ColumnCount = 1;
+            this.pnlExistingShortcuts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.pnlExistingShortcuts.Location = new System.Drawing.Point(326, 135);
+            this.pnlExistingShortcuts.Name = "pnlExistingShortcuts";
+            this.pnlExistingShortcuts.RowCount = 1;
+            this.pnlExistingShortcuts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.pnlExistingShortcuts.Size = new System.Drawing.Size(671, 26);
+            this.pnlExistingShortcuts.TabIndex = 5;
             // 
             // frmClient
             // 
@@ -417,20 +442,23 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(3)))), ((int)(((byte)(3)))));
-            this.ClientSize = new System.Drawing.Size(1000, 821);
+            this.ClientSize = new System.Drawing.Size(1014, 821);
+            this.Controls.Add(this.pnlExistingShortcuts);
             this.Controls.Add(this.pnlBottomMain);
-            this.Controls.Add(this.pnlExistingGroups);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlLeftColumn);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmClient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Taskbar Groups";
-            this.Resize += new System.EventHandler(this.frmClient_Resize);
+            this.SizeChanged += new System.EventHandler(this.frmClient_SizeChanged);
             this.pnlLeftColumn.ResumeLayout(false);
-            this.panel2.ResumeLayout(false);
+            this.pnlLeftColumn.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
             this.pnlVersionInfo.ResumeLayout(false);
             this.pnlVersionInfo.PerformLayout();
+            this.panel2.ResumeLayout(false);
             this.pnlHelp.ResumeLayout(false);
             this.pnlAddGroup.ResumeLayout(false);
             this.pnlAddGroup.PerformLayout();
@@ -452,26 +480,27 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label lblAddGroup;
         private System.Windows.Forms.PictureBox cmdAddGroup;
-        private System.Windows.Forms.Panel pnlExistingGroups;
         private System.Windows.Forms.Label lblHelpTitle;
         private System.Windows.Forms.Panel pnlHelp;
         private System.Windows.Forms.Label lblHelp1;
         private System.Windows.Forms.Label lblHelp3;
         private System.Windows.Forms.Label lblHelp2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label currentVersion;
-        private System.Windows.Forms.Label githubVersion;
-        private System.Windows.Forms.Label githubLabel;
-        private System.Windows.Forms.Panel pnlVersionInfo;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Panel pnlBottomMain;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Button portabilityButton;
-        private System.Windows.Forms.LinkLabel githubLink;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TableLayoutPanel pnlExistingShortcuts;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
+        private System.Windows.Forms.Panel pnlVersionInfo;
+        private System.Windows.Forms.LinkLabel githubLink;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label currentVersion;
+        private System.Windows.Forms.Label githubVersion;
+        private System.Windows.Forms.Label githubLabel;
+        private System.Windows.Forms.Label label4;
     }
 }

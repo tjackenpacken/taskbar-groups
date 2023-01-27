@@ -241,7 +241,7 @@ namespace client.User_controls
         private void ucProgramShortcut_SizeChanged(object sender, EventArgs e)
         {
             txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
-            
+
             if (!txtShortcutName.Focused)
             {
                 txtShortcutName.Text = Truncate(Shortcut.name, (int)Math.Floor(txtShortcutName.Width / characterWidth));

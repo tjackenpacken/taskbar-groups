@@ -47,7 +47,7 @@
             this.cmdDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmdDelete.Font = new System.Drawing.Font("Segoe UI Semibold", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmdDelete.ForeColor = System.Drawing.Color.White;
-            this.cmdDelete.Location = new System.Drawing.Point(345, 11);
+            this.cmdDelete.Location = new System.Drawing.Point(368, 11);
             this.cmdDelete.Name = "cmdDelete";
             this.cmdDelete.Size = new System.Drawing.Size(83, 27);
             this.cmdDelete.TabIndex = 21;
@@ -132,7 +132,7 @@
             this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.pictureBox1.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox1.Image = global::client.Properties.Resources.pencil;
-            this.pictureBox1.Location = new System.Drawing.Point(321, 14);
+            this.pictureBox1.Location = new System.Drawing.Point(344, 14);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(20, 20);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
@@ -155,7 +155,7 @@
             this.Controls.Add(this.cmdNumDown);
             this.Controls.Add(this.cmdDelete);
             this.Name = "ucProgramShortcut";
-            this.Size = new System.Drawing.Size(450, 50);
+            this.Size = new System.Drawing.Size(473, 50);
             this.Load += new System.EventHandler(this.ucProgramShortcut_Load);
             this.SizeChanged += new System.EventHandler(this.ucProgramShortcut_SizeChanged);
             this.Click += new System.EventHandler(this.ucProgramShortcut_Click);

@@ -31,6 +31,7 @@
             this.lblTitle = new System.Windows.Forms.Label();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.picGroupIcon = new System.Windows.Forms.PictureBox();
+            this.pnlShortcuts = new System.Windows.Forms.FlowLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.picGroupIcon)).BeginInit();
             this.SuspendLayout();
             // 
@@ -50,6 +51,7 @@
             // 
             // cmdDelete
             // 
+            this.cmdDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
             this.cmdDelete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(148)))), ((int)(((byte)(148)))));
             this.cmdDelete.FlatAppearance.BorderSize = 0;
@@ -76,16 +78,31 @@
             this.picGroupIcon.MouseEnter += new System.EventHandler(this.lblTitle_MouseEnter);
             this.picGroupIcon.MouseLeave += new System.EventHandler(this.lblTitle_MouseLeave);
             // 
+            // pnlShortcuts
+            // 
+            this.pnlShortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlShortcuts.AutoSize = true;
+            this.pnlShortcuts.Location = new System.Drawing.Point(88, 44);
+            this.pnlShortcuts.Name = "pnlShortcuts";
+            this.pnlShortcuts.Size = new System.Drawing.Size(400, 21);
+            this.pnlShortcuts.TabIndex = 22;
+            this.pnlShortcuts.MouseEnter += new System.EventHandler(this.lblTitle_MouseEnter);
+            this.pnlShortcuts.MouseLeave += new System.EventHandler(this.lblTitle_MouseLeave);
+            // 
             // ucCategoryPanel
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(3)))), ((int)(((byte)(3)))));
+            this.Controls.Add(this.pnlShortcuts);
             this.Controls.Add(this.picGroupIcon);
             this.Controls.Add(this.cmdDelete);
             this.Controls.Add(this.lblTitle);
             this.Name = "ucCategoryPanel";
-            this.Size = new System.Drawing.Size(680, 100);
+            this.Size = new System.Drawing.Size(668, 68);
             this.Load += new System.EventHandler(this.ucNewCategory_Load);
             this.Click += new System.EventHandler(this.OpenFolder);
             ((System.ComponentModel.ISupportInitialize)(this.picGroupIcon)).EndInit();
@@ -98,5 +115,6 @@
         private System.Windows.Forms.Label lblTitle;
         private System.Windows.Forms.Button cmdDelete;
         private System.Windows.Forms.PictureBox picGroupIcon;
+        private System.Windows.Forms.FlowLayoutPanel pnlShortcuts;
     }
 }
