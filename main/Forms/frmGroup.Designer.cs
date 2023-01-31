@@ -279,9 +279,9 @@
             this.pnlAddShortcut.Controls.Add(this.cmdAddShortcut);
             this.pnlAddShortcut.Controls.Add(this.lblErrorShortcut);
             this.pnlAddShortcut.Controls.Add(this.lblAddShortcut);
-            this.pnlAddShortcut.Location = new System.Drawing.Point(72, 237);
+            this.pnlAddShortcut.Location = new System.Drawing.Point(57, 237);
             this.pnlAddShortcut.Name = "pnlAddShortcut";
-            this.pnlAddShortcut.Size = new System.Drawing.Size(429, 81);
+            this.pnlAddShortcut.Size = new System.Drawing.Size(456, 81);
             this.pnlAddShortcut.TabIndex = 45;
             this.pnlAddShortcut.Click += new System.EventHandler(this.pnlAddShortcut_Click);
             this.pnlAddShortcut.DragDrop += new System.Windows.Forms.DragEventHandler(this.pnlDragDropExt);
@@ -295,7 +295,7 @@
             this.cmdAddShortcut.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cmdAddShortcut.BackgroundImage = global::client.Properties.Resources.AddGray;
             this.cmdAddShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cmdAddShortcut.Location = new System.Drawing.Point(195, 16);
+            this.cmdAddShortcut.Location = new System.Drawing.Point(209, 16);
             this.cmdAddShortcut.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
             this.cmdAddShortcut.Name = "cmdAddShortcut";
             this.cmdAddShortcut.Size = new System.Drawing.Size(35, 35);
@@ -311,7 +311,7 @@
             this.lblErrorShortcut.AutoSize = true;
             this.lblErrorShortcut.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
             this.lblErrorShortcut.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorShortcut.Location = new System.Drawing.Point(167, 51);
+            this.lblErrorShortcut.Location = new System.Drawing.Point(181, 51);
             this.lblErrorShortcut.Name = "lblErrorShortcut";
             this.lblErrorShortcut.Size = new System.Drawing.Size(96, 19);
             this.lblErrorShortcut.TabIndex = 23;
@@ -326,7 +326,7 @@
             this.lblAddShortcut.BackColor = System.Drawing.Color.Transparent;
             this.lblAddShortcut.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAddShortcut.ForeColor = System.Drawing.Color.White;
-            this.lblAddShortcut.Location = new System.Drawing.Point(163, 51);
+            this.lblAddShortcut.Location = new System.Drawing.Point(177, 51);
             this.lblAddShortcut.Name = "lblAddShortcut";
             this.lblAddShortcut.Size = new System.Drawing.Size(110, 17);
             this.lblAddShortcut.TabIndex = 14;
@@ -749,13 +749,13 @@
             this.pnlShortcuts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnlShortcuts.Location = new System.Drawing.Point(57, 191);
             this.pnlShortcuts.Name = "pnlShortcuts";
-            this.pnlShortcuts.Size = new System.Drawing.Size(457, 40);
+            this.pnlShortcuts.Size = new System.Drawing.Size(482, 40);
             this.pnlShortcuts.TabIndex = 52;
             // 
             // frmGroup
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(574, 821);
@@ -776,6 +776,7 @@
             this.Controls.Add(this.pnlGroupIcon);
             this.Controls.Add(this.cmdWidthUp);
             this.Controls.Add(this.txtGroupName);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MinimumSize = new System.Drawing.Size(590, 39);
             this.Name = "frmGroup";

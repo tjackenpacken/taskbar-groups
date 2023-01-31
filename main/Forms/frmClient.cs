@@ -26,16 +26,6 @@ namespace client.Forms
         private List<Category> categoryList = new List<Category>();
         public bool editOpened = false;
 
-        protected override CreateParams CreateParams
-        {
-            get
-            {
-                CreateParams cp = base.CreateParams;
-                cp.ExStyle |= 0x02000000;  // Turn on WS_EX_COMPOSITED
-                return cp;
-            }
-        }
-
         public frmClient(List<string> arguments)
         {
             System.Runtime.ProfileOptimization.StartProfile("frmClient.Profile");
@@ -135,6 +125,7 @@ namespace client.Forms
 
 
             //string[] subDirectories = Directory.GetDirectories(Paths.ConfigPath);
+            pnlExistingShortcuts.SuspendLayout();
             foreach (string dir in subDirectories)
             {
                 try
@@ -146,6 +137,7 @@ namespace client.Forms
                     MessageBox.Show(ex.Message);
                 }
             }
+            pnlExistingShortcuts.ResumeLayout(true);
 
             /*
             if (pnlExistingGroups.HasChildren) // helper if no group is created
@@ -183,7 +175,11 @@ namespace client.Forms
 
         public void Reset()
         {
-            pnlBottomMain.Location = new Point(pnlBottomMain.Location.X, pnlExistingShortcuts.Bottom + (int)(20 * eDpi / 96));
+            if(eDpi == 0)
+            {
+                eDpi = Display(DpiType.Effective);
+            }
+            pnlAddGroup.Top = pnlExistingShortcuts.Bottom + (int)(20 * eDpi / 96);
         }
 
         private void cmdAddGroup_Click(object sender, EventArgs e)

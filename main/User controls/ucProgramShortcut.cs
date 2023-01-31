@@ -240,12 +240,19 @@ namespace client.User_controls
 
         private void ucProgramShortcut_SizeChanged(object sender, EventArgs e)
         {
-            txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
-
-            if (!txtShortcutName.Focused)
+            try
             {
-                txtShortcutName.Text = Truncate(Shortcut.name, (int)Math.Floor(txtShortcutName.Width / characterWidth));
+                txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
+
+                if (!txtShortcutName.Focused)
+                {
+                    txtShortcutName.Text = Truncate(Shortcut.name, (int)Math.Floor(txtShortcutName.Width / characterWidth));
+                }
+            } catch (Exception)
+            {
+
             }
+            
         }
 
         public static string Truncate(string value, int maxChars)

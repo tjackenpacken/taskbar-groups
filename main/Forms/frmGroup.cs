@@ -47,6 +47,7 @@ namespace client.Forms
         // CTOR for creating a new group
         public frmGroup(frmClient client)
         {
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             // Setting from profile
             System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
 
@@ -118,6 +119,8 @@ namespace client.Forms
                 position++;
             }
 
+            
+
             pnlShortcuts_ControlAdded(this, new ControlEventArgs(this));
 
         }
@@ -155,11 +158,14 @@ namespace client.Forms
             ucPsc.SendToBack();
 
             
+            
             if (pnlShortcuts.Controls.Count < 6)
             {
                 pnlShortcuts.Height += 50 * (int)(frmClient.eDpi / 96);
                 pnlAddShortcut.Top += 50 * (int)(frmClient.eDpi / 96);
             }
+            
+
             //ucPsc.Location = new Point(25 * (int)(frmClient.eDpi / 96), (pnlShortcuts.Controls.Count * 50 * (int)(frmClient.eDpi / 96)) - 50 * (int)(frmClient.eDpi / 96));
             
             pnlShortcuts.AutoScroll = true;
@@ -327,12 +333,13 @@ namespace client.Forms
 
             pnlShortcuts.Controls.Remove(pnlShortcuts.Controls[controlIndex]);
 
+            /*
             if (pnlShortcuts.Controls.Count < 5)
             {
                 pnlShortcuts.Height -= 50 * (int)(frmClient.eDpi / 96);
                 pnlAddShortcut.Top -= 50 * (int)(frmClient.eDpi / 96);
             }
-
+            */
             pnlShortcuts_ControlAdded(this, new ControlEventArgs(this));
         }
 
@@ -1112,6 +1119,8 @@ namespace client.Forms
                 Point deleteButton = cmdDelete.FindForm().PointToClient(cmdDelete.Parent.PointToScreen(cmdDelete.Location));
                 pnlDeleteConfo.Location = new Point(deleteButton.X - 63, deleteButton.Y - 100);
             }
+
+            pnlAddShortcut.Location = new Point(pnlAddShortcut.Location.X, pnlShortcuts.Bottom + (int)(20 * frmClient.eDpi / 96));
         }
 
         private void openDeleteConformation(object sender, EventArgs e)
