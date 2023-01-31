@@ -751,6 +751,7 @@
             this.pnlShortcuts.Name = "pnlShortcuts";
             this.pnlShortcuts.Size = new System.Drawing.Size(482, 40);
             this.pnlShortcuts.TabIndex = 52;
+            this.pnlShortcuts.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pnlShortcuts_ControlAdded);
             // 
             // frmGroup
             // 
