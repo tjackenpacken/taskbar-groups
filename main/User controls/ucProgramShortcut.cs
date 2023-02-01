@@ -59,16 +59,17 @@ namespace client.User_controls
 
 
             String cacheIconPath = MotherForm.Category.generateCachePath(Shortcut.FilePath);
+            Image bkgImg = (Image)(new Bitmap(1, 1));
+            
 
-
-            if(File.Exists(cacheIconPath))
+            if (File.Exists(cacheIconPath))
             {
-                picShortcut.BackgroundImage = frmGroup.BitmapFromFile(cacheIconPath); 
+                bkgImg = frmGroup.BitmapFromFile(cacheIconPath); 
             } else
             {
                 if (Shortcut.isWindowsApp)
                 {
-                    picShortcut.BackgroundImage = handleWindowsApp.getWindowsAppIcon(Shortcut.FilePath, true);
+                    bkgImg = handleWindowsApp.getWindowsAppIcon(Shortcut.FilePath, true);
                 }
                 else if (File.Exists(Shortcut.FilePath)) // Checks if the shortcut actually exists; if not then display an error image
                 {
@@ -78,11 +79,11 @@ namespace client.User_controls
                     // Depending on the extension, the icon can be directly extracted or it has to be gotten through other methods as to not get the shortcut arrow
                     if (imageExtension == ".lnk")
                     {
-                        picShortcut.BackgroundImage = frmGroup.handleLnkExt(Shortcut.FilePath);
+                        bkgImg = frmGroup.handleLnkExt(Shortcut.FilePath);
                     }
                     else
                     {
-                        picShortcut.BackgroundImage = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
+                        bkgImg = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
                     }
 
                 }
@@ -90,7 +91,7 @@ namespace client.User_controls
                 {
                     try
                     {
-                        picShortcut.BackgroundImage = handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
+                        bkgImg = handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
                     }
                     catch (Exception ex)
                     {
@@ -99,9 +100,12 @@ namespace client.User_controls
                 }
                 else
                 {
-                    picShortcut.BackgroundImage = global::client.Properties.Resources.Error;
+                    bkgImg = global::client.Properties.Resources.Error;
                 }
             }
+
+            bkgImg = ImageFunctions.ResizeImage(bkgImg, picShortcut.Width, picShortcut.Height);
+            picShortcut.BackgroundImage = bkgImg;
 
             this.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
 

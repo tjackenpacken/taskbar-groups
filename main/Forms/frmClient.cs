@@ -180,6 +180,7 @@ namespace client.Forms
                 eDpi = Display(DpiType.Effective);
             }
             pnlAddGroup.Top = pnlExistingShortcuts.Bottom + (int)(20 * eDpi / 96);
+            pnlAddGroup.Left = ((this.ClientSize.Width+pnlLeftColumn.Width) - pnlAddGroup.Width) / 2 ;
         }
 
         private void cmdAddGroup_Click(object sender, EventArgs e)

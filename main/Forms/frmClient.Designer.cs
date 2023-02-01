@@ -55,9 +55,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.pnlExistingShortcuts = new System.Windows.Forms.TableLayoutPanel();
             this.pnlAddGroup = new System.Windows.Forms.Panel();
-            this.cmdAddGroup = new System.Windows.Forms.PictureBox();
             this.lblAddGroup = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.cmdAddGroup = new System.Windows.Forms.PictureBox();
             this.pnlLeftColumn.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.pnlVersionInfo.SuspendLayout();
@@ -66,7 +65,6 @@
             this.panel1.SuspendLayout();
             this.pnlAddGroup.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).BeginInit();
-            this.panel3.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnlLeftColumn
@@ -374,32 +372,49 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlExistingShortcuts.ColumnCount = 1;
             this.pnlExistingShortcuts.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.pnlExistingShortcuts.Location = new System.Drawing.Point(4, 3);
+            this.pnlExistingShortcuts.Location = new System.Drawing.Point(320, 148);
             this.pnlExistingShortcuts.Name = "pnlExistingShortcuts";
             this.pnlExistingShortcuts.RowCount = 1;
             this.pnlExistingShortcuts.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.pnlExistingShortcuts.Size = new System.Drawing.Size(671, 36);
+            this.pnlExistingShortcuts.Size = new System.Drawing.Size(674, 36);
             this.pnlExistingShortcuts.TabIndex = 5;
             // 
             // pnlAddGroup
             // 
-            this.pnlAddGroup.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.pnlAddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlAddGroup.Controls.Add(this.lblAddGroup);
             this.pnlAddGroup.Controls.Add(this.cmdAddGroup);
-            this.pnlAddGroup.Location = new System.Drawing.Point(225, 51);
+            this.pnlAddGroup.Location = new System.Drawing.Point(502, 193);
             this.pnlAddGroup.Name = "pnlAddGroup";
-            this.pnlAddGroup.Size = new System.Drawing.Size(239, 68);
+            this.pnlAddGroup.Size = new System.Drawing.Size(318, 68);
             this.pnlAddGroup.TabIndex = 1;
             this.pnlAddGroup.Click += new System.EventHandler(this.cmdAddGroup_Click);
             this.pnlAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
             this.pnlAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
+            // 
+            // lblAddGroup
+            // 
+            this.lblAddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.lblAddGroup.AutoSize = true;
+            this.lblAddGroup.BackColor = System.Drawing.Color.Transparent;
+            this.lblAddGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAddGroup.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(143)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.lblAddGroup.Location = new System.Drawing.Point(129, 24);
+            this.lblAddGroup.Name = "lblAddGroup";
+            this.lblAddGroup.Size = new System.Drawing.Size(119, 17);
+            this.lblAddGroup.TabIndex = 8;
+            this.lblAddGroup.Text = "Add taskbar group";
+            this.lblAddGroup.Click += new System.EventHandler(this.cmdAddGroup_Click);
+            this.lblAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
+            this.lblAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
             // 
             // cmdAddGroup
             // 
             this.cmdAddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.cmdAddGroup.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cmdAddGroup.BackgroundImage")));
             this.cmdAddGroup.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cmdAddGroup.Location = new System.Drawing.Point(37, 14);
+            this.cmdAddGroup.Location = new System.Drawing.Point(77, 14);
             this.cmdAddGroup.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
             this.cmdAddGroup.Name = "cmdAddGroup";
             this.cmdAddGroup.Size = new System.Drawing.Size(40, 38);
@@ -409,32 +424,6 @@
             this.cmdAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
             this.cmdAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
             // 
-            // lblAddGroup
-            // 
-            this.lblAddGroup.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.lblAddGroup.AutoSize = true;
-            this.lblAddGroup.BackColor = System.Drawing.Color.Transparent;
-            this.lblAddGroup.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblAddGroup.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(143)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.lblAddGroup.Location = new System.Drawing.Point(89, 24);
-            this.lblAddGroup.Name = "lblAddGroup";
-            this.lblAddGroup.Size = new System.Drawing.Size(119, 17);
-            this.lblAddGroup.TabIndex = 8;
-            this.lblAddGroup.Text = "Add taskbar group";
-            this.lblAddGroup.Click += new System.EventHandler(this.cmdAddGroup_Click);
-            this.lblAddGroup.MouseEnter += new System.EventHandler(this.pnlAddGroup_MouseEnter);
-            this.lblAddGroup.MouseLeave += new System.EventHandler(this.pnlAddGroup_MouseLeave);
-            // 
-            // panel3
-            // 
-            this.panel3.AutoSize = true;
-            this.panel3.Controls.Add(this.pnlAddGroup);
-            this.panel3.Controls.Add(this.pnlExistingShortcuts);
-            this.panel3.Location = new System.Drawing.Point(320, 148);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(677, 122);
-            this.panel3.TabIndex = 8;
-            // 
             // frmClient
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -442,9 +431,11 @@
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(3)))), ((int)(((byte)(3)))), ((int)(((byte)(3)))));
             this.ClientSize = new System.Drawing.Size(1014, 821);
-            this.Controls.Add(this.panel3);
+            this.Controls.Add(this.pnlAddGroup);
+            this.Controls.Add(this.pnlExistingShortcuts);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.pnlLeftColumn);
+            this.DoubleBuffered = true;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmClient";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -462,7 +453,6 @@
             this.pnlAddGroup.ResumeLayout(false);
             this.pnlAddGroup.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroup)).EndInit();
-            this.panel3.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -498,6 +488,5 @@
         private System.Windows.Forms.Panel pnlAddGroup;
         private System.Windows.Forms.Label lblAddGroup;
         private System.Windows.Forms.PictureBox cmdAddGroup;
-        private System.Windows.Forms.Panel panel3;
     }
 }

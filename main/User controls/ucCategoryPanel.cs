@@ -63,7 +63,7 @@ namespace client.User_controls
             // Check if file is stil existing and if so render it
             if (File.Exists(programShortcut.FilePath) || Directory.Exists(programShortcut.FilePath) || programShortcut.isWindowsApp)
             {
-                this.shortcutPanel.BackgroundImage = Category.loadImageCache(programShortcut);
+                this.shortcutPanel.BackgroundImage = ImageFunctions.ResizeImage(Category.loadImageCache(programShortcut), shortcutPanel.Width, shortcutPanel.Height);
             }
             else // if file does not exist
             {

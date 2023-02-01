@@ -1121,6 +1121,7 @@ namespace client.Forms
             }
 
             pnlAddShortcut.Location = new Point(pnlAddShortcut.Location.X, pnlShortcuts.Bottom + (int)(20 * frmClient.eDpi / 96));
+            pnlAddShortcut.Left = (this.ClientSize.Width - pnlAddShortcut.Width) / 2;
         }
 
         private void openDeleteConformation(object sender, EventArgs e)

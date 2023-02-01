@@ -199,7 +199,7 @@
             this.pnlGroupIcon.Controls.Add(this.lblAddGroupIconDesc);
             this.pnlGroupIcon.Location = new System.Drawing.Point(57, 83);
             this.pnlGroupIcon.Name = "pnlGroupIcon";
-            this.pnlGroupIcon.Size = new System.Drawing.Size(456, 102);
+            this.pnlGroupIcon.Size = new System.Drawing.Size(466, 102);
             this.pnlGroupIcon.TabIndex = 33;
             this.pnlGroupIcon.Click += new System.EventHandler(this.cmdAddGroupIcon_Click);
             this.pnlGroupIcon.DragDrop += new System.Windows.Forms.DragEventHandler(this.pnlDragDropImg);
@@ -273,15 +273,14 @@
             // pnlAddShortcut
             // 
             this.pnlAddShortcut.AllowDrop = true;
-            this.pnlAddShortcut.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlAddShortcut.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.pnlAddShortcut.AutoSize = true;
             this.pnlAddShortcut.Controls.Add(this.cmdAddShortcut);
             this.pnlAddShortcut.Controls.Add(this.lblErrorShortcut);
             this.pnlAddShortcut.Controls.Add(this.lblAddShortcut);
             this.pnlAddShortcut.Location = new System.Drawing.Point(57, 237);
             this.pnlAddShortcut.Name = "pnlAddShortcut";
-            this.pnlAddShortcut.Size = new System.Drawing.Size(456, 81);
+            this.pnlAddShortcut.Size = new System.Drawing.Size(466, 81);
             this.pnlAddShortcut.TabIndex = 45;
             this.pnlAddShortcut.Click += new System.EventHandler(this.pnlAddShortcut_Click);
             this.pnlAddShortcut.DragDrop += new System.Windows.Forms.DragEventHandler(this.pnlDragDropExt);
@@ -295,7 +294,7 @@
             this.cmdAddShortcut.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cmdAddShortcut.BackgroundImage = global::client.Properties.Resources.AddGray;
             this.cmdAddShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.cmdAddShortcut.Location = new System.Drawing.Point(209, 16);
+            this.cmdAddShortcut.Location = new System.Drawing.Point(214, 16);
             this.cmdAddShortcut.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
             this.cmdAddShortcut.Name = "cmdAddShortcut";
             this.cmdAddShortcut.Size = new System.Drawing.Size(35, 35);
@@ -311,7 +310,7 @@
             this.lblErrorShortcut.AutoSize = true;
             this.lblErrorShortcut.Font = new System.Drawing.Font("Segoe UI Semibold", 10F, System.Drawing.FontStyle.Bold);
             this.lblErrorShortcut.ForeColor = System.Drawing.Color.Red;
-            this.lblErrorShortcut.Location = new System.Drawing.Point(181, 51);
+            this.lblErrorShortcut.Location = new System.Drawing.Point(186, 51);
             this.lblErrorShortcut.Name = "lblErrorShortcut";
             this.lblErrorShortcut.Size = new System.Drawing.Size(96, 19);
             this.lblErrorShortcut.TabIndex = 23;
@@ -326,7 +325,7 @@
             this.lblAddShortcut.BackColor = System.Drawing.Color.Transparent;
             this.lblAddShortcut.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblAddShortcut.ForeColor = System.Drawing.Color.White;
-            this.lblAddShortcut.Location = new System.Drawing.Point(177, 51);
+            this.lblAddShortcut.Location = new System.Drawing.Point(182, 51);
             this.lblAddShortcut.Name = "lblAddShortcut";
             this.lblAddShortcut.Size = new System.Drawing.Size(110, 17);
             this.lblAddShortcut.TabIndex = 14;
@@ -337,7 +336,7 @@
             // 
             // pnlColor
             // 
-            this.pnlColor.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.pnlColor.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pnlColor.AutoSize = true;
             this.pnlColor.Controls.Add(this.pnlCustomColor1);
             this.pnlColor.Controls.Add(this.numOpacDown);
@@ -534,7 +533,7 @@
             // 
             // pnlEnd
             // 
-            this.pnlEnd.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.pnlEnd.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pnlEnd.AutoSize = true;
             this.pnlEnd.Controls.Add(this.cmdDelete);
             this.pnlEnd.Controls.Add(this.cmdSave);
@@ -546,7 +545,7 @@
             // 
             // pnlArguments
             // 
-            this.pnlArguments.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
+            this.pnlArguments.Anchor = System.Windows.Forms.AnchorStyles.Top;
             this.pnlArguments.AutoSize = true;
             this.pnlArguments.Controls.Add(this.label7);
             this.pnlArguments.Controls.Add(this.label6);
@@ -682,7 +681,7 @@
             this.pictureBox1.Image = global::client.Properties.Resources.grayline;
             this.pictureBox1.Location = new System.Drawing.Point(56, 74);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(458, 5);
+            this.pictureBox1.Size = new System.Drawing.Size(467, 5);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 49;
             this.pictureBox1.TabStop = false;
@@ -694,7 +693,7 @@
             this.pictureBox2.Image = global::client.Properties.Resources.grayline;
             this.pictureBox2.Location = new System.Drawing.Point(56, 180);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(458, 5);
+            this.pictureBox2.Size = new System.Drawing.Size(467, 5);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 50;
             this.pictureBox2.TabStop = false;
@@ -749,7 +748,7 @@
             this.pnlShortcuts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnlShortcuts.Location = new System.Drawing.Point(57, 191);
             this.pnlShortcuts.Name = "pnlShortcuts";
-            this.pnlShortcuts.Size = new System.Drawing.Size(482, 40);
+            this.pnlShortcuts.Size = new System.Drawing.Size(489, 40);
             this.pnlShortcuts.TabIndex = 52;
             this.pnlShortcuts.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pnlShortcuts_ControlAdded);
             // 

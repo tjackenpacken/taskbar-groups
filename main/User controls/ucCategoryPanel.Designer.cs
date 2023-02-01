@@ -101,6 +101,7 @@
             this.Controls.Add(this.picGroupIcon);
             this.Controls.Add(this.cmdDelete);
             this.Controls.Add(this.lblTitle);
+            this.DoubleBuffered = true;
             this.Name = "ucCategoryPanel";
             this.Size = new System.Drawing.Size(668, 68);
             this.Load += new System.EventHandler(this.ucNewCategory_Load);

@@ -154,6 +154,7 @@
             this.Controls.Add(this.cmdNumUp);
             this.Controls.Add(this.cmdNumDown);
             this.Controls.Add(this.cmdDelete);
+            this.DoubleBuffered = true;
             this.Name = "ucProgramShortcut";
             this.Size = new System.Drawing.Size(467, 50);
             this.Load += new System.EventHandler(this.ucProgramShortcut_Load);
