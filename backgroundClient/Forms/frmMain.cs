@@ -52,8 +52,9 @@ namespace backgroundClient
 
         private Jumplist jumpList;
 
-        public int ucShortcutHeight;
-        public int ucShortcutWidth;
+        public int ucShortcutSize;
+        public int ucShortcutIconSize;
+        public int ucShortcutIconLocation;
 
         //------------------------------------------------------------------------------------
         // CTOR AND LOAD
@@ -385,10 +386,11 @@ namespace backgroundClient
         // Loading category and building shortcuts
         private void LoadCategory()
         {
-            this.Width = 0; 
-            this.Height = (int)(45 * xDpi);
-            ucShortcutHeight = this.Height;
-            ucShortcutWidth = (int)(55 * xDpi);
+            this.Width = 0;
+            this.Height = (int)((loadedCat.IconSize + loadedCat.Separation * 2) * xDpi);
+            ucShortcutSize = this.Height;
+            ucShortcutIconSize = (int)(loadedCat.IconSize * xDpi);
+            ucShortcutIconLocation = (int)(loadedCat.Separation * xDpi);
             int x = 0;
             int y = 0;
             int width = loadedCat.Width;
@@ -411,13 +413,13 @@ namespace backgroundClient
                 if (columns > width)  // creating new row if there are more psc than max width
                 {
                     x = 0;
-                    y += (int)(45 * xDpi);
-                    this.Height += (int)(45*xDpi);
+                    y += (int)((loadedCat.IconSize + loadedCat.Separation * 2) * xDpi);
+                    this.Height += (int)((loadedCat.IconSize + loadedCat.Separation * 2) * xDpi);
                     columns = 1;
                 }
 
-                if (this.Width < ((width * (int)(55 * xDpi))))
-                    this.Width += ((int)(55 * (xDpi)));
+                if (this.Width < ((width * (int)((loadedCat.IconSize + loadedCat.Separation * 2) * xDpi))))
+                    this.Width += ((int)((loadedCat.IconSize + loadedCat.Separation * 2) * (xDpi)));
 
                 // OLD
                 //BuildShortcutPanel(x, y, psc);
@@ -427,7 +429,8 @@ namespace backgroundClient
                 {
                     Psc = psc,
                     MotherForm = this,
-                    bkgImage = loadedCat.programImages[i]
+                    bkgImage = loadedCat.programImages[i],
+                    loadedCategory = loadedCat
                 };
                 pscPanel.Location = new System.Drawing.Point(x, y);
                 this.Controls.Add(pscPanel);
@@ -436,7 +439,7 @@ namespace backgroundClient
                 pscPanel.BringToFront();
 
                 // Reset values
-                x += (int)(55 * xDpi);
+                x += (int)((loadedCat.IconSize + loadedCat.Separation * 2) * xDpi);
                 columns++;
             }
 
