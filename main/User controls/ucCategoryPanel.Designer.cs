@@ -87,6 +87,7 @@
             this.pnlShortcuts.Name = "pnlShortcuts";
             this.pnlShortcuts.Size = new System.Drawing.Size(400, 21);
             this.pnlShortcuts.TabIndex = 22;
+            this.pnlShortcuts.Click += new System.EventHandler(this.OpenFolder);
             this.pnlShortcuts.MouseEnter += new System.EventHandler(this.lblTitle_MouseEnter);
             this.pnlShortcuts.MouseLeave += new System.EventHandler(this.lblTitle_MouseLeave);
             // 

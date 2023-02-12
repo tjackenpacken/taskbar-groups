@@ -29,13 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.picIcon = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.picIcon = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // picIcon
             // 
+            this.picIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.picIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.picIcon.Location = new System.Drawing.Point(16, 11);
             this.picIcon.Name = "picIcon";
