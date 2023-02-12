@@ -36,6 +36,7 @@ namespace backgroundClient
             // notifyIcon1
             // 
             this.notifyIcon1.Text = "Taskbar Groups Background";
+            this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
             // 
             // bkgProcess
             // 

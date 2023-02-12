@@ -55,29 +55,7 @@ namespace backgroundClient
                 {
                     if (bkgProcess.loadedCategories.ContainsKey(secondInstanceArgumens[2]))
                     {
-                        if (System.IO.File.Exists(Paths.MainClientShortcut) && Paths.MainClientShortcut != Paths.exeString)
-                        {
-                            WshShell shell = new WshShell(); //Create a new WshShell Interface
-                            IWshShortcut mainClientShortcut = (IWshShortcut)shell.CreateShortcut(Paths.MainClientShortcut); //Link the interface to our shortcut
-
-                            // Chcek if the editor actually exists
-                            if (System.IO.File.Exists(mainClientShortcut.TargetPath))
-                            {
-                                Process p = new Process();
-                                p.StartInfo.FileName = mainClientShortcut.TargetPath;
-
-                                p.StartInfo.Arguments = "editingGroupMode" + " " + secondInstanceArgumens[2];
-                                p.Start();
-                            }
-                            else
-                            {
-                                MessageBox.Show("The editor has moved since the last time you've used it. Reopen it for it to relink the shortcut needed to use this feature!");
-                            }
-                        }
-                        else
-                        {
-                            MessageBox.Show("Please reopen your Taskbar Groups editor to set the location of itself so you can use this feature!");
-                        }
+                        bkgProcess.openEditor("editingGroupMode" + " " + secondInstanceArgumens[2]);
                     }
                 } else if (secondInstanceArgumens[1] == "exitApplicationModeReserved")
                 {
