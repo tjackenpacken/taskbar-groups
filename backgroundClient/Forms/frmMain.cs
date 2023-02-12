@@ -596,7 +596,7 @@ namespace backgroundClient
                         break;
                     case Keys.D5:
                         ControlList[4].ucShortcut_MouseLeave(sender, e);
-                        ControlList[4].ucShortcut_Click(sender, e);
+                        ControlList[4].ucShortcut_Click(sender, e);f
                         break;
                     case Keys.D6:
                         ControlList[5].ucShortcut_MouseLeave(sender, e);
@@ -627,7 +627,22 @@ namespace backgroundClient
             }
         }
 
+        private const int WM_SYSCOMMAND = 0x0112;
+        private const int SC_MAXIMIZE = 0xf030;
 
+        protected override void WndProc(ref Message m)
+        {
+            // Cancel any maximize message sent to the window
+            if (m.Msg == WM_SYSCOMMAND)
+            {
+                if (m.WParam.ToInt32() == SC_MAXIMIZE)
+                {
+                    m.Result = IntPtr.Zero;
+                    return;
+                }
+            }
+            base.WndProc(ref m);
+        }
         //
         // endregion
         //

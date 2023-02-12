@@ -58,7 +58,7 @@ namespace client.User_controls
             txtShortcutName.Width = this.Width - (txtShortcutName.Bounds.Left) - (this.Width - pictureBox1.Bounds.Left);
 
 
-            String cacheIconPath = MotherForm.Category.generateCachePath(Shortcut.FilePath);
+            String cacheIconPath = MotherForm.Category.generateCachePath(Shortcut);
             Image bkgImg = (Image)(new Bitmap(1, 1));
             
 
@@ -103,8 +103,6 @@ namespace client.User_controls
                     bkgImg = global::client.Properties.Resources.Error;
                 }
             }
-
-            bkgImg = ImageFunctions.ResizeImage(bkgImg, picShortcut.Width, picShortcut.Height);
             picShortcut.BackgroundImage = bkgImg;
 
             this.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;

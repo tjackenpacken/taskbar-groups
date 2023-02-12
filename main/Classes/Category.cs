@@ -240,7 +240,7 @@ namespace client.Classes
                 String filePath = ShortcutList[i].FilePath;
 
                 ucProgramShortcut programShortcutControl = Application.OpenForms["frmGroup"].Controls["pnlShortcuts"].Controls[i] as ucProgramShortcut;
-                string savePath = Path.Combine(iconPath, generateMD5Hash(filePath) + ".png");
+                string savePath = Path.Combine(iconPath, generateMD5Hash(filePath + ShortcutList[i].Arguments) + ".png");
                 programShortcutControl.logo.Save(savePath);
             }
         }
@@ -259,7 +259,7 @@ namespace client.Classes
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
                     // If not then it would throw an exception in which the below code would catch it
-                    String cacheImagePath = generateCachePath(programPath);
+                    String cacheImagePath = generateCachePath(shortcutObject);
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
                         return Image.FromStream(ms);
@@ -272,7 +272,7 @@ namespace client.Classes
                     // Checks if the original file even exists to make sure to not do any extra operations
 
                     // Same processing as above in cacheIcons()
-                    String path = Path.Combine(Paths.ConfigPath, this.Name, "Icons", generateMD5Hash(programPath)+".png");
+                    String path = Path.Combine(Paths.ConfigPath, this.Name, "Icons", generateMD5Hash(programPath + shortcutObject.Arguments) +".png");
 
                     Image finalImage;
 
@@ -303,7 +303,7 @@ namespace client.Classes
             }
         }
 
-        public String generateCachePath(String programPath)
+        public String generateCachePath(ProgramShortcut ps)
         {
             /*
             return @Path.GetDirectoryName(Application.ExecutablePath) +
@@ -312,7 +312,7 @@ namespace client.Classes
             */
 
             return Path.Combine(Paths.ConfigPath, this.Name, "Icons",
-                        generateMD5Hash(programPath) + ".png");
+                        generateMD5Hash(ps.FilePath + ps.Arguments) + ".png");
         }
 
         public static string GetMimeType(Image i)

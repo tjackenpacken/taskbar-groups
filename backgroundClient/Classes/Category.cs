@@ -92,7 +92,7 @@ namespace backgroundClient.Classes
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
                     // If not then it would throw an exception in which the below code would catch it
-                    String cacheImagePath = generateCachePath(shortcutObject, programPath);
+                    String cacheImagePath = generateCachePath(shortcutObject);
 
                     using (MemoryStream ms = new MemoryStream(System.IO.File.ReadAllBytes(cacheImagePath)))
                     {
@@ -142,7 +142,7 @@ namespace backgroundClient.Classes
             }
         }
 
-        public String generateCachePath(ProgramShortcut shortcutObject, String programPath)
+        public String generateCachePath(ProgramShortcut shortcutObject)
         {
             /*
             return @Path.GetDirectoryName(Application.ExecutablePath) +
@@ -151,7 +151,7 @@ namespace backgroundClient.Classes
             */
             
             return Path.Combine(Paths.ConfigPath, this.Name, "Icons",
-                        generateMD5Hash(programPath)+".png");
+                        generateMD5Hash(shortcutObject.FilePath+ shortcutObject.Arguments) + ".png");
         }
 
         public Color calculateHoverColor()
