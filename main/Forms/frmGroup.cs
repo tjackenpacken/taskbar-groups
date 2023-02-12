@@ -563,22 +563,6 @@ namespace client.Forms
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
             // Checks for link iconLocations as those are used by some applications
 
-
-
-            if (!string.IsNullOrEmpty(iconLC) && !iconLC.Contains("http"))
-            {
-
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(iconLC))).ToBitmap();
-            }
-            else if (string.IsNullOrEmpty(iconLC) && (targetPath == "" || !System.IO.File.Exists(targetPath)))
-            {
-                return handleWindowsApp.getWindowsAppIcon(file);
-
-            }
-            else
-            {
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(targetPath))).ToBitmap();
-            }
             // Return the icon
             try
             {
