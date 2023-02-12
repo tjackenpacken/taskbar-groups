@@ -19,6 +19,8 @@ namespace backgroundClient.Classes
         public string ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
         public Icon groupIco;
         public string Name;
+        public int IconSize;
+        public int Separation;
 
         public String HoverColor;
 
@@ -33,6 +35,8 @@ namespace backgroundClient.Classes
             Name = newCat.Name;
             allowOpenAll = newCat.allowOpenAll;
             Opacity = newCat.Opacity;
+            IconSize = newCat.IconSize;
+            Separation = newCat.Separation;
 
             foreach (ProgramShortcut psc in programShortcuts)
             {

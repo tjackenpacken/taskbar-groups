@@ -14,6 +14,7 @@ namespace backgroundClient.User_controls
         public ProgramShortcut Psc { get; set; }
         public frmMain MotherForm { get; set; }
         public Image bkgImage { get; set; }
+        public LoadedCategory loadedCategory { get; set; }
         public ucShortcut()
         {
             InitializeComponent();
@@ -21,13 +22,15 @@ namespace backgroundClient.User_controls
 
         private void ucShortcut_Load(object sender, EventArgs e)
         {
-            this.Size = new Size(MotherForm.ucShortcutWidth, MotherForm.ucShortcutHeight);
+            this.Size = new Size(MotherForm.ucShortcutSize, MotherForm.ucShortcutSize);
             this.Show();
             this.BringToFront();
             this.BackColor = MotherForm.BackColor;
             picIcon.BackgroundImage = bkgImage;
             toolTip1.SetToolTip(picIcon, Psc.name);
             toolTip1.SetToolTip(this, Psc.name);
+            picIcon.Location = new System.Drawing.Point(MotherForm.ucShortcutIconLocation, MotherForm.ucShortcutIconLocation);
+            picIcon.Size = new System.Drawing.Size(MotherForm.ucShortcutIconSize, MotherForm.ucShortcutIconSize);
         }
 
         public void ucShortcut_Click(object sender, EventArgs e)

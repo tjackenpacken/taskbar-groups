@@ -85,6 +85,8 @@ namespace client.Forms
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
             lblNum.Text = Category.Width.ToString();
             lblOpacity.Text = Category.Opacity.ToString();
+            lblIconSize.Text = Category.IconSize.ToString();
+            lblIconSeparation.Text = Category.Separation.ToString();
 
             if (Category.ColorString == null)  // Handles if groups is created from earlier releas w/o ColorString property
                 Category.ColorString = ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
@@ -179,9 +181,9 @@ namespace client.Forms
 
             lblErrorShortcut.Visible = false; // resetting error msg
 
-            if (Category.ShortcutList.Count >= 20)
+            if (Category.ShortcutList.Count >= 50)
             {
-                lblErrorShortcut.Text = "Max 20 shortcuts in one group";
+                lblErrorShortcut.Text = "Max 50 shortcuts in one group";
                 lblErrorShortcut.BringToFront();
                 lblErrorShortcut.Visible = true;
             }
@@ -1196,6 +1198,72 @@ namespace client.Forms
             for(int i=0; i< pnlShortcuts.Controls.Count; i++)
             {
                 ((ucProgramShortcut)pnlShortcuts.Controls[i]).ucProgramShortcut_ReadjustArrows(i);
+            }
+        }
+
+        // Icon size
+        private void IconSizeTopButton_Click(object sender, EventArgs e)
+        {
+            int iconSize = int.Parse(lblIconSize.Text);
+            iconSize += 1;
+            Category.IconSize = iconSize;
+            lblIconSize.Text = iconSize.ToString();
+            IconSizeBottomButton.Enabled = true;
+            IconSizeBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
+
+            if (iconSize > 255)
+            {
+                IconSizeTopButton.Enabled = false;
+                IconSizeTopButton.BackgroundImage = global::client.Properties.Resources.NumUpGray;
+            }
+        }
+
+        private void IconSizeBottomButton_Click(object sender, EventArgs e)
+        {
+            int iconSize = int.Parse(lblIconSize.Text);
+            iconSize -= 1;
+            Category.IconSize = iconSize;
+            lblIconSize.Text = iconSize.ToString();
+            IconSizeTopButton.Enabled = true;
+            IconSizeTopButton.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
+
+            if (iconSize < 11)
+            {
+                IconSizeBottomButton.Enabled = false;
+                IconSizeBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownGray;
+            }
+        }
+
+        // Icon separation
+        private void IconSeparationTopButton_Click(object sender, EventArgs e)
+        {
+            int separation = int.Parse(lblIconSeparation.Text);
+            separation += 1;
+            Category.Separation = separation;
+            lblIconSeparation.Text = separation.ToString();
+            IconSeparationBottomButton.Enabled = true;
+            IconSeparationBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
+
+            if (separation > 49)
+            {
+                IconSeparationTopButton.Enabled = false;
+                IconSeparationTopButton.BackgroundImage = global::client.Properties.Resources.NumUpGray;
+            }
+        }
+
+        private void IconSeparationBottomButton_Click(object sender, EventArgs e)
+        {
+            int separation = int.Parse(lblIconSeparation.Text);
+            separation -= 1;
+            Category.Separation = separation;
+            lblIconSeparation.Text = separation.ToString();
+            IconSeparationTopButton.Enabled = true;
+            IconSeparationTopButton.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
+
+            if (separation < 2)
+            {
+                IconSeparationBottomButton.Enabled = false;
+                IconSeparationBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownGray;
             }
         }
     }
