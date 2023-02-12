@@ -152,8 +152,8 @@ namespace client.Forms
                 MotherForm = this,
                 Shortcut = psc,
                 Position = position,
-                Width = pnlAddShortcut.Width
-            };
+                Width = pnlAddShortcut.Width - (3 * (int)(frmClient.eDpi / 96))
+        };
             pnlShortcuts.Controls.Add(ucPsc);
             ucPsc.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             ucPsc.Show();
@@ -853,7 +853,7 @@ namespace client.Forms
         }
 
         // Custom colors
-        private void radioCustom_Click(object sender, EventArgs e)
+        private void radioCustom_Click(object sender, MouseEventArgs e)
         {
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {

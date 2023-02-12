@@ -704,7 +704,7 @@ namespace client.Forms
             this.radioCustom.TabIndex = 2;
             this.radioCustom.Text = "Custom color";
             this.radioCustom.UseVisualStyleBackColor = true;
-            this.radioCustom.Click += new System.EventHandler(this.radioCustom_Click);
+            this.radioCustom.MouseClick += new System.Windows.Forms.MouseEventHandler(this.radioCustom_Click);
             // 
             // pnlCustomColor
             // 
@@ -933,7 +933,7 @@ namespace client.Forms
             this.pnlShortcuts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.pnlShortcuts.Location = new System.Drawing.Point(57, 191);
             this.pnlShortcuts.Name = "pnlShortcuts";
-            this.pnlShortcuts.Size = new System.Drawing.Size(489, 40);
+            this.pnlShortcuts.Size = new System.Drawing.Size(473, 40);
             this.pnlShortcuts.TabIndex = 52;
             this.pnlShortcuts.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pnlShortcuts_ControlAdded);
             // 
