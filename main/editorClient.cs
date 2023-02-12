@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace client
 {
-    static class client
+    static class editorClient
     {
         /// <summary>
         /// The main entry point for the application.

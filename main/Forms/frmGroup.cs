@@ -16,7 +16,7 @@ using ChinhDo.Transactions;
 using System.Drawing.Imaging;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-
+using client.Properties;
 
 namespace client.Forms
 {
@@ -1095,7 +1095,7 @@ namespace client.Forms
 
         private void frmGroup_SizeChanged(object sender, EventArgs e)
         {
-            if (pnlAddShortcut.Bounds.IntersectsWith(pnlShortcuts.Bounds))
+            if (pnlAddShortcut.Bounds.IntersectsWith(pnlShortcuts.Bounds) || pnlColor.Bounds.IntersectsWith(pnlAddShortcut.Bounds))
             {
                 this.MinimumSize = new Size(this.MinimumSize.Width, this.Height);
             }
@@ -1248,6 +1248,39 @@ namespace client.Forms
             {
                 IconSeparationBottomButton.Enabled = false;
                 IconSeparationBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownGray;
+            }
+        }
+
+        private void cmdRightSettings_Click(object sender, EventArgs e)
+        {
+            if(groupSettingsTabControl.SelectedIndex<groupSettingsTabControl.TabCount)
+            {
+                groupSettingsTabControl.SelectedIndex += 1;
+                cmdLeftSettings.Enabled = true;
+                cmdLeftSettings.BackgroundImage = Resources.LeftArrow;
+
+                if(groupSettingsTabControl.SelectedIndex== groupSettingsTabControl.TabCount-1)
+                {
+                    cmdRightSettings.BackgroundImage = Resources.RightArrowGrey;
+                    cmdRightSettings.Enabled = false;
+                }
+            }
+
+        }
+
+        private void cmdLeftSettings_Click(object sender, EventArgs e)
+        {
+            if (groupSettingsTabControl.SelectedIndex > 0)
+            {
+                groupSettingsTabControl.SelectedIndex -= 1;
+                cmdRightSettings.Enabled = true;
+                cmdRightSettings.BackgroundImage = Resources.RightArrow;
+
+                if (groupSettingsTabControl.SelectedIndex == 0)
+                {
+                    cmdLeftSettings.BackgroundImage = Resources.LeftArrowGrey;
+                    cmdLeftSettings.Enabled = false;
+                }
             }
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace client.Forms
+﻿using client.User_controls;
+
+namespace client.Forms
 {
     partial class frmGroup
     {
@@ -46,28 +48,35 @@
             this.lblErrorShortcut = new System.Windows.Forms.Label();
             this.lblAddShortcut = new System.Windows.Forms.Label();
             this.pnlColor = new System.Windows.Forms.Panel();
-            this.IconSeparationText = new System.Windows.Forms.Label();
-            this.IconSeparationBottomButton = new System.Windows.Forms.Button();
-            this.lblIconSeparation = new System.Windows.Forms.Label();
-            this.IconSeparationTopButton = new System.Windows.Forms.Button();
-            this.IconSizeText = new System.Windows.Forms.Label();
-            this.IconSizeBottomButton = new System.Windows.Forms.Button();
-            this.pnlCustomColor1 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.lblIconSize = new System.Windows.Forms.Label();
-            this.numOpacDown = new System.Windows.Forms.Button();
-            this.IconSizeTopButton = new System.Windows.Forms.Button();
-            this.numOpacUp = new System.Windows.Forms.Button();
-            this.lblPercent = new System.Windows.Forms.Label();
-            this.pnlAllowOpenAll = new System.Windows.Forms.CheckBox();
-            this.lblOpacityTooltip = new System.Windows.Forms.Label();
-            this.lblOpacity = new System.Windows.Forms.Label();
+            this.cmdRightSettings = new System.Windows.Forms.Button();
+            this.cmdLeftSettings = new System.Windows.Forms.Button();
+            this.groupSettingsTabControl = new client.User_controls.ucTabControl();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
+            this.IconSeparationBottomButton = new System.Windows.Forms.Button();
+            this.pnlAllowOpenAll = new System.Windows.Forms.CheckBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.lblPercent = new System.Windows.Forms.Label();
+            this.lblIconSeparation = new System.Windows.Forms.Label();
+            this.lblOpacity = new System.Windows.Forms.Label();
+            this.IconSeparationText = new System.Windows.Forms.Label();
+            this.numOpacUp = new System.Windows.Forms.Button();
+            this.IconSeparationTopButton = new System.Windows.Forms.Button();
+            this.numOpacDown = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.IconSizeText = new System.Windows.Forms.Label();
+            this.lblOpacityTooltip = new System.Windows.Forms.Label();
+            this.IconSizeBottomButton = new System.Windows.Forms.Button();
+            this.lblIconSize = new System.Windows.Forms.Label();
+            this.IconSizeTopButton = new System.Windows.Forms.Button();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.radioDark = new System.Windows.Forms.RadioButton();
+            this.radioCustom = new System.Windows.Forms.RadioButton();
             this.pnlCustomColor = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.radioCustom = new System.Windows.Forms.RadioButton();
-            this.radioDark = new System.Windows.Forms.RadioButton();
             this.radioLight = new System.Windows.Forms.RadioButton();
+            this.pnlCustomColor1 = new System.Windows.Forms.Panel();
+            this.panel3 = new System.Windows.Forms.Panel();
             this.cmdDelete = new System.Windows.Forms.Button();
             this.pnlEnd = new System.Windows.Forms.Panel();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
@@ -79,26 +88,29 @@
             this.pnlWorkingDirectory = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.pnlArgumentTextbox = new System.Windows.Forms.TextBox();
-            this.cmdWidthDown = new System.Windows.Forms.Button();
-            this.cmdWidthUp = new System.Windows.Forms.Button();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pnlDeleteConfo = new System.Windows.Forms.Panel();
             this.confirmDelete = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlShortcuts = new System.Windows.Forms.FlowLayoutPanel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.cmdWidthDown = new System.Windows.Forms.Button();
+            this.cmdWidthUp = new System.Windows.Forms.Button();
             this.pnlGroupIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).BeginInit();
             this.pnlColor.SuspendLayout();
-            this.pnlCustomColor1.SuspendLayout();
+            this.groupSettingsTabControl.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.tabPage4.SuspendLayout();
             this.pnlCustomColor.SuspendLayout();
+            this.pnlCustomColor1.SuspendLayout();
             this.pnlEnd.SuspendLayout();
             this.pnlArguments.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.pnlDeleteConfo.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // lblWith
@@ -220,6 +232,7 @@
             // 
             this.cmdAddGroupIcon.BackgroundImage = global::client.Properties.Resources.AddWhite;
             this.cmdAddGroupIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cmdAddGroupIcon.ErrorImage = global::client.Properties.Resources.Error;
             this.cmdAddGroupIcon.Location = new System.Drawing.Point(31, 12);
             this.cmdAddGroupIcon.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
             this.cmdAddGroupIcon.Name = "cmdAddGroupIcon";
@@ -286,7 +299,7 @@
             this.pnlAddShortcut.Controls.Add(this.cmdAddShortcut);
             this.pnlAddShortcut.Controls.Add(this.lblErrorShortcut);
             this.pnlAddShortcut.Controls.Add(this.lblAddShortcut);
-            this.pnlAddShortcut.Location = new System.Drawing.Point(57, 237);
+            this.pnlAddShortcut.Location = new System.Drawing.Point(57, 240);
             this.pnlAddShortcut.Name = "pnlAddShortcut";
             this.pnlAddShortcut.Size = new System.Drawing.Size(466, 81);
             this.pnlAddShortcut.TabIndex = 45;
@@ -302,6 +315,7 @@
             this.cmdAddShortcut.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.cmdAddShortcut.BackgroundImage = global::client.Properties.Resources.AddGray;
             this.cmdAddShortcut.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.cmdAddShortcut.ErrorImage = global::client.Properties.Resources.Error;
             this.cmdAddShortcut.Location = new System.Drawing.Point(214, 16);
             this.cmdAddShortcut.Margin = new System.Windows.Forms.Padding(30, 30, 10, 30);
             this.cmdAddShortcut.Name = "cmdAddShortcut";
@@ -344,207 +358,119 @@
             // 
             // pnlColor
             // 
-            this.pnlColor.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pnlColor.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pnlColor.AutoSize = true;
-            this.pnlColor.Controls.Add(this.IconSeparationText);
-            this.pnlColor.Controls.Add(this.IconSeparationBottomButton);
-            this.pnlColor.Controls.Add(this.lblIconSeparation);
-            this.pnlColor.Controls.Add(this.IconSeparationTopButton);
-            this.pnlColor.Controls.Add(this.IconSizeText);
-            this.pnlColor.Controls.Add(this.IconSizeBottomButton);
-            this.pnlColor.Controls.Add(this.pnlCustomColor1);
-            this.pnlColor.Controls.Add(this.lblIconSize);
-            this.pnlColor.Controls.Add(this.numOpacDown);
-            this.pnlColor.Controls.Add(this.IconSizeTopButton);
-            this.pnlColor.Controls.Add(this.numOpacUp);
-            this.pnlColor.Controls.Add(this.lblPercent);
-            this.pnlColor.Controls.Add(this.pnlAllowOpenAll);
-            this.pnlColor.Controls.Add(this.lblOpacityTooltip);
-            this.pnlColor.Controls.Add(this.lblOpacity);
-            this.pnlColor.Controls.Add(this.label1);
-            this.pnlColor.Controls.Add(this.pnlCustomColor);
-            this.pnlColor.Controls.Add(this.radioCustom);
-            this.pnlColor.Controls.Add(this.radioDark);
-            this.pnlColor.Controls.Add(this.radioLight);
-            this.pnlColor.Location = new System.Drawing.Point(99, 578);
+            this.pnlColor.Controls.Add(this.cmdRightSettings);
+            this.pnlColor.Controls.Add(this.cmdLeftSettings);
+            this.pnlColor.Controls.Add(this.groupSettingsTabControl);
+            this.pnlColor.Location = new System.Drawing.Point(100, 642);
             this.pnlColor.Name = "pnlColor";
-            this.pnlColor.Size = new System.Drawing.Size(368, 275);
+            this.pnlColor.Size = new System.Drawing.Size(378, 175);
             this.pnlColor.TabIndex = 48;
             // 
-            // IconSeparationText
+            // cmdRightSettings
             // 
-            this.IconSeparationText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.IconSeparationText.AutoSize = true;
-            this.IconSeparationText.BackColor = System.Drawing.Color.Transparent;
-            this.IconSeparationText.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.IconSeparationText.ForeColor = System.Drawing.Color.White;
-            this.IconSeparationText.Location = new System.Drawing.Point(67, 224);
-            this.IconSeparationText.Name = "IconSeparationText";
-            this.IconSeparationText.Size = new System.Drawing.Size(114, 20);
-            this.IconSeparationText.TabIndex = 57;
-            this.IconSeparationText.Text = "Icon separation:";
+            this.cmdRightSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdRightSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.cmdRightSettings.BackgroundImage = global::client.Properties.Resources.RightArrow;
+            this.cmdRightSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmdRightSettings.FlatAppearance.BorderSize = 0;
+            this.cmdRightSettings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.cmdRightSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmdRightSettings.Location = new System.Drawing.Point(343, 72);
+            this.cmdRightSettings.Name = "cmdRightSettings";
+            this.cmdRightSettings.Size = new System.Drawing.Size(26, 45);
+            this.cmdRightSettings.TabIndex = 55;
+            this.cmdRightSettings.UseVisualStyleBackColor = false;
+            this.cmdRightSettings.Click += new System.EventHandler(this.cmdRightSettings_Click);
+            // 
+            // cmdLeftSettings
+            // 
+            this.cmdLeftSettings.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdLeftSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.cmdLeftSettings.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("cmdLeftSettings.BackgroundImage")));
+            this.cmdLeftSettings.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.cmdLeftSettings.Enabled = false;
+            this.cmdLeftSettings.FlatAppearance.BorderSize = 0;
+            this.cmdLeftSettings.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.cmdLeftSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmdLeftSettings.Location = new System.Drawing.Point(7, 73);
+            this.cmdLeftSettings.Name = "cmdLeftSettings";
+            this.cmdLeftSettings.Size = new System.Drawing.Size(26, 45);
+            this.cmdLeftSettings.TabIndex = 54;
+            this.cmdLeftSettings.UseVisualStyleBackColor = false;
+            this.cmdLeftSettings.Click += new System.EventHandler(this.cmdLeftSettings_Click);
+            // 
+            // groupSettingsTabControl
+            // 
+            this.groupSettingsTabControl.Controls.Add(this.tabPage3);
+            this.groupSettingsTabControl.Controls.Add(this.tabPage4);
+            this.groupSettingsTabControl.Location = new System.Drawing.Point(36, 8);
+            this.groupSettingsTabControl.Name = "groupSettingsTabControl";
+            this.groupSettingsTabControl.SelectedIndex = 0;
+            this.groupSettingsTabControl.Size = new System.Drawing.Size(305, 153);
+            this.groupSettingsTabControl.TabIndex = 53;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.tabPage3.Controls.Add(this.label1);
+            this.tabPage3.Controls.Add(this.IconSeparationBottomButton);
+            this.tabPage3.Controls.Add(this.pnlAllowOpenAll);
+            this.tabPage3.Controls.Add(this.label8);
+            this.tabPage3.Controls.Add(this.lblPercent);
+            this.tabPage3.Controls.Add(this.lblIconSeparation);
+            this.tabPage3.Controls.Add(this.lblOpacity);
+            this.tabPage3.Controls.Add(this.IconSeparationText);
+            this.tabPage3.Controls.Add(this.numOpacUp);
+            this.tabPage3.Controls.Add(this.IconSeparationTopButton);
+            this.tabPage3.Controls.Add(this.numOpacDown);
+            this.tabPage3.Controls.Add(this.label4);
+            this.tabPage3.Controls.Add(this.IconSizeText);
+            this.tabPage3.Controls.Add(this.lblOpacityTooltip);
+            this.tabPage3.Controls.Add(this.IconSizeBottomButton);
+            this.tabPage3.Controls.Add(this.lblIconSize);
+            this.tabPage3.Controls.Add(this.IconSizeTopButton);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(297, 127);
+            this.tabPage3.TabIndex = 0;
+            this.tabPage3.Text = "tabPage3";
+            // 
+            // label1
+            // 
+            this.label1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label1.Location = new System.Drawing.Point(149, 32);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(45, 1);
+            this.label1.TabIndex = 49;
             // 
             // IconSeparationBottomButton
             // 
-            this.IconSeparationBottomButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.IconSeparationBottomButton.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.IconSeparationBottomButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.IconSeparationBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
             this.IconSeparationBottomButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.IconSeparationBottomButton.FlatAppearance.BorderSize = 0;
             this.IconSeparationBottomButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.IconSeparationBottomButton.Location = new System.Drawing.Point(314, 252);
+            this.IconSeparationBottomButton.Location = new System.Drawing.Point(211, 110);
             this.IconSeparationBottomButton.Name = "IconSeparationBottomButton";
             this.IconSeparationBottomButton.Size = new System.Drawing.Size(16, 8);
             this.IconSeparationBottomButton.TabIndex = 59;
             this.IconSeparationBottomButton.UseVisualStyleBackColor = false;
             this.IconSeparationBottomButton.Click += new System.EventHandler(this.IconSeparationBottomButton_Click);
             // 
-            // lblIconSeparation
-            // 
-            this.lblIconSeparation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblIconSeparation.BackColor = System.Drawing.Color.Transparent;
-            this.lblIconSeparation.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold);
-            this.lblIconSeparation.ForeColor = System.Drawing.Color.White;
-            this.lblIconSeparation.Location = new System.Drawing.Point(305, 224);
-            this.lblIconSeparation.Name = "lblIconSeparation";
-            this.lblIconSeparation.Size = new System.Drawing.Size(35, 25);
-            this.lblIconSeparation.TabIndex = 58;
-            this.lblIconSeparation.Text = "6";
-            this.lblIconSeparation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // IconSeparationTopButton
-            // 
-            this.IconSeparationTopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.IconSeparationTopButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.IconSeparationTopButton.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
-            this.IconSeparationTopButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.IconSeparationTopButton.FlatAppearance.BorderSize = 0;
-            this.IconSeparationTopButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.IconSeparationTopButton.Location = new System.Drawing.Point(314, 214);
-            this.IconSeparationTopButton.Name = "IconSeparationTopButton";
-            this.IconSeparationTopButton.Size = new System.Drawing.Size(16, 8);
-            this.IconSeparationTopButton.TabIndex = 60;
-            this.IconSeparationTopButton.UseVisualStyleBackColor = false;
-            this.IconSeparationTopButton.Click += new System.EventHandler(this.IconSeparationTopButton_Click);
-            // 
-            // IconSizeText
-            // 
-            this.IconSizeText.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.IconSizeText.AutoSize = true;
-            this.IconSizeText.BackColor = System.Drawing.Color.Transparent;
-            this.IconSizeText.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.IconSizeText.ForeColor = System.Drawing.Color.White;
-            this.IconSizeText.Location = new System.Drawing.Point(67, 167);
-            this.IconSizeText.Name = "IconSizeText";
-            this.IconSizeText.Size = new System.Drawing.Size(69, 20);
-            this.IconSizeText.TabIndex = 53;
-            this.IconSizeText.Text = "Icon size:";
-            // 
-            // IconSizeBottomButton
-            // 
-            this.IconSizeBottomButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.IconSizeBottomButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.IconSizeBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
-            this.IconSizeBottomButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.IconSizeBottomButton.FlatAppearance.BorderSize = 0;
-            this.IconSizeBottomButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.IconSizeBottomButton.Location = new System.Drawing.Point(314, 195);
-            this.IconSizeBottomButton.Name = "IconSizeBottomButton";
-            this.IconSizeBottomButton.Size = new System.Drawing.Size(16, 8);
-            this.IconSizeBottomButton.TabIndex = 55;
-            this.IconSizeBottomButton.UseVisualStyleBackColor = false;
-            this.IconSizeBottomButton.Click += new System.EventHandler(this.IconSizeBottomButton_Click);
-            // 
-            // pnlCustomColor1
-            // 
-            this.pnlCustomColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnlCustomColor1.Controls.Add(this.panel3);
-            this.pnlCustomColor1.Location = new System.Drawing.Point(254, 75);
-            this.pnlCustomColor1.Name = "pnlCustomColor1";
-            this.pnlCustomColor1.Size = new System.Drawing.Size(15, 15);
-            this.pnlCustomColor1.TabIndex = 5;
-            this.pnlCustomColor1.Click += new System.EventHandler(this.pnlCustomColor1_Click);
-            // 
-            // panel3
-            // 
-            this.panel3.Location = new System.Drawing.Point(34, 0);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(15, 15);
-            this.panel3.TabIndex = 4;
-            // 
-            // lblIconSize
-            // 
-            this.lblIconSize.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblIconSize.BackColor = System.Drawing.Color.Transparent;
-            this.lblIconSize.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Bold);
-            this.lblIconSize.ForeColor = System.Drawing.Color.White;
-            this.lblIconSize.Location = new System.Drawing.Point(305, 167);
-            this.lblIconSize.Name = "lblIconSize";
-            this.lblIconSize.Size = new System.Drawing.Size(35, 25);
-            this.lblIconSize.TabIndex = 54;
-            this.lblIconSize.Text = "6";
-            this.lblIconSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // numOpacDown
-            // 
-            this.numOpacDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.numOpacDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
-            this.numOpacDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.numOpacDown.FlatAppearance.BorderSize = 0;
-            this.numOpacDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.numOpacDown.Location = new System.Drawing.Point(258, 115);
-            this.numOpacDown.Name = "numOpacDown";
-            this.numOpacDown.Size = new System.Drawing.Size(16, 8);
-            this.numOpacDown.TabIndex = 49;
-            this.numOpacDown.UseVisualStyleBackColor = false;
-            this.numOpacDown.Click += new System.EventHandler(this.numOpacDown_Click);
-            // 
-            // IconSizeTopButton
-            // 
-            this.IconSizeTopButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.IconSizeTopButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.IconSizeTopButton.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
-            this.IconSizeTopButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.IconSizeTopButton.FlatAppearance.BorderSize = 0;
-            this.IconSizeTopButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.IconSizeTopButton.Location = new System.Drawing.Point(314, 157);
-            this.IconSizeTopButton.Name = "IconSizeTopButton";
-            this.IconSizeTopButton.Size = new System.Drawing.Size(16, 8);
-            this.IconSizeTopButton.TabIndex = 56;
-            this.IconSizeTopButton.UseVisualStyleBackColor = false;
-            this.IconSizeTopButton.Click += new System.EventHandler(this.IconSizeTopButton_Click);
-            // 
-            // numOpacUp
-            // 
-            this.numOpacUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.numOpacUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
-            this.numOpacUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.numOpacUp.FlatAppearance.BorderSize = 0;
-            this.numOpacUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.numOpacUp.Location = new System.Drawing.Point(258, 101);
-            this.numOpacUp.Name = "numOpacUp";
-            this.numOpacUp.Size = new System.Drawing.Size(16, 8);
-            this.numOpacUp.TabIndex = 50;
-            this.numOpacUp.UseVisualStyleBackColor = false;
-            this.numOpacUp.Click += new System.EventHandler(this.numOpacUp_Click);
-            // 
-            // lblPercent
-            // 
-            this.lblPercent.AutoSize = true;
-            this.lblPercent.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.lblPercent.ForeColor = System.Drawing.Color.White;
-            this.lblPercent.Location = new System.Drawing.Point(224, 102);
-            this.lblPercent.Name = "lblPercent";
-            this.lblPercent.Size = new System.Drawing.Size(21, 20);
-            this.lblPercent.TabIndex = 5;
-            this.lblPercent.Text = "%";
-            // 
             // pnlAllowOpenAll
             // 
+            this.pnlAllowOpenAll.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.pnlAllowOpenAll.AutoSize = true;
             this.pnlAllowOpenAll.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.pnlAllowOpenAll.ForeColor = System.Drawing.Color.White;
-            this.pnlAllowOpenAll.Location = new System.Drawing.Point(72, 131);
+            this.pnlAllowOpenAll.Location = new System.Drawing.Point(15, 39);
             this.pnlAllowOpenAll.Name = "pnlAllowOpenAll";
             this.pnlAllowOpenAll.Size = new System.Drawing.Size(278, 24);
             this.pnlAllowOpenAll.TabIndex = 49;
@@ -552,43 +478,239 @@
             this.pnlAllowOpenAll.UseVisualStyleBackColor = true;
             this.pnlAllowOpenAll.CheckedChanged += new System.EventHandler(this.pnlAllowOpenAll_CheckedChanged);
             // 
+            // label8
+            // 
+            this.label8.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label8.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label8.Location = new System.Drawing.Point(183, 115);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(25, 1);
+            this.label8.TabIndex = 58;
+            // 
+            // lblPercent
+            // 
+            this.lblPercent.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblPercent.AutoSize = true;
+            this.lblPercent.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.lblPercent.ForeColor = System.Drawing.Color.White;
+            this.lblPercent.Location = new System.Drawing.Point(172, 12);
+            this.lblPercent.Name = "lblPercent";
+            this.lblPercent.Size = new System.Drawing.Size(21, 20);
+            this.lblPercent.TabIndex = 5;
+            this.lblPercent.Text = "%";
+            // 
+            // lblIconSeparation
+            // 
+            this.lblIconSeparation.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblIconSeparation.BackColor = System.Drawing.Color.Transparent;
+            this.lblIconSeparation.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIconSeparation.ForeColor = System.Drawing.Color.White;
+            this.lblIconSeparation.Location = new System.Drawing.Point(184, 94);
+            this.lblIconSeparation.Name = "lblIconSeparation";
+            this.lblIconSeparation.Size = new System.Drawing.Size(27, 25);
+            this.lblIconSeparation.TabIndex = 58;
+            this.lblIconSeparation.Text = "6";
+            this.lblIconSeparation.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // lblOpacity
+            // 
+            this.lblOpacity.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblOpacity.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.lblOpacity.ForeColor = System.Drawing.Color.White;
+            this.lblOpacity.Location = new System.Drawing.Point(149, 13);
+            this.lblOpacity.Name = "lblOpacity";
+            this.lblOpacity.Size = new System.Drawing.Size(27, 20);
+            this.lblOpacity.TabIndex = 50;
+            this.lblOpacity.Text = "10";
+            this.lblOpacity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            // 
+            // IconSeparationText
+            // 
+            this.IconSeparationText.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.IconSeparationText.AutoSize = true;
+            this.IconSeparationText.BackColor = System.Drawing.Color.Transparent;
+            this.IconSeparationText.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.IconSeparationText.ForeColor = System.Drawing.Color.White;
+            this.IconSeparationText.Location = new System.Drawing.Point(72, 96);
+            this.IconSeparationText.Name = "IconSeparationText";
+            this.IconSeparationText.Size = new System.Drawing.Size(114, 20);
+            this.IconSeparationText.TabIndex = 57;
+            this.IconSeparationText.Text = "Icon separation:";
+            // 
+            // numOpacUp
+            // 
+            this.numOpacUp.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numOpacUp.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.numOpacUp.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
+            this.numOpacUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.numOpacUp.FlatAppearance.BorderSize = 0;
+            this.numOpacUp.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.numOpacUp.Location = new System.Drawing.Point(199, 11);
+            this.numOpacUp.Name = "numOpacUp";
+            this.numOpacUp.Size = new System.Drawing.Size(16, 8);
+            this.numOpacUp.TabIndex = 50;
+            this.numOpacUp.UseVisualStyleBackColor = false;
+            this.numOpacUp.Click += new System.EventHandler(this.numOpacUp_Click);
+            // 
+            // IconSeparationTopButton
+            // 
+            this.IconSeparationTopButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.IconSeparationTopButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.IconSeparationTopButton.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
+            this.IconSeparationTopButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.IconSeparationTopButton.FlatAppearance.BorderSize = 0;
+            this.IconSeparationTopButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.IconSeparationTopButton.Location = new System.Drawing.Point(211, 96);
+            this.IconSeparationTopButton.Name = "IconSeparationTopButton";
+            this.IconSeparationTopButton.Size = new System.Drawing.Size(16, 8);
+            this.IconSeparationTopButton.TabIndex = 60;
+            this.IconSeparationTopButton.UseVisualStyleBackColor = false;
+            this.IconSeparationTopButton.Click += new System.EventHandler(this.IconSeparationTopButton_Click);
+            // 
+            // numOpacDown
+            // 
+            this.numOpacDown.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.numOpacDown.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.numOpacDown.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
+            this.numOpacDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.numOpacDown.FlatAppearance.BorderSize = 0;
+            this.numOpacDown.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.numOpacDown.Location = new System.Drawing.Point(199, 25);
+            this.numOpacDown.Name = "numOpacDown";
+            this.numOpacDown.Size = new System.Drawing.Size(16, 8);
+            this.numOpacDown.TabIndex = 49;
+            this.numOpacDown.UseVisualStyleBackColor = false;
+            this.numOpacDown.Click += new System.EventHandler(this.numOpacDown_Click);
+            // 
+            // label4
+            // 
+            this.label4.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.label4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label4.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label4.Location = new System.Drawing.Point(161, 85);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(25, 1);
+            this.label4.TabIndex = 51;
+            // 
+            // IconSizeText
+            // 
+            this.IconSizeText.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.IconSizeText.AutoSize = true;
+            this.IconSizeText.BackColor = System.Drawing.Color.Transparent;
+            this.IconSizeText.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.IconSizeText.ForeColor = System.Drawing.Color.White;
+            this.IconSizeText.Location = new System.Drawing.Point(90, 65);
+            this.IconSizeText.Name = "IconSizeText";
+            this.IconSizeText.Size = new System.Drawing.Size(69, 20);
+            this.IconSizeText.TabIndex = 53;
+            this.IconSizeText.Text = "Icon size:";
+            // 
             // lblOpacityTooltip
             // 
+            this.lblOpacityTooltip.Anchor = System.Windows.Forms.AnchorStyles.None;
             this.lblOpacityTooltip.AutoSize = true;
             this.lblOpacityTooltip.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.lblOpacityTooltip.ForeColor = System.Drawing.Color.White;
-            this.lblOpacityTooltip.Location = new System.Drawing.Point(135, 101);
+            this.lblOpacityTooltip.Location = new System.Drawing.Point(83, 11);
             this.lblOpacityTooltip.Name = "lblOpacityTooltip";
             this.lblOpacityTooltip.Size = new System.Drawing.Size(63, 20);
             this.lblOpacityTooltip.TabIndex = 4;
             this.lblOpacityTooltip.Text = "Opacity:";
             // 
-            // lblOpacity
+            // IconSizeBottomButton
             // 
-            this.lblOpacity.Font = new System.Drawing.Font("Segoe UI", 11.25F);
-            this.lblOpacity.ForeColor = System.Drawing.Color.White;
-            this.lblOpacity.Location = new System.Drawing.Point(193, 102);
-            this.lblOpacity.Name = "lblOpacity";
-            this.lblOpacity.Size = new System.Drawing.Size(35, 20);
-            this.lblOpacity.TabIndex = 50;
-            this.lblOpacity.Text = "10";
-            this.lblOpacity.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.IconSizeBottomButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.IconSizeBottomButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.IconSizeBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
+            this.IconSizeBottomButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.IconSizeBottomButton.FlatAppearance.BorderSize = 0;
+            this.IconSizeBottomButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.IconSizeBottomButton.Location = new System.Drawing.Point(193, 78);
+            this.IconSizeBottomButton.Name = "IconSizeBottomButton";
+            this.IconSizeBottomButton.Size = new System.Drawing.Size(16, 8);
+            this.IconSizeBottomButton.TabIndex = 55;
+            this.IconSizeBottomButton.UseVisualStyleBackColor = false;
+            this.IconSizeBottomButton.Click += new System.EventHandler(this.IconSizeBottomButton_Click);
             // 
-            // label1
+            // lblIconSize
             // 
-            this.label1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label1.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label1.Location = new System.Drawing.Point(197, 122);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(45, 1);
-            this.label1.TabIndex = 49;
+            this.lblIconSize.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.lblIconSize.BackColor = System.Drawing.Color.Transparent;
+            this.lblIconSize.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIconSize.ForeColor = System.Drawing.Color.White;
+            this.lblIconSize.Location = new System.Drawing.Point(161, 63);
+            this.lblIconSize.Name = "lblIconSize";
+            this.lblIconSize.Size = new System.Drawing.Size(27, 25);
+            this.lblIconSize.TabIndex = 54;
+            this.lblIconSize.Text = "6";
+            this.lblIconSize.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // IconSizeTopButton
+            // 
+            this.IconSizeTopButton.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.IconSizeTopButton.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.IconSizeTopButton.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
+            this.IconSizeTopButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.IconSizeTopButton.FlatAppearance.BorderSize = 0;
+            this.IconSizeTopButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.IconSizeTopButton.Location = new System.Drawing.Point(193, 63);
+            this.IconSizeTopButton.Name = "IconSizeTopButton";
+            this.IconSizeTopButton.Size = new System.Drawing.Size(16, 8);
+            this.IconSizeTopButton.TabIndex = 56;
+            this.IconSizeTopButton.UseVisualStyleBackColor = false;
+            this.IconSizeTopButton.Click += new System.EventHandler(this.IconSizeTopButton_Click);
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.tabPage4.Controls.Add(this.radioDark);
+            this.tabPage4.Controls.Add(this.radioCustom);
+            this.tabPage4.Controls.Add(this.pnlCustomColor);
+            this.tabPage4.Controls.Add(this.radioLight);
+            this.tabPage4.Controls.Add(this.pnlCustomColor1);
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(297, 127);
+            this.tabPage4.TabIndex = 1;
+            this.tabPage4.Text = "tabPage4";
+            // 
+            // radioDark
+            // 
+            this.radioDark.AutoSize = true;
+            this.radioDark.Checked = true;
+            this.radioDark.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioDark.ForeColor = System.Drawing.Color.White;
+            this.radioDark.Location = new System.Drawing.Point(104, 23);
+            this.radioDark.Name = "radioDark";
+            this.radioDark.Size = new System.Drawing.Size(96, 24);
+            this.radioDark.TabIndex = 1;
+            this.radioDark.TabStop = true;
+            this.radioDark.Text = "Dark color";
+            this.radioDark.UseVisualStyleBackColor = true;
+            this.radioDark.Click += new System.EventHandler(this.radioDark_Click);
+            // 
+            // radioCustom
+            // 
+            this.radioCustom.AutoSize = true;
+            this.radioCustom.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioCustom.ForeColor = System.Drawing.Color.White;
+            this.radioCustom.Location = new System.Drawing.Point(67, 84);
+            this.radioCustom.Name = "radioCustom";
+            this.radioCustom.Size = new System.Drawing.Size(115, 24);
+            this.radioCustom.TabIndex = 2;
+            this.radioCustom.Text = "Custom color";
+            this.radioCustom.UseVisualStyleBackColor = true;
+            this.radioCustom.Click += new System.EventHandler(this.radioCustom_Click);
             // 
             // pnlCustomColor
             // 
             this.pnlCustomColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlCustomColor.Controls.Add(this.panel1);
-            this.pnlCustomColor.Location = new System.Drawing.Point(231, 75);
+            this.pnlCustomColor.Location = new System.Drawing.Point(186, 90);
             this.pnlCustomColor.Name = "pnlCustomColor";
             this.pnlCustomColor.Size = new System.Drawing.Size(15, 15);
             this.pnlCustomColor.TabIndex = 3;
@@ -601,40 +723,12 @@
             this.panel1.Size = new System.Drawing.Size(15, 15);
             this.panel1.TabIndex = 4;
             // 
-            // radioCustom
-            // 
-            this.radioCustom.AutoSize = true;
-            this.radioCustom.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioCustom.ForeColor = System.Drawing.Color.White;
-            this.radioCustom.Location = new System.Drawing.Point(112, 69);
-            this.radioCustom.Name = "radioCustom";
-            this.radioCustom.Size = new System.Drawing.Size(115, 24);
-            this.radioCustom.TabIndex = 2;
-            this.radioCustom.TabStop = true;
-            this.radioCustom.Text = "Custom color";
-            this.radioCustom.UseVisualStyleBackColor = true;
-            this.radioCustom.Click += new System.EventHandler(this.radioCustom_Click);
-            // 
-            // radioDark
-            // 
-            this.radioDark.AutoSize = true;
-            this.radioDark.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioDark.ForeColor = System.Drawing.Color.White;
-            this.radioDark.Location = new System.Drawing.Point(143, 9);
-            this.radioDark.Name = "radioDark";
-            this.radioDark.Size = new System.Drawing.Size(96, 24);
-            this.radioDark.TabIndex = 1;
-            this.radioDark.TabStop = true;
-            this.radioDark.Text = "Dark color";
-            this.radioDark.UseVisualStyleBackColor = true;
-            this.radioDark.Click += new System.EventHandler(this.radioDark_Click);
-            // 
             // radioLight
             // 
             this.radioLight.AutoSize = true;
             this.radioLight.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioLight.ForeColor = System.Drawing.Color.White;
-            this.radioLight.Location = new System.Drawing.Point(143, 39);
+            this.radioLight.Location = new System.Drawing.Point(104, 54);
             this.radioLight.Name = "radioLight";
             this.radioLight.Size = new System.Drawing.Size(98, 24);
             this.radioLight.TabIndex = 0;
@@ -642,6 +736,23 @@
             this.radioLight.Text = "Light color";
             this.radioLight.UseVisualStyleBackColor = true;
             this.radioLight.Click += new System.EventHandler(this.radioLight_Click);
+            // 
+            // pnlCustomColor1
+            // 
+            this.pnlCustomColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCustomColor1.Controls.Add(this.panel3);
+            this.pnlCustomColor1.Location = new System.Drawing.Point(209, 90);
+            this.pnlCustomColor1.Name = "pnlCustomColor1";
+            this.pnlCustomColor1.Size = new System.Drawing.Size(15, 15);
+            this.pnlCustomColor1.TabIndex = 5;
+            this.pnlCustomColor1.Click += new System.EventHandler(this.pnlCustomColor1_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.Location = new System.Drawing.Point(34, 0);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(15, 15);
+            this.panel3.TabIndex = 4;
             // 
             // cmdDelete
             // 
@@ -661,19 +772,19 @@
             // 
             // pnlEnd
             // 
-            this.pnlEnd.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pnlEnd.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pnlEnd.AutoSize = true;
             this.pnlEnd.Controls.Add(this.cmdDelete);
             this.pnlEnd.Controls.Add(this.cmdSave);
             this.pnlEnd.Controls.Add(this.cmdExit);
-            this.pnlEnd.Location = new System.Drawing.Point(41, 875);
+            this.pnlEnd.Location = new System.Drawing.Point(41, 881);
             this.pnlEnd.Name = "pnlEnd";
             this.pnlEnd.Size = new System.Drawing.Size(482, 44);
             this.pnlEnd.TabIndex = 47;
             // 
             // pnlArguments
             // 
-            this.pnlArguments.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.pnlArguments.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pnlArguments.AutoSize = true;
             this.pnlArguments.Controls.Add(this.label7);
             this.pnlArguments.Controls.Add(this.label6);
@@ -682,9 +793,9 @@
             this.pnlArguments.Controls.Add(this.pnlWorkingDirectory);
             this.pnlArguments.Controls.Add(this.label3);
             this.pnlArguments.Controls.Add(this.pnlArgumentTextbox);
-            this.pnlArguments.Location = new System.Drawing.Point(34, 581);
+            this.pnlArguments.Location = new System.Drawing.Point(41, 627);
             this.pnlArguments.Name = "pnlArguments";
-            this.pnlArguments.Size = new System.Drawing.Size(482, 131);
+            this.pnlArguments.Size = new System.Drawing.Size(489, 151);
             this.pnlArguments.TabIndex = 48;
             this.pnlArguments.Visible = false;
             // 
@@ -772,6 +883,82 @@
             this.pnlArgumentTextbox.TextChanged += new System.EventHandler(this.pnlArgumentTextbox_TextChanged);
             this.pnlArgumentTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.pnlArgumentTextbox_KeyDown);
             // 
+            // pnlDeleteConfo
+            // 
+            this.pnlDeleteConfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.pnlDeleteConfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.pnlDeleteConfo.Controls.Add(this.confirmDelete);
+            this.pnlDeleteConfo.Controls.Add(this.label2);
+            this.pnlDeleteConfo.Location = new System.Drawing.Point(162, 347);
+            this.pnlDeleteConfo.Name = "pnlDeleteConfo";
+            this.pnlDeleteConfo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
+            this.pnlDeleteConfo.Size = new System.Drawing.Size(253, 98);
+            this.pnlDeleteConfo.TabIndex = 51;
+            this.pnlDeleteConfo.Visible = false;
+            // 
+            // confirmDelete
+            // 
+            this.confirmDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.confirmDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.confirmDelete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(148)))), ((int)(((byte)(148)))));
+            this.confirmDelete.FlatAppearance.BorderSize = 0;
+            this.confirmDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.confirmDelete.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.confirmDelete.ForeColor = System.Drawing.Color.White;
+            this.confirmDelete.Location = new System.Drawing.Point(76, 49);
+            this.confirmDelete.Name = "confirmDelete";
+            this.confirmDelete.Size = new System.Drawing.Size(99, 26);
+            this.confirmDelete.TabIndex = 47;
+            this.confirmDelete.Text = "Yes";
+            this.confirmDelete.UseVisualStyleBackColor = false;
+            this.confirmDelete.Click += new System.EventHandler(this.cmdDelete_Click);
+            // 
+            // label2
+            // 
+            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
+            this.label2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.label2.ForeColor = System.Drawing.Color.White;
+            this.label2.Location = new System.Drawing.Point(-1, 1);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(252, 39);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Are you sure you want to delete this group?";
+            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            // 
+            // pnlShortcuts
+            // 
+            this.pnlShortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pnlShortcuts.AutoScroll = true;
+            this.pnlShortcuts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.pnlShortcuts.Location = new System.Drawing.Point(57, 191);
+            this.pnlShortcuts.Name = "pnlShortcuts";
+            this.pnlShortcuts.Size = new System.Drawing.Size(489, 40);
+            this.pnlShortcuts.TabIndex = 52;
+            this.pnlShortcuts.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pnlShortcuts_ControlAdded);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox2.Location = new System.Drawing.Point(56, 180);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(467, 5);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 50;
+            this.pictureBox2.TabStop = false;
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Location = new System.Drawing.Point(56, 74);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(467, 5);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 49;
+            this.pictureBox1.TabStop = false;
+            // 
             // cmdWidthDown
             // 
             this.cmdWidthDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -802,91 +989,13 @@
             this.cmdWidthUp.UseVisualStyleBackColor = false;
             this.cmdWidthUp.Click += new System.EventHandler(this.cmdWidthUp_Click);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox1.Image = global::client.Properties.Resources.grayline;
-            this.pictureBox1.Location = new System.Drawing.Point(56, 74);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(467, 5);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 49;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pictureBox2.Image = global::client.Properties.Resources.grayline;
-            this.pictureBox2.Location = new System.Drawing.Point(56, 180);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(467, 5);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 50;
-            this.pictureBox2.TabStop = false;
-            // 
-            // pnlDeleteConfo
-            // 
-            this.pnlDeleteConfo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.pnlDeleteConfo.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.pnlDeleteConfo.Controls.Add(this.confirmDelete);
-            this.pnlDeleteConfo.Controls.Add(this.label2);
-            this.pnlDeleteConfo.Location = new System.Drawing.Point(163, 395);
-            this.pnlDeleteConfo.Name = "pnlDeleteConfo";
-            this.pnlDeleteConfo.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.pnlDeleteConfo.Size = new System.Drawing.Size(253, 78);
-            this.pnlDeleteConfo.TabIndex = 51;
-            this.pnlDeleteConfo.Visible = false;
-            // 
-            // confirmDelete
-            // 
-            this.confirmDelete.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.confirmDelete.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
-            this.confirmDelete.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(148)))), ((int)(((byte)(148)))), ((int)(((byte)(148)))));
-            this.confirmDelete.FlatAppearance.BorderSize = 0;
-            this.confirmDelete.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.confirmDelete.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.confirmDelete.ForeColor = System.Drawing.Color.White;
-            this.confirmDelete.Location = new System.Drawing.Point(82, 45);
-            this.confirmDelete.Name = "confirmDelete";
-            this.confirmDelete.Size = new System.Drawing.Size(99, 25);
-            this.confirmDelete.TabIndex = 47;
-            this.confirmDelete.Text = "Yes";
-            this.confirmDelete.UseVisualStyleBackColor = false;
-            this.confirmDelete.Click += new System.EventHandler(this.cmdDelete_Click);
-            // 
-            // label2
-            // 
-            this.label2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-            this.label2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(8, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(252, 43);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Are you sure you want to delete this group?";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // pnlShortcuts
-            // 
-            this.pnlShortcuts.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.pnlShortcuts.AutoScroll = true;
-            this.pnlShortcuts.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.pnlShortcuts.Location = new System.Drawing.Point(57, 191);
-            this.pnlShortcuts.Name = "pnlShortcuts";
-            this.pnlShortcuts.Size = new System.Drawing.Size(489, 40);
-            this.pnlShortcuts.TabIndex = 52;
-            this.pnlShortcuts.ControlAdded += new System.Windows.Forms.ControlEventHandler(this.pnlShortcuts_ControlAdded);
-            // 
             // frmGroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.ClientSize = new System.Drawing.Size(574, 940);
+            this.ClientSize = new System.Drawing.Size(574, 946);
             this.Controls.Add(this.pnlShortcuts);
             this.Controls.Add(this.pnlDeleteConfo);
             this.Controls.Add(this.pictureBox2);
@@ -920,15 +1029,19 @@
             this.pnlAddShortcut.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).EndInit();
             this.pnlColor.ResumeLayout(false);
-            this.pnlColor.PerformLayout();
-            this.pnlCustomColor1.ResumeLayout(false);
+            this.groupSettingsTabControl.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
             this.pnlCustomColor.ResumeLayout(false);
+            this.pnlCustomColor1.ResumeLayout(false);
             this.pnlEnd.ResumeLayout(false);
             this.pnlArguments.ResumeLayout(false);
             this.pnlArguments.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.pnlDeleteConfo.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -994,5 +1107,12 @@
         private System.Windows.Forms.Button IconSizeBottomButton;
         private System.Windows.Forms.Label lblIconSize;
         private System.Windows.Forms.Button IconSizeTopButton;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label4;
+        private ucTabControl groupSettingsTabControl;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.Button cmdLeftSettings;
+        private System.Windows.Forms.Button cmdRightSettings;
     }
 }
