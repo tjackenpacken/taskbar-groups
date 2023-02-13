@@ -51,7 +51,7 @@ namespace client.Forms
             this.cmdRightSettings = new System.Windows.Forms.Button();
             this.cmdLeftSettings = new System.Windows.Forms.Button();
             this.groupSettingsTabControl = new client.User_controls.ucTabControl();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.generalConfigPage = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.IconSeparationBottomButton = new System.Windows.Forms.Button();
             this.pnlAllowOpenAll = new System.Windows.Forms.CheckBox();
@@ -69,7 +69,8 @@ namespace client.Forms
             this.IconSizeBottomButton = new System.Windows.Forms.Button();
             this.lblIconSize = new System.Windows.Forms.Label();
             this.IconSizeTopButton = new System.Windows.Forms.Button();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.colorConfigPage = new System.Windows.Forms.TabPage();
+            this.radioSystem = new System.Windows.Forms.RadioButton();
             this.radioDark = new System.Windows.Forms.RadioButton();
             this.radioCustom = new System.Windows.Forms.RadioButton();
             this.pnlCustomColor = new System.Windows.Forms.Panel();
@@ -102,8 +103,8 @@ namespace client.Forms
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).BeginInit();
             this.pnlColor.SuspendLayout();
             this.groupSettingsTabControl.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            this.tabPage4.SuspendLayout();
+            this.generalConfigPage.SuspendLayout();
+            this.colorConfigPage.SuspendLayout();
             this.pnlCustomColor.SuspendLayout();
             this.pnlCustomColor1.SuspendLayout();
             this.pnlEnd.SuspendLayout();
@@ -403,40 +404,40 @@ namespace client.Forms
             // 
             // groupSettingsTabControl
             // 
-            this.groupSettingsTabControl.Controls.Add(this.tabPage3);
-            this.groupSettingsTabControl.Controls.Add(this.tabPage4);
+            this.groupSettingsTabControl.Controls.Add(this.generalConfigPage);
+            this.groupSettingsTabControl.Controls.Add(this.colorConfigPage);
             this.groupSettingsTabControl.Location = new System.Drawing.Point(36, 8);
             this.groupSettingsTabControl.Name = "groupSettingsTabControl";
             this.groupSettingsTabControl.SelectedIndex = 0;
             this.groupSettingsTabControl.Size = new System.Drawing.Size(305, 153);
             this.groupSettingsTabControl.TabIndex = 53;
             // 
-            // tabPage3
+            // generalConfigPage
             // 
-            this.tabPage3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.tabPage3.Controls.Add(this.label1);
-            this.tabPage3.Controls.Add(this.IconSeparationBottomButton);
-            this.tabPage3.Controls.Add(this.pnlAllowOpenAll);
-            this.tabPage3.Controls.Add(this.label8);
-            this.tabPage3.Controls.Add(this.lblPercent);
-            this.tabPage3.Controls.Add(this.lblIconSeparation);
-            this.tabPage3.Controls.Add(this.lblOpacity);
-            this.tabPage3.Controls.Add(this.IconSeparationText);
-            this.tabPage3.Controls.Add(this.numOpacUp);
-            this.tabPage3.Controls.Add(this.IconSeparationTopButton);
-            this.tabPage3.Controls.Add(this.numOpacDown);
-            this.tabPage3.Controls.Add(this.label4);
-            this.tabPage3.Controls.Add(this.IconSizeText);
-            this.tabPage3.Controls.Add(this.lblOpacityTooltip);
-            this.tabPage3.Controls.Add(this.IconSizeBottomButton);
-            this.tabPage3.Controls.Add(this.lblIconSize);
-            this.tabPage3.Controls.Add(this.IconSizeTopButton);
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(297, 127);
-            this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "tabPage3";
+            this.generalConfigPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.generalConfigPage.Controls.Add(this.label1);
+            this.generalConfigPage.Controls.Add(this.IconSeparationBottomButton);
+            this.generalConfigPage.Controls.Add(this.pnlAllowOpenAll);
+            this.generalConfigPage.Controls.Add(this.label8);
+            this.generalConfigPage.Controls.Add(this.lblPercent);
+            this.generalConfigPage.Controls.Add(this.lblIconSeparation);
+            this.generalConfigPage.Controls.Add(this.lblOpacity);
+            this.generalConfigPage.Controls.Add(this.IconSeparationText);
+            this.generalConfigPage.Controls.Add(this.numOpacUp);
+            this.generalConfigPage.Controls.Add(this.IconSeparationTopButton);
+            this.generalConfigPage.Controls.Add(this.numOpacDown);
+            this.generalConfigPage.Controls.Add(this.label4);
+            this.generalConfigPage.Controls.Add(this.IconSizeText);
+            this.generalConfigPage.Controls.Add(this.lblOpacityTooltip);
+            this.generalConfigPage.Controls.Add(this.IconSizeBottomButton);
+            this.generalConfigPage.Controls.Add(this.lblIconSize);
+            this.generalConfigPage.Controls.Add(this.IconSizeTopButton);
+            this.generalConfigPage.Location = new System.Drawing.Point(4, 22);
+            this.generalConfigPage.Name = "generalConfigPage";
+            this.generalConfigPage.Padding = new System.Windows.Forms.Padding(3);
+            this.generalConfigPage.Size = new System.Drawing.Size(297, 127);
+            this.generalConfigPage.TabIndex = 0;
+            this.generalConfigPage.Text = "Genneral Config";
             // 
             // label1
             // 
@@ -663,32 +664,44 @@ namespace client.Forms
             this.IconSizeTopButton.UseVisualStyleBackColor = false;
             this.IconSizeTopButton.Click += new System.EventHandler(this.IconSizeTopButton_Click);
             // 
-            // tabPage4
+            // colorConfigPage
             // 
-            this.tabPage4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
-            this.tabPage4.Controls.Add(this.radioDark);
-            this.tabPage4.Controls.Add(this.radioCustom);
-            this.tabPage4.Controls.Add(this.pnlCustomColor);
-            this.tabPage4.Controls.Add(this.radioLight);
-            this.tabPage4.Controls.Add(this.pnlCustomColor1);
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(297, 127);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "tabPage4";
+            this.colorConfigPage.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.colorConfigPage.Controls.Add(this.radioSystem);
+            this.colorConfigPage.Controls.Add(this.radioDark);
+            this.colorConfigPage.Controls.Add(this.radioCustom);
+            this.colorConfigPage.Controls.Add(this.pnlCustomColor);
+            this.colorConfigPage.Controls.Add(this.radioLight);
+            this.colorConfigPage.Controls.Add(this.pnlCustomColor1);
+            this.colorConfigPage.Location = new System.Drawing.Point(4, 22);
+            this.colorConfigPage.Name = "colorConfigPage";
+            this.colorConfigPage.Padding = new System.Windows.Forms.Padding(3);
+            this.colorConfigPage.Size = new System.Drawing.Size(297, 127);
+            this.colorConfigPage.TabIndex = 1;
+            this.colorConfigPage.Text = "Color Config";
+            // 
+            // radioSystem
+            // 
+            this.radioSystem.AutoSize = true;
+            this.radioSystem.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.radioSystem.ForeColor = System.Drawing.Color.White;
+            this.radioSystem.Location = new System.Drawing.Point(102, 63);
+            this.radioSystem.Name = "radioSystem";
+            this.radioSystem.Size = new System.Drawing.Size(114, 24);
+            this.radioSystem.TabIndex = 6;
+            this.radioSystem.Text = "System Color";
+            this.radioSystem.UseVisualStyleBackColor = true;
+            this.radioSystem.Click += new System.EventHandler(this.radioSystem_Click);
             // 
             // radioDark
             // 
             this.radioDark.AutoSize = true;
-            this.radioDark.Checked = true;
             this.radioDark.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioDark.ForeColor = System.Drawing.Color.White;
-            this.radioDark.Location = new System.Drawing.Point(104, 23);
+            this.radioDark.Location = new System.Drawing.Point(104, 4);
             this.radioDark.Name = "radioDark";
             this.radioDark.Size = new System.Drawing.Size(96, 24);
             this.radioDark.TabIndex = 1;
-            this.radioDark.TabStop = true;
             this.radioDark.Text = "Dark color";
             this.radioDark.UseVisualStyleBackColor = true;
             this.radioDark.Click += new System.EventHandler(this.radioDark_Click);
@@ -698,7 +711,7 @@ namespace client.Forms
             this.radioCustom.AutoSize = true;
             this.radioCustom.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioCustom.ForeColor = System.Drawing.Color.White;
-            this.radioCustom.Location = new System.Drawing.Point(67, 84);
+            this.radioCustom.Location = new System.Drawing.Point(67, 89);
             this.radioCustom.Name = "radioCustom";
             this.radioCustom.Size = new System.Drawing.Size(115, 24);
             this.radioCustom.TabIndex = 2;
@@ -710,7 +723,7 @@ namespace client.Forms
             // 
             this.pnlCustomColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlCustomColor.Controls.Add(this.panel1);
-            this.pnlCustomColor.Location = new System.Drawing.Point(186, 90);
+            this.pnlCustomColor.Location = new System.Drawing.Point(186, 95);
             this.pnlCustomColor.Name = "pnlCustomColor";
             this.pnlCustomColor.Size = new System.Drawing.Size(15, 15);
             this.pnlCustomColor.TabIndex = 3;
@@ -726,9 +739,10 @@ namespace client.Forms
             // radioLight
             // 
             this.radioLight.AutoSize = true;
+            this.radioLight.Checked = true;
             this.radioLight.Font = new System.Drawing.Font("Segoe UI", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.radioLight.ForeColor = System.Drawing.Color.White;
-            this.radioLight.Location = new System.Drawing.Point(104, 54);
+            this.radioLight.Location = new System.Drawing.Point(104, 34);
             this.radioLight.Name = "radioLight";
             this.radioLight.Size = new System.Drawing.Size(98, 24);
             this.radioLight.TabIndex = 0;
@@ -741,7 +755,7 @@ namespace client.Forms
             // 
             this.pnlCustomColor1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlCustomColor1.Controls.Add(this.panel3);
-            this.pnlCustomColor1.Location = new System.Drawing.Point(209, 90);
+            this.pnlCustomColor1.Location = new System.Drawing.Point(209, 95);
             this.pnlCustomColor1.Name = "pnlCustomColor1";
             this.pnlCustomColor1.Size = new System.Drawing.Size(15, 15);
             this.pnlCustomColor1.TabIndex = 5;
@@ -996,6 +1010,7 @@ namespace client.Forms
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(574, 946);
+            this.Controls.Add(this.pnlColor);
             this.Controls.Add(this.pnlShortcuts);
             this.Controls.Add(this.pnlDeleteConfo);
             this.Controls.Add(this.pictureBox2);
@@ -1003,7 +1018,6 @@ namespace client.Forms
             this.Controls.Add(this.pnlArguments);
             this.Controls.Add(this.pnlEnd);
             this.Controls.Add(this.pnlAddShortcut);
-            this.Controls.Add(this.pnlColor);
             this.Controls.Add(this.lblWith);
             this.Controls.Add(this.lblErrorNum);
             this.Controls.Add(this.cmdWidthDown);
@@ -1030,10 +1044,10 @@ namespace client.Forms
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddShortcut)).EndInit();
             this.pnlColor.ResumeLayout(false);
             this.groupSettingsTabControl.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
-            this.tabPage4.ResumeLayout(false);
-            this.tabPage4.PerformLayout();
+            this.generalConfigPage.ResumeLayout(false);
+            this.generalConfigPage.PerformLayout();
+            this.colorConfigPage.ResumeLayout(false);
+            this.colorConfigPage.PerformLayout();
             this.pnlCustomColor.ResumeLayout(false);
             this.pnlCustomColor1.ResumeLayout(false);
             this.pnlEnd.ResumeLayout(false);
@@ -1070,11 +1084,7 @@ namespace client.Forms
         private System.Windows.Forms.Button cmdDelete;
         private System.Windows.Forms.Panel pnlEnd;
         private System.Windows.Forms.Panel pnlColor;
-        private System.Windows.Forms.RadioButton radioCustom;
-        private System.Windows.Forms.RadioButton radioDark;
-        private System.Windows.Forms.RadioButton radioLight;
         private System.Windows.Forms.ColorDialog colorDialog;
-        private System.Windows.Forms.Panel pnlCustomColor;
         private System.Windows.Forms.Label lblOpacityTooltip;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblPercent;
@@ -1095,7 +1105,6 @@ namespace client.Forms
         private System.Windows.Forms.Panel pnlDeleteConfo;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button confirmDelete;
-        private System.Windows.Forms.Panel pnlCustomColor1;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.FlowLayoutPanel pnlShortcuts;
@@ -1110,9 +1119,15 @@ namespace client.Forms
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label4;
         private ucTabControl groupSettingsTabControl;
-        private System.Windows.Forms.TabPage tabPage3;
-        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.TabPage generalConfigPage;
+        private System.Windows.Forms.TabPage colorConfigPage;
         private System.Windows.Forms.Button cmdLeftSettings;
         private System.Windows.Forms.Button cmdRightSettings;
+        public System.Windows.Forms.RadioButton radioCustom;
+        public System.Windows.Forms.RadioButton radioDark;
+        public System.Windows.Forms.RadioButton radioLight;
+        public System.Windows.Forms.Panel pnlCustomColor;
+        public System.Windows.Forms.Panel pnlCustomColor1;
+        public System.Windows.Forms.RadioButton radioSystem;
     }
 }

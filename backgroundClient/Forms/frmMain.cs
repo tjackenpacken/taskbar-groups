@@ -48,7 +48,7 @@ namespace backgroundClient
 
         private string[] argumentList;
 
-        private LoadedCategory loadedCat;
+        private Category loadedCat;
 
         private Jumplist jumpList;
 
@@ -59,7 +59,7 @@ namespace backgroundClient
         //------------------------------------------------------------------------------------
         // CTOR AND LOAD
         //
-        public frmMain(LoadedCategory category, string[] arguments)
+        public frmMain(Category category, string[] arguments)
         {
             /*
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
@@ -406,9 +406,9 @@ namespace backgroundClient
             }
             */
 
-            for (int i=0; i<loadedCat.programShortcuts.Count; i++)
+            for (int i=0; i<loadedCat.ShortcutList.Count; i++)
             {
-                ProgramShortcut psc = loadedCat.programShortcuts[i];
+                ProgramShortcut psc = loadedCat.ShortcutList[i];
 
                 if (columns > width)  // creating new row if there are more psc than max width
                 {

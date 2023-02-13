@@ -8,17 +8,32 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using backgroundClient.Classes;
 using IWshRuntimeLibrary;
+using static backgroundClient.bkgProcess;
 
 namespace backgroundClient
 {
     public partial class bkgProcess : Form
     {
-        public static Dictionary<String, LoadedCategory> loadedCategories = new Dictionary<String, LoadedCategory>();
+        public static Dictionary<String, Category> loadedCategories = new Dictionary<String, Category>();
 
         [DllImport("user32.dll")]
         public static extern bool ShowWindow(IntPtr handle, int flags);
+        [DllImport("dwmapi.dll", EntryPoint = "#127")]
+        public static extern void DwmGetColorizationParameters(out DWMCOLORIZATIONPARAMS parameters);
 
-        
+        public static Color SystemColors = Color.FromArgb(31, 31, 31);
+
+        public struct DWMCOLORIZATIONPARAMS
+        {
+            public uint ColorizationColor,
+                ColorizationAfterglow,
+                ColorizationColorBalance,
+                ColorizationAfterglowBalance,
+                ColorizationBlurBalance,
+                ColorizationGlassReflectionIntensity,
+                ColorizationOpaqueBlend;
+        }
+
         protected override CreateParams CreateParams
         {
             get
@@ -53,6 +68,7 @@ namespace backgroundClient
             };
 
             InitializeComponent();
+            updateColor();
             this.Hide();
 
             string[] folders = Directory.GetDirectories(Paths.ConfigPath);
@@ -60,7 +76,7 @@ namespace backgroundClient
             {
                 if (System.IO.File.Exists(Path.Combine(folderName, "ObjectData.xml")))
                 {
-                    loadedCategories.Add(new DirectoryInfo(folderName).Name, new LoadedCategory(folderName));
+                    loadedCategories.Add(new DirectoryInfo(folderName).Name, new Category(folderName));
                 }
             }
 
@@ -75,6 +91,18 @@ namespace backgroundClient
                 Application.Exit();
             });
             notifyIcon1.ContextMenu = trayContext;
+        }
+
+        private void updateColor()
+        {
+            DWMCOLORIZATIONPARAMS windowsColors = new DWMCOLORIZATIONPARAMS();
+            DwmGetColorizationParameters(out windowsColors);
+
+            SystemColors = Color.FromArgb(
+                (byte)(255),
+                (byte)(windowsColors.ColorizationColor >> 16),
+                (byte)(windowsColors.ColorizationColor >> 8),
+                (byte)windowsColors.ColorizationColor);
         }
 
 
@@ -117,6 +145,18 @@ namespace backgroundClient
             {
                 MessageBox.Show("Please reopen your Taskbar Groups editor to set the location of itself so you can use this feature!");
             }
+        }
+
+        // Get system color window changes
+        const int WM_DWMCOLORIZATIONCOLORCHANGED = 0x320;
+        protected override void WndProc(ref Message m)
+        {
+            // Cancel any maximize message sent to the window
+            if (m.Msg == 0x320)
+            {
+                updateColor();
+            }
+            base.WndProc(ref m);
         }
     }
 }

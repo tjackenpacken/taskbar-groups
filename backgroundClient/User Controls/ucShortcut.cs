@@ -14,7 +14,7 @@ namespace backgroundClient.User_controls
         public ProgramShortcut Psc { get; set; }
         public frmMain MotherForm { get; set; }
         public Image bkgImage { get; set; }
-        public LoadedCategory loadedCategory { get; set; }
+        public Category loadedCategory { get; set; }
         public ucShortcut()
         {
             InitializeComponent();

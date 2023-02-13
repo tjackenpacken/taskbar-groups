@@ -91,27 +91,36 @@ namespace client.Forms
             if (Category.ColorString == null)  // Handles if groups is created from earlier releas w/o ColorString property
                 Category.ColorString = ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
 
-            Color categoryColor = ImageFunctions.FromString(Category.ColorString);
-
-            if (categoryColor == Color.FromArgb(31, 31, 31))
-                radioDark.Checked = true;
-            else if (categoryColor == Color.FromArgb(230, 230, 230))
-                radioLight.Checked = true;
-            else
+            if (Category.ColorString == "sys")
             {
-                radioCustom.Checked = true;
-                //pnlCustomColor.Visible = true;
-                pnlCustomColor.BackColor = categoryColor;
+                radioSystem.Checked = true;
+            } else
+            {
+                Color categoryColor = ImageFunctions.FromString(Category.ColorString);
+                if (categoryColor == Color.FromArgb(31, 31, 31))
+                    radioDark.Checked = true;
+                else if (categoryColor == Color.FromArgb(230, 230, 230))
+                    radioLight.Checked = true;
+                else
+                {
+                    radioCustom.Checked = true;
+                    //pnlCustomColor.Visible = true;
+                    pnlCustomColor.BackColor = categoryColor;
 
-                if (category.HoverColor != null)
-                {
-                    pnlCustomColor1.BackColor = ImageFunctions.FromString(category.HoverColor);
-                } else
-                {
-                    pnlCustomColor1.BackColor = category.calculateHoverColor();
+                    if (category.HoverColor != null)
+                    {
+                        pnlCustomColor1.BackColor = ImageFunctions.FromString(category.HoverColor);
+                    }
+                    else
+                    {
+                        pnlCustomColor1.BackColor = category.calculateHoverColor();
+                    }
+
                 }
-
             }
+
+            colorConfigPage.Update();
+            colorConfigPage.Refresh();
 
             // Loading existing shortcutpanels
             int position = 0;
@@ -885,6 +894,11 @@ namespace client.Forms
         {
             Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(230, 230, 230));
             //pnlCustomColor.Visible = false;
+        }
+
+        private void radioSystem_Click(object sender, EventArgs e)
+        {
+            Category.ColorString = "sys";
         }
 
         // Opacity buttons
