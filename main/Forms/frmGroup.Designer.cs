@@ -30,6 +30,7 @@ namespace client.Forms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGroup));
             this.lblWith = new System.Windows.Forms.Label();
             this.lblErrorNum = new System.Windows.Forms.Label();
@@ -82,6 +83,10 @@ namespace client.Forms
             this.pnlEnd = new System.Windows.Forms.Panel();
             this.colorDialog = new System.Windows.Forms.ColorDialog();
             this.pnlArguments = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.cmdSelectProgramPath = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.pnlProgramPath = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.cmdSelectDirectory = new System.Windows.Forms.Button();
@@ -97,6 +102,8 @@ namespace client.Forms
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.cmdWidthDown = new System.Windows.Forms.Button();
             this.cmdWidthUp = new System.Windows.Forms.Button();
+            this.validationTimerPrgm = new System.Windows.Forms.Timer(this.components);
+            this.validaitonTimerDirec = new System.Windows.Forms.Timer(this.components);
             this.pnlGroupIcon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.cmdAddGroupIcon)).BeginInit();
             this.pnlAddShortcut.SuspendLayout();
@@ -800,6 +807,10 @@ namespace client.Forms
             // 
             this.pnlArguments.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.pnlArguments.AutoSize = true;
+            this.pnlArguments.Controls.Add(this.label9);
+            this.pnlArguments.Controls.Add(this.cmdSelectProgramPath);
+            this.pnlArguments.Controls.Add(this.label10);
+            this.pnlArguments.Controls.Add(this.pnlProgramPath);
             this.pnlArguments.Controls.Add(this.label7);
             this.pnlArguments.Controls.Add(this.label6);
             this.pnlArguments.Controls.Add(this.cmdSelectDirectory);
@@ -813,12 +824,61 @@ namespace client.Forms
             this.pnlArguments.TabIndex = 48;
             this.pnlArguments.Visible = false;
             // 
+            // label9
+            // 
+            this.label9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label9.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label9.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
+            this.label9.Location = new System.Drawing.Point(35, 44);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(335, 1);
+            this.label9.TabIndex = 54;
+            // 
+            // cmdSelectProgramPath
+            // 
+            this.cmdSelectProgramPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(76)))), ((int)(((byte)(76)))), ((int)(((byte)(76)))));
+            this.cmdSelectProgramPath.FlatAppearance.BorderSize = 0;
+            this.cmdSelectProgramPath.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.cmdSelectProgramPath.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.cmdSelectProgramPath.ForeColor = System.Drawing.Color.White;
+            this.cmdSelectProgramPath.Location = new System.Drawing.Point(376, 20);
+            this.cmdSelectProgramPath.Name = "cmdSelectProgramPath";
+            this.cmdSelectProgramPath.Size = new System.Drawing.Size(97, 27);
+            this.cmdSelectProgramPath.TabIndex = 57;
+            this.cmdSelectProgramPath.Text = "Select Program";
+            this.cmdSelectProgramPath.UseVisualStyleBackColor = false;
+            this.cmdSelectProgramPath.Click += new System.EventHandler(this.cmdSelectProgramPath_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Segoe UI", 11.25F);
+            this.label10.ForeColor = System.Drawing.Color.White;
+            this.label10.Location = new System.Drawing.Point(32, 4);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(101, 20);
+            this.label10.TabIndex = 56;
+            this.label10.Text = "Program Path:";
+            // 
+            // pnlProgramPath
+            // 
+            this.pnlProgramPath.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
+            this.pnlProgramPath.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.pnlProgramPath.Enabled = false;
+            this.pnlProgramPath.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.pnlProgramPath.ForeColor = System.Drawing.Color.White;
+            this.pnlProgramPath.Location = new System.Drawing.Point(36, 26);
+            this.pnlProgramPath.Name = "pnlProgramPath";
+            this.pnlProgramPath.Size = new System.Drawing.Size(330, 16);
+            this.pnlProgramPath.TabIndex = 55;
+            this.pnlProgramPath.TextChanged += new System.EventHandler(this.pnlProgramPath_TextChanged);
+            // 
             // label7
             // 
             this.label7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
             this.label7.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label7.Location = new System.Drawing.Point(34, 51);
+            this.label7.Location = new System.Drawing.Point(35, 93);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(440, 1);
             this.label7.TabIndex = 53;
@@ -828,7 +888,7 @@ namespace client.Forms
             this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
             this.label6.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(144)))), ((int)(((byte)(143)))), ((int)(((byte)(143)))));
-            this.label6.Location = new System.Drawing.Point(34, 103);
+            this.label6.Location = new System.Drawing.Point(35, 145);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(335, 1);
             this.label6.TabIndex = 50;
@@ -840,7 +900,7 @@ namespace client.Forms
             this.cmdSelectDirectory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmdSelectDirectory.Font = new System.Drawing.Font("Segoe UI", 8F);
             this.cmdSelectDirectory.ForeColor = System.Drawing.Color.White;
-            this.cmdSelectDirectory.Location = new System.Drawing.Point(375, 79);
+            this.cmdSelectDirectory.Location = new System.Drawing.Point(376, 121);
             this.cmdSelectDirectory.Name = "cmdSelectDirectory";
             this.cmdSelectDirectory.Size = new System.Drawing.Size(97, 27);
             this.cmdSelectDirectory.TabIndex = 52;
@@ -853,7 +913,7 @@ namespace client.Forms
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.label5.ForeColor = System.Drawing.Color.White;
-            this.label5.Location = new System.Drawing.Point(31, 63);
+            this.label5.Location = new System.Drawing.Point(32, 105);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(132, 20);
             this.label5.TabIndex = 51;
@@ -866,7 +926,7 @@ namespace client.Forms
             this.pnlWorkingDirectory.Enabled = false;
             this.pnlWorkingDirectory.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.pnlWorkingDirectory.ForeColor = System.Drawing.Color.White;
-            this.pnlWorkingDirectory.Location = new System.Drawing.Point(35, 85);
+            this.pnlWorkingDirectory.Location = new System.Drawing.Point(36, 127);
             this.pnlWorkingDirectory.Name = "pnlWorkingDirectory";
             this.pnlWorkingDirectory.Size = new System.Drawing.Size(330, 16);
             this.pnlWorkingDirectory.TabIndex = 50;
@@ -877,7 +937,7 @@ namespace client.Forms
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 11.25F);
             this.label3.ForeColor = System.Drawing.Color.White;
-            this.label3.Location = new System.Drawing.Point(31, 11);
+            this.label3.Location = new System.Drawing.Point(32, 53);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(84, 20);
             this.label3.TabIndex = 1;
@@ -890,7 +950,7 @@ namespace client.Forms
             this.pnlArgumentTextbox.Enabled = false;
             this.pnlArgumentTextbox.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.pnlArgumentTextbox.ForeColor = System.Drawing.Color.White;
-            this.pnlArgumentTextbox.Location = new System.Drawing.Point(34, 33);
+            this.pnlArgumentTextbox.Location = new System.Drawing.Point(35, 75);
             this.pnlArgumentTextbox.Name = "pnlArgumentTextbox";
             this.pnlArgumentTextbox.Size = new System.Drawing.Size(425, 16);
             this.pnlArgumentTextbox.TabIndex = 0;
@@ -1003,6 +1063,16 @@ namespace client.Forms
             this.cmdWidthUp.UseVisualStyleBackColor = false;
             this.cmdWidthUp.Click += new System.EventHandler(this.cmdWidthUp_Click);
             // 
+            // validationTimerPrgm
+            // 
+            this.validationTimerPrgm.Interval = 1000;
+            this.validationTimerPrgm.Tick += new System.EventHandler(this.validationTimer_Tick);
+            // 
+            // validaitonTimerDirec
+            // 
+            this.validaitonTimerDirec.Interval = 1000;
+            this.validaitonTimerDirec.Tick += new System.EventHandler(this.validaitonTimerDirec_Tick);
+            // 
             // frmGroup
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
@@ -1010,12 +1080,12 @@ namespace client.Forms
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(574, 946);
+            this.Controls.Add(this.pnlArguments);
             this.Controls.Add(this.pnlColor);
             this.Controls.Add(this.pnlShortcuts);
             this.Controls.Add(this.pnlDeleteConfo);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.pnlArguments);
             this.Controls.Add(this.pnlEnd);
             this.Controls.Add(this.pnlAddShortcut);
             this.Controls.Add(this.lblWith);
@@ -1129,5 +1199,11 @@ namespace client.Forms
         public System.Windows.Forms.Panel pnlCustomColor;
         public System.Windows.Forms.Panel pnlCustomColor1;
         public System.Windows.Forms.RadioButton radioSystem;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Button cmdSelectProgramPath;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox pnlProgramPath;
+        private System.Windows.Forms.Timer validationTimerPrgm;
+        private System.Windows.Forms.Timer validaitonTimerDirec;
     }
 }

@@ -38,7 +38,8 @@ namespace client.Forms
 
         public static Shell32.Shell shell = new Shell32.Shell();
 
-        private List<ProgramShortcut> shortcutChanged = new List<ProgramShortcut>();
+        private Regex fileRegex = new Regex(@"^(?:[\w]\:|\\)(?:\\[A-Za-z_\-\s0-9\.]+)+(?:\.[a-zA-Z].*$)");
+        private Regex directoryRegex = new Regex(@"^[a-zA-Z]:\\(?:(?:(?![<>:""\/\\|?*]).)+(?:(?<![ .])\\)?)*$");
 
         //--------------------------------------
         // CTOR AND LOAD
@@ -716,17 +717,6 @@ namespace client.Forms
                 }
                 try
                 {
-
-                    foreach (ProgramShortcut shortcutModifiedItem in shortcutChanged)
-                    {
-                        shortcutModifiedItem.WorkingDirectory = expandEnvironment(shortcutModifiedItem.WorkingDirectory);
-                        if (!Directory.Exists(shortcutModifiedItem.WorkingDirectory))
-                        {
-                            shortcutModifiedItem.WorkingDirectory = getProperDirectory(shortcutModifiedItem.FilePath);
-                        }
-                    }
-
-
                     if (!IsNew)
                     {
                         //
@@ -985,8 +975,22 @@ namespace client.Forms
         // Deselect selected program/shortcut
         public void resetSelection()
         {
+            // If either timer has pending checks, do them before selected shortcut gets nulled
+            if(validaitonTimerDirec.Enabled)
+            {
+                validaitonTimerDirec.Stop();
+                validaitonTimerDirec_Tick(this, new EventArgs());
+            }
+            if(validationTimerPrgm.Enabled)
+            {
+                validationTimerPrgm.Stop();
+                validationTimer_Tick(this, new EventArgs());
+            }
+
             pnlArgumentTextbox.Enabled = false;
             cmdSelectDirectory.Enabled = false;
+            pnlProgramPath.Enabled = false;
+            cmdSelectProgramPath.Enabled = false;
             if (selectedShortcut != null)
             {
                 pnlColor.Visible = true;
@@ -1006,6 +1010,10 @@ namespace client.Forms
 
             pnlArgumentTextbox.Text = Category.ShortcutList[selectedShortcut.Position].Arguments;
             pnlArgumentTextbox.Enabled = true;
+
+            pnlProgramPath.Text = Category.ShortcutList[selectedShortcut.Position].FilePath;
+            pnlProgramPath.Enabled = true;
+            cmdSelectProgramPath.Enabled = true;
 
             pnlWorkingDirectory.Text = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory;
             pnlWorkingDirectory.Enabled = true;
@@ -1051,19 +1059,79 @@ namespace client.Forms
 
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                this.Focus();
                 Category.ShortcutList[selectedShortcut.Position].WorkingDirectory = openFileDialog.FileName;
+                pnlWorkingDirectory.Text = openFileDialog.FileName;
+            }
+            this.Focus();
+        }
+
+        int changedBox = 0;
+
+        private void cmdSelectProgramPath_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog()
+            {
+                EnsurePathExists = true,
+                IsFolderPicker = false,
+                InitialDirectory = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory
+            };
+
+            if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                Category.ShortcutList[selectedShortcut.Position].FilePath = openFileDialog.FileName;
+                pnlProgramPath.Text = openFileDialog.FileName;
+            }
+            this.Focus();
+        }
+
+
+        // Wait 1 second for user to "finish typing"
+        // Reset the timer everytime the text is changed
+        private void pnlWorkingDirectory_TextChanged(object sender, EventArgs e)
+        {
+            validaitonTimerDirec.Stop();
+            validaitonTimerDirec.Start();
+        }
+
+        private void pnlProgramPath_TextChanged(object sender, EventArgs e)
+        {
+            validationTimerPrgm.Stop();
+            validationTimerPrgm.Start();
+        }
+
+        // Both timers actively validate the path after a certain amount of time
+        private void validationTimer_Tick(object sender, EventArgs e)
+        {
+            validationTimerPrgm.Stop();
+            if (fileRegex.IsMatch(pnlProgramPath.Text))
+            {
+                if (System.IO.File.Exists(pnlProgramPath.Text))
+                {
+                    Category.ShortcutList[selectedShortcut.Position].FilePath = pnlProgramPath.Text;
+                }
             }
         }
 
-        private void pnlWorkingDirectory_TextChanged(object sender, EventArgs e)
+        private void validaitonTimerDirec_Tick(object sender, EventArgs e)
         {
-            Category.ShortcutList[selectedShortcut.Position].WorkingDirectory = pnlWorkingDirectory.Text;
-
-            if (!shortcutChanged.Contains(Category.ShortcutList[selectedShortcut.Position]))
+            validaitonTimerDirec.Stop();
+            if (directoryRegex.IsMatch(pnlWorkingDirectory.Text))
             {
-                shortcutChanged.Add(Category.ShortcutList[selectedShortcut.Position]);
+                if (System.IO.Directory.Exists(pnlWorkingDirectory.Text))
+                {
+                    Category.ShortcutList[selectedShortcut.Position].WorkingDirectory = pnlWorkingDirectory.Text;
+                }
             }
+        }
+
+        private void pnlProgramPath_LostFocus(object sender, EventArgs e)
+        {
+            pnlProgramPath.Text = Category.ShortcutList[selectedShortcut.Position].FilePath;
+        }
+
+        private void pnlWorkingDirectory_LostFocus(object sender, EventArgs e)
+        {
+            pnlWorkingDirectory.Text = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory;
         }
 
         private String getProperDirectory(String file)
