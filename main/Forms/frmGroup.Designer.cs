@@ -1080,10 +1080,10 @@ namespace client.Forms
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(31)))), ((int)(((byte)(31)))), ((int)(((byte)(31)))));
             this.ClientSize = new System.Drawing.Size(574, 946);
+            this.Controls.Add(this.pnlDeleteConfo);
             this.Controls.Add(this.pnlArguments);
             this.Controls.Add(this.pnlColor);
             this.Controls.Add(this.pnlShortcuts);
-            this.Controls.Add(this.pnlDeleteConfo);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.pnlEnd);
