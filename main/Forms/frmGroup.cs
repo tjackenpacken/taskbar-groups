@@ -1065,8 +1065,6 @@ namespace client.Forms
             this.Focus();
         }
 
-        int changedBox = 0;
-
         private void cmdSelectProgramPath_Click(object sender, EventArgs e)
         {
             CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog()
@@ -1122,16 +1120,6 @@ namespace client.Forms
                     Category.ShortcutList[selectedShortcut.Position].WorkingDirectory = pnlWorkingDirectory.Text;
                 }
             }
-        }
-
-        private void pnlProgramPath_LostFocus(object sender, EventArgs e)
-        {
-            pnlProgramPath.Text = Category.ShortcutList[selectedShortcut.Position].FilePath;
-        }
-
-        private void pnlWorkingDirectory_LostFocus(object sender, EventArgs e)
-        {
-            pnlWorkingDirectory.Text = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory;
         }
 
         private String getProperDirectory(String file)
