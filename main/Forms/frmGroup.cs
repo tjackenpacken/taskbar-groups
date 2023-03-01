@@ -1,5 +1,4 @@
-﻿using ChinhDo.Transactions;
-using client.Classes;
+﻿using client.Classes;
 using client.User_controls;
 using IWshRuntimeLibrary;
 using System;
@@ -10,27 +9,37 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Windows.Forms;
+using System.Reflection;
 using Microsoft.WindowsAPICodePack.Shell;
-using Microsoft.WindowsAPICodePack.Dialogs; 
+using Microsoft.WindowsAPICodePack.Dialogs;
+using ChinhDo.Transactions;
+using System.Drawing.Imaging;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using client.Properties;
 
 namespace client.Forms
 {
+
     public partial class frmGroup : Form
     {
+        [DllImport("shell32.dll")]
+        static extern int SHGetKnownFolderPath([MarshalAs(UnmanagedType.LPStruct)] Guid rfid, uint dwFlags, IntPtr hToken, out IntPtr ppszPath);
+
         public Category Category;
         public frmClient Client;
         public bool IsNew;
         private String[] imageExt = new String[] { ".png", ".jpg", ".jpe", ".jfif", ".jpeg", };
         private String[] extensionExt = new String[] { ".exe", ".lnk", ".url" };
         private String[] specialImageExt = new String[] { ".ico", ".exe", ".lnk" };
-        private String[] newExt;
+        public String[] newExt;
 
         public ucProgramShortcut selectedShortcut;
 
         public static Shell32.Shell shell = new Shell32.Shell();
 
-        private List<ProgramShortcut> shortcutChanged = new List<ProgramShortcut>();
-
+        private Regex fileRegex = new Regex(@"^(?:[\w]\:|\\)(?:\\[A-Za-z_\-\s0-9\.]+)+(?:\.[a-zA-Z].*$)");
+        private Regex directoryRegex = new Regex(@"^[a-zA-Z]:\\(?:(?:(?![<>:""\/\\|?*]).)+(?:(?<![ .])\\)?)*$");
 
         //--------------------------------------
         // CTOR AND LOAD
@@ -39,13 +48,13 @@ namespace client.Forms
         // CTOR for creating a new group
         public frmGroup(frmClient client)
         {
+            this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
             // Setting from profile
             System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
 
             InitializeComponent();
 
-            // Setting default category properties
-            newExt = imageExt.Concat(specialImageExt).ToArray();
+            // Setting default category properties  
             Category = new Category { ShortcutList = new List<ProgramShortcut>() };
             Client = client;
             IsNew = true;
@@ -77,22 +86,42 @@ namespace client.Forms
             cmdAddGroupIcon.BackgroundImage = Category.LoadIconImage();
             lblNum.Text = Category.Width.ToString();
             lblOpacity.Text = Category.Opacity.ToString();
-           
-            if (Category.ColorString == null)  // Handles if groups is created from earlier releas w/o ColorString property
-                Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
+            lblIconSize.Text = Category.IconSize.ToString();
+            lblIconSeparation.Text = Category.Separation.ToString();
 
-            Color categoryColor = ImageFunctions.FromString(Category.ColorString);
-            
-            if (categoryColor == Color.FromArgb(31, 31, 31))
-                radioDark.Checked = true;
-            else if (categoryColor == Color.FromArgb(230, 230, 230))
-                radioLight.Checked = true;
-            else
+            if (Category.ColorString == null)  // Handles if groups is created from earlier releas w/o ColorString property
+                Category.ColorString = ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
+
+            if (Category.ColorString == "sys")
             {
-                radioCustom.Checked = true;
-                pnlCustomColor.Visible = true;
-                pnlCustomColor.BackColor = categoryColor;
+                radioSystem.Checked = true;
+            } else
+            {
+                Color categoryColor = ImageFunctions.FromString(Category.ColorString);
+                if (categoryColor == Color.FromArgb(31, 31, 31))
+                    radioDark.Checked = true;
+                else if (categoryColor == Color.FromArgb(230, 230, 230))
+                    radioLight.Checked = true;
+                else
+                {
+                    radioCustom.Checked = true;
+                    //pnlCustomColor.Visible = true;
+                    pnlCustomColor.BackColor = categoryColor;
+
+                    if (category.HoverColor != null)
+                    {
+                        pnlCustomColor1.BackColor = ImageFunctions.FromString(category.HoverColor);
+                    }
+                    else
+                    {
+                        pnlCustomColor1.BackColor = category.calculateHoverColor();
+                    }
+
+                }
             }
+
+            colorConfigPage.Update();
+            colorConfigPage.Refresh();
 
             // Loading existing shortcutpanels
             int position = 0;
@@ -101,13 +130,23 @@ namespace client.Forms
                 LoadShortcut(psc, position);
                 position++;
             }
+
+            
+
+            pnlShortcuts_ControlAdded(this, new ControlEventArgs(this));
+
         }
 
         // Handle scaling etc(?) (WORK IN PROGRESS)
         private void frmGroup_Load(object sender, EventArgs e)
         {
             // Scaling form (WORK IN PROGRESS)
-            this.MaximumSize = new Size(605, Screen.PrimaryScreen.WorkingArea.Height);
+            this.MaximumSize = new Size(Screen.PrimaryScreen.WorkingArea.Width, Screen.PrimaryScreen.WorkingArea.Height);
+
+            typeof(Control).GetProperty("ResizeRedraw", BindingFlags.NonPublic | BindingFlags.Instance)
+               .SetValue(pnlDeleteConfo, true, null);
+
+            newExt = imageExt.Concat(specialImageExt).ToArray();
         }
 
         //--------------------------------------
@@ -123,17 +162,24 @@ namespace client.Forms
                 MotherForm = this,
                 Shortcut = psc,
                 Position = position,
-            };
+                Width = pnlAddShortcut.Width - (3 * (int)(frmClient.eDpi / 96))
+        };
             pnlShortcuts.Controls.Add(ucPsc);
+            ucPsc.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             ucPsc.Show();
-            ucPsc.BringToFront();
+            ucPsc.SendToBack();
 
+            
+            
             if (pnlShortcuts.Controls.Count < 6)
             {
-                pnlShortcuts.Height += 50;
-                pnlAddShortcut.Top += 50;
+                pnlShortcuts.Height += 50 * (int)(frmClient.eDpi / 96);
+                pnlAddShortcut.Top += 50 * (int)(frmClient.eDpi / 96);
             }
-            ucPsc.Location = new Point(25, (pnlShortcuts.Controls.Count * 50)-50);
+            
+
+            //ucPsc.Location = new Point(25 * (int)(frmClient.eDpi / 96), (pnlShortcuts.Controls.Count * 50 * (int)(frmClient.eDpi / 96)) - 50 * (int)(frmClient.eDpi / 96));
+            
             pnlShortcuts.AutoScroll = true;
 
         }
@@ -145,9 +191,9 @@ namespace client.Forms
 
             lblErrorShortcut.Visible = false; // resetting error msg
 
-            if (Category.ShortcutList.Count >= 20)
+            if (Category.ShortcutList.Count >= 50)
             {
-                lblErrorShortcut.Text = "Max 20 shortcuts in one group";
+                lblErrorShortcut.Text = "Max 50 shortcuts in one group";
                 lblErrorShortcut.BringToFront();
                 lblErrorShortcut.Visible = true;
             }
@@ -155,17 +201,17 @@ namespace client.Forms
 
             OpenFileDialog openFileDialog = new OpenFileDialog // ask user to select exe file
             {
-                InitialDirectory = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.CommonPrograms),
                 Title = "Create New Shortcut",
                 CheckFileExists = true,
                 CheckPathExists = true,
                 Multiselect = true,
                 DefaultExt = "exe",
-                Filter = "Exe or Shortcut (.exe, .lnk)|*.exe;*.lnk;*.url",
+                Filter = "Executable or Shortcut|*.exe;*.lnk;*.url;*.bat|All files (*.*)|*.*",
                 RestoreDirectory = true,
                 ReadOnlyChecked = true,
                 DereferenceLinks = false
-             };
+            };
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
@@ -195,7 +241,8 @@ namespace client.Forms
                 {
                     addShortcut(item.ParsingName, true);
                 }
-            } else
+            }
+            else
             {
                 // Loops through each file to make sure they exist and to add them directly to the shortcut list
                 foreach (var file in files)
@@ -211,7 +258,7 @@ namespace client.Forms
             {
                 pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[0]);
             }
-            
+
             resetSelection();
         }
 
@@ -219,10 +266,36 @@ namespace client.Forms
         private void addShortcut(String file, bool isExtension = false)
         {
             String workingDirec = getProperDirectory(file);
+            String appName = "";
+            String appFilePath = expandEnvironment(file);
 
-            ProgramShortcut psc = new ProgramShortcut() { FilePath = Environment.ExpandEnvironmentVariables(file), isWindowsApp = isExtension, WorkingDirectory = workingDirec }; //Create new shortcut obj
+            appName = getShortcutName(appName, isExtension, appFilePath);
+
+
+            ProgramShortcut psc = new ProgramShortcut() { FilePath = appFilePath, isWindowsApp = isExtension, WorkingDirectory = workingDirec, name = appName }; //Create new shortcut obj
             Category.ShortcutList.Add(psc); // Add to panel shortcut list
-            LoadShortcut(psc, Category.ShortcutList.Count - 1);
+            LoadShortcut(psc, Category.ShortcutList.Count-1);
+        }
+
+        // Handle setting/getting shortcut name
+        public static String getShortcutName(String appName, bool isExtension, String appFilePath)
+        {
+            // Grab the file name without the extension to be used later as the naming scheme for the icon .jpg image
+            if (isExtension)
+            {
+                return handleWindowsApp.findWindowsAppsName(appFilePath);
+            }
+            else
+            {
+                if (System.IO.File.Exists(appFilePath) && Path.GetExtension(appFilePath).ToLower() == ".lnk")
+                {
+                    return handleExtName(appFilePath);
+                }
+                else
+                {
+                    return Path.GetFileNameWithoutExtension(appFilePath);
+                }
+            }
         }
 
         // Delete shortcut
@@ -232,30 +305,32 @@ namespace client.Forms
 
             Category.ShortcutList.Remove(psc);
             resetSelection();
-            bool before = true;
+            bool after = false;
+            int controlIndex=0;
             //int i = 0;
 
             foreach (ucProgramShortcut ucPsc in pnlShortcuts.Controls)
             {
-                if (before)
+                if (after)
                 {
-                    ucPsc.Top -= 50;
+                    //ucPsc.Top -= 50 * (int)(frmClient.eDpi / 96);
                     ucPsc.Position -= 1;
                 }
                 if (ucPsc.Shortcut == psc)
                 {
                     //i = pnlShortcuts.Controls.IndexOf(ucPsc);
 
-                    int controlIndex = pnlShortcuts.Controls.IndexOf(ucPsc);
+                    controlIndex = pnlShortcuts.Controls.IndexOf(ucPsc);
 
-                    pnlShortcuts.Controls.Remove(ucPsc);
+                    
 
                     if (controlIndex + 1 != pnlShortcuts.Controls.Count)
                     {
                         try
                         {
-                            pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[controlIndex]);
-                        } catch
+                            pnlShortcuts.ScrollControlIntoView(pnlShortcuts.Controls[controlIndex+1]);
+                        }
+                        catch
                         {
                             if (pnlShortcuts.Controls.Count != 0)
                             {
@@ -264,38 +339,44 @@ namespace client.Forms
                         }
                     }
 
-                    before = false;
+                    after = true;
                 }
             }
 
+            pnlShortcuts.Controls.Remove(pnlShortcuts.Controls[controlIndex]);
+
+            /*
             if (pnlShortcuts.Controls.Count < 5)
             {
-                pnlShortcuts.Height -= 50;
-                pnlAddShortcut.Top -= 50;
+                pnlShortcuts.Height -= 50 * (int)(frmClient.eDpi / 96);
+                pnlAddShortcut.Top -= 50 * (int)(frmClient.eDpi / 96);
             }
+            */
+            pnlShortcuts_ControlAdded(this, new ControlEventArgs(this));
         }
 
         // Change positions of shortcut panels
         public void Swap<T>(IList<T> list, int indexA, int indexB)
         {
-            resetSelection();
-            T tmp = list[indexA];
-            list[indexA] = list[indexB];
-            list[indexB] = tmp;
-
-            // Clears and reloads all shortcuts with new positions
-            pnlShortcuts.Controls.Clear();
-            pnlShortcuts.Height = 0;
-            pnlAddShortcut.Top = 220;
-
-            selectedShortcut = null;
-
-            int position = 0;
-            foreach (ProgramShortcut psc in Category.ShortcutList)
+            // Get move amount via eDPI calculation
+            int moveAmount = 50 * (int)(frmClient.eDpi / 96);
+            (list[indexA], list[indexB]) = (list[indexB], list[indexA]); // Swap items
+            resetSelection(); // Reset item selection
+            
+            if (indexA>indexB) 
             {
-                LoadShortcut(psc, position);
-                position++;
+                //pnlShortcuts.Controls[indexA].Top -= moveAmount;
+                //pnlShortcuts.Controls[indexB].Top += moveAmount;
+
+                pnlShortcuts.Controls.SetChildIndex(pnlShortcuts.Controls[indexB], indexA);
+            } else
+            {
+                //pnlShortcuts.Controls[indexA].Top += moveAmount;
+                //pnlShortcuts.Controls[indexB].Top -= moveAmount;
+                pnlShortcuts.Controls.SetChildIndex(pnlShortcuts.Controls[indexA], indexB);
             }
+
+            pnlShortcuts_ControlAdded(this, new ControlEventArgs(this));
         }
 
 
@@ -323,14 +404,15 @@ namespace client.Forms
                 RestoreDirectory = true,
                 ReadOnlyChecked = true,
                 DereferenceLinks = false,
-        };
+            };
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
 
                 String imageExtension = Path.GetExtension(openFileDialog.FileName).ToLower();
 
-                handleIcon(openFileDialog.FileName, imageExtension);
+                
+                cmdAddGroupIcon.BackgroundImage = handleIcon(openFileDialog.FileName, imageExtension);
             }
         }
 
@@ -346,49 +428,173 @@ namespace client.Forms
             if (files.Length == 1 && newExt.Contains(imageExtension) && System.IO.File.Exists(files[0]))
             {
                 // Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
-                handleIcon(files[0], imageExtension);
+                cmdAddGroupIcon.BackgroundImage = handleIcon(files[0], imageExtension);
             }
         }
 
-        private void handleIcon(String file, String imageExtension)
+        public Bitmap handleIcon(String file, String imageExtension)
         {
             // Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
             if (specialImageExt.Contains(imageExtension))
             {
                 if (imageExtension == ".lnk")
                 {
-                    cmdAddGroupIcon.BackgroundImage = handleLnkExt(file);
+                    return handleLnkExt(file);
                 }
                 else
                 {
-                    cmdAddGroupIcon.BackgroundImage = Icon.ExtractAssociatedIcon(file).ToBitmap();
+                    return Icon.ExtractAssociatedIcon(file).ToBitmap();
                 }
             }
             else
             {
-                cmdAddGroupIcon.BackgroundImage = Image.FromFile(file);
+                return BitmapFromFile(file);
             }
-            lblAddGroupIcon.Text = "Change group icon";
+     
         }
+
 
         // Handle returning images of icon files (.lnk)
         public static Bitmap handleLnkExt(String file)
         {
-            IWshShortcut lnkIcon = (IWshShortcut)new WshShell().CreateShortcut(file);
-            String[] icLocation = lnkIcon.IconLocation.Split(',');
+
+            /*
+            Shell shell = new Shell();
+            string path = Path.GetDirectoryName(file);   // Get individual path/directory strings
+            string file_name = Path.GetFileName(file);
+            Shell32.Folder folder = shell.NameSpace(path); // Pass into Shell32 to get link for the shortcut
+            FolderItem folderItem = folder.ParseName(file_name);
+
+
+            ShellLinkObject link = (ShellLinkObject)folderItem.GetLink;
+            */
+            var ShellData = Kaitai.WindowsLnkFile.FromFile(file);
+            
+            
+            var targetPath = "";
+            var iconLC = "";
+
+            // Pass #1 using Kaitai reading
+            //LnkFile linkFile = Lnk.Lnk.LoadFile(file);
+
+
+            if (ShellData.RelPath != null)
+            {
+                var test = Path.GetDirectoryName(file);
+                targetPath = Path.GetFullPath(Path.GetDirectoryName(file) + "\\" + ShellData.RelPath.Str);
+            }
+            if(ShellData.IconLocation != null && ShellData.IconLocation.Str != null)
+            {
+                targetPath = ShellData.IconLocation.Str;
+            }
+
+            /*
+
+            // Pass #2 using Lnk library
+            if(string.IsNullOrEmpty(targetPath))
+            {
+                LnkFile linkFile = Lnk.Lnk.LoadFile(file);
+                linkFile.TargetIDs.ForEach(s =>
+                {
+                    var sType = s.GetType().Name.ToUpper();
+                    if (sType == "SHELLBAG0X2F")
+                    {
+                        targetPath += ((ShellBag0X2F)s).Value + "\\";
+                    }
+                    else if (sType == "SHELLBAG0X31")
+                    {
+                        targetPath += ((ShellBag0X31)s).ShortName + "\\";
+                    }
+                    else if (sType == "SHELLBAG0X32")
+                    {
+                        targetPath += ((ShellBag0X32)s).ShortName;
+                    }
+                    else if (sType == "SHELLBAG0X00")
+                    {
+                        ShellBag0X00 castedShellBag = ((ShellBag0X00)s);
+                        //targetPath += ((ShellBag0X00)s).PropertyStore.Sheets.First().PropertyNames.First().Value; // Super super hacky
+                        for (int i = 0; i < castedShellBag.PropertyStore.Sheets.Count; i++)
+                        {
+                            var testPath = "";
+                            if (castedShellBag.PropertyStore.Sheets[i].PropertyNames.TryGetValue("2", out testPath))
+                            {
+                                if (System.IO.File.Exists(testPath))
+                                {
+                                    targetPath = testPath;
+                                }
+                            }
+                        }
+
+                        //((ShellBag0X00)s).PropertyStore.Sheets.First().PropertyNames.TryGetValue(2, out testPath); // Super super hacky
+                    }
+                });
+
+
+                if (string.IsNullOrEmpty(iconLC))
+                {
+                    iconLC = linkFile.IconLocation;
+                }
+            }
+            
+            */
+
+
+            //var iconLC = linkFile.IconLocation;
+
+
+            // Pass #3 using IWshShortcut (native)
+            if (string.IsNullOrEmpty(targetPath))
+            {
+                try
+                {
+                    //string[] testPath = handleWindowsApp.GetLnkTarget(file); // Try using old method to get path
+                    IWshShortcut lnkIcon = (IWshShortcut)new WshShell().CreateShortcut(file);
+                    String[] icLocation = lnkIcon.IconLocation.Split(',');
+                    String testPath = lnkIcon.TargetPath;
+
+                    if (string.IsNullOrEmpty(targetPath) && (System.IO.File.Exists(testPath) || Directory.Exists(testPath)))
+                    {
+                        targetPath = testPath;
+                    }
+
+                    if (string.IsNullOrEmpty(iconLC))
+                    {
+                        iconLC = icLocation[0];
+                    }
+
+                }
+                catch (Exception e)
+                { }
+            }
+
+
+
+            //String[] icLocation = iconLC.Split(',');
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
             // Checks for link iconLocations as those are used by some applications
-            if (icLocation[0] != "" && !lnkIcon.IconLocation.Contains("http"))
+
+            // Return the icon
+            try
             {
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(icLocation[0]))).ToBitmap();
+                if (!string.IsNullOrEmpty(iconLC) && !iconLC.Contains("http"))
+                {
+
+                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(iconLC))).ToBitmap();
+                }
+                else if (string.IsNullOrEmpty(iconLC) && (targetPath == "" || !System.IO.File.Exists(targetPath)))
+                {
+                    return handleWindowsApp.getWindowsAppIcon(file);
+
+                } else
+                {
+                    return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(targetPath))).ToBitmap();
+                }
+            } catch (Exception e)
+            {
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(expandEnvironment(file))).ToBitmap();
             }
-            else if (icLocation[0] == "" && lnkIcon.TargetPath == "")
-            {
-                return handleWindowsApp.getWindowsAppIcon(file);
-            } else
-            {
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(lnkIcon.TargetPath))).ToBitmap();
-            }
+            
+           
         }
 
 
@@ -419,14 +625,14 @@ namespace client.Forms
         {
             resetSelection();
 
-            if (checkExtensions(e, imageExt.Concat(specialImageExt).ToArray()))
+            if (checkExtensions(e, newExt))
             {
                 pnlGroupIcon.BackColor = Color.FromArgb(23, 23, 23);
             }
         }
 
         // Series of checks to make sure it can be dropped
-        private Boolean checkExtensions(DragEventArgs e, String[] exts)
+        public Boolean checkExtensions(DragEventArgs e, String[] exts)
         {
 
             // Make sure the file can be dragged dropped
@@ -468,9 +674,9 @@ namespace client.Forms
         // Exit editor
         private void cmdExit_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            this.Dispose();
-            Client.Reload(); //flush and reload category panels
+            this.Close();
+            Client.Reload(); //flush and reload category panel
+            Client.Reset();
         }
 
         // Save group
@@ -485,8 +691,8 @@ namespace client.Forms
                 lblErrorTitle.Text = "Must select a name";
                 lblErrorTitle.Visible = true;
             }
-            else if (IsNew && Directory.Exists(@MainPath.path + @"\config\" + txtGroupName.Text) ||
-                     !IsNew && Category.Name != txtGroupName.Text && Directory.Exists(@MainPath.path + @"\config\" + txtGroupName.Text))
+            else if (IsNew && Directory.Exists(Path.Combine(Paths.ConfigPath, txtGroupName.Text)) ||
+                     !IsNew && Category.Name != txtGroupName.Text && Directory.Exists(Path.Combine(Paths.ConfigPath, txtGroupName.Text)))
             {
                 lblErrorTitle.Text = "There is already a group with that name";
                 lblErrorTitle.Visible = true;
@@ -496,12 +702,6 @@ namespace client.Forms
                 lblErrorTitle.Text = "Name must not have any special characters";
                 lblErrorTitle.Visible = true;
             }
-            else if (cmdAddGroupIcon.BackgroundImage ==
-                global::client.Properties.Resources.AddWhite) // Verify icon
-            {
-                lblErrorIcon.Text = "Must select group icon";
-                lblErrorIcon.Visible = true;
-            }
             else if (Category.ShortcutList.Count == 0) // Verify shortcuts
             {
                 lblErrorShortcut.Text = "Must select at least one shortcut";
@@ -509,25 +709,21 @@ namespace client.Forms
             }
             else
             {
+                if ((string)cmdAddGroupIcon.Tag == "Unchanged") // Verify icon
+                {
+                    cmdAddGroupIcon.BackgroundImage = constructIcons();
+                    //lblErrorIcon.Text = "Must select group icon";
+                    //lblErrorIcon.Visible = true;
+                }
                 try
                 {
-
-                    foreach(ProgramShortcut shortcutModifiedItem in shortcutChanged)
-                    {
-                        if (!Directory.Exists(shortcutModifiedItem.WorkingDirectory))
-                        {
-                            shortcutModifiedItem.WorkingDirectory = getProperDirectory(shortcutModifiedItem.FilePath);
-                        }
-                    }
-
-
                     if (!IsNew)
                     {
                         //
                         // Delete old config
                         //
-                        string configPath = @MainPath.path + @"\config\" + Category.Name;
-                        string shortcutPath = @MainPath.path + @"\Shortcuts\" + Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk";
+                        string configPath = Path.Combine(Paths.ConfigPath, Category.Name);
+                        string shortcutPath = Path.Combine(Paths.ShortcutsPath, Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk");
 
                         try
                         {
@@ -538,7 +734,8 @@ namespace client.Forms
                                 fm.Delete(shortcutPath);
                                 scope1.Complete();
                             }
-                        } catch (Exception)
+                        }
+                        catch (Exception ex)
                         {
                             MessageBox.Show("Please close all programs used within the taskbar group in order to save!");
                             return;
@@ -557,9 +754,9 @@ namespace client.Forms
                     Category.Name = Regex.Replace(txtGroupName.Text, @"\s+", "_");
 
                     Category.CreateConfig(cmdAddGroupIcon.BackgroundImage); // Creating group config files
-                    Client.LoadCategory(Path.GetFullPath(@"config\" + Category.Name)); // Loading visuals
-                    
-                    this.Dispose();
+                    Client.LoadCategory(Path.Combine(Paths.ConfigPath, Category.Name)); // Loading visuals
+
+                    this.Close();
                     Client.Reload();
                 }
                 catch (IOException ex)
@@ -579,8 +776,8 @@ namespace client.Forms
 
             try
             {
-                string configPath = @MainPath.path + @"\config\" + Category.Name;
-                string shortcutPath = @MainPath.path + @"\Shortcuts\" + Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk";
+                string configPath = Path.Combine(Paths.ConfigPath, Category.Name);
+                string shortcutPath = Path.Combine(Paths.ShortcutsPath, Regex.Replace(Category.Name, @"(_)+", " ") + ".lnk");
 
                 var dir = new DirectoryInfo(configPath);
 
@@ -591,8 +788,10 @@ namespace client.Forms
                     {
                         fm.DeleteDirectory(configPath);
                         fm.Delete(shortcutPath);
-                        this.Hide();
-                        this.Dispose();
+                        //this.Hide();
+                        //this.Dispose();
+                        this.Close();
+
                         Client.Reload(); //flush and reload category panels
                         scope1.Complete();
                     }
@@ -652,27 +851,44 @@ namespace client.Forms
             }
         }
 
-        // Color radio buttons
-        private void radioCustom_Click(object sender, EventArgs e)
+        // Custom colors
+        private void radioCustom_Click(object sender, MouseEventArgs e)
         {
             if (colorDialog.ShowDialog() == DialogResult.OK)
             {
-                Category.ColorString = System.Drawing.ColorTranslator.ToHtml(colorDialog.Color);
-                pnlCustomColor.Visible = true;
+                Category.ColorString = ColorTranslator.ToHtml(colorDialog.Color);
+                //pnlCustomColor.Visible = true;
                 pnlCustomColor.BackColor = colorDialog.Color;
+
+                pnlCustomColor1.BackColor = Category.calculateHoverColor();
+                Category.HoverColor = ColorTranslator.ToHtml(pnlCustomColor1.BackColor);
+            }
+        }
+
+        private void pnlCustomColor1_Click(object sender, EventArgs e)
+        {
+            if (colorDialog.ShowDialog() == DialogResult.OK)
+            {
+                Category.HoverColor = ColorTranslator.ToHtml(colorDialog.Color);
+                pnlCustomColor1.BackColor = colorDialog.Color;
             }
         }
 
         private void radioDark_Click(object sender, EventArgs e)
         {
             Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(31, 31, 31));
-            pnlCustomColor.Visible = false;
+            //pnlCustomColor.Visible = false;
         }
 
         private void radioLight_Click(object sender, EventArgs e)
         {
             Category.ColorString = System.Drawing.ColorTranslator.ToHtml(Color.FromArgb(230, 230, 230));
-            pnlCustomColor.Visible = false;
+            //pnlCustomColor.Visible = false;
+        }
+
+        private void radioSystem_Click(object sender, EventArgs e)
+        {
+            Category.ColorString = "sys";
         }
 
         // Opacity buttons
@@ -753,14 +969,28 @@ namespace client.Forms
         }
 
         //--------------------------------------
-        // SHORTCUT/PRGORAM SELECTION
+        // SHORTCUT/PROGRAM SELECTION
         //--------------------------------------
 
         // Deselect selected program/shortcut
         public void resetSelection()
         {
+            // If either timer has pending checks, do them before selected shortcut gets nulled
+            if(validaitonTimerDirec.Enabled)
+            {
+                validaitonTimerDirec.Stop();
+                validaitonTimerDirec_Tick(this, new EventArgs());
+            }
+            if(validationTimerPrgm.Enabled)
+            {
+                validationTimerPrgm.Stop();
+                validationTimer_Tick(this, new EventArgs());
+            }
+
             pnlArgumentTextbox.Enabled = false;
             cmdSelectDirectory.Enabled = false;
+            pnlProgramPath.Enabled = false;
+            cmdSelectProgramPath.Enabled = false;
             if (selectedShortcut != null)
             {
                 pnlColor.Visible = true;
@@ -780,6 +1010,10 @@ namespace client.Forms
 
             pnlArgumentTextbox.Text = Category.ShortcutList[selectedShortcut.Position].Arguments;
             pnlArgumentTextbox.Enabled = true;
+
+            pnlProgramPath.Text = Category.ShortcutList[selectedShortcut.Position].FilePath;
+            pnlProgramPath.Enabled = true;
+            cmdSelectProgramPath.Enabled = true;
 
             pnlWorkingDirectory.Text = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory;
             pnlWorkingDirectory.Enabled = true;
@@ -825,24 +1059,73 @@ namespace client.Forms
 
             if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                this.Focus();
                 Category.ShortcutList[selectedShortcut.Position].WorkingDirectory = openFileDialog.FileName;
+                pnlWorkingDirectory.Text = openFileDialog.FileName;
+            }
+            this.Focus();
+        }
+
+        private void cmdSelectProgramPath_Click(object sender, EventArgs e)
+        {
+            CommonOpenFileDialog openFileDialog = new CommonOpenFileDialog()
+            {
+                EnsurePathExists = true,
+                IsFolderPicker = false,
+                InitialDirectory = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory
+            };
+
+            if (openFileDialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                Category.ShortcutList[selectedShortcut.Position].FilePath = openFileDialog.FileName;
+                pnlProgramPath.Text = openFileDialog.FileName;
+            }
+            this.Focus();
+        }
+
+
+        // Wait 1 second for user to "finish typing"
+        // Reset the timer everytime the text is changed
+        private void pnlWorkingDirectory_TextChanged(object sender, EventArgs e)
+        {
+            validaitonTimerDirec.Stop();
+            validaitonTimerDirec.Start();
+        }
+
+        private void pnlProgramPath_TextChanged(object sender, EventArgs e)
+        {
+            validationTimerPrgm.Stop();
+            validationTimerPrgm.Start();
+        }
+
+        // Both timers actively validate the path after a certain amount of time
+        private void validationTimer_Tick(object sender, EventArgs e)
+        {
+            validationTimerPrgm.Stop();
+            if (fileRegex.IsMatch(pnlProgramPath.Text))
+            {
+                if (System.IO.File.Exists(pnlProgramPath.Text))
+                {
+                    Category.ShortcutList[selectedShortcut.Position].FilePath = pnlProgramPath.Text;
+                }
             }
         }
 
-        private void pnlWorkingDirectory_TextChanged(object sender, EventArgs e)
+        private void validaitonTimerDirec_Tick(object sender, EventArgs e)
         {
-            Category.ShortcutList[selectedShortcut.Position].WorkingDirectory = pnlWorkingDirectory.Text;
-
-            if (!shortcutChanged.Contains(Category.ShortcutList[selectedShortcut.Position]))
+            validaitonTimerDirec.Stop();
+            if (directoryRegex.IsMatch(pnlWorkingDirectory.Text))
             {
-                shortcutChanged.Add(Category.ShortcutList[selectedShortcut.Position]);
+                if (System.IO.Directory.Exists(pnlWorkingDirectory.Text))
+                {
+                    Category.ShortcutList[selectedShortcut.Position].WorkingDirectory = pnlWorkingDirectory.Text;
+                }
             }
         }
 
         private String getProperDirectory(String file)
         {
-            try {
+            try
+            {
                 if (Path.GetExtension(file).ToLower() == ".lnk")
                 {
                     IWshShortcut extension = (IWshShortcut)new WshShell().CreateShortcut(file);
@@ -853,15 +1136,222 @@ namespace client.Forms
                 {
                     return Path.GetDirectoryName(file);
                 }
-            } catch (Exception)
+            }
+            catch (Exception)
             {
-                return MainPath.exeString;
+                return Paths.exeString;
             }
         }
 
         private void frmGroup_MouseClick(object sender, MouseEventArgs e)
         {
+            if (pnlDeleteConfo.Visible)
+            {
+                pnlDeleteConfo.Visible = false;
+            }
+
             resetSelection();
+        }
+
+        public static String expandEnvironment(string path)
+        {
+            if (path.Contains("%ProgramFiles%"))
+            {
+                path = path.Replace("%ProgramFiles%", "%ProgramW6432%");
+            }
+
+            return Environment.ExpandEnvironmentVariables(path);
+        }
+
+        private void frmGroup_SizeChanged(object sender, EventArgs e)
+        {
+            if (pnlAddShortcut.Bounds.IntersectsWith(pnlShortcuts.Bounds) || pnlColor.Bounds.IntersectsWith(pnlAddShortcut.Bounds))
+            {
+                this.MinimumSize = new Size(this.MinimumSize.Width, this.Height);
+            }
+
+            if (pnlDeleteConfo.Visible)
+            {
+                Point deleteButton = cmdDelete.FindForm().PointToClient(cmdDelete.Parent.PointToScreen(cmdDelete.Location));
+                pnlDeleteConfo.Location = new Point(deleteButton.X - 63, deleteButton.Y - 100);
+            }
+
+            pnlAddShortcut.Location = new Point(pnlAddShortcut.Location.X, pnlShortcuts.Bottom + (int)(20 * frmClient.eDpi / 96));
+            pnlAddShortcut.Left = (this.ClientSize.Width - pnlAddShortcut.Width) / 2;
+        }
+
+        private void openDeleteConformation(object sender, EventArgs e)
+        {
+            Point deleteButton = cmdDelete.FindForm().PointToClient(cmdDelete.Parent.PointToScreen(cmdDelete.Location));
+            pnlDeleteConfo.Location = new Point(deleteButton.X - 63, deleteButton.Y - 100);
+            pnlDeleteConfo.Visible = true;
+        }
+
+        private Image constructIcons()
+        {
+            List<Image> iconImages = new List<Image>();
+            if (pnlShortcuts.Controls.Count >= 4)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    iconImages.Insert(0, ((ucProgramShortcut)pnlShortcuts.Controls[i]).logo);
+                }
+            }
+            else
+            {
+                foreach (ucProgramShortcut controlItem in pnlShortcuts.Controls)
+                {
+                    iconImages.Insert(0, controlItem.logo);
+                }
+            }
+
+            var image = new Bitmap(256, 256, PixelFormat.Format32bppArgb);
+            using (var g = Graphics.FromImage(image))
+            {
+                g.Clear(Color.Transparent);
+
+                PointF drawLocation = new PointF(0, 0);
+                int counter = 0;
+
+                foreach (Image iconImage in iconImages)
+                {
+                    if (counter == 2)
+                    {
+                        counter = 0;
+                        drawLocation.Y += 128;
+                        drawLocation.X = 0;
+                    }
+
+                    g.DrawImage(ImageFunctions.ResizeImage(iconImage, 128, 128), drawLocation);
+
+                    drawLocation.X += 128;
+                    counter += 1;
+
+
+                }
+                g.Dispose();
+            }
+            return image;
+        }
+
+        private void cmdAddGroupIcon_BackgroundImageChanged(object sender, EventArgs e)
+        {
+            cmdAddGroupIcon.Tag = "Changed";
+        }
+
+        public static Bitmap BitmapFromFile(string path)
+        {
+            var bytes = System.IO.File.ReadAllBytes(path);
+            var ms = new MemoryStream(bytes);
+            var bp = (Bitmap)Image.FromStream(ms);
+            return bp;
+        }
+
+        private void pnlShortcuts_ControlAdded(object sender, ControlEventArgs e)
+        {
+            for(int i=0; i< pnlShortcuts.Controls.Count; i++)
+            {
+                ((ucProgramShortcut)pnlShortcuts.Controls[i]).ucProgramShortcut_ReadjustArrows(i);
+            }
+        }
+
+        // Icon size
+        private void IconSizeTopButton_Click(object sender, EventArgs e)
+        {
+            int iconSize = int.Parse(lblIconSize.Text);
+            iconSize += 1;
+            Category.IconSize = iconSize;
+            lblIconSize.Text = iconSize.ToString();
+            IconSizeBottomButton.Enabled = true;
+            IconSizeBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
+
+            if (iconSize > 255)
+            {
+                IconSizeTopButton.Enabled = false;
+                IconSizeTopButton.BackgroundImage = global::client.Properties.Resources.NumUpGray;
+            }
+        }
+
+        private void IconSizeBottomButton_Click(object sender, EventArgs e)
+        {
+            int iconSize = int.Parse(lblIconSize.Text);
+            iconSize -= 1;
+            Category.IconSize = iconSize;
+            lblIconSize.Text = iconSize.ToString();
+            IconSizeTopButton.Enabled = true;
+            IconSizeTopButton.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
+
+            if (iconSize < 11)
+            {
+                IconSizeBottomButton.Enabled = false;
+                IconSizeBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownGray;
+            }
+        }
+
+        // Icon separation
+        private void IconSeparationTopButton_Click(object sender, EventArgs e)
+        {
+            int separation = int.Parse(lblIconSeparation.Text);
+            separation += 1;
+            Category.Separation = separation;
+            lblIconSeparation.Text = separation.ToString();
+            IconSeparationBottomButton.Enabled = true;
+            IconSeparationBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownWhite;
+
+            if (separation > 49)
+            {
+                IconSeparationTopButton.Enabled = false;
+                IconSeparationTopButton.BackgroundImage = global::client.Properties.Resources.NumUpGray;
+            }
+        }
+
+        private void IconSeparationBottomButton_Click(object sender, EventArgs e)
+        {
+            int separation = int.Parse(lblIconSeparation.Text);
+            separation -= 1;
+            Category.Separation = separation;
+            lblIconSeparation.Text = separation.ToString();
+            IconSeparationTopButton.Enabled = true;
+            IconSeparationTopButton.BackgroundImage = global::client.Properties.Resources.NumUpWhite;
+
+            if (separation < 2)
+            {
+                IconSeparationBottomButton.Enabled = false;
+                IconSeparationBottomButton.BackgroundImage = global::client.Properties.Resources.NumDownGray;
+            }
+        }
+
+        private void cmdRightSettings_Click(object sender, EventArgs e)
+        {
+            if(groupSettingsTabControl.SelectedIndex<groupSettingsTabControl.TabCount)
+            {
+                groupSettingsTabControl.SelectedIndex += 1;
+                cmdLeftSettings.Enabled = true;
+                cmdLeftSettings.BackgroundImage = Resources.LeftArrow;
+
+                if(groupSettingsTabControl.SelectedIndex== groupSettingsTabControl.TabCount-1)
+                {
+                    cmdRightSettings.BackgroundImage = Resources.RightArrowGrey;
+                    cmdRightSettings.Enabled = false;
+                }
+            }
+
+        }
+
+        private void cmdLeftSettings_Click(object sender, EventArgs e)
+        {
+            if (groupSettingsTabControl.SelectedIndex > 0)
+            {
+                groupSettingsTabControl.SelectedIndex -= 1;
+                cmdRightSettings.Enabled = true;
+                cmdRightSettings.BackgroundImage = Resources.RightArrow;
+
+                if (groupSettingsTabControl.SelectedIndex == 0)
+                {
+                    cmdLeftSettings.BackgroundImage = Resources.LeftArrowGrey;
+                    cmdLeftSettings.Enabled = false;
+                }
+            }
         }
     }
 }

@@ -7,12 +7,14 @@
     <ProjectGuid>{B6E63AE7-4433-44EC-BCDE-031CD779E8CC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>client</RootNamespace>
-    <AssemblyName>TaskbarGroups</AssemblyName>
+    <AssemblyName>Taskbar Groups</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
     <IsWebBootstrapper>false</IsWebBootstrapper>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -27,8 +29,6 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,32 +43,46 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ChinhDo.Transactions.FileManager, Version=1.4.0.36, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\TxFileManager.1.4.0\lib\netstandard2.0\ChinhDo.Transactions.FileManager.dll</HintPath>
+    <Reference Include="ChinhDo.Transactions.FileManager, Version=1.5.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\TxFileManager.1.5.0.1\lib\netstandard2.0\ChinhDo.Transactions.FileManager.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
+    <Reference Include="Kaitai.Struct.Runtime, Version=0.10.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\KaitaiStruct.Runtime.CSharp.0.10.0\lib\net45\Kaitai.Struct.Runtime.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.WindowsAPICodePack">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Core.1.1.4\lib\net472\Microsoft.WindowsAPICodePack.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.4.0, Culture=neutral, PublicKeyToken=8985beaab7ea3f04, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell">
       <HintPath>..\packages\Microsoft-WindowsAPICodePack-Shell.1.1.4\lib\net472\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Linq" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Runtime" />
     <Reference Include="System.Runtime.InteropServices" />
     <Reference Include="System.Runtime.Serialization" />
@@ -81,6 +95,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="Windows">
       <HintPath>.\Windows.winmd</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />
@@ -91,8 +106,10 @@
     <Compile Include="Classes\handleWindowsApp.cs" />
     <Compile Include="Classes\IconFactory.cs" />
     <Compile Include="Classes\ImageFunctions.cs" />
-    <Compile Include="Classes\MainPath.cs" />
+    <Compile Include="Classes\Paths.cs" />
     <Compile Include="Classes\ProgramShortcut.cs" />
+    <Compile Include="Classes\ScreenExtensions.cs" />
+    <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\ShellLink.cs" />
     <Compile Include="Forms\frmClient.cs">
       <SubType>Form</SubType>
@@ -106,14 +123,17 @@
     <Compile Include="Forms\frmGroup.Designer.cs">
       <DependentUpon>frmGroup.cs</DependentUpon>
     </Compile>
-    <Compile Include="client.cs" />
-    <Compile Include="Forms\frmMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\frmMain.Designer.cs">
-      <DependentUpon>frmMain.cs</DependentUpon>
-    </Compile>
+    <Compile Include="editorClient.cs" />
+    <Compile Include="Classes\WindowsLnkFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="User controls\ucTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="User controls\ucCategoryPanel.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -126,40 +146,26 @@
     <Compile Include="User controls\ucProgramShortcut.Designer.cs">
       <DependentUpon>ucProgramShortcut.cs</DependentUpon>
     </Compile>
-    <Compile Include="User controls\ucShortcut.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="User controls\ucShortcut.Designer.cs">
-      <DependentUpon>ucShortcut.cs</DependentUpon>
-    </Compile>
     <EmbeddedResource Include="Forms\frmClient.resx">
       <DependentUpon>frmClient.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\frmGroup.resx">
       <DependentUpon>frmGroup.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\frmMain.resx">
-      <DependentUpon>frmMain.cs</DependentUpon>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <EmbeddedResource Include="User controls\ucCategoryPanel.resx">
       <DependentUpon>ucCategoryPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="User controls\ucProgramShortcut.resx">
       <DependentUpon>ucProgramShortcut.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="User controls\ucShortcut.resx">
-      <DependentUpon>ucShortcut.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="app.manifest" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -170,9 +176,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />
@@ -199,7 +202,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Icon.ico" />
-    <Content Include="Taskbar groups icon.ico" />
+    <Content Include="Resources\LeftArrow.png" />
+    <Content Include="Resources\LeftArrowGrey.png" />
+    <Content Include="Resources\RightArrow.png" />
+    <Content Include="Resources\RightArrowGrey.png" />
+    <EmbeddedResource Include="lib\Kaitai.Struct.Runtime.dll" />
+    <None Include="Resources\Taskbar Groups Background.exe" />
+    <None Include="Resources\toggleOn.png" />
+    <None Include="Resources\toggleOff.png" />
+    <EmbeddedResource Include="lib\ChinhDo.Transactions.FileManager.dll" />
+    <EmbeddedResource Include="lib\Microsoft.WindowsAPICodePack.dll" />
+    <EmbeddedResource Include="lib\Microsoft.WindowsAPICodePack.Shell.dll" />
+    <None Include="Resources\pencil.png" />
+    <None Include="Resources\grayline.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Add.png" />
@@ -249,6 +264,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <AllowedReferenceRelatedFileExtensions>Microsoft.WindowsAPICodePack.xml</AllowedReferenceRelatedFileExtensions>

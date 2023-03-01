@@ -117,7 +117,23 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="label8.Text" xml:space="preserve">
+    <value>Note: Enabling this feature will move all your folders (config + shortcut folders). The background exe will be replicated here and a new settings file will be created. All shortcuts in the shortcuts folder will be pointed there.
+
+</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="cmdAddGroup.BackgroundImage" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAAEYAAABGCAYAAABxLuKEAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAL
+        DAAACwwBP0AiyAAAAS1JREFUeF7t1UEKwlAQBNEczRvGI3mzOGDPpjJ/oRAULKE2Ir+Ht3G77/th54RZ
+        JMwiYRadYOqz/WN0ECbRQZhEB2ESHYRJdBAm0UGYRAdhEh2ESXQQJtFBmEQHYRIdhEl0ECbRQZhEB2ES
+        HYRJdPg6TG3ecMNj+t3V4QZhOtwgTIcbhOlwgzAdbhCmww3CdLhBmA43CNPhBmE63CBMhxuE6XDDNTB8
+        8+q4/0l8U5jEN4VJfFOYxDcvgXmn2vRfaao2hZmqTWGmalOYqdoUZqo2hZmqTWGmalOYqdoUZqo2hZmq
+        TWGmalOYX44OwiQ6CJPoIEyigzCJDsIkOgiT6CBMooMwiQ7CJDoIk+ggTKKDMIkOwiQ6CJPoIEyigzCJ
+        Dqcv7JUwi4RZJMzYfjwBe16LftbZqC4AAAAASUVORK5CYII=
+</value>
+  </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         AAABAAYAAAAAAAEAIAB1JQAAZgAAAICAAAABACAAKAgBANslAABAQAAAAQAgAChCAAADLgEAMDAAAAEA

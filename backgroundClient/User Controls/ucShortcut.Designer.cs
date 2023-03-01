@@ -1,4 +1,4 @@
-﻿namespace client.User_controls
+﻿namespace backgroundClient.User_controls
 {
     partial class ucShortcut
     {
@@ -28,16 +28,22 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.picIcon = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.picIcon)).BeginInit();
             this.SuspendLayout();
             // 
             // picIcon
             // 
+            this.picIcon.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.picIcon.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
             this.picIcon.Location = new System.Drawing.Point(16, 11);
             this.picIcon.Name = "picIcon";
             this.picIcon.Size = new System.Drawing.Size(23, 23);
+            this.picIcon.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picIcon.TabIndex = 0;
             this.picIcon.TabStop = false;
             this.picIcon.Click += new System.EventHandler(this.ucShortcut_Click);
@@ -64,5 +70,6 @@
         #endregion
 
         private System.Windows.Forms.PictureBox picIcon;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }

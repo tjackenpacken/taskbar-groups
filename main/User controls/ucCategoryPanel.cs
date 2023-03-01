@@ -21,11 +21,11 @@ namespace client.User_controls
             picGroupIcon.BackgroundImage = Category.LoadIconImage();
 
             // starting values for position of shortcuts
-            int x = 90;
-            int y = 55;
+            int x = (int)(90 * frmClient.eDpi / 96);
+            int y = (int)(56 * frmClient.eDpi / 96);
             int columns = 1;
 
-            if (!Directory.Exists((@"config\" + category.Name) + "\\Icons\\"))
+            if (!Directory.Exists(Path.Combine(Paths.ConfigPath, category.Name, "Icons")))
             {
                 category.cacheIcons();
             }
@@ -34,13 +34,13 @@ namespace client.User_controls
             {
                 if (columns == 8)
                 {
-                    x = 90; // resetting x
-                    y += 40; // adding new row
-                    this.Height += 40;
+                    x = (int)(90 * frmClient.eDpi / 96); // resetting x
+                    y += (int)(40 * frmClient.eDpi / 96); // adding new row
+                    //this.Height += (int)(40 * frmClient.eDpi / 96);
                     columns = 1;
                 }
                 CreateShortcut(x, y, psc);
-                x += 50;
+                x += (int)(50 * frmClient.eDpi / 96);
                 columns++;
             }
         }
@@ -52,7 +52,7 @@ namespace client.User_controls
             {
                 BackColor = System.Drawing.Color.Transparent,
                 Location = new System.Drawing.Point(x, y),
-                Size = new System.Drawing.Size(30, 30),
+                Size = new System.Drawing.Size((int)(30 * frmClient.eDpi / 96), (int)(30 * frmClient.eDpi / 96)),
                 BackgroundImageLayout = ImageLayout.Stretch,
                 TabStop = false
             };
@@ -63,7 +63,7 @@ namespace client.User_controls
             // Check if file is stil existing and if so render it
             if (File.Exists(programShortcut.FilePath) || Directory.Exists(programShortcut.FilePath) || programShortcut.isWindowsApp)
             {
-                this.shortcutPanel.BackgroundImage = Category.loadImageCache(programShortcut);
+                this.shortcutPanel.BackgroundImage = ImageFunctions.ResizeImage(Category.loadImageCache(programShortcut), shortcutPanel.Width, shortcutPanel.Height);
             }
             else // if file does not exist
             {
@@ -76,7 +76,7 @@ namespace client.User_controls
                 tt.SetToolTip(this.shortcutPanel, "Program does not exist");
             }
 
-            this.Controls.Add(this.shortcutPanel);
+            this.pnlShortcuts.Controls.Add(this.shortcutPanel);
             this.shortcutPanel.Show();
             this.shortcutPanel.BringToFront();
         }
@@ -92,7 +92,7 @@ namespace client.User_controls
             // Open the shortcut folder for the group when click on category panel
 
             // Build path based on the directory of the main .exe file
-            string filePath = Path.GetFullPath(new Uri($"{MainPath.path}\\Shortcuts").LocalPath + "\\" + Category.Name + ".lnk");
+            string filePath = Path.Combine(Paths.ShortcutsPath, Regex.Replace(Category.Name, @"_+", " ") + ".lnk");
 
             // Open directory in explorer and highlighting file
             System.Diagnostics.Process.Start("explorer.exe", string.Format("/select,\"{0}\"", @filePath));
@@ -100,9 +100,14 @@ namespace client.User_controls
 
         private void cmdDelete_Click(object sender, EventArgs e)
         {
-            frmGroup editGroup = new frmGroup(Client, Category);
-            editGroup.Show();
-            editGroup.BringToFront();
+            if (!Client.editOpened)
+            {
+                frmGroup editGroup = new frmGroup(Client, Category);
+                editGroup.Show();
+                editGroup.BringToFront();
+                editGroup.FormClosed += new FormClosedEventHandler(frmGroup_Closed);
+                Client.editOpened = true;
+            }
         }
 
         public static Bitmap LoadBitmap(string path) // needed to access img without occupying read/write
@@ -132,6 +137,11 @@ namespace client.User_controls
         // endregion
         //
         public System.Windows.Forms.PictureBox shortcutPanel;
+
+        private void frmGroup_Closed(object sender, FormClosedEventArgs e)
+        {
+            Client.editOpened = false;
+        }
 
     }
 }

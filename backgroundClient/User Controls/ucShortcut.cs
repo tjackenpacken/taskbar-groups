@@ -2,23 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using client.Classes;
 using System.Diagnostics;
 using System.IO;
-using IWshRuntimeLibrary;
+using backgroundClient.Classes;
 
-namespace client.User_controls
+namespace backgroundClient.User_controls
 {
     public partial class ucShortcut : UserControl
     {
         public ProgramShortcut Psc { get; set; }
         public frmMain MotherForm { get; set; }
-        public Category ThisCategory { get; set; }
+        public Image bkgImage { get; set; }
+        public Category loadedCategory { get; set; }
         public ucShortcut()
         {
             InitializeComponent();
@@ -26,10 +22,15 @@ namespace client.User_controls
 
         private void ucShortcut_Load(object sender, EventArgs e)
         {
+            this.Size = new Size(MotherForm.ucShortcutSize, MotherForm.ucShortcutSize);
             this.Show();
             this.BringToFront();
             this.BackColor = MotherForm.BackColor;
-            picIcon.BackgroundImage = ThisCategory.loadImageCache(Psc); // Use the local icon cache for the file specified as the icon image
+            picIcon.BackgroundImage = bkgImage;
+            toolTip1.SetToolTip(picIcon, Psc.name);
+            toolTip1.SetToolTip(this, Psc.name);
+            picIcon.Location = new System.Drawing.Point(MotherForm.ucShortcutIconLocation, MotherForm.ucShortcutIconLocation);
+            picIcon.Size = new System.Drawing.Size(MotherForm.ucShortcutIconSize, MotherForm.ucShortcutIconSize);
         }
 
         public void ucShortcut_Click(object sender, EventArgs e)
@@ -40,10 +41,10 @@ namespace client.User_controls
                 p.Start();
             } else
             {
-                if(Path.GetExtension(Psc.FilePath).ToLower() == ".lnk" && Psc.FilePath == MainPath.exeString)
+                if(Path.GetExtension(Psc.FilePath).ToLower() == ".lnk" && Psc.FilePath == Paths.exeString)
 
                 {
-                    MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, MainPath.path);
+                    MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, Paths.path);
                 } else
                 {
                     MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, Psc.WorkingDirectory);

@@ -1,4 +1,4 @@
-﻿namespace client.Classes
+﻿namespace backgroundClient.Classes
 {
     public class ProgramShortcut
     {

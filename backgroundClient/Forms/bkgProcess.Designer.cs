@@ -1,6 +1,7 @@
-﻿namespace client
+﻿
+namespace backgroundClient
 {
-    partial class frmMain
+    partial class bkgProcess
     {
         /// <summary>
         /// Required designer variable.
@@ -28,27 +29,31 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.SuspendLayout();
             // 
-            // frmMain
+            // notifyIcon1
+            // 
+            this.notifyIcon1.Text = "Taskbar Groups Background";
+            this.notifyIcon1.Click += new System.EventHandler(this.notifyIcon1_Click);
+            // 
+            // bkgProcess
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(33)))), ((int)(((byte)(33)))), ((int)(((byte)(33)))));
-            this.ClientSize = new System.Drawing.Size(120, 0);
-            this.DoubleBuffered = true;
-            this.KeyPreview = true;
-            this.Name = "frmMain";
-            this.Text = "Group";
-            this.Deactivate += new System.EventHandler(this.frmMain_Deactivate);
-            this.Load += new System.EventHandler(this.frmMain_Load);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
-            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyUp);
+            this.ClientSize = new System.Drawing.Size(0, 0);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.Name = "bkgProcess";
+            this.ShowInTaskbar = false;
+            this.Text = "Form1";
             this.ResumeLayout(false);
 
         }
 
         #endregion
+
+        private System.Windows.Forms.NotifyIcon notifyIcon1;
     }
 }
 
