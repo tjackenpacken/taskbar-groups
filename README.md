@@ -49,7 +49,7 @@
 	    a. You can select multiple .exe or .lnk files at once
 	    b. You can drag and drop .exe, .lnk, or folders into the add new shortcut field
     4. Save the group
-    enter image description here5. Left click on the group
+    5. Left click on the group
     6. In the folder that opens up, right click on the highlighted shortcut
     7. Select "Pin to taskbar"
  [![-----------------------------------------------------](https://user-images.githubusercontent.com/56088716/103312593-8a37ff80-49eb-11eb-91d3-75488e21a0a9.png)](#screenwindow-documentation)
