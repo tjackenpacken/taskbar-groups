@@ -863,5 +863,10 @@ namespace client.Forms
         {
             resetSelection();
         }
+
+        private void openAsAdmin_CheckedChanged(object sender, EventArgs e)
+        {
+            Category.ShortcutList[selectedShortcut.Position].openAsAdmin = openAsAdmin.Checked;
+        }
     }
 }

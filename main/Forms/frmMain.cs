@@ -325,7 +325,7 @@ namespace client
             this.shortcutPic.BackgroundImage = ThisCategory.loadImageCache(psc); // Use the local icon cache for the file specified as the icon image
             this.shortcutPic.BackgroundImageLayout = ImageLayout.Stretch;
             this.shortcutPic.TabStop = false;
-            this.shortcutPic.Click += new System.EventHandler((sender, e) => OpenFile(psc.Arguments, psc.FilePath, psc.WorkingDirectory));
+            this.shortcutPic.Click += new System.EventHandler((sender, e) => OpenFile(psc));
             this.shortcutPic.Cursor = System.Windows.Forms.Cursors.Hand;
             this.shortcutPanel.Controls.Add(this.shortcutPic);
             this.shortcutPic.Show();
@@ -335,13 +335,20 @@ namespace client
         }
 
         // Click handler for shortcuts
-        public void OpenFile(string arguments, string path, string workingDirec)
+        public void OpenFile(ProgramShortcut psc, string mainPath = null)
         {
             // starting program from psc panel click
-            ProcessStartInfo proc = new ProcessStartInfo();
-            proc.Arguments = arguments;
-            proc.FileName = path;
-            proc.WorkingDirectory = workingDirec;
+            var proc = new ProcessStartInfo
+            {
+                Arguments = psc.Arguments,
+                FileName = mainPath ?? psc.FilePath,
+                WorkingDirectory = psc.WorkingDirectory
+            };
+
+            if (psc.openAsAdmin)
+            {
+                proc.Verb = "runas";
+            }
 
             /*
             proc.EnableRaisingEvents = false;

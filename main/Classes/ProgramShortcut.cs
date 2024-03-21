@@ -4,7 +4,7 @@
     {
         public string FilePath { get; set; }
         public bool isWindowsApp { get; set; }
-
+        public bool openAsAdmin;
         public string name { get; set; } = "";
         public string Arguments = "";
         public string WorkingDirectory = MainPath.exeString;
