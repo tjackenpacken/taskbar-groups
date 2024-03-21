@@ -41,12 +41,11 @@ namespace client.User_controls
             } else
             {
                 if(Path.GetExtension(Psc.FilePath).ToLower() == ".lnk" && Psc.FilePath == MainPath.exeString)
-
                 {
-                    MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, MainPath.path);
+                    MotherForm.OpenFile(Psc, MainPath.path);
                 } else
                 {
-                    MotherForm.OpenFile(Psc.Arguments, Psc.FilePath, Psc.WorkingDirectory);
+                    MotherForm.OpenFile(Psc);
                 }
             }
         }

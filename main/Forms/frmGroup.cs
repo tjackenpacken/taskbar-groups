@@ -124,9 +124,12 @@ namespace client.Forms
                 Shortcut = psc,
                 Position = position,
             };
+
             pnlShortcuts.Controls.Add(ucPsc);
             ucPsc.Show();
             ucPsc.BringToFront();
+
+            openAsAdmin.Checked = psc.openAsAdmin;
 
             if (pnlShortcuts.Controls.Count < 6)
             {
@@ -862,6 +865,16 @@ namespace client.Forms
         private void frmGroup_MouseClick(object sender, MouseEventArgs e)
         {
             resetSelection();
+        }
+
+        private void openAsAdmin_CheckedChanged(object sender, EventArgs e)
+        {
+            if (selectedShortcut == null || Category.ShortcutList.Count < selectedShortcut.Position)
+            {
+                return;
+            }
+
+            Category.ShortcutList[selectedShortcut.Position].openAsAdmin = openAsAdmin.Checked;
         }
     }
 }
