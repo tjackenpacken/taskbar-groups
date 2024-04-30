@@ -123,6 +123,7 @@ namespace client.Forms
                 MotherForm = this,
                 Shortcut = psc,
                 Position = position,
+                logo = psc.specificLogo != null ? new Bitmap(psc.specificLogo) : null,
             };
             pnlShortcuts.Controls.Add(ucPsc);
             ucPsc.Show();
@@ -350,10 +351,22 @@ namespace client.Forms
             }
         }
 
-        private void handleIcon(String file, String imageExtension)
+        private void handleIcon(String file, String imageExtension, bool specific = false)
         {
-            // Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
-            if (specialImageExt.Contains(imageExtension))
+			// Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
+			if (specific)
+			{
+				if (_selected == null) return;
+                if (imageExtension == ".lnk")
+                {
+                    _selected.changeLogo(file);
+                }
+                else
+                {
+					_selected.changeLogo(file);
+                }
+			}
+			else if (specialImageExt.Contains(imageExtension))
             {
                 if (imageExtension == ".lnk")
                 {
@@ -365,8 +378,8 @@ namespace client.Forms
                 }
             }
             else
-            {
-                cmdAddGroupIcon.BackgroundImage = Image.FromFile(file);
+			{
+				cmdAddGroupIcon.BackgroundImage = Image.FromFile(file);
             }
             lblAddGroupIcon.Text = "Change group icon";
         }
@@ -770,9 +783,9 @@ namespace client.Forms
                 selectedShortcut = null;
             }
         }
-
-        // Enable the argument textbox once a shortcut/program has been selected
-        public void enableSelection(ucProgramShortcut passedShortcut)
+        private ucProgramShortcut _selected;
+		// Enable the argument textbox once a shortcut/program has been selected
+		public void enableSelection(ucProgramShortcut passedShortcut)
         {
             selectedShortcut = passedShortcut;
             passedShortcut.ucSelected();
@@ -784,6 +797,8 @@ namespace client.Forms
             pnlWorkingDirectory.Text = Category.ShortcutList[selectedShortcut.Position].WorkingDirectory;
             pnlWorkingDirectory.Enabled = true;
             cmdSelectDirectory.Enabled = true;
+
+            _selected = passedShortcut;
 
             pnlColor.Visible = false;
             pnlArguments.Visible = true;
@@ -863,5 +878,40 @@ namespace client.Forms
         {
             resetSelection();
         }
-    }
+
+		private void label8_Click(object sender, EventArgs e)
+		{
+
+		}
+
+		private void button1_Click(object sender, EventArgs e)
+		{
+			resetSelection();
+
+			lblErrorIcon.Visible = false;  //resetting error msg
+
+			OpenFileDialog openFileDialog = new OpenFileDialog  
+			{
+				InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+				Title = "Select Specific Icon",
+				CheckFileExists = true,
+				CheckPathExists = true,
+				DefaultExt = "img",
+				Filter = "Image files and exec (*.jpg, *.jpeg, *.jpe, *.jfif, *.png, *.exe, *.ico) | *.jpg; *.jpeg; *.jpe; *.jfif; *.png; *.ico; *.exe",
+				FilterIndex = 2,
+				RestoreDirectory = true,
+				ReadOnlyChecked = true,
+				DereferenceLinks = false,
+			};
+
+			if (openFileDialog.ShowDialog() == DialogResult.OK)
+			{
+
+				String imageExtension = Path.GetExtension(openFileDialog.FileName).ToLower();
+
+				handleIcon(openFileDialog.FileName, imageExtension, true);
+			}
+		}
+	}
+
 }

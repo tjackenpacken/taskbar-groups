@@ -5,6 +5,7 @@ using client.Classes;
 using client.Forms;
 using System.IO;
 using System.Windows.Input;
+using System.Drawing.Imaging;
 
 namespace client.User_controls
 {
@@ -21,7 +22,6 @@ namespace client.User_controls
         {
             InitializeComponent();
         }
-
         private void ucProgramShortcut_Load(object sender, EventArgs e)
         {
             // Grab the file name without the extension to be used later as the naming scheme for the icon .jpg image
@@ -61,18 +61,18 @@ namespace client.User_controls
                 // Depending on the extension, the icon can be directly extracted or it has to be gotten through other methods as to not get the shortcut arrow
                 if (imageExtension == ".lnk")
                 {
-                    picShortcut.BackgroundImage = logo = frmGroup.handleLnkExt(Shortcut.FilePath);
+                    picShortcut.BackgroundImage = logo != null ? logo : frmGroup.handleLnkExt(Shortcut.FilePath);
                 }
                 else
                 {
-                    picShortcut.BackgroundImage = logo = Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
+                    picShortcut.BackgroundImage = logo != null ? logo : Icon.ExtractAssociatedIcon(Shortcut.FilePath).ToBitmap();
                 }
 
             } else if (Directory.Exists(Shortcut.FilePath))
             {
                 try
                 {
-                    picShortcut.BackgroundImage = logo = handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
+                    picShortcut.BackgroundImage = logo != null ? logo : handleFolder.GetFolderIcon(Shortcut.FilePath).ToBitmap();
                 }
                 catch (Exception ex)
                 {
@@ -96,7 +96,12 @@ namespace client.User_controls
             }
 
         }
-
+        public void changeLogo(string file)
+        {
+            logo = new Bitmap(file);
+            Shortcut.specificLogo = file;
+            this.picShortcut.BackgroundImage = logo;
+		}
         private void ucProgramShortcut_MouseEnter(object sender, EventArgs e)
         {
             ucSelected();

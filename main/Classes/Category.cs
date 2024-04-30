@@ -214,7 +214,11 @@ namespace client.Classes
 
             if (System.IO.File.Exists(programPath) || Directory.Exists(programPath) || shortcutObject.isWindowsApp)
             {
-                try
+				if (shortcutObject.specificLogo != null)
+				{
+					return new Bitmap(shortcutObject.specificLogo);
+				}
+				try
                 {
                     // Try to construct the path like if it existed
                     // If it does, directly load it into memory and return it
@@ -237,8 +241,7 @@ namespace client.Classes
                     String path = MainPath.path + @"\config\" + this.Name + @"\Icons\" + Path.GetFileNameWithoutExtension(programPath) + (Directory.Exists(programPath) ? "_FolderObjTSKGRoup.png" : ".png");
 
                     Image finalImage;
-
-                    if (Path.GetExtension(programPath).ToLower() == ".lnk")
+					if (Path.GetExtension(programPath).ToLower() == ".lnk")
                     {
                         finalImage = Forms.frmGroup.handleLnkExt(programPath);
                     }
