@@ -107,6 +107,7 @@
             this.txtShortcutName.Font = new System.Drawing.Font("Segoe UI", 12F);
             this.txtShortcutName.ForeColor = System.Drawing.Color.White;
             this.txtShortcutName.Location = new System.Drawing.Point(112, 13);
+            this.txtShortcutName.MaximumSize = new System.Drawing.Size(214, 0);
             this.txtShortcutName.MaxLength = 27;
             this.txtShortcutName.Name = "txtShortcutName";
             this.txtShortcutName.Size = new System.Drawing.Size(214, 22);
