@@ -24,6 +24,10 @@ namespace client
 
         static void Main()
         {
+#if DEBUG
+            while (!Debugger.IsAttached) { System.Threading.Thread.Sleep(1000); }
+#endif
+
             // Use existing methods to obtain cursor already imported as to not import any extra functions
             // Pass as two variables instead of Point due to Point requiring System.Drawing
             int cursorX = Cursor.Position.X;

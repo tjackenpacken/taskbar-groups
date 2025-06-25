@@ -200,12 +200,13 @@ namespace client
         public static List<Rectangle> FindDockedTaskBars()
         {
             List<Rectangle> dockedRects = new List<Rectangle>();
+            bool hasDockedRects = false;
             foreach (var tmpScrn in Screen.AllScreens)
             {
+                Rectangle rect = new Rectangle();
+
                 if (!tmpScrn.Bounds.Equals(tmpScrn.WorkingArea))
                 {
-                    Rectangle rect = new Rectangle();
-
                     var leftDockedWidth = Math.Abs((Math.Abs(tmpScrn.Bounds.Left) - Math.Abs(tmpScrn.WorkingArea.Left)));
                     var topDockedHeight = Math.Abs((Math.Abs(tmpScrn.Bounds.Top) - Math.Abs(tmpScrn.WorkingArea.Top)));
                     var rightDockedWidth = ((tmpScrn.Bounds.Width - leftDockedWidth) - tmpScrn.WorkingArea.Width);
@@ -216,6 +217,7 @@ namespace client
                         rect.Y = tmpScrn.Bounds.Top;
                         rect.Width = leftDockedWidth;
                         rect.Height = tmpScrn.Bounds.Height;
+                        hasDockedRects = true;
                     }
                     else if ((rightDockedWidth > 0))
                     {
@@ -223,6 +225,7 @@ namespace client
                         rect.Y = tmpScrn.Bounds.Top;
                         rect.Width = rightDockedWidth;
                         rect.Height = tmpScrn.Bounds.Height;
+                        hasDockedRects = true;
                     }
                     else if ((topDockedHeight > 0))
                     {
@@ -230,6 +233,7 @@ namespace client
                         rect.Y = tmpScrn.Bounds.Top;
                         rect.Width = tmpScrn.WorkingArea.Width;
                         rect.Height = topDockedHeight;
+                        hasDockedRects = true;
                     }
                     else if ((bottomDockedHeight > 0))
                     {
@@ -237,17 +241,16 @@ namespace client
                         rect.Y = tmpScrn.WorkingArea.Bottom;
                         rect.Width = tmpScrn.WorkingArea.Width;
                         rect.Height = bottomDockedHeight;
+                        hasDockedRects = true;
                     }
                     else
                     {
                         // Nothing found!
                     }
-
-                    dockedRects.Add(rect);
                 }
+                dockedRects.Add(rect);
             }
-
-            if (dockedRects.Count == 0)
+            if (!hasDockedRects)
             {
                 // Taskbar is set to "Auto-Hide".
             }
