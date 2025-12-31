@@ -12,7 +12,8 @@
 	
 </p>
 <p align="center">
-  <b>Taskbar groups is a lightweight utility for Windows that lets the users create groups of shortcuts in the taskbar.</b>
+  <b>Taskbar groups is a lightweight utility for Windows that lets the users create groups of shortcuts in the taskbar.</b><br>
+  <b>Fully compatible with Windows 10 and Windows 11.</b>
   
 <p align="center">
 	<a href="https://github.com/tjackenpacken/taskbar-groups/releases">Download & Release Notes</a>

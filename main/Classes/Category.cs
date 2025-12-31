@@ -62,12 +62,12 @@ namespace client.Classes
         public void CreateConfig(Image groupImage)
         {
 
-            string path = @"config\" + this.Name;
+            string path = Path.Combine(MainPath.path, "config", this.Name);
             //string filePath = path + @"\" + this.Name + "Group.exe";
             //
             // Directory and .exe
             //
-            System.IO.Directory.CreateDirectory(@path);
+            System.IO.Directory.CreateDirectory(path);
 
             //System.IO.File.Copy(@"config\config.exe", @filePath);
             //
@@ -76,7 +76,7 @@ namespace client.Classes
             System.Xml.Serialization.XmlSerializer writer =
                 new System.Xml.Serialization.XmlSerializer(typeof(Category));
 
-            using (FileStream file = System.IO.File.Create(@path + @"\ObjectData.xml"))
+            using (FileStream file = System.IO.File.Create(Path.Combine(path, "ObjectData.xml")))
             {
                 writer.Serialize(file, this);
                 file.Close();
@@ -86,14 +86,16 @@ namespace client.Classes
             //
 
             Image img = ImageFunctions.ResizeImage(groupImage, 256, 256); // Resize img if too big
-            img.Save(path + @"\GroupImage.png");
+            img.Save(Path.Combine(path, "GroupImage.png"));
+
+            string iconPath = Path.Combine(path, "GroupIcon.ico");
 
             if (GetMimeType(groupImage).ToString() == "*.PNG")
             {
-                createMultiIcon(groupImage, path + @"\GroupIcon.ico");
+                createMultiIcon(groupImage, iconPath);
             }
             else { 
-                using (FileStream fs = new FileStream(path + @"\GroupIcon.ico", FileMode.Create))
+                using (FileStream fs = new FileStream(iconPath, FileMode.Create))
                 {
                     ImageFunctions.IconFromImage(img).Save(fs);
                     fs.Close();
@@ -105,12 +107,12 @@ namespace client.Classes
             // Needed due to needing to set a unique AppUserModelID so the shortcut applications don't stack on the taskbar with the main application
             // Tricks Windows to think they are from different applications even though they are from the same .exe
             ShellLink.InstallShortcut(
-                Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName),
+                MainPath.exeString,
                 "tjackenpacken.taskbarGroup.menu." + this.Name,
-                 path + " shortcut",
-                 Path.GetFullPath(@path),
-                 Path.GetFullPath(path + @"\GroupIcon.ico"),
-                 path + "\\" + this.Name + ".lnk",
+                 this.Name + " shortcut",
+                 path,
+                 iconPath,
+                 Path.Combine(path, this.Name + ".lnk"),
                  this.Name
             );
 
@@ -118,8 +120,8 @@ namespace client.Classes
             // Build the icon cache
             cacheIcons();
 
-            System.IO.File.Move(@path + "\\" + this.Name + ".lnk",
-                Path.GetFullPath(@"Shortcuts\" + Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
+            System.IO.File.Move(Path.Combine(path, this.Name + ".lnk"),
+                Path.Combine(MainPath.path, "Shortcuts", Regex.Replace(this.Name, @"(_)+", " ") + ".lnk")); // Move .lnk to correct directory
         }
 
         private static void createMultiIcon(Image iconImage, string filePath)
