@@ -342,6 +342,7 @@ namespace client
             proc.Arguments = arguments;
             proc.FileName = path;
             proc.WorkingDirectory = workingDirec;
+            proc.UseShellExecute = true; // Required for launching .lnk and shell-based apps (e.g., Office, UWP); fixes shortcuts not opening
 
             /*
             proc.EnableRaisingEvents = false;

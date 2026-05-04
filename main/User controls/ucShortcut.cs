@@ -19,6 +19,10 @@ namespace client.User_controls
         public ProgramShortcut Psc { get; set; }
         public frmMain MotherForm { get; set; }
         public Category ThisCategory { get; set; }
+
+        // ADDED: Tooltip used to show the shortcut/app name when hovering over the icon.
+        private ToolTip shortcutToolTip = new ToolTip();
+
         public ucShortcut()
         {
             InitializeComponent();
@@ -30,6 +34,16 @@ namespace client.User_controls
             this.BringToFront();
             this.BackColor = MotherForm.BackColor;
             picIcon.BackgroundImage = ThisCategory.loadImageCache(Psc); // Use the local icon cache for the file specified as the icon image
+
+            // ADDED: Show a hover tooltip so identical icons can be distinguished.
+            string displayName = !string.IsNullOrWhiteSpace(Psc.name)
+                ? Psc.name
+                : Path.GetFileNameWithoutExtension(Psc.FilePath);
+
+            // ADDED: Attach tooltip to both the UserControl and the actual PictureBox.
+            // The mouse is usually over picIcon, so setting only "this" may not be enough.
+            shortcutToolTip.SetToolTip(this, displayName);
+            shortcutToolTip.SetToolTip(picIcon, displayName);
         }
 
         public void ucShortcut_Click(object sender, EventArgs e)
