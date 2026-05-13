@@ -1,4 +1,4 @@
-﻿using client.User_controls;
+using client.User_controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -104,9 +104,11 @@ namespace client.Classes
             // Through shellLink.cs class, pass through into the function information on how to construct the icon
             // Needed due to needing to set a unique AppUserModelID so the shortcut applications don't stack on the taskbar with the main application
             // Tricks Windows to think they are from different applications even though they are from the same .exe
+            // CHANGED: Use hummbugg AppUserModelID for maintained fork.
             ShellLink.InstallShortcut(
                 Path.GetFullPath(@System.AppDomain.CurrentDomain.FriendlyName),
-                "tjackenpacken.taskbarGroup.menu." + this.Name,
+                //"tjackenpacken.taskbarGroup.menu." + this.Name,
+                "hummbugg.taskbarGroup.menu." + this.Name,
                  path + " shortcut",
                  Path.GetFullPath(@path),
                  Path.GetFullPath(path + @"\GroupIcon.ico"),

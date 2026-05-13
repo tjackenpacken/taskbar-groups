@@ -1,4 +1,4 @@
-﻿namespace client.Forms
+namespace client.Forms
 {
     partial class frmGroup
     {
@@ -170,7 +170,7 @@
             this.cmdExit.Name = "cmdExit";
             this.cmdExit.Size = new System.Drawing.Size(129, 30);
             this.cmdExit.TabIndex = 35;
-            this.cmdExit.Text = "Exit";
+            this.cmdExit.Text = "Cancel";
             this.cmdExit.UseVisualStyleBackColor = false;
             this.cmdExit.Click += new System.EventHandler(this.cmdExit_Click);
             // 

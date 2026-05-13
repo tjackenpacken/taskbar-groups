@@ -1,10 +1,11 @@
-﻿using client.Forms;
+using client.Classes;
+using client.Forms;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
 using System.Windows.Forms;
-using client.Classes;
-using System.Diagnostics;
 
 namespace client
 {
@@ -19,9 +20,19 @@ namespace client
         // Define functions to set AppUserModelID
         [DllImport("shell32.dll", SetLastError = true)]
         static extern void SetCurrentProcessExplicitAppUserModelID([MarshalAs(UnmanagedType.LPWStr)] string AppID);
-        
-        [STAThread]
 
+        // ADDED: Win32 calls used to restore and focus the existing TaskbarGroups window.
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        private static extern bool ShowWindowAsync(IntPtr hWnd, int nCmdShow);
+
+        // ADDED: Restores minimized windows.
+        private const int SW_RESTORE = 9;
+
+
+        [STAThread]
         static void Main()
         {
             // Use existing methods to obtain cursor already imported as to not import any extra functions
@@ -70,14 +81,48 @@ namespace client
             {
                 // Sets the AppUserModelID to tjackenpacken.taskbarGroup.menu.groupName
                 // Distinguishes each shortcut process from one another to prevent them from stacking with the main application
-                SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.menu."+ arguments[1]);
+                //SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.menu."+ arguments[1]);
+
+                // CHANGED: Use hummbugg AppUserModelID for maintained fork.
+                SetCurrentProcessExplicitAppUserModelID("hummbugg.taskbarGroup.menu." + arguments[1]);
+
 
                 Application.Run(new frmMain(arguments[1], cursorX, cursorY));
-            } else
+
+
+            }
+            else
             {
-                // See comment above
-                SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");
-                Application.Run(new frmClient());
+                // ADDED: Prevent multiple main TaskbarGroups configuration windows from running.
+                // This is only applied to the main app window, not the taskbar drawer/group windows.
+                bool createdNew;
+                using (Mutex singleInstanceMutex = new Mutex(true, "TaskbarGroups_Main_SingleInstance_Mutex", out createdNew))
+                {
+                    if (!createdNew)
+                    {
+                        // ADDED: If the main app is already running, bring an existing TaskbarGroups window forward.
+                        Process currentProcess = Process.GetCurrentProcess();
+                        Process[] runningProcesses = Process.GetProcessesByName(currentProcess.ProcessName);
+
+                        foreach (Process process in runningProcesses)
+                        {
+                            if (process.Id != currentProcess.Id && process.MainWindowHandle != IntPtr.Zero)
+                            {
+                                ShowWindowAsync(process.MainWindowHandle, SW_RESTORE);
+                                SetForegroundWindow(process.MainWindowHandle);
+                                break;
+                            }
+                        }
+
+                        return;
+                    }
+
+                    // See comment above
+                    //SetCurrentProcessExplicitAppUserModelID("tjackenpacken.taskbarGroup.main");
+                    // CHANGED: Use hummbugg AppUserModelID for maintained fork.
+                    SetCurrentProcessExplicitAppUserModelID("hummbugg.taskbarGroup.main");
+                    Application.Run(new frmClient());
+                }
             }
         }
     }

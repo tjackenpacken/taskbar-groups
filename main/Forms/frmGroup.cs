@@ -1,4 +1,4 @@
-﻿using ChinhDo.Transactions;
+using ChinhDo.Transactions;
 using client.Classes;
 using client.User_controls;
 using IWshRuntimeLibrary;
@@ -11,7 +11,9 @@ using System.Text.RegularExpressions;
 using System.Transactions;
 using System.Windows.Forms;
 using Microsoft.WindowsAPICodePack.Shell;
-using Microsoft.WindowsAPICodePack.Dialogs; 
+using Microsoft.WindowsAPICodePack.Dialogs;
+using System.Runtime.InteropServices; // ADDED: Used for ExtractIconEx indexed icon extraction.
+
 
 namespace client.Forms
 {
@@ -31,7 +33,39 @@ namespace client.Forms
 
         private List<ProgramShortcut> shortcutChanged = new List<ProgramShortcut>();
 
+        // ADDED: File used to persist last selected icon directory across sessions.
+        private static string LastIconDirectoryFile
+        {
+            get
+            {
+                return Path.Combine(MainPath.path, "config", "last_icon_directory.txt");
+            }
+        }
 
+        // ADDED: File used to persist last selected shortcut directory across sessions.
+        private static string LastShortcutDirectoryFile
+        {
+            get
+            {
+                return Path.Combine(MainPath.path, "config", "last_shortcut_directory.txt");
+            }
+        }
+        
+        // ADDED: Extracts icons by index from EXE/DLL/ICO resources.
+        // Needed for shortcuts whose IconLocation includes an index, such as "SomeIcons.exe,1".
+        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        private static extern uint ExtractIconEx(
+            string szFileName,
+            int nIconIndex,
+            IntPtr[] phiconLarge,
+            IntPtr[] phiconSmall,
+            uint nIcons
+        );
+
+        // ADDED: Releases icon handles returned by ExtractIconEx.
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool DestroyIcon(IntPtr hIcon);
+        
         //--------------------------------------
         // CTOR AND LOAD
         //--------------------------------------
@@ -43,6 +77,15 @@ namespace client.Forms
             System.Runtime.ProfileOptimization.StartProfile("frmGroup.Profile");
 
             InitializeComponent();
+            // ADDED: Allow ESC key to close the dialog like a standard modal.
+            this.CancelButton = cmdExit;
+
+            // ADDED: Set dialog to fixed size for consistent modal behavior.
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            // OPTIONAL: Prevent resizing via dragging edges completely.
+            this.AutoSizeMode = AutoSizeMode.GrowAndShrink;
 
             // Setting default category properties
             newExt = imageExt.Concat(specialImageExt).ToArray();
@@ -155,7 +198,8 @@ namespace client.Forms
 
             OpenFileDialog openFileDialog = new OpenFileDialog // ask user to select exe file
             {
-                InitialDirectory = @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs",
+                // CHANGED: Use last-used shortcut directory instead of always defaulting to Start Menu\Programs.
+                InitialDirectory = GetLastShortcutDirectory(),
                 Title = "Create New Shortcut",
                 CheckFileExists = true,
                 CheckPathExists = true,
@@ -169,6 +213,12 @@ namespace client.Forms
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
+                // ADDED: Persist the last used shortcut directory for future dialog opens.
+                if (openFileDialog.FileNames.Length > 0)
+                {
+                    SaveLastShortcutDirectory(openFileDialog.FileNames[0]);
+                }
+
                 foreach (String file in openFileDialog.FileNames)
                 {
                     addShortcut(file);
@@ -313,7 +363,8 @@ namespace client.Forms
 
             OpenFileDialog openFileDialog = new OpenFileDialog  // ask user to select img as group icon
             {
-                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
+                // CHANGED: Use last-used directory instead of always defaulting to Pictures.
+                InitialDirectory = GetLastIconDirectory(),
                 Title = "Select Group Icon",
                 CheckFileExists = true,
                 CheckPathExists = true,
@@ -331,6 +382,10 @@ namespace client.Forms
                 String imageExtension = Path.GetExtension(openFileDialog.FileName).ToLower();
 
                 handleIcon(openFileDialog.FileName, imageExtension);
+
+                // ADDED: Persist the last used directory for future dialog opens.
+                SaveLastIconDirectory(openFileDialog.FileName);
+
             }
         }
 
@@ -352,15 +407,23 @@ namespace client.Forms
 
         private void handleIcon(String file, String imageExtension)
         {
-            // Checks if the files being added/dropped are an .exe or .lnk in which tye icons need to be extracted/processed
+            // Checks if the files being added/dropped are an .exe or .lnk in which type icons need to be extracted/processed
             if (specialImageExt.Contains(imageExtension))
             {
                 if (imageExtension == ".lnk")
                 {
                     cmdAddGroupIcon.BackgroundImage = handleLnkExt(file);
                 }
+                // ADDED: Load the actual .ico image selected by the user.
+                // Icon.ExtractAssociatedIcon(file) returns the Windows file-type icon for .ico files,
+                // which can display as a generic document/text icon instead of the icon contents.
+                else if (imageExtension == ".ico")
+                {
+                    cmdAddGroupIcon.BackgroundImage = new Bitmap(file);
+                }
                 else
                 {
+                    //exe
                     cmdAddGroupIcon.BackgroundImage = Icon.ExtractAssociatedIcon(file).ToBitmap();
                 }
             }
@@ -371,26 +434,160 @@ namespace client.Forms
             lblAddGroupIcon.Text = "Change group icon";
         }
 
+
+        // ADDED: Gets the last folder used for selecting group icons.
+        private string GetLastIconDirectory()
+        {
+            try
+            {
+                if (System.IO.File.Exists(LastIconDirectoryFile))
+                {
+                    string savedPath = System.IO.File.ReadAllText(LastIconDirectoryFile).Trim();
+
+                    if (Directory.Exists(savedPath))
+                        return savedPath;
+                }
+            }
+            catch
+            {
+                // Ignore errors and fall back to default
+            }
+
+            return Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+        }
+
+        // ADDED: Saves the last folder used for selecting group icons.
+        private void SaveLastIconDirectory(string filePath)
+        {
+            try
+            {
+                string directory = Path.GetDirectoryName(filePath);
+
+                if (Directory.Exists(directory))
+                    System.IO.File.WriteAllText(LastIconDirectoryFile, directory);
+            }
+            catch
+            {
+                // Ignore save errors (non-critical)
+            }
+        }
+
+        // ADDED: Gets the last folder used for selecting program shortcuts.
+        private string GetLastShortcutDirectory()
+        {
+            try
+            {
+                if (System.IO.File.Exists(LastShortcutDirectoryFile))
+                {
+                    string savedPath = System.IO.File.ReadAllText(LastShortcutDirectoryFile).Trim();
+
+                    if (Directory.Exists(savedPath))
+                        return savedPath;
+                }
+            }
+            catch
+            {
+                // Ignore errors and fall back to default
+            }
+
+            return @"C:\ProgramData\Microsoft\Windows\Start Menu\Programs";
+        }
+
+        // ADDED: Saves the last folder used for selecting program shortcuts.
+        private void SaveLastShortcutDirectory(string filePath)
+        {
+            try
+            {
+                string directory = Path.GetDirectoryName(filePath);
+
+                if (Directory.Exists(directory))
+                    System.IO.File.WriteAllText(LastShortcutDirectoryFile, directory);
+            }
+            catch
+            {
+                // Ignore save errors (non-critical)
+            }
+        }
+
+        // ADDED: Extracts an icon from a file using an explicit icon index.
+        // This fixes shortcuts like Camtasia where IconLocation points to "CamtasiaIcons.exe,1".
+        private static Bitmap ExtractIconByIndex(string iconPath, int iconIndex)
+        {
+            IntPtr[] largeIcons = new IntPtr[1];
+            IntPtr[] smallIcons = new IntPtr[1];
+
+            uint extractedCount = ExtractIconEx(iconPath, iconIndex, largeIcons, smallIcons, 1);
+
+            try
+            {
+                if (extractedCount > 0 && largeIcons[0] != IntPtr.Zero)
+                {
+                    using (Icon icon = (Icon)Icon.FromHandle(largeIcons[0]).Clone())
+                    {
+                        return icon.ToBitmap();
+                    }
+                }
+
+                if (extractedCount > 0 && smallIcons[0] != IntPtr.Zero)
+                {
+                    using (Icon icon = (Icon)Icon.FromHandle(smallIcons[0]).Clone())
+                    {
+                        return icon.ToBitmap();
+                    }
+                }
+
+                return null;
+            }
+            finally
+            {
+                if (largeIcons[0] != IntPtr.Zero)
+                    DestroyIcon(largeIcons[0]);
+
+                if (smallIcons[0] != IntPtr.Zero)
+                    DestroyIcon(smallIcons[0]);
+            }
+        }
+
         // Handle returning images of icon files (.lnk)
         public static Bitmap handleLnkExt(String file)
         {
             IWshShortcut lnkIcon = (IWshShortcut)new WshShell().CreateShortcut(file);
             String[] icLocation = lnkIcon.IconLocation.Split(',');
+
+            // ADDED: Resolve shortcut IconLocation path and index separately.
+            // Some shortcuts store the correct icon in an indexed resource file, e.g. "CamtasiaIcons.exe,1".
+            string iconPath = "";
+            int iconIndex = 0;
+
+            if (icLocation.Length > 0)
+                iconPath = Environment.ExpandEnvironmentVariables(icLocation[0]);
+
+            if (icLocation.Length > 1)
+                int.TryParse(icLocation[1], out iconIndex);
+
             // Check if iconLocation exists to get an .ico from; if not then take the image from the .exe it is referring to
             // Checks for link iconLocations as those are used by some applications
-            if (icLocation[0] != "" && !lnkIcon.IconLocation.Contains("http"))
+            if (iconPath != "" && !lnkIcon.IconLocation.Contains("http") && System.IO.File.Exists(iconPath))
             {
-                return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(icLocation[0]))).ToBitmap();
+                // CHANGED: Extract icon using IconLocation index instead of ignoring the index.
+                // Fixes shortcuts such as Camtasia where the desired icon is not index 0.
+                Bitmap indexedIcon = ExtractIconByIndex(Path.GetFullPath(iconPath), iconIndex);
+
+                if (indexedIcon != null)
+                    return indexedIcon;
+
+                // ADDED: Fallback to original behavior if indexed extraction fails.
+                return Icon.ExtractAssociatedIcon(Path.GetFullPath(iconPath)).ToBitmap();
             }
             else if (icLocation[0] == "" && lnkIcon.TargetPath == "")
             {
                 return handleWindowsApp.getWindowsAppIcon(file);
-            } else
+            }
+            else
             {
                 return Icon.ExtractAssociatedIcon(Path.GetFullPath(Environment.ExpandEnvironmentVariables(lnkIcon.TargetPath))).ToBitmap();
             }
         }
-
 
         public static String handleExtName(String file)
         {
@@ -468,9 +665,9 @@ namespace client.Forms
         // Exit editor
         private void cmdExit_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            this.Dispose();
-            Client.Reload(); //flush and reload category panels
+            // CHANGED: Modal Cancel should simply close the dialog.
+            // Do not Hide/Dispose/Reload here because ShowDialog() and the using block handle cleanup.
+            this.Close();
         }
 
         // Save group
